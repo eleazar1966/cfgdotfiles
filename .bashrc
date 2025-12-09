@@ -165,11 +165,10 @@ alias actualizar="~/.local/share/systools/actualizar.sh | lolcat"
 alias kernel=~/.local/share/systools/kernel-do.sh
 alias respaldo=~/.local/share/systools/respaldo.sh
 alias ydl=yt-dlp
-alias ytmp3="yt-dlp --extract-audio --audio-format mp3"
-alias ytmp4="yt-dlp -f bestvideo+bestaudio --merge-output-format mp4"
+alias ytmp3="yt-dlp --extract-audio --audio-format mp3 | lolcat"
+alias ytmp4="yt-dlp -f bestvideo+bestaudio --merge-output-format mp4 | lolcat" 
 alias fastfetch="fastfetch | lolcat"
 export VDPAU_DRIVER=radeonsi
-source -- ~/.local/share/blesh/ble.sh
 LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias git-update="~/.local/share/systools/acualiza_git.sh | lolcat" 
