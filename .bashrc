@@ -172,7 +172,7 @@ export VDPAU_DRIVER=radeonsi
 source -- ~/.local/share/blesh/ble.sh
 LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
-alias git-update=~/.local/share/systools/acualiza_git.sh
+alias git-update="~/.local/share/systools/acualiza_git.sh | lolcat" 
 #clear
 #fastfetch
 export DRI_PRIME=1
