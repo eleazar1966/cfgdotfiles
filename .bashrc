@@ -177,5 +177,3 @@ alias git-update=~/.local/share/systools/acualiza_git.sh
 #fastfetch
 export DRI_PRIME=1
 source -- ~/.local/share/blesh/ble.sh
-alias config='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
-alias config='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
