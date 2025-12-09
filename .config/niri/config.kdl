@@ -1,0 +1,181 @@
+// Esta configuración está en el formato KDL: https://kdl.dev
+// Versión optimizada de la configuración por defecto de niri.
+
+// --- INPUT: Configuración del dispositivo de entrada ---
+input {
+    keyboard {
+        xkb {
+            // Puedes configurar aquí el layout, la variante y las opciones de teclado.
+            // Por ejemplo, para teclado en español:
+            // layout "es"
+            // options "ctrl:nocaps" // Intercambia Ctrl y CapsLock
+        }
+        // Numlock habilitado por defecto
+        numlock
+        layout "us","es"
+    }
+
+    touchpad {
+        tap // Habilitar toque para clic
+        natural-scroll // Habilitar scroll natural
+    }
+
+    // Comentar para deshabilitar o dejar en default
+    mouse { }
+    trackpoint { }
+
+    // Opcional: Enfocar ventanas al mover el mouse sobre ellas
+    // focus-follows-mouse max-scroll-amount="0%"
+}
+
+// --- OUTPUT: Configuración del Monitor ---
+// ¡Importante! Reemplaza "eDP-1" con el nombre de tu monitor.
+// Corre `niri msg outputs` para ver el nombre de tu monitor.
+output "eDP-1" {
+    // scale 1.5 // Ejemplo de escala fraccional (150%) para HiDPI
+}
+
+// --- LAYOUT: Configuración de ventanas y estética ---
+layout {
+    // Optimización 1: Ajustar gaps (espacios entre ventanas).
+    gaps 12 
+
+    // "never" es el comportamiento por defecto y recomendado para la mayoría.
+    center-focused-column "never"
+
+    // Anchos preestablecidos por defecto: 1/3, 1/2, 2/3
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    // Anillo de foco (Focus Ring)
+    focus-ring {
+        width 4 // Ancho en píxeles lógicos
+        active-color "#7fc8ff" // Color activo
+        inactive-color "#505050" // Color inactivo
+    }
+
+    // Borde (Border). Desactivado.
+    border {
+        off
+    }
+
+    // Optimización 2: Habilitar sombras para mejor estética.
+    shadow {
+        on // Habilitar sombras
+        softness 30 // Blur radius
+        spread 5 // Expansión
+        offset x=0 y=5 // Desplazamiento
+        color "#0007" // Color y opacidad (Hex: rrggbbaa)
+    }
+
+    struts {
+        // top 32 // Ejemplo: dejar 32px en la parte superior para un panel (Waybar, etc.)
+    }
+}
+
+// --- SYSTEM: Configuración general ---
+// spawn-at-startup "waybar" // Ejemplo de proceso a iniciar
+
+// Optimización 3: Preferir decoraciones del lado del servidor (SSD)
+prefer-no-csd
+
+// Ruta por defecto para capturas de pantalla
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// Optimización 4: Desactivar animaciones para un rendimiento instantáneo (opcional)
+animations {
+    off
+}
+
+// --- WINDOW RULES: Reglas de Ventana ---
+window-rule {
+    app-id "wezterm"
+    title "WezTerm"
+    default-column-width {}
+}
+
+window-rule {
+    app-id ~"^(firefox|org\\.mozilla\\.firefox)$"
+    title "Picture-in-Picture"
+    float
+}
+
+// --- BINDS: Atajos de Teclado ---
+binds {
+    Mod+T { spawn "kitty"; }
+    Mod+D { spawn "fuzzel"; }
+    // Mod+B { spawn "i3lock -c 000000"; }
+    Mod+B { spawn "wlr-lock"; }
+
+    // --- Navegación ---
+    Mod+H { focus-window-left; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    Mod+L { focus-window-right; }
+
+    Mod+Left { focus-window-left; }
+    Mod+Down { focus-window-down; }
+    Mod+Up { focus-window-up; }
+    Mod+Right { focus-window-right; }
+
+    // Optimización 5: Cambio rápido entre workspaces
+    Mod+Tab { focus-workspace-previous; }
+
+    // --- Movimiento ---
+    Mod+Shift+H { move-window-left; }
+    Mod+Shift+J { move-window-down; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+L { move-window-right; }
+
+    Mod+Shift+Left { move-window-left; }
+    Mod+Shift+Down { move-window-down; }
+    Mod+Shift+Up { move-window-up; }
+    Mod+Shift+Right { move-window-right; }
+
+    // --- Workspaces ---
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+
+    Mod+Shift+1 { move-window-to-workspace 1; }
+    Mod+Shift+2 { move-window-to-workspace 2; }
+    Mod+Shift+3 { move-window-to-workspace 3; }
+    Mod+Shift+4 { move-window-to-workspace 4; }
+    Mod+Shift+5 { move-window-to-workspace 5; }
+    Mod+Shift+6 { move-window-to-workspace 6; }
+    Mod+Shift+7 { move-window-to-workspace 7; }
+    Mod+Shift+8 { move-window-to-workspace 8; }
+    Mod+Shift+9 { move-window-to-workspace 9; }
+
+    // --- Columnas y Windows ---
+    Mod+Q { kill-window; }
+    Mod+V { switch-focus-between-floating-and-tiling; }
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+W { toggle-column-tabbed-display; }
+    Mod+R { switch-preset-column-width; }
+    Mod+Shift+R { switch-preset-window-height; }
+
+    // --- Vista General (Overview) ---
+    Mod+Space { toggle-overview; }
+
+    // --- Capturas de Pantalla ---
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // --- Salir y Bloquear ---
+    Mod+Shift+E { quit; }
+    Ctrl+Alt+Delete { quit; }
+    Mod+Shift+P { power-off-monitors; }
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+}

@@ -20,6 +20,7 @@ git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
     ~/.config/nvim \
     ~/.config/matugen \
     ~/.config/hypr \
+    ~/.config/niri \
     ~/.config/kitty \
     ~/.local/share/systools \
     ~/Documentos/Linux/Gentoo/etc/fstab \
