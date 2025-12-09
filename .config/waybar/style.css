@@ -1,0 +1,216 @@
+@import "colors.css";
+* {
+  /* `otf-font-awesome` is required to be installed for icons */
+  border: none;
+  border-radius: 0;
+  font-family:
+    "Roboto Condensed Light", "EnvyCodeR Nerd Font",
+    "Noto Sans ExtraCondensed Light", FontAwesome, Roboto, Helvetica, Arial,
+    sans-serif;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: transparent;
+  color: @on_surface;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+tooltip {
+  background: @on_surface;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+tooltip label {
+  color: @on_surface;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+*/
+
+window#waybar.termite {
+  border-color: @inverse_primary;
+  background-color: @on_secondary;
+}
+
+window#waybar.chromium {
+  background-color: #000000;
+  border-color: @inverse_primary;
+  background-color: @on_secondary;
+  border: none;
+}
+
+button {
+  /* Use box-shadow instead of border so the text isn't offset */
+  box-shadow: inset 0 -3px @primary;
+  /* Avoid rounded borders under each button name */
+  border-color: @inverse_primary;
+  background-color: @on_secondary;
+  border: @primary;
+  border-radius: 100;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+button:hover {
+  background: inherit;
+  border-color: @primary;
+  background-color: @on_secondary;
+  box-shadow: inset 0 -3px @inverse_primary;
+}
+
+#workspaces button {
+  background-color: @on_secondary;
+  border-color: @inverse_primary;
+  color: @on_surface;
+  padding: 0 2px;
+  border-radius: 100px;
+  margin: 1px;
+  border: 2px solid rgba(100, 114, 125, 0.5);
+  box-shadow: inset 0 -3px @secondary;
+}
+
+#workspaces button:hover {
+  border-color: @inverse_primary;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 10px; /* Adjust size as needed */
+  border-radius: 100px;
+  padding: 0 2px;
+  box-shadow: inset 0 -3px @secondary;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+  color: @background;
+  background-color: @primary;
+  border-color: @inverse_primary;
+  border-radius: 100px;
+  box-shadow: inset 0 -3px #ffffff;
+}
+
+#workspaces button.urgent {
+  background-color: #eb4d4b;
+  border-color: @inverse_primary;
+  box-shadow: inset 0 -3px @secondary;
+}
+
+#mode {
+  background-color: @backgound;
+  border-color: @inverse_primary;
+  box-shadow: inset 0 -3px #ffffff;
+}
+
+/* Styles for the entire taskbar */
+#taskbar {
+  background-color: @on_primarye;
+  border-color: @primary;
+  font-size: 10px; /* Adjust size as needed */
+  border-radius: 100px;
+  padding: 0 2px;
+  color: @on_surface;
+  margin: 0px;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+
+/* Styles for individual application buttons */
+#taskbar button {
+  border-color: @primary;
+  background-color: @inverse_primary;
+  font-size: 10px; /* Adjust size as needed */
+  padding: 0 2px; /* Add some spacing */
+  color: @on_surface;
+  border-radius: 100px;
+  margin: 0px;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+
+/* Styles for the active taskbar button */
+#taskbar button.active {
+  background-color: @inverse_primary;
+  border-color: @inverse_surface;
+  font-size: 10px; /* Adjust size as needed */
+  padding: 0 2px; /* Add some spacing */
+  background-color: @on_primary;
+  color: @on_surface;
+  border-radius: 100px;
+  margin: 0px;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+
+#window {
+  font-size: 10px; /* Adjust size as needed */
+  padding: 0 2px; /* Add some spacing */
+  background-color: @on_primary;
+  color: @on_surface;
+  border-radius: 100px;
+  margin: 0px;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+  border-color: @inverse_primary;
+}
+
+#clock,
+#cpu,
+#custom-keyboard-state,
+#memory,
+#temperature,
+#temperature2,
+#network,
+#wireplumber,
+#tray,
+#mode,
+#language,
+#bluetooth,
+#power-profiles-daemon,
+#window {
+  font-size: 10px; /* Adjust size as needed */
+  padding: 0 2px; /* Add some spacing */
+  background-color: @on_primary;
+  color: @on_surface;
+  border-radius: 100px;
+  margin: 0px;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+  border-color: @inverse_primary;
+}
+#custom-menu,
+#custom-localsend,
+#custom-pcmanfm,
+#custom-thunar,
+#custom-mousepad,
+#custom-power,
+#custom-firefox,
+#custom-opera,
+#custom-thunderbird,
+#custom-TelegramDesktop,
+#custom-calculadora,
+#custom-terminal {
+  font-size: 18px; /* Adjust size as needed */
+  padding: 0 2px; /* Add some spacing */
+  background-color: @on_primary;
+  color: @on_surface;
+  border-radius: 100px;
+  /*  margin: 1px;*/
+  border: 1px solid rgba(100, 114, 125, 0.5);
+  border-color: @inverse_primary;
+}
+
+#workspaces {
+  margin: 0px;
+}
+
+menu {
+  border-radius: 5px;
+  background: @on_primary;
+  color: @inverse_primary;
+}
+menuitem {
+  border-radius: 5px;
+  background: @on_primary;
+}

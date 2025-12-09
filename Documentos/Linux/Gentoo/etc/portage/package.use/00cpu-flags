@@ -1,0 +1,51 @@
+*/* CPU_FLAGS_X86: aes avx avx2 bmi1 bmi2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3 vpclmulqdq
+*/* VIDEO_CARDS: -* amdgpu radeonsi
+*/* LINGUAS: es
+*/* mtp
+games-fps/xonotic -X alsa ode sdl
+sys-apps/lm-sensors sensord test
+>=gui-wm/sway-1.11 X filecaps man swaybar swaynag tray wallpapers
+gui-apps/waybar backlight -evdev experimental gps jack libinput logind mpd -mpris network -niri pipewire -pulseaudio sndio -systemd -test tray udev upower wifi
+media-tv/kodi -gbm -gles
+net-print/gutenprint cups -gimp gtk nls ppds readline -static-lib
+app-admin/conky X apcupsd bundled-toluapp -cmus colour-name-map curl -doc extras hddtemp ical iconv imlib -intel-backlight iostats -irc lua-cairo lua-cairo-xlib lua-imlib lua-rsvg math -moc mouse-events -mpd -mysql ncurses -nvidia portmon pulseaudio -rss -systemd -test -thinkpad truetype wayland -webserver wifi -xinerama xinput -xmms2
+app-emulation/qemu qemu_user_targets_x86_64
+>=dev-libs/libdbusmenu-16.04.0-r3 gtk3
+>=app-crypt/gcr-3.41.2-r1:0 gtk
+>=media-plugins/alsa-plugins-1.2.12 pulseaudio
+sys-kernel/installkernel grub dracut
+>=sys-boot/grub-2.12-r7 mount
+>=media-libs/libvpx-1.15.2 postproc
+>=media-libs/clutter-1.26.4-r1 gtk
+>=xfce-base/libxfce4ui-4.20.1 vala
+>=xfce-base/libxfce4util-4.20.1 vala
+>=xfce-base/xfce4-panel-4.20.4 introspection vala
+>=xfce-base/xfconf-4.20.0 vala
+>=sys-apps/util-linux-2.41.1 tty-helpers
+>=dev-db/postgresql-17.5 kerberos
+>=sys-libs/zlib-1.3.1-r1 minizip
+>=media-libs/babl-0.1.114 introspection
+>=media-libs/gegl-0.4.62 introspection
+>=media-video/ffmpeg-7.1.1-r2 opus vpx
+>=app-eselect/eselect-repository-14-r1 git mercurial
+>=dev-python/relatorio-0.11.1 fodt
+>=dev-python/python-stdnum-2.1 vies
+>=dev-lua/lgi-0.9.2-r100 lua_targets_luajit
+>=dev-lua/luarocks-3.11.1-r1 -test LUA_SINGLE_TARGET=" lua5-1 lua5-3 lua5-4 luajit"
+>=llvm-core/llvm-21.1.0 -debug
+media-video/pipewire abi_x86_32 X bluetooth dbus -doc echo-cancel elogind extra ffmpeg -fftw -flatpak -gsettings -gstreamer -ieee1394 -jack-client jack-sdk -liblc3 -loudness -lv2 -man modemmanager pipewire-alsa readline -roc sound-server ssl -systemd -test -v4l -zeroconf
+net-fs/samba winbind
+>=media-libs/freetype-2.14.0 harfbuzz
+>=gui-libs/wlroots-0.19.0 x11-backend
+>=gui-apps/swaybg-1.2.1 gdk-pixbuf
+>=gui-libs/gtk-layer-shell-0.9.2 introspection
+>=media-plugins/calf-0.90.8 lv2
+>=dev-libs/libxml2-2.15.1 python
+>=virtual/zlib-1.3.1 minizip
+# required by x11-drivers/xf86-video-ati-22.0.0::gentoo
+# required by @selected
+# required by @world (argument)
+>=x11-libs/libdrm-2.4.128 video_cards_radeon
+# required by games-fps/xonotic-0.8.6::gentoo[ode]
+# required by xonotic (argument)
+>=dev-games/ode-0.14-r1 double-precision
