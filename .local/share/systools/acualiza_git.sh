@@ -11,6 +11,7 @@ echo "Añadiendo archivos de configuracion al staging area..."
 # Usamos 'git --git-dir... --work-tree...' en lugar del alias para que funcione dentro del script
 git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
     ~/.nanorc \
+    ~/.bashrc \
     ~/.config/waybar \
     ~/.config/wallpaper \
     ~/.bashrc \
