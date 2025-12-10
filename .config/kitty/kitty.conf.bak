@@ -1073,7 +1073,7 @@
 #: start_resizing_window. The cells value is used for horizontal
 #: resizing, and the lines value is used for vertical resizing.
 
-# window_border_width 0.5pt
+ window_border_width 1pt
 
 #: The width of window borders. Can be either in pixels (px) or pts
 #: (pt). Values in pts will be rounded to the nearest number of pixels
@@ -1088,7 +1088,7 @@
 #: that setting a non-zero window_margin_width overrides this and
 #: causes all borders to be drawn.
 
-# window_margin_width 0
+ window_margin_width 1
 
 #: The window margin (in pts) (blank area outside the border). A
 #: single value sets all four sides. Two values set the vertical and
@@ -1103,7 +1103,7 @@
 #: set the vertical and horizontal sides. Three values set top,
 #: horizontal and bottom. Four values set top, right, bottom and left.
 
- window_padding_width 8
+ window_padding_width 1
 
 #: The window padding (in pts) (blank area between the text and the
 #: window border). A single value sets all four sides. Two values set
@@ -2925,7 +2925,7 @@
 
 
 # BEGIN_KITTY_FONTS
-font_family      family="Lilex Nerd Font"
+font_family      family="FiraCode Nerd Font"
 bold_font        auto
 italic_font      auto
 bold_italic_font auto

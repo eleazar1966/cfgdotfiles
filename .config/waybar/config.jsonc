@@ -131,7 +131,7 @@
   "custom/menu": {
     "format": " ",
     "tooltip": false,
-    "on-click": "pkill rofi || ~/.config/rofi/launchers/type-3/launcher.sh",
+    "on-click": "pkill rofi || rofi -show drun -theme ~/.config/rofi/themes/simple-tokyonight.rasi -show-icons",
   },
   "wlr/taskbar": {
     "format": "{icon}",
