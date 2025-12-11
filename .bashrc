@@ -172,6 +172,7 @@ export VDPAU_DRIVER=radeonsi
 LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias git-update="~/.local/share/systools/acualiza_git.sh | lolcat" 
+alias grabavideo = "gpu-screen-recorder -w portal -k h264 -f 60 -a "default_output" -a "default_input" -o video_test.mp4"
 #clear
 #fastfetch
 export DRI_PRIME=1
