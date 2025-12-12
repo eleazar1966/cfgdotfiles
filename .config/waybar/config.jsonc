@@ -1,275 +1,288 @@
 {
   // --- Configuración General de Waybar ---
-  "height": 24, // Altura de la barra en píxeles. 
-  "spacing": 4, // Espacio entre módulos en píxeles. 
+  "height": 24, // Altura de la barra en píxeles.
+  "spacing": 4, // Espacio entre módulos en píxeles.
 
   // --- Módulos del lado Izquierdo (Lanzadores de Aplicaciones y Taskbar) ---
   "modules-left": [
-    "custom/menu", // Menú de aplicaciones (Rofi). 
-    "custom/opera", // Lanzador de Opera. 
-    "custom/pcmanfm", // Lanzador de PCManFM. 
-    "custom/thunar", // Lanzador de Thunar. 
-    "custom/firefox", // Lanzador de Firefox. 
-    "custom/thunderbird", // Lanzador de Thunderbird. 
-    "custom/TelegramDesktop", // Lanzador de Telegram. 
-    "custom/mousepad", // Lanzador de Mousepad. 
-    "custom/terminal", // Lanzador de Terminal (Kitty). 
-    "custom/calculadora", // Lanzador de Calculadora. 
-    "custom/localsend", // Lanzador de LocalSend. 
-    "wlr/taskbar" // Barra de tareas (mostrar ventanas abiertas). 
-   ],
+    "custom/menu", // Menú de aplicaciones (Rofi).
+    "custom/opera", // Lanzador de Opera.
+    "custom/pcmanfm", // Lanzador de PCManFM.
+    "custom/thunar", // Lanzador de Thunar.
+    "custom/firefox", // Lanzador de Firefox.
+    "custom/thunderbird", // Lanzador de Thunderbird.
+    "custom/TelegramDesktop", // Lanzador de Telegram.
+    "custom/mousepad", // Lanzador de Mousepad.
+    "custom/terminal", // Lanzador de Terminal (Kitty).
+    "custom/calculadora", // Lanzador de Calculadora.
+    "custom/localsend", // Lanzador de LocalSend.
+    "wlr/taskbar" // Barra de tareas (mostrar ventanas abiertas).
+  ],
 
   // --- Módulos del Centro (Espacios de Trabajo y Ventana) ---
   "modules-center": [
-    "hyprland/workspaces", // Espacios de trabajo de Hyprland. 
-    "hyprland/window" // Título de la ventana enfocada. 
+    "hyprland/workspaces", // Espacios de trabajo de Hyprland.
+    "hyprland/window" // Título de la ventana enfocada.
   ],
 
   // --- Módulos del lado Derecho (Información del Sistema y Hora) ---
   "modules-right": [
-    "bluetooth", // Estado y gestión de Bluetooth. 
-    "custom/keyboard-state", // Estado de teclas de bloqueo (Caps/Num Lock). 
-    "wireplumber", // Control de volumen (WirePlumber/PipeWire). 
-    "cpu", // Uso de CPU. 
-    "memory", // Uso de Memoria RAM. 
-    "temperature", // Temperatura del sistema. 
-    "hyprland/language", // Layout de teclado de Hyprland. 
-    "clock", // Reloj y calendario. 
-    "tray", // Área de notificación (System Tray). 
-    "custom/power" // Menú de acciones de apagado/reinicio/cierre de sesión. 
+    "bluetooth", // Estado y gestión de Bluetooth.
+    "custom/keyboard-state", // Estado de teclas de bloqueo (Caps/Num Lock).
+    "wireplumber", // Control de volumen (WirePlumber/PipeWire).
+    "cpu", // Uso de CPU.
+//    "network", // Redes
+    "memory", // Uso de Memoria RAM.
+    "temperature", // Temperatura del sistema.
+    "hyprland/language", // Layout de teclado de Hyprland.
+    "clock", // Reloj y calendario.
+    "tray", // Área de notificación (System Tray).
+    "custom/power" // Menú de acciones de apagado/reinicio/cierre de sesión.
   ],
 
   // --- Configuración Específica de Módulos ---
 
   // Espacios de Trabajo de Hyprland
   "hyprland/workspaces": {
-    "disable-scroll": true, // Deshabilita el cambio de espacio de trabajo con la rueda del ratón. 
-    "all-outputs": true, // Muestra los espacios de trabajo en todas las salidas. 
-    "warp-on-scroll": false, // Deshabilita el enfoque de ventana al hacer scroll. 
-    "format": "{name}", // Formato de visualización del nombre. 
+    "disable-scroll": true, // Deshabilita el cambio de espacio de trabajo con la rueda del ratón.
+    "all-outputs": true, // Muestra los espacios de trabajo en todas las salidas.
+    "warp-on-scroll": false, // Deshabilita el enfoque de ventana al hacer scroll.
+    "format": "{name}", // Formato de visualización del nombre.
     "persistent-workspaces": {
-      "*": 5, // 5 espacios de trabajo por defecto en todos los monitores. 
-      "HDMI-A-1": 3 // Pero solo 3 en el monitor HDMI-A-1. 
-    }
+      "*": 5, // 5 espacios de trabajo por defecto en todos los monitores.
+      "HDMI-A-1": 3, // Pero solo 3 en el monitor HDMI-A-1.
+    },
   },
 
   // Título de la Ventana
   "hyprland/window": {
-    "format": "{}", // Muestra solo el título de la ventana. 
-    "separate-outputs": true // Muestra el título solo en la salida donde está la ventana. 
+    "format": "{}", // Muestra solo el título de la ventana.
+    "separate-outputs": true, // Muestra el título solo en la salida donde está la ventana.
   },
 
   // Modo de Hyprland (e.g., Modo de redimensión)
   "hyprland/mode": {
-    "format": "<span style=\"italic\">{}</span>" // Formato del modo. 
+    "format": "<span style=\"italic\">{}</span>", // Formato del modo.
   },
 
   // Idioma / Layout de Teclado
   "hyprland/language": {
-    "format": "  {short}", // Ícono de teclado y layout actual (short). 
-    // Comando para cambiar al siguiente layout de teclado. 
-    "on-click": "hyprctl switchxkblayout usb-keyboard-usb-keyboard next" 
+    "format": "  {short}", // Ícono de teclado y layout actual (short).
+    // Comando para cambiar al siguiente layout de teclado.
+    "on-click": "hyprctl switchxkblayout usb-keyboard-usb-keyboard next",
   },
 
   // Estado de Teclas de Bloqueo (Caps/Num Lock)
   "custom/keyboard-state": {
-    "interval": 1, // Intervalo de actualización en segundos. 
-    "spacing": 10, // Espacio después del módulo. 
-    // Script externo para obtener el estado de las teclas. 
-    "exec": "~/.local/share/systools/waybar-lock-status.py", 
-    "return-type": "json", // Espera salida en formato JSON. 
-    "format": "{}", // El formato lo maneja el script. 
-    "hide-empty-text": true // Oculta si no hay texto. 
+    "interval": 1, // Intervalo de actualización en segundos.
+    "spacing": 10, // Espacio después del módulo.
+    // Script externo para obtener el estado de las teclas.
+    "exec": "~/.local/share/systools/waybar-lock-status.py",
+    "return-type": "json", // Espera salida en formato JSON.
+    "format": "{}", // El formato lo maneja el script.
+    "hide-empty-text": true, // Oculta si no hay texto.
   },
 
   // Área de Notificación (System Tray)
-  "tray": {
-    "icon-size": 15, // Tamaño de los íconos en el tray. 
-    "spacing": 10, // Espacio entre íconos. 
-    "icons": {
-      "blueman": "bluetooth", // Mapeo de íconos. 
-      "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png" // Ruta de ícono específico. 
-    }
-  },
-
+"tray": {
+	"icon-size": 15,
+	"spacing": 10,
+  "icons": {
+    "blueman": "bluetooth",
+    "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
+  }
+},
   // Control de Volumen
-  "wireplumber": {
-    "format": "{volume}% {icon}", // Muestra porcentaje y el ícono. 
-    "format-muted": "", // Ícono para volumen muteado. 
-    "on-click": "pavucontrol", // Abre `pavucontrol` al hacer click izquierdo. 
-    "on-click-right": "helvum", // Abre `helvum` al hacer click derecho. 
-    "max-volume": 150, // Permite subir el volumen hasta 150%. 
-    "format-icons": ["", "", ""] // Íconos de volumen bajo, medio, alto. 
-  },
+"wireplumber": {
+    "format": "{volume}% {icon}",
+    "format-muted": "",
+    "on-click": "helvum",
+    "format-icons": ["", "", ""]
+},
 
+  // Red Cableada y Wifi
+//"network": {
+//    "interface": "wlp8s0",
+//    "format": "{ifname}",
+//   "format-wifi": "{essid} ({signalStrength}%) ",
+//    "format-ethernet": "{ipaddr}/{cidr} 󰊗",
+//    "format-disconnected": "", //An empty format will hide the module.
+//    "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+//    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+//    "tooltip-format-ethernet": "{ifname} ",
+//    "tooltip-format-disconnected": "Disconnected",
+//    "max-length": 50
+//},
+
+  
   // Reloj y Calendario
   "clock": {
-    "timezone": "America/Caracas", // Zona horaria. 
-    // Formato de hora estándar. 
-    "format": "{:L%A, %d %B, %Y (%I:%M %p)}  ", 
-    // Formato alternativo (visible al pasar el ratón o con acción). 
-    "format-alt": "{:L%A, %d %B, %Y (%I:%M %p)}  ", 
-    "tooltip-format": "<tt><small>{calendar}</small></tt>", // Formato del tooltip del calendario. 
+    "timezone": "America/Caracas", // Zona horaria.
+    // Formato de hora estándar.
+    "format": "{:L%A, %d %B, %Y (%I:%M %p)}  ",
+    // Formato alternativo (visible al pasar el ratón o con acción).
+    "format-alt": "{:L%A, %d %B, %Y (%I:%M %p)}  ",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>", // Formato del tooltip del calendario.
     "calendar": {
-      "mode": "year", // Modo de visualización inicial. 
-      "mode-mon-col": 3, // Columnas para los meses. 
-      "weeks-pos": "right", // Posición del número de semana. 
-      "on-scroll": 1, // Scroll para cambiar de mes/año. 
+      "mode": "year", // Modo de visualización inicial.
+      "mode-mon-col": 3, // Columnas para los meses.
+      "weeks-pos": "right", // Posición del número de semana.
+      "on-scroll": 1, // Scroll para cambiar de mes/año.
       "format": {
-        "months": "<span color='#ffead3'><b>{}</b></span>", // Color y formato para meses. 
-        "days": "<span color='#ecc6d9'><b>{}</b></span>", // Color y formato para días. 
-        "weeks": "<span color='#99ffdd'><b>W{}</b></span>", // Color y formato para semanas. 
-        "weekdays": "<span color='#ffcc66'><b>{}</b></span>", // Color y formato para días de la semana. 
-        "today": "<span color='#ff6699'><b><u>{}</u></b></span>" // Color y formato para hoy. 
-      }
+        "months": "<span color='#ffead3'><b>{}</b></span>", // Color y formato para meses.
+        "days": "<span color='#ecc6d9'><b>{}</b></span>", // Color y formato para días.
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>", // Color y formato para semanas.
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>", // Color y formato para días de la semana.
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>", // Color y formato para hoy.
+      },
     },
     "actions": {
-      "on-click-right": "mode", // Cambia al formato alternativo. 
+      "on-click-right": "mode", // Cambia al formato alternativo.
       // Se eliminó la duplicación y se dejó la acción de cambiar mes/año con scroll.
-      "on-scroll-up": "shift_up", 
-      "on-scroll-down": "shift_down"
-    }
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down",
+    },
   },
 
   // Uso de CPU
   "cpu": {
-    "interval": 10, // Intervalo de actualización en segundos. 
-    "format": "{}% ", // Muestra el porcentaje con ícono. 
-    "max-length": 10 // Longitud máxima. 
+    "interval": 10, // Intervalo de actualización en segundos.
+    "format": "{}% ", // Muestra el porcentaje con ícono.
+    "max-length": 10, // Longitud máxima.
   },
 
   // Bluetooth
   "bluetooth": {
-    "format": " {status}", // Ícono y estado. 
-    "on-click": "blueman-manager", // Abre el gestor de Bluetooth. 
-    "format-connected": " {device_alias}", // Formato si hay un dispositivo conectado. 
-    // Formato si hay dispositivo conectado con nivel de batería. 
-    "format-connected-battery": " {device_alias} {device_battery_percentage}%", 
-    "format-device-preference": ["device1", "device2"], // Preferencia de dispositivos a mostrar. 
-    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected", 
-    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}", 
-    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}", 
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%" 
+    "format": " {status}", // Ícono y estado.
+    "on-click": "blueman-manager", // Abre el gestor de Bluetooth.
+    "format-connected": " {device_alias}", // Formato si hay un dispositivo conectado.
+    // Formato si hay dispositivo conectado con nivel de batería.
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "format-device-preference": ["device1", "device2"], // Preferencia de dispositivos a mostrar.
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
   },
 
   // Uso de Memoria
   "memory": {
-    "interval": 30, // Intervalo de actualización en segundos. 
-    "format": "{}% ", // Muestra el porcentaje de uso con ícono. 
-    "max-length": 10 // Longitud máxima. 
+    "interval": 30, // Intervalo de actualización en segundos.
+    "format": "{}% ", // Muestra el porcentaje de uso con ícono.
+    "max-length": 10, // Longitud máxima.
   },
 
   // Temperatura
   "temperature": {
-    "thermal-zone": 2, // Índice de la zona térmica. 
-    "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input", // Ruta al sensor (ajustar si es necesario). 
-    "critical-threshold": 80, // Umbral de temperatura crítica en °C. 
-    "format-critical": "{icon} {temperatureC}°C", // Formato para temperatura crítica. 
-    "format": "{icon} {temperatureC}°C", // Formato normal. 
-    "format-icons": ["", "", ""] // Íconos para diferentes rangos de temperatura. 
+    "thermal-zone": 2, // Índice de la zona térmica.
+    "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input", // Ruta al sensor (ajustar si es necesario).
+    "critical-threshold": 80, // Umbral de temperatura crítica en °C.
+    "format-critical": "{icon} {temperatureC}°C", // Formato para temperatura crítica.
+    "format": "{icon} {temperatureC}°C", // Formato normal.
+    "format-icons": ["", "", ""], // Íconos para diferentes rangos de temperatura.
   },
 
   // --- Módulos Custom (Lanzadores) ---
 
   // Menú (Rofi)
   "custom/menu": {
-    "format": " ", // Ícono de menú. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    // Comando para matar Rofi si está corriendo, o lanzarlo. 
-    "on-click": "pkill rofi || rofi -show drun -theme ~/.config/rofi/themes/simple-tokyonight.rasi -show-icons" 
+    "format": " ", // Ícono de menú.
+    "tooltip": false, // Deshabilita el tooltip.
+    // Comando para matar Rofi si está corriendo, o lanzarlo.
+    "on-click": "pkill rofi || rofi -show drun -theme ~/.config/rofi/themes/simple-tokyonight.rasi -show-icons",
   },
 
   // Barra de Tareas
   "wlr/taskbar": {
-    "format": "{icon}", // Muestra solo el ícono. 
-    "tooltip": true, // Habilita el tooltip. 
-    "tooltip-format": "{title}", // Muestra el título en el tooltip. 
-    "on-click": "activate", // Activa la ventana al hacer click. 
-    "on-click-middle": "close" // Cierra la ventana al hacer click medio. 
+    "format": "{icon}", // Muestra solo el ícono.
+    "tooltip": true, // Habilita el tooltip.
+    "tooltip-format": "{title}", // Muestra el título en el tooltip.
+    "on-click": "activate", // Activa la ventana al hacer click.
+    "on-click-middle": "close", // Cierra la ventana al hacer click medio.
   },
 
   // Lanzador de PCManFM
   "custom/pcmanfm": {
-    "format": "󱂶 ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "on-click": "pcmanfm" // Comando. 
+    "format": "󱂶 ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    "on-click": "pcmanfm", // Comando.
   },
 
   // Lanzador de Thunar
   "custom/thunar": {
-    "format": " ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "on-click": "thunar" // Comando. 
+    "format": " ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    "on-click": "thunar", // Comando.
   },
 
   // Lanzador de Mousepad
   "custom/mousepad": {
-    "format": "󱞁 ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "on-click": "mousepad" // Comando. 
+    "format": "󱞁 ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    "on-click": "mousepad", // Comando.
   },
 
   // Lanzador de Firefox
   "custom/firefox": {
-    "format": " ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "on-click": "firefox" // Comando. 
+    "format": " ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    "on-click": "firefox", // Comando.
   },
 
   // Lanzador de Opera
   "custom/opera": {
-    "format": "󰖟 ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    // Abre Opera en español y en modo privado. 
-    "on-click": "opera --lang=es %U --private" 
+    "format": "󰖟 ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    // Abre Opera en español y en modo privado.
+    "on-click": "opera --lang=es %U --private",
   },
 
   // Lanzador de Thunderbird
   "custom/thunderbird": {
-    "format": " ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "on-click": "thunderbird" // Comando. 
+    "format": " ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    "on-click": "thunderbird", // Comando.
   },
 
   // Lanzador de Telegram
   "custom/TelegramDesktop": {
-    "format": " ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "on-click": "Telegram" // Comando. 
+    "format": " ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    "on-click": "Telegram", // Comando.
   },
 
   // Lanzador de Terminal (Kitty)
   "custom/terminal": {
-    "format": " ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "on-click": "kitty" // Lanza el emulador de terminal Kitty. 
+    "format": " ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    "on-click": "kitty", // Lanza el emulador de terminal Kitty.
   },
 
   // Lanzador de Calculadora (Gnome-Calculator)
   "custom/calculadora": {
-    "format": "󱖦 ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "on-click": "gnome-calculator" // Comando. 
+    "format": "󱖦 ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    "on-click": "gnome-calculator", // Comando.
   },
 
   // Lanzador de LocalSend
   "custom/localsend": {
-    "format": "󰈪 ", // Ícono. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    // Ruta explícita a la aplicación LocalSend. 
-    "on-click": "/opt/LocalSend-1.17.0-linux-x86-64/localsend_app" 
+    "format": "󰈪 ", // Ícono.
+    "tooltip": false, // Deshabilita el tooltip.
+    // Ruta explícita a la aplicación LocalSend.
+    "on-click": "/opt/LocalSend-1.17.0-linux-x86-64/localsend_app",
   },
 
   // Menú de Apagado/Reinicio/Cerrar Sesión
   "custom/power": {
-    "format": "⏻ ", // Ícono de poder/encendido. 
-    "menu": "on-click", // Muestra el menú al hacer click. 
-    "tooltip": false, // Deshabilita el tooltip. 
-    "menu-file": "$HOME/.config/waybar/power_menu.xml", // Ruta al archivo GtkMenu. 
+    "format": "⏻ ", // Ícono de poder/encendido.
+    "menu": "on-click", // Muestra el menú al hacer click.
+    "tooltip": false, // Deshabilita el tooltip.
+    "menu-file": "$HOME/.config/waybar/power_menu.xml", // Ruta al archivo GtkMenu.
     "menu-actions": {
-      "shutdown": "sudo poweroff", // Comando para apagar. 
-      "reboot": "sudo reboot", // Comando para reiniciar. 
-      "logout": "hyprctl dispatch exit" // Comando para cerrar sesión de Hyprland. 
-    }
-  }
+      "shutdown": "sudo poweroff", // Comando para apagar.
+      "reboot": "sudo reboot", // Comando para reiniciar.
+      "logout": "hyprctl dispatch exit", // Comando para cerrar sesión de Hyprland.
+    },
+  },
 }
