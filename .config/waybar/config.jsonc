@@ -140,8 +140,8 @@
   // Reloj y Calendario
   "clock": {
     "timezone": "America/Caracas", // Zona horaria.
-    "format": "{:L%A, %d %B, %Y (%I:%M %p)}  ", // Formato de hora estándar.
-    "format-alt": "{:L%A, %d %B, %Y (%I:%M %p)}  ", // Formato alternativo.
+    "format": "{:L%a, %d %b, %Y (%I:%M %p)}  ", // Formato de hora estándar.
+    "format-alt": "{:L%a, %d %b, %Y (%I:%M %p)}  ", // Formato alternativo.
     "tooltip-format": "<tt><small>{calendar}</small></tt>", // Formato del tooltip del calendario.
     "calendar": {
       "mode": "year", // Modo de visualización inicial.
