@@ -253,7 +253,7 @@ button:hover {
 #custom-calculadora:hover,
 #custom-terminal:hover {
   /* Simplificado: Solo se mantienen los cambios y la corrección de typo */
-  font-size: 19px; /* Aumento de tamaño para efecto */
+  font-size: 18px; /* Aumento de tamaño para efecto */
   color: @primary;
   background-color: @background; /* Corregido: @backgound -> @background */
   box-shadow: inset 0 -3px #ffffff;

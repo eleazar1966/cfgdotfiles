@@ -241,7 +241,6 @@ window-rule {
     // se podría usar fullscreen-window, pero se prefiere el comportamiento de tiling.
     // open-floating true
     // draw-border-with-background true
-
     geometry-corner-radius 8 // Ajusta este valor (e.g., 8, 10, 15)
     clip-to-geometry true
 }
