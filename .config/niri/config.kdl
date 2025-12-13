@@ -23,7 +23,6 @@ input {
         // Mapeo de numlock_by_default = true de Hyprland
         numlock
     }
-
     // Las siguientes secciones incluyen configuraciones de libinput.
     // Omitir las configuraciones las deshabilita o las deja en sus valores predeterminados.
     // Todos los ajustes comentados aquí son ejemplos, no valores predeterminados.
@@ -205,7 +204,7 @@ spawn-at-startup "nm-applet" "--indicator"
 spawn-sh-at-startup "pkill waybar || ~/.local/share/systools/launch-waybar.sh & waybar"
 
 hotkey-overlay {
-    // skip-at-startup // Descomentar para deshabilitar la ventana emergente de "Atajos Importantes" al inicio.
+     skip-at-startup // Descomentar para deshabilitar la ventana emergente de "Atajos Importantes" al inicio.
 }
 
 // Puedes cambiar la ruta donde se guardan las capturas de pantalla.
