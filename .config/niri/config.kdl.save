@@ -259,6 +259,9 @@ binds {
     Mod+Return hotkey-overlay-title="Abrir Terminal: kitty" { spawn "kitty"; } // $terminal = kitty
     Mod+E hotkey-overlay-title="Abrir Gestor de Archivos: thunar" { spawn "thunar"; } // $fileManager = thunar
     // Mapeo de $menu: pkill rofi || ~/.config/rofi/launchers/type-2/launcher.sh
+j   //Mod+D hotkey-overlay-title="Ejecutar Aplicación: rofi" { spawn "rofi" "-show" "drum" "-show-icons" "-theme" "~/.config/rofi/themes/simple-tokyonight.rasi"; }pkill rofi || rofi -show drun -show-icons -theme "${HOME}/.config/rofi/themes/simple-tokyonight.rasi"
+
+    // Otras vinculaciones
     Mod+Q repeat=false { close-window; } // killactive
     Mod+X { quit; } // exit
     Mod+V { toggle-window-floating; } // togglefloating
@@ -267,7 +270,6 @@ binds {
     // El comando de Hyprland `togglesplit` (dwindle) se omite, ya que Niri usa un diseño de columna/pila.
 
     // Comandos de Hyprland ejecutados con spawn
-    Mod+D { spawn "~/.local/share/systools/launch-rofi.sh"; }
     Mod+W { spawn "~/.local/share/systools/launch-waybar.sh"; }
     Mod+F1 { spawn "opera" "--lang=es" "%U" "--private"; }
     Mod+F2 { spawn "thunderbird"; }
