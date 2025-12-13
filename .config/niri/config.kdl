@@ -271,7 +271,6 @@ binds {
 
     // Comandos de Hyprland ejecutados con spawn
     Mod+W { spawn "~/.local/share/systools/launch-waybar.sh"; }
-    Mod+Space { spawn "~/.local/share/systools/alternar_layout.sh"; }
     Mod+F1 { spawn "opera" "--lang=es" "%U" "--private"; }
     Mod+F2 { spawn "thunderbird"; }
     Mod+F3 { spawn "kitty" "-e" "ranger"; }
