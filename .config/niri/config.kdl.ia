@@ -1,0 +1,300 @@
+// Este archivo de configuración está en formato KDL: https://kdl.dev
+// Versión adaptada de la configuración de Hyprland.
+// Siéntete libre de ajustarla.
+
+// Configuración del dispositivo de entrada.
+input {
+    keyboard {
+        xkb {
+            // Mapeo de la configuración kb_layout y kb_options de Hyprland
+            layout "us,es"
+            options "grp:alt_shift_toggle"
+        }
+
+        // Mapeo de numlock_by_default = true de Hyprland
+        numlock
+    }
+
+    // El touchpad tiene natural-scroll = false en Hyprland, por lo que lo deshabilitamos aquí.
+    touchpad {
+        // off
+        tap
+        // dwt
+        // dwtp
+        // drag false
+        // drag-lock
+        // natural-scroll // Deshabilitado para coincidir con el valor 'false' de Hyprland
+        // accel-speed 0.2
+        // accel-profile "flat"
+        
+        // scroll-method "two-finger"
+        // disabled-on-external-mouse
+    }
+
+    // mouse {
+    //     // off
+    //     // natural-scroll
+    //     // accel-speed 0.2
+    //     // accel-profile "flat"
+    //     // scroll-method "no-scroll"
+    // }
+    warp-mouse-to-focus
+    focus-follows-mouse max-scroll-amount="0%"
+    // trackpoint {
+    //     // off
+    //     // natural-scroll
+     
+    //     // accel-speed 0.2
+    //     // accel-profile "flat"
+    //     // scroll-method "on-button-down"
+    //     // scroll-button 273
+    //     // scroll-button-lock
+    //     // middle-emulation
+    // }
+
+    // focus-follows-mouse se establece en 1 en Hyprland, lo cual no tiene un equivalente
+    // directo. Aquí se deja desactivado por defecto de Niri, pero se puede habilitar si se desea.
+    // focus-follows-mouse max-scroll-amount="0%"
+}
+
+// Configuración del monitor.
+// La configuración de Hyprland es: monitor= DP-1, 1366x768@59.79, 0x0, 1
+// Asegúrate de que el nombre de la salida (DP-1) sea correcto para Niri.
+// La escala es 1 (100%).
+/-output "DP-1" {
+    mode "1366x768@59.79"
+    scale 1
+    // position x=0 y=0
+    transform "normal"
+}
+
+// Configuraciones de apariencia y diseño.
+layout {
+    // Mapeo de gaps_in y gaps_out de Hyprland
+    // Gaps in = 2, Gaps out = 2 (se establece un único valor para ambos en Niri: 2)
+    gaps 2
+
+     center-focused-column "on-overflow" //"never" // Valor predeterminado de Niri
+     
+
+    // El anillo de foco y el borde se configuran aquí.
+    focus-ring {
+        width 2 // Mapeo de border_size = 2 de Hyprland
+        // Se utilizan los colores predeterminados de Niri ya que los de Hyprland usan variables KDL.
+        active-color "#7fc8ff"
+        inactive-color "#505050"
+    }
+
+    // Se deshabilita el borde para depender únicamente del anillo de foco, como en Hyprland
+    // con un border_size pequeño.
+    border {
+        off
+        width 2
+        active-color "#ffc87f"
+        inactive-color "#505050"
+        urgent-color "#9b0000"
+    }
+    
+    // Mapeo de la sombra de Hyprland
+    shadow {
+        on // enabled = true
+        softness 30 // range = 4 (Hyprland usa render_power=3, ajustamos a un valor de Niri)
+        spread 5 // range = 4 (Hyprland usa render_power=3, ajustamos a un valor de Niri)
+        offset x=0 y=5
+        color "#1a1a1aee" // Mapeo de color = rgba(1a1a1aee)
+    }
+
+    // Struts no se establecen en la configuración de Hyprland, por lo que se dejan comentados.
+    struts {
+        // left 64
+        // right 64
+        // top 64
+        // bottom 64
+    }
+}
+// El desenfoque es una característica de Hyprland (decorations.blur),
+// Niri lo implementa de manera diferente y no tiene un mapeo directo aquí.
+
+// Configuraciones de animación.
+// Se utilizan curvas y velocidades predeterminadas de Niri.
+animations {
+    // enabled = yes, please :) se mapea a la activación.
+    // Los valores de velocidad y curva se dejan por defecto en Niri.
+}
+
+// Mapeo de las variables de autostart (exec-once) de Hyprland
+spawn-at-startup "swww-daemon"
+spawn-at-startup "~/.local/share/systools/mostrar_imagenes.sh"
+spawn-at-startup "pipewire"
+spawn-at-startup "udiskie" "-s"
+spawn-at-startup "openrgb" "--startminimized"
+spawn-at-startup "nm-applet" "--indicator"
+// Hyprland tiene waybar & pkill waybar & ~/.local/share/systools/launch-waybar.sh
+spawn-sh-at-startup "pkill waybar || ~/.local/share/systools/launch-waybar.sh & waybar" // Se ajusta el orden para iniciar waybar
+
+// Reglas de ventana (windowrule)
+// La regla de ignorar maximización es la más relevante para el tiling.
+window-rule {
+    // La supresión de eventos de maximización no tiene un equivalente directo,
+    // se podría usar fullscreen-window, pero se prefiere el comportamiento de tiling.
+    // open-floating true
+    // draw-border-with-background true
+
+    geometry-corner-radius 8 // Ajusta este valor (e.g., 8, 10, 15)
+    clip-to-geometry true
+}
+
+// La configuración de Hyprland para $terminal, $fileManager, y $menu se usa en los atajos de teclado.
+
+// Atajos de teclado.
+// Hyprland usa $mainMod = SUPER. Niri usa Mod, que es Super por defecto.
+binds {
+    // Vinculaciones de programas
+    Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; } // $terminal = kitty
+    Mod+E hotkey-overlay-title="Open File Manager: thunar" { spawn "thunar"; } // $fileManager = thunar
+    // Mapeo de $menu: pkill rofi || ~/.config/rofi/launchers/type-2/launcher.sh
+    Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn-sh "pkill rofi || ~/.config/rofi/launchers/type-2/launcher.sh"; }
+    
+    // Otras vinculaciones
+    Mod+Q repeat=false { close-window; } // killactive
+    Mod+X { quit; } // exit
+    Mod+V { toggle-window-floating; } // togglefloating
+
+    // El comando de Hyprland `pseudo` (pseudotiling) se omite, ya que Niri tiene un comportamiento diferente.
+    // El comando de Hyprland `togglesplit` (dwindle) se omite, ya que Niri usa un diseño de columna/pila.
+
+    // Comandos de Hyprland ejecutados con spawn
+    Mod+R { spawn "~/.local/share/systools/launch-waybar.sh"; }
+    Mod+Space { spawn "~/.local/share/systools/alternar_layout.sh"; }
+    Mod+F1 { spawn "opera" "--lang=es" "%U" "--private"; }
+    Mod+F2 { spawn "thunderbird"; }
+    Mod+F3 { spawn "kitty" "-e" "ranger"; }
+    Mod+F4 { spawn "rhythmbox"; }
+    Mod+F11 { spawn "vlc"; }
+
+    // Capturas de pantalla (Hyprland usa hyprshot)
+    Mod+Print { spawn "hyprshot" "-m" "window"; } // Screenshot a window
+    Print { spawn "hyprshot" "-m" "output"; } // Screenshot a monitor
+    Mod+Shift+Print { spawn "hyprshot" "-m" "region"; } // Screenshot a region
+
+    // Mover foco (movefocus l/r/u/d)
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-window-down; }
+    Mod+Up    { focus-window-up; }
+    Mod+Right { focus-column-right; }
+    Mod+H     { focus-column-left; }                                            
+    Mod+J     { focus-window-down; }                                            
+    Mod+K     { focus-window-up; }                                              
+    Mod+L     { focus-column-right; }                                           
+                                                                                
+    Mod+Ctrl+Left  { move-column-left; }                                        
+    Mod+Ctrl+Down  { move-window-down; }                                        
+    Mod+Ctrl+Up    { move-window-up; }                                          
+    Mod+Ctrl+Right { move-column-right; }                                       
+    Mod+Ctrl+H     { move-column-left; }                                        
+    Mod+Ctrl+J     { move-window-down; }                                        
+    Mod+Ctrl+K     { move-window-up; }                                          
+    Mod+Ctrl+L     { move-column-right; }
+
+    // Alternatively, there are commands to move just a single window:          
+    // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }                    
+    // ...                                                                      
+                                                                                
+    // And you can also move a whole workspace to another monitor:              
+    // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }                 
+    // ...                                                                      
+                                                                                
+    Mod+Page_Down	  { focus-workspace-down; }                                
+    Mod+Page_Up        { focus-workspace-up; }                                  
+    Mod+U              { focus-workspace-down; }                                
+    Mod+I              { focus-workspace-up; }                                  
+    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }                       
+    Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }                         
+    Mod+Ctrl+U         { move-column-to-workspace-down; }                       
+    Mod+Ctrl+I         { move-column-to-workspace-up; }                         
+                                                                                
+    // Alternatively, there are commands to move just a single window:          
+    // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }                    
+    // ...                                                                      
+                                                                                
+    Mod+Shift+Page_Down { move-workspace-down; }                                
+    Mod+Shift+Page_Up   { move-workspace-up; }                                  
+    Mod+Shift+U         { move-workspace-down; }                                
+    Mod+Shift+I         { move-workspace-up; }                                  
+
+    Mod+WheelScrollDown	cooldown-ms=150 { focus-workspace-down; }          
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }            
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; } 
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }   
+                                                                                
+    Mod+WheelScrollRight	 { focus-column-right; }                           
+    Mod+WheelScrollLeft	 { focus-column-left; }                            
+    Mod+Ctrl+WheelScrollRight { move-column-right; }                            
+    Mod+Ctrl+WheelScrollLeft  { move-column-left; }                             
+                                                                                
+    // Usually scrolling up and down with Shift in applications results in      
+    // horizontal scrolling; these binds replicate that.                        
+    Mod+Shift+WheelScrollDown      { focus-column-right; }                      
+    Mod+Shift+WheelScrollUp        { focus-column-left; }                       
+    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }                       
+    Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }                                                   
+
+
+    // Cambiar de espacio de trabajo (workspace 1-10)
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+
+    // Mover ventana a espacio de trabajo (movetoworkspace 1-10)
+    Mod+Ctrl+1 { move-column-to-workspace 1; }
+    Mod+Ctrl+2 { move-column-to-workspace 2; }
+    Mod+Ctrl+3 { move-column-to-workspace 3; }
+    Mod+Ctrl+4 { move-column-to-workspace 4; }
+    Mod+Ctrl+5 { move-column-to-workspace 5; }
+    Mod+Ctrl+6 { move-column-to-workspace 6; }
+    Mod+Ctrl+7 { move-column-to-workspace 7; }
+    Mod+Ctrl+8 { move-column-to-workspace 8; }
+    Mod+Ctrl+9 { move-column-to-workspace 9; }
+    Mod+Ctrl+0 { move-column-to-workspace 10; }
+    // Niri usa Mod+Ctrl+ [número] como el equivalente más cercano a Mod+Shift+ [número] de Hyprland
+    // para mover.
+
+    // Espacio de trabajo especial (scratchpad)
+    Mod+S { toggle-overview; } // Equivalente más cercano: Vista general
+    // La acción de Hyprland `movetoworkspace, special:magic` no tiene un equivalente directo.
+
+    // Desplazamiento de espacio de trabajo con la rueda del ratón
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; } // workspace, e+1
+    Mod+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; } // workspace, e-1
+
+    // Mover/cambiar tamaño de ventana con el ratón
+    // Niri usa Mod+clic y arrastrar, que es el comportamiento predeterminado en Hyprland (bindm).
+    // Las acciones `movewindow` y `resizewindow` son manejadas por el compositor por defecto.
+
+    // Teclas multimedia (se usa la vinculación wpctl de Hyprland)
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+
+    // Brillo (se usa la vinculación brightnessctl de Hyprland)
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%-"; }
+
+    // Control de reproductor (playerctl)
+    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; } // Mapea Play y Pause
+    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
+
+    // Quitar sesión
+    Mod+Shift+E { quit; }
+    Ctrl+Alt+Delete { quit; }
+}

@@ -1,12 +1,16 @@
 @import "colors.css";
+
+/* =========================================================================
+   1. ESTILOS BASE Y GENERALES
+   ========================================================================= */
 * {
-  /* `otf-font-awesome` is required to be installed for icons */
-  border: none;
-  border-radius: 0;
+  /* Fuentes: Asegúrate de tenerlas instaladas (ej. Nerd Font) */
   font-family:
     "Roboto Condensed Light", "EnvyCodeR Nerd Font",
     "Noto Sans ExtraCondensed Light", FontAwesome, Roboto, Helvetica, Arial,
     sans-serif;
+  border: none;
+  border-radius: 0;
   min-height: 0;
 }
 
@@ -16,6 +20,21 @@ window#waybar {
   transition-property: background-color;
   transition-duration: 0.5s;
 }
+
+/* Opacidad reducida si la barra está oculta */
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+/* Estilos específicos (manteniendo los originales, pero pueden ser redundantes) */
+window#waybar.termite,
+window#waybar.chromium {
+  background-color: @on_secondary;
+  border-color: @inverse_primary;
+  border: none;
+}
+
+/* Tooltip (Calendario, etc.) */
 tooltip {
   background: @on_surface;
   border: 1px solid rgba(100, 114, 125, 0.5);
@@ -24,42 +43,14 @@ tooltip label {
   color: @on_surface;
 }
 
-window#waybar.hidden {
-  opacity: 0.2;
-}
-
-/*
-window#waybar.empty {
-    background-color: transparent;
-}
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
-*/
-
-window#waybar.termite {
-  border-color: @inverse_primary;
-  background-color: @on_secondary;
-}
-
-window#waybar.chromium {
-  background-color: #000000;
-  border-color: @inverse_primary;
-  background-color: @on_secondary;
-  border: none;
-}
-
+/* Estilos base para botones generales (normalmente overridden) */
 button {
-  /* Use box-shadow instead of border so the text isn't offset */
   box-shadow: inset 0 -3px @primary;
-  /* Avoid rounded borders under each button name */
   border-color: @inverse_primary;
   background-color: @on_secondary;
   border: @primary;
-  border-radius: 100;
+  border-radius: 100px;
 }
-
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 button:hover {
   background: inherit;
   border-color: @primary;
@@ -67,28 +58,30 @@ button:hover {
   box-shadow: inset 0 -3px @inverse_primary;
 }
 
+/* =========================================================================
+   2. MÓDULOS DEL CENTRO (WORKSPACES Y VENTANA)
+   ========================================================================= */
+
+/* Workspaces */
 #workspaces button {
   background-color: @on_secondary;
-  border-color: @inverse_primary;
   color: @on_surface;
   padding: 0 2px;
-  border-radius: 100px;
   margin: 1px;
+  border-radius: 100px;
   border: 2px solid rgba(100, 114, 125, 0.5);
   box-shadow: inset 0 -3px @secondary;
+  border-color: @inverse_primary;
 }
 
 #workspaces button:hover {
-  font-size: 10px; /* Adjust size as needed */                                  
-  padding: 0 2px; /* Add some spacing */                                        
-  background-color: @on_primary;                                                
-  border-radius: 100px;                                                         
-  margin: 0px;                                                                  
-  border: 1px solid rgba(100, 114, 125, 0.5);                                   
-  color: @primary;                                                              
-  background-color: @backgound;                                                 
-  border-color: @inverse_primary;                                               
-  box-shadow: inset 0 -3px #ffffff; 
+  /* Solo se definen los cambios respecto al estado base */
+  font-size: 10px; 
+  margin: 0px; 
+  background-color: @background; /* Corregido: @backgound -> @background */
+  border-color: @inverse_primary;
+  color: @primary;
+  box-shadow: inset 0 -3px #ffffff;
 }
 
 #workspaces button.focused,
@@ -106,17 +99,93 @@ button:hover {
   box-shadow: inset 0 -3px @secondary;
 }
 
+#workspaces {
+  margin: 0px;
+}
+
+/* Título de la Ventana */
+#window {
+  font-size: 10px;
+  padding: 0 2px;
+  background-color: @on_primary;
+  color: @on_surface;
+  border-radius: 100px;
+  margin: 0px;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+  border-color: @inverse_primary;
+}
+
+/* Modo de Hyprland (Redimensionar, etc.) */
 #mode {
-  background-color: @backgound;
+  background-color: @background; /* Corregido: @backgound -> @background */
   border-color: @inverse_primary;
   box-shadow: inset 0 -3px #ffffff;
 }
 
-/* Styles for the entire taskbar */
+/* =========================================================================
+   3. MÓDULOS DEL SISTEMA Y TASKBAR (Derecha e Izquierda)
+   ========================================================================= */
+
+/* Grupo general de módulos de información (Reloj, CPU, Memoria, etc.) */
+/* Incluye: clock, cpu, keyboard-state, language, memory, temp, network, volume, tray, window, bluetooth, etc. */
+#clock,
+#cpu,
+#custom-keyboard-state,
+#custom-language,
+#memory,
+#temperature,
+#network,
+#wireplumber,
+#tray,
+#bluetooth,
+#power-profiles-daemon,
+#language {
+  font-size: 10px;
+  padding: 0 2px;
+  background-color: @on_primary;
+  color: @on_surface;
+  border-radius: 100px;
+  margin: 0px;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+  border-color: @inverse_primary;
+}
+
+/* Sub-selectores específicos (Network y Tray) */
+#network.disabled,
+#network.disconnected,
+#network.linked,
+#network.ethernet,
+#network.wifi,
+#tray > .passive,
+#tray > .active,
+#tray > .needs-attention {
+    /* Heredan del grupo principal */
+}
+
+/* Estado Hover para módulos de información */
+#clock:hover,
+#cpu:hover,
+#custom-language:hover,
+#custom-keyboard-state:hover,
+#memory:hover,
+#temperature:hover,
+#network:hover,
+#wireplumber:hover,
+#tray:hover,
+#bluetooth:hover,
+#power-profiles-daemon:hover,
+#window:hover,
+#language:hover {
+  color: @primary;
+  background-color: @background; /* Corregido: @backgound -> @background */
+  box-shadow: inset 0 -3px #ffffff;
+}
+
+/* Taskbar: Estilos para el contenedor y los botones */
 #taskbar {
-  background-color: @on_primarye;
+  background-color: @on_primarye; /* Posible error tipográfico en la variable: @on_primarye */
   border-color: @primary;
-  font-size: 10px; /* Adjust size as needed */
+  font-size: 10px;
   border-radius: 100px;
   padding: 0 2px;
   color: @on_surface;
@@ -124,109 +193,30 @@ button:hover {
   border: 1px solid rgba(100, 114, 125, 0.5);
 }
 
-/* Styles for individual application buttons */
 #taskbar button {
   border-color: @primary;
   background-color: @inverse_primary;
-  font-size: 10px; /* Adjust size as needed */
-  padding: 0 2px; /* Add some spacing */
+  font-size: 10px;
+  padding: 0 2px;
   color: @on_surface;
   border-radius: 100px;
   margin: 0px;
   border: 1px solid rgba(100, 114, 125, 0.5);
 }
 
-/* Styles for the active taskbar button */
+/* Taskbar: Botón activo */
 #taskbar button.active {
-  background-color: @inverse_primary;
+  /* Simplificado: solo se definen los cambios */
+  background-color: @on_primary;
   border-color: @inverse_surface;
-  font-size: 10px; /* Adjust size as needed */
-  padding: 0 2px; /* Add some spacing */
-  background-color: @on_primary;
-  color: @on_surface;
-  border-radius: 100px;
-  margin: 0px;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-}
-
-#window {
-  font-size: 10px; /* Adjust size as needed */
-  padding: 0 2px; /* Add some spacing */
-  background-color: @on_primary;
-  color: @on_surface;
-  border-radius: 100px;
-  margin: 0px;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-  border-color: @inverse_primary;
-}
-
-#clock,
-#cpu,
-#custom-keyboard-state,
-#memory,
-#temperature,
-#temperature2,
-#network,
-#network.disabled,
-#network.disconnected,
-#network.linked,
-#network.ethernet,
-#network.wifi,
-#wireplumber,
-#tray,
-#tray > .passive,
-#tray > .active,
-#tray > .needs-attention,
-#mode,
-#language,
-#bluetooth,
-#power-profiles-daemon,
-#window {
-  font-size: 10px; /* Adjust size as needed */
-  padding: 0 2px; /* Add some spacing */
-  background-color: @on_primary;
-  color: @on_surface;
-  border-radius: 100px;
-  margin: 0px;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-  border-color: @inverse_primary;
 }
 
 
-#clock:hover,
-#cpu:hover,                                                                           
-#custom-keyboard-state:hover,
-#memory:hover,                                                                        
-#temperature:hover,                                                                   
-#temperature2:hover,                                                                  
-#network:hover,                                                                       
-#network.disabled:hover,
-#network.disconnected:hover,
-#network.linked:hover,
-#network.ethernet:hover,
-#network.wifi:hover,
-#wireplumber:hover,                                                                   
-#tray:hover,                                                                          
-#tray > .passive:hover,
-#tray > .active:hover,
-#tray > .needs-attention:hover,
-#mode:hover,                                                                          
-#language:hover,                                                                      
-#bluetooth:hover,                                                                     
-#power-profiles-daemon:hover,                                                         
-#window:hover {                                                                       
-  font-size: 10px; /* Adjust size as needed */                                  
-  padding: 0 2px; /* Add some spacing */                                        
-  background-color: @on_primary;                                                
-  border-radius: 100px;                                                         
-  margin: 0px;                                                                  
-  border: 1px solid rgba(100, 114, 125, 0.5);                                   
-  color: @primary;                                                              
-  background-color: @backgound;                                                 
-  border-color: @inverse_primary;                                               
-  box-shadow: inset 0 -3px #ffffff;
-}        
+/* =========================================================================
+   4. MÓDULOS CUSTOM (LANZADORES)
+   ========================================================================= */
 
+/* Grupo de lanzadores (Izquierda) y botón de Apagado (Derecha) */
 #custom-menu,
 #custom-localsend,
 #custom-pcmanfm,
@@ -239,19 +229,17 @@ button:hover {
 #custom-TelegramDesktop,
 #custom-calculadora,
 #custom-terminal {
-  font-size: 18px; /* Adjust size as needed */
-  padding: 0 2px; /* Add some spacing */
+  font-size: 18px; 
+  padding: 0 2px; 
   background-color: @on_primary;
   color: @on_surface;
   border-radius: 100px;
-  /* margin: 1px;*/
   border: 1px solid rgba(100, 114, 125, 0.5);
   border-color: @inverse_primary;
-  /* Propiedad de Transición */
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out; /* Propiedad de Transición */
 }
 
-/* Animación de los iconos de aplicaciones al pasar el mouse */
+/* Animación de los iconos de aplicaciones al pasar el mouse (Hover) */
 #custom-menu:hover,
 #custom-localsend:hover,
 #custom-pcmanfm:hover,
@@ -264,23 +252,16 @@ button:hover {
 #custom-TelegramDesktop:hover,
 #custom-calculadora:hover,
 #custom-terminal:hover {
-  font-size: 19px; /* Aumentamos el tamaño de la fuente (ícono) */
-  padding: 0 2px; /* Aumentamos el relleno horizontal para que se vea más grande */
-  border-color: @inverse_primary;                                               
+  /* Simplificado: Solo se mantienen los cambios y la corrección de typo */
+  font-size: 19px; /* Aumento de tamaño para efecto */
+  color: @primary;
+  background-color: @background; /* Corregido: @backgound -> @background */
   box-shadow: inset 0 -3px #ffffff;
-  border-radius: 100px;                                                         
-  margin: 0px;                                                                  
-  border: 1px solid rgba(100, 114, 125, 0.5);                                   
-  color: @primary;                                                              
-  background-color: @backgound;                                                 
-  border-color: @inverse_primary;                                               
-  box-shadow: inset 0 -3px #ffffff; 
 }
 
-#workspaces {
-  margin: 0px;
-}
-
+/* =========================================================================
+   5. MENU CONTEXTUAL
+   ========================================================================= */
 menu {
   border-radius: 5px;
   background: @on_primary;
@@ -290,4 +271,3 @@ menuitem {
   border-radius: 5px;
   background: @on_primary;
 }
-

@@ -1,417 +1,293 @@
-// This config is in the KDL format: https://kdl.dev
-// "/-" comments out the following node.
-// Check the wiki for a full description of the configuration:
-// https://yalter.github.io/niri/Configuration:-Introduction
-
-// Input device configuration.
-// Find the full list of options on the wiki:
+// Este archivo de configuración está en formato KDL: https://kdl.dev
+// Versión adaptada de la configuración de Hyprland.
+// Siéntete libre de ajustarla.
+prefer-no-csd
+// Configuración del dispositivo de entrada.
+// Encuentra la lista completa de opciones en la wiki:
 // https://yalter.github.io/niri/Configuration:-Input
 input {
     keyboard {
         xkb {
-            // You can set rules, model, layout, variant and options.
-            // For more information, see xkeyboard-config(7).
+            // Puedes establecer reglas, modelo, layout, variante y opciones.
+            // Para más información, consulta xkeyboard-config(7).
+            // Mapeo de la configuración kb_layout y kb_options de Hyprland
+            layout "us,es"
+            options "grp:alt_shift_toggle"
 
-            // For example:
-            // layout "us,ru"
-            // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
-
-            // If this section is empty, niri will fetch xkb settings
-            // from org.freedesktop.locale1. You can control these using
+            // Si esta sección está vacía, niri obtendrá la configuración xkb
+            // de org.freedesktop.locale1. Puedes controlarlas usando
             // localectl set-x11-keymap.
         }
 
-        // Enable numlock on startup, omitting this setting disables it.
+        // Habilita Num Lock al inicio, omitir esta configuración lo deshabilita.
+        // Mapeo de numlock_by_default = true de Hyprland
         numlock
     }
 
-    // Next sections include libinput settings.
-    // Omitting settings disables them, or leaves them at their default values.
-    // All commented-out settings here are examples, not defaults.
+    // Las siguientes secciones incluyen configuraciones de libinput.
+    // Omitir las configuraciones las deshabilita o las deja en sus valores predeterminados.
+    // Todos los ajustes comentados aquí son ejemplos, no valores predeterminados.
+
+    // El touchpad tiene natural-scroll = false en Hyprland, por lo que se deshabilita aquí.
     touchpad {
         // off
-        tap
+        tap // Habilitar la función de tocar para hacer clic
         // dwt
         // dwtp
         // drag false
         // drag-lock
-        natural-scroll
+        // natural-scroll // Deshabilitado para coincidir con el valor 'false' de Hyprland
         // accel-speed 0.2
         // accel-profile "flat"
+
         // scroll-method "two-finger"
         // disabled-on-external-mouse
     }
 
-    mouse {
-        // off
-        // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
-        // scroll-method "no-scroll"
-    }
+    // mouse {
+    //     // off
+    //     // natural-scroll
+    //     // accel-speed 0.2
+    //     // accel-profile "flat"
+    //     // scroll-method "no-scroll"
+    // }
 
-    trackpoint {
-        // off
-        // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
-        // scroll-method "on-button-down"
-        // scroll-button 273
-        // scroll-button-lock
-        // middle-emulation
-    }
+    // Descomenta esto para hacer que el ratón se mueva al centro de las ventanas recién enfocadas.
+    warp-mouse-to-focus
 
-    // Uncomment this to make the mouse warp to the center of newly focused windows.
-     warp-mouse-to-focus
+    // Enfoca ventanas y salidas automáticamente al mover el ratón hacia ellas.
+    // Establecer max-scroll-amount="0%" hace que funcione solo en ventanas que ya están completamente en pantalla.
+    // focus-follows-mouse se establece en 1 en Hyprland, lo cual no tiene un equivalente
+    // directo. Aquí se deja desactivado por defecto de Niri, pero se puede habilitar si se desea.
+    focus-follows-mouse max-scroll-amount="0%"
 
-    // Focus windows and outputs automatically when moving the mouse into them.
-    // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-     focus-follows-mouse max-scroll-amount="0%"
+    // trackpoint {
+    //     // off
+    //     // natural-scroll
+    //     // accel-speed 0.2
+    //     // accel-profile "flat"
+    //     // scroll-method "on-button-down"
+    //     // scroll-button 273
+    //     // scroll-button-lock
+    //     // middle-emulation
+    // }
 }
 
-// You can configure outputs by their name, which you can find
-// by running `niri msg outputs` while inside a niri instance.
-// The built-in laptop monitor is usually called "eDP-1".
-// Find more information on the wiki:
+// Configuración del monitor.
+// Puedes configurar las salidas por su nombre, que puedes encontrar
+// ejecutando `niri msg outputs` dentro de una instancia de niri.
+// Encuentra más información en la wiki:
 // https://yalter.github.io/niri/Configuration:-Outputs
-// Remember to uncomment the node by removing "/-"!
-/-output "eDP-1" {
-    // Uncomment this line to disable this output.
+// Recuerda descomentar el nodo quitando "/-"!
+// La configuración de Hyprland es: monitor= DP-1, 1366x768@59.79, 0x0, 1
+// Asegúrate de que el nombre de la salida (DP-1) sea correcto para Niri.
+// La escala es 1 (100%).
+/-output "DP-1" {
+    // Descomenta esta línea para deshabilitar esta salida.
     // off
 
-    // Resolution and, optionally, refresh rate of the output.
-    // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
-    // If the refresh rate is omitted, niri will pick the highest refresh rate
-    // for the resolution.
-    // If the mode is omitted altogether or is invalid, niri will pick one automatically.
-    // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "1920x1080@120.030"
+    // Resolución y, opcionalmente, frecuencia de actualización de la salida.
+    // El formato es "<ancho>x<alto>" o "<ancho>x<alto>@<frecuencia de actualización>".
+    mode "1366x768@59.79"
 
-    // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 2
+    // Puedes usar escala entera o fraccionaria.
+    scale 1
 
-    // Transform allows to rotate the output counter-clockwise, valid values are:
-    // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
+    // Transform permite rotar la salida en sentido antihorario.
     transform "normal"
 
-    // Position of the output in the global coordinate space.
-    // This affects directional monitor actions like "focus-monitor-left", and cursor movement.
-    // The cursor can only move between directly adjacent outputs.
-    // Output scale and rotation has to be taken into account for positioning:
-    // outputs are sized in logical, or scaled, pixels.
-    // For example, a 3840×2160 output with scale 2.0 will have a logical size of 1920×1080,
-    // so to put another output directly adjacent to it on the right, set its x to 1920.
-    // If the position is unset or results in an overlap, the output is instead placed
-    // automatically.
-    position x=1280 y=0
+    // Posición de la salida en el espacio de coordenadas global.
+    // position x=0 y=0
 }
 
-// Settings that influence how windows are positioned and sized.
-// Find more information on the wiki:
+// Configuraciones que influyen en cómo se posicionan y dimensionan las ventanas.
+// Encuentra más información en la wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
-    // Set gaps around windows in logical pixels.
+    // Establece los espacios alrededor de las ventanas en píxeles lógicos.
+    // Mapeo de gaps_in y gaps_out de Hyprland
+    // Gaps in = 2, Gaps out = 2 (se establece un único valor para ambos en Niri: 2)
     gaps 2
 
-    // When to center a column when changing focus, options are:
-    // - "never", default behavior, focusing an off-screen column will keep at the left
-    //   or right edge of the screen.
-    // - "always", the focused column will always be centered.
-    // - "on-overflow", focusing a column will center it if it doesn't fit
-    //   together with the previously focused column.
-    center-focused-column "always"
-    default-column-display "tabbed"
-    //tab-indicator {
-    //    hide-when-single-tab
-    //}
-tab-indicator {
-        width 8
-        gap 8
-        length total-proportion=1.0
-        position "top"
-        place-within-column
-    }
-    // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
-    preset-column-widths {
-        // Proportion sets the width as a fraction of the output width, taking gaps into account.
-        // For example, you can perfectly fit four windows sized "proportion 0.25" on an output.
-        // The default preset widths are 1/3, 1/2 and 2/3 of the output.
-        proportion 0.33333
-        proportion 0.5
-        proportion 0.66667
+    // Cuándo centrar una columna al cambiar el foco.
+    center-focused-column "on-overflow" // "never" es el valor predeterminado de Niri, "on-overflow" se usa para mejor experiencia.
 
-        // Fixed sets the width in logical pixels exactly.
-        // fixed 1920
-    }
+    // Se pueden personalizar los anchos preestablecidos con `preset-column-widths` (Mod+R)
+    // preset-column-widths { ... }
 
-    // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
+    // Se pueden personalizar las alturas preestablecidas con `preset-window-heights` (Mod+Shift+R)
     // preset-window-heights { }
 
-    // You can change the default width of the new windows.
-    default-column-width { proportion 0.5; }
-    // If you leave the brackets empty, the windows themselves will decide their initial width.
-    // default-column-width {}
+    // Se puede cambiar el ancho predeterminado de las nuevas ventanas.
+    // default-column-width { proportion 0.5; }
 
-    // By default focus ring and border are rendered as a solid background rectangle
-    // behind windows. That is, they will show up through semitransparent windows.
-    // This is because windows using client-side decorations can have an arbitrary shape.
-    //
-    // If you don't like that, you should uncomment `prefer-no-csd` below.
-    // Niri will draw focus ring and border *around* windows that agree to omit their
-    // client-side decorations.
-    //
-    // Alternatively, you can override it with a window rule called
-    // `draw-border-with-background`.
-
-    // You can change how the focus ring looks.
+    // Puedes cambiar cómo se ve el anillo de foco.
+    // El anillo de foco y el borde se configuran aquí.
     focus-ring {
-        // Uncomment this line to disable the focus ring.
-        // off
+        // off // Descomentar para deshabilitar el anillo de foco.
 
-        // How many logical pixels the ring extends out from the windows.
-        width 4
+        // Cuántos píxeles lógicos se extiende el anillo desde las ventanas.
+        width 1.5 // Mapeo de border_size = 2 de Hyprland
 
-        // Colors can be set in a variety of ways:
-        // - CSS named colors: "red"
-        // - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
-        // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
-
-        // Color of the ring on the active monitor.
+        // Color del anillo en el monitor activo.
+        // Se utilizan los colores predeterminados de Niri ya que los de Hyprland usan variables KDL.
         active-color "#7fc8ff"
 
-        // Color of the ring on inactive monitors.
-        //
-        // The focus ring only draws around the active window, so the only place
-        // where you can see its inactive-color is on other monitors.
+        // Color del anillo en monitores inactivos.
         inactive-color "#505050"
 
-        // You can also use gradients. They take precedence over solid colors.
-        // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
-        // The angle is the same as in linear-gradient, and is optional,
-        // defaulting to 180 (top-to-bottom gradient).
-        // You can use any CSS linear-gradient tool on the web to set these up.
-        // Changing the color space is also supported, check the wiki for more info.
-        //
+        // También puedes usar gradientes, tienen prioridad sobre los colores sólidos.
         // active-gradient from="#80c8ff" to="#c7ff7f" angle=45
-
-        // You can also color the gradient relative to the entire view
-        // of the workspace, rather than relative to just the window itself.
-        // To do that, set relative-to="workspace-view".
-        //
-        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
     }
 
-    // You can also add a border. It's similar to the focus ring, but always visible.
+    // También puedes añadir un borde. Es similar al anillo de foco, pero siempre visible.
+    // Si habilitas el borde, probablemente querrás deshabilitar el anillo de foco.
     border {
-        // The settings are the same as for the focus ring.
-        // If you enable the border, you probably want to disable the focus ring.
-        //off
+        // Se deshabilita el borde para depender únicamente del anillo de foco, como en Hyprland
+        // con un border_size pequeño.
+        off
 
-        width 2
+        width 1.5 // Mapeo de border_size = 2 de Hyprland (aunque está deshabilitado)
         active-color "#ffc87f"
         inactive-color "#505050"
 
-        // Color of the border around windows that request your attention.
+        // Color del borde alrededor de las ventanas que solicitan tu atención.
         urgent-color "#9b0000"
-
-        // Gradients can use a few different interpolation color spaces.
-        // For example, this is a pastel rainbow gradient via in="oklch longer hue".
-        //
-         active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
-
-         inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
     }
 
-    // You can enable drop shadows for windows.
+    // Puedes habilitar sombras para las ventanas.
     shadow {
-        // Uncomment the next line to enable shadows.
-         on
+        on // enabled = true (Mapeo de la sombra de Hyprland)
 
-        // By default, the shadow draws only around its window, and not behind it.
-        // Uncomment this setting to make the shadow draw behind its window.
-        //
-        // Note that niri has no way of knowing about the CSD window corner
-        // radius. It has to assume that windows have square corners, leading to
-        // shadow artifacts inside the CSD rounded corners. This setting fixes
-        // those artifacts.
-        //
-        // However, instead you may want to set prefer-no-csd and/or
-        // geometry-corner-radius. Then, niri will know the corner radius and
-        // draw the shadow correctly, without having to draw it behind the
-        // window. These will also remove client-side shadows if the window
-        // draws any.
-        //
-        // draw-behind-window true
+        // Puedes cambiar cómo se ven las sombras.
+        // Softness controla el radio de desenfoque de la sombra.
+        softness 30 // Mapeo de Hyprland (ajustamos a un valor de Niri)
 
-        // You can change how shadows look. The values below are in logical
-        // pixels and match the CSS box-shadow properties.
+        // Spread expande la sombra.
+        spread 5 // Mapeo de Hyprland (ajustamos a un valor de Niri)
 
-        // Softness controls the shadow blur radius.
-        softness 30
-
-        // Spread expands the shadow.
-        spread 5
-
-        // Offset moves the shadow relative to the window.
+        // Offset mueve la sombra con respecto a la ventana.
         offset x=0 y=5
 
-        // You can also change the shadow color and opacity.
-        color "#0007"
+        // También puedes cambiar el color y la opacidad de la sombra.
+        color "#1a1a1aee" // Mapeo de color = rgba(1a1a1aee)
+
+        // draw-behind-window true // Descomentar para que la sombra se dibuje detrás de su ventana.
     }
 
-    // Struts shrink the area occupied by windows, similarly to layer-shell panels.
-    // You can think of them as a kind of outer gaps. They are set in logical pixels.
-    // Left and right struts will cause the next window to the side to always be visible.
-    // Top and bottom struts will simply add outer gaps in addition to the area occupied by
-    // layer-shell panels and regular gaps.
+    // Struts reducen el área ocupada por las ventanas.
+    // Struts no se establecen en la configuración de Hyprland, por lo que se dejan comentados.
     struts {
-         left 6
-         right 6
-         top 6
-         bottom 6
+        // left 64
+        // right 64
+        // top 64
+        // bottom 64
     }
+
+    // prefer-no-csd // Descomentar para pedir a los clientes que omitan sus decoraciones del lado del cliente si es posible.
 }
 
-// Add lines like this to spawn processes at startup.
-// Note that running niri as a session supports xdg-desktop-autostart,
-// which may be more convenient to use.
-// See the binds section below for more spawn examples.
+// El desenfoque es una característica de Hyprland (decorations.blur),
+// Niri lo implementa de manera diferente y no tiene un mapeo directo aquí.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "waybar"
+// Agrega líneas como esta para iniciar procesos al inicio.
+// Mapeo de las variables de autostart (exec-once) de Hyprland
+spawn-at-startup "swww-daemon"
+spawn-at-startup "~/.local/share/systools/mostrar_imagenes.sh"
+spawn-at-startup "pipewire"
+spawn-at-startup "udiskie" "-s"
+spawn-at-startup "openrgb" "--startminimized"
+spawn-at-startup "nm-applet" "--indicator"
 
-// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
-// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+// Para ejecutar un comando shell (con variables, tuberías, etc.), usa spawn-sh-at-startup:
+// Hyprland tiene waybar & pkill waybar & ~/.local/share/systools/launch-waybar.sh
+// Se ajusta el orden para iniciar waybar
+spawn-sh-at-startup "pkill waybar || ~/.local/share/systools/launch-waybar.sh & waybar"
 
 hotkey-overlay {
-    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-    // skip-at-startup
+    // skip-at-startup // Descomentar para deshabilitar la ventana emergente de "Atajos Importantes" al inicio.
 }
 
-// Uncomment this line to ask the clients to omit their client-side decorations if possible.
-// If the client will specifically ask for CSD, the request will be honored.
-// Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
-// This option will also fix border/focus ring drawing behind some semitransparent windows.
-// After enabling or disabling this, you need to restart the apps for this to take effect.
-// prefer-no-csd
+// Puedes cambiar la ruta donde se guardan las capturas de pantalla.
+// screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
-// You can change the path where screenshots are saved.
-// A ~ at the front will be expanded to the home directory.
-// The path is formatted with strftime(3) to give you the screenshot date and time.
-screenshot-path "~/Imágenes/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
-
-// You can also set this to null to disable saving screenshots to disk.
-// screenshot-path null
-
-// Animation settings.
-// The wiki explains how to configure individual animations:
-// https://yalter.github.io/niri/Configuration:-Animations
+// Configuraciones de animación.
+// La wiki explica cómo configurar animaciones individuales:
+// Se utilizan curvas y velocidades predeterminadas de Niri.
 animations {
-    // Uncomment to turn off all animations.
-    // off
+    // off // Descomentar para desactivar todas las animaciones.
+    // enabled = yes, please :) se mapea a la activación.
+    // Los valores de velocidad y curva se dejan por defecto en Niri.
 
-    // Slow down all animations by this factor. Values below 1 speed them up instead.
-    // slowdown 3.0
+    // slowdown 3.0 // Ralentiza todas las animaciones por este factor.
 }
 
-// Window rules let you adjust behavior for individual windows.
-// Find more information on the wiki:
-// https://yalter.github.io/niri/Configuration:-Window-Rules
-
-// Work around WezTerm's initial configure bug
-// by setting an empty default-column-width.
+// Las reglas de ventana te permiten ajustar el comportamiento para ventanas individuales.
+// Regla para WezTerm (Workaround del bug de configuración inicial)
 window-rule {
-    // This regular expression is intentionally made as specific as possible,
-    // since this is the default config, and we want no false positives.
-    // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
 }
 
-// Open the Firefox picture-in-picture player as floating by default.
+// Regla para Firefox Picture-in-Picture (Abrir flotante)
 window-rule {
-    // This app-id regular expression will work for both:
-    // - host Firefox (app-id is "firefox")
-    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
 }
 
-// Example: block out two password managers from screen capture.
-// (This example rule is commented out with a "/-" in front.)
-/-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+// Regla de ventana (windowrule)
+// La regla de ignorar maximización es la más relevante para el tiling.
+window-rule {
+    // La supresión de eventos de maximización no tiene un equivalente directo,
+    // se podría usar fullscreen-window, pero se prefiere el comportamiento de tiling.
+    // open-floating true
+    // draw-border-with-background true
 
-    block-out-from "screen-capture"
-
-    // Use this instead if you want them visible on third-party screenshot tools.
-    // block-out-from "screencast"
-}
-
-// Example: enable rounded corners for all windows.
-// (This example rule is commented out with a "/-" in front.)
-/-window-rule {
-    geometry-corner-radius 12
+    geometry-corner-radius 8 // Ajusta este valor (e.g., 8, 10, 15)
     clip-to-geometry true
 }
-window-rule {
-    open-maximized true
-}
-binds {
-    // Keys consist of modifiers separated by + signs, followed by an XKB key name
-    // in the end. To find an XKB name for a particular key, you may use a program
-    // like wev.
-    //
-    // "Mod" is a special modifier equal to Super when running on a TTY, and to Alt
-    // when running as a winit window.
-    //
-    // Most actions that you can bind here can also be invoked programmatically with
-    // `niri msg action do-something`.
 
-    // Mod-Shift-/, which is usually the same as Mod-?,
-    // shows a list of important hotkeys.
+
+// Atajos de teclado.
+// Hyprland usa $mainMod = SUPER. Niri usa Mod, que es Super por defecto.
+binds {
+    // Mod-Shift-/, que suele ser lo mismo que Mod-?,
+    // muestra una lista de atajos importantes.
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-   // Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    // Vinculaciones de programas
+    Mod+Return hotkey-overlay-title="Abrir Terminal: kitty" { spawn "kitty"; } // $terminal = kitty
+    Mod+E hotkey-overlay-title="Abrir Gestor de Archivos: thunar" { spawn "thunar"; } // $fileManager = thunar
+    // Mapeo de $menu: pkill rofi || ~/.config/rofi/launchers/type-2/launcher.sh
+    Mod+D hotkey-overlay-title="Ejecutar Aplicación: rofi" { spawn-sh "pkill rofi || ~/.config/rofi/launchers/type-2/launcher.sh"; }
 
-    // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
-    // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
-    // For example, this is a standard bind to toggle the screen reader (orca).
-    // Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+    // Otras vinculaciones
+    Mod+Q repeat=false { close-window; } // killactive
+    Mod+X { quit; } // exit
+    Mod+V { toggle-window-floating; } // togglefloating
 
-    // Example volume keys mappings for PipeWire & WirePlumber.
-    // The allow-when-locked=true property makes them work even when the session is locked.
-    // Using spawn-sh allows to pass multiple arguments together with the command.
-    // "-l 1.0" limits the volume to 100%.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    // El comando de Hyprland `pseudo` (pseudotiling) se omite, ya que Niri tiene un comportamiento diferente.
+    // El comando de Hyprland `togglesplit` (dwindle) se omite, ya que Niri usa un diseño de columna/pila.
 
-    // Example media keys mapping using playerctl.
-    // This will work with any MPRIS-enabled media player.
-    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
-    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
-    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+    // Comandos de Hyprland ejecutados con spawn
+    Mod+W { spawn "~/.local/share/systools/launch-waybar.sh"; }
+    Mod+Space { spawn "~/.local/share/systools/alternar_layout.sh"; }
+    Mod+F1 { spawn "opera" "--lang=es" "%U" "--private"; }
+    Mod+F2 { spawn "thunderbird"; }
+    Mod+F3 { spawn "kitty" "-e" "ranger"; }
+    Mod+F4 { spawn "rhythmbox"; }
+    Mod+F11 { spawn "vlc"; }
 
-    // Example brightness key mappings for brightnessctl.
-    // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
-    // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    // Capturas de pantalla (Hyprland usa hyprshot)
+    Mod+Print { spawn "hyprshot" "-m" "window"; } // Screenshot a window
+    Print { spawn "hyprshot" "-m" "output"; } // Screenshot a monitor
+    Mod+Shift+Print { spawn "hyprshot" "-m" "region"; } // Screenshot a region
+    // Capturas de pantalla nativas de Niri (alternativas)
+    // Print { screenshot; }
+    // Ctrl+Print { screenshot-screen; }
+    // Alt+Print { screenshot-window; }
 
-    // Open/close the Overview: a zoomed-out view of workspaces and windows.
-    // You can also move the mouse into the top-left hot corner,
-    // or do a four-finger swipe up on a touchpad.
-    Mod+O repeat=false { toggle-overview; }
-
-    Mod+Q repeat=false { close-window; }
-
+    // Mover foco (movefocus l/r/u/d)
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-window-down; }
     Mod+Up    { focus-window-up; }
@@ -421,6 +297,7 @@ binds {
     Mod+K     { focus-window-up; }
     Mod+L     { focus-column-right; }
 
+    // Mover columna/ventana
     Mod+Ctrl+Left  { move-column-left; }
     Mod+Ctrl+Down  { move-window-down; }
     Mod+Ctrl+Up    { move-window-up; }
@@ -430,102 +307,54 @@ binds {
     Mod+Ctrl+K     { move-window-up; }
     Mod+Ctrl+L     { move-column-right; }
 
-    // Alternative commands that move across workspaces when reaching
-    // the first or last window in a column.
-    // Mod+J     { focus-window-or-workspace-down; }
-    // Mod+K     { focus-window-or-workspace-up; }
-    // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
-    // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
-
-    Mod+Home { focus-column-first; }
-    Mod+End  { focus-column-last; }
-    Mod+Ctrl+Home { move-column-to-first; }
-    Mod+Ctrl+End  { move-column-to-last; }
-
-    Mod+Shift+Left  { focus-monitor-left; }
-    Mod+Shift+Down  { focus-monitor-down; }
-    Mod+Shift+Up    { focus-monitor-up; }
-    Mod+Shift+Right { focus-monitor-right; }
-    Mod+Shift+H     { focus-monitor-left; }
-    Mod+Shift+J     { focus-monitor-down; }
-    Mod+Shift+K     { focus-monitor-up; }
-    Mod+Shift+L     { focus-monitor-right; }
-
-    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
-    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
-    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
-    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
-    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
-    Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
-
-    // Alternatively, there are commands to move just a single window:
+    // Enfoque y movimiento de monitor
+    // Mod+Shift+Left  { focus-monitor-left; }
+    // Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    // Alternativamente, comandos para mover solo una ventana:
     // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
-    // ...
-
-    // And you can also move a whole workspace to another monitor:
+    // Y mover todo un espacio de trabajo:
     // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
-    // ...
 
-    Mod+Page_Down      { focus-workspace-down; }
+    // Enfoque de espacio de trabajo (Focus Workspace)
+    Mod+Page_Down	  { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
     Mod+U              { focus-workspace-down; }
     Mod+I              { focus-workspace-up; }
+
+    // Mover columna a espacio de trabajo (Move Column to Workspace)
     Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
     Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
     Mod+Ctrl+U         { move-column-to-workspace-down; }
     Mod+Ctrl+I         { move-column-to-workspace-up; }
-
-    // Alternatively, there are commands to move just a single window:
+    // Alternativamente, comandos para mover solo una ventana:
     // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
-    // ...
 
+    // Mover espacio de trabajo (Move Workspace)
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up   { move-workspace-up; }
     Mod+Shift+U         { move-workspace-down; }
     Mod+Shift+I         { move-workspace-up; }
 
-    // You can bind mouse wheel scroll ticks using the following syntax.
-    // These binds will change direction based on the natural-scroll setting.
-    //
-    // To avoid scrolling through workspaces really fast, you can use
-    // the cooldown-ms property. The bind will be rate-limited to this value.
-    // You can set a cooldown on any bind, but it's most useful for the wheel.
-    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    // Rueda del ratón para espacio de trabajo
+    // Se usa cooldown-ms=150 para evitar desplazarse demasiado rápido.
+    Mod+WheelScrollDown	cooldown-ms=150 { focus-workspace-down; }
     Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
     Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
     Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
 
-    Mod+WheelScrollRight      { focus-column-right; }
-    Mod+WheelScrollLeft       { focus-column-left; }
+    // Rueda del ratón para columna
+    Mod+WheelScrollRight	 { focus-column-right; }
+    Mod+WheelScrollLeft	 { focus-column-left; }
     Mod+Ctrl+WheelScrollRight { move-column-right; }
     Mod+Ctrl+WheelScrollLeft  { move-column-left; }
 
-    // Usually scrolling up and down with Shift in applications results in
-    // horizontal scrolling; these binds replicate that.
+    // Desplazamiento horizontal con Shift (simulado con columna)
     Mod+Shift+WheelScrollDown      { focus-column-right; }
     Mod+Shift+WheelScrollUp        { focus-column-left; }
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
 
-    // Similarly, you can bind touchpad scroll "ticks".
-    // Touchpad scrolling is continuous, so for these binds it is split into
-    // discrete intervals.
-    // These binds are also affected by touchpad's natural-scroll, so these
-    // example binds are "inverted", since we have natural-scroll enabled for
-    // touchpads by default.
-    // Mod+TouchpadScrollDown { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+"; }
-    // Mod+TouchpadScrollUp   { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02-"; }
-
-    // You can refer to workspaces by index. However, keep in mind that
-    // niri is a dynamic workspace system, so these commands are kind of
-    // "best effort". Trying to refer to a workspace index bigger than
-    // the current workspace count will instead refer to the bottommost
-    // (empty) workspace.
-    //
-    // For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
-    // will all refer to the 3rd workspace.
+    // Cambiar de espacio de trabajo (workspace 1-10)
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
@@ -535,6 +364,10 @@ binds {
     Mod+7 { focus-workspace 7; }
     Mod+8 { focus-workspace 8; }
     Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+
+    // Mover columna a espacio de trabajo (movetoworkspace 1-10)
+    // Niri usa Mod+Ctrl+ [número] como el equivalente más cercano a Mod+Shift+ [número] de Hyprland para mover.
     Mod+Ctrl+1 { move-column-to-workspace 1; }
     Mod+Ctrl+2 { move-column-to-workspace 2; }
     Mod+Ctrl+3 { move-column-to-workspace 3; }
@@ -544,92 +377,53 @@ binds {
     Mod+Ctrl+7 { move-column-to-workspace 7; }
     Mod+Ctrl+8 { move-column-to-workspace 8; }
     Mod+Ctrl+9 { move-column-to-workspace 9; }
+    Mod+Ctrl+0 { move-column-to-workspace 10; }
 
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Ctrl+1 { move-window-to-workspace 1; }
+    // Espacio de trabajo especial (scratchpad)
+    Mod+S { toggle-overview; } // Equivalente más cercano: Vista general
+    // La acción de Hyprland `movetoworkspace, special:magic` no tiene un equivalente directo.
 
-    // Switches focus between the current and the previous workspace.
-    // Mod+Tab { focus-workspace-previous; }
-
-    // The following binds move the focused window in and out of a column.
-    // If the window is alone, they will consume it into the nearby column to the side.
-    // If the window is already in a column, they will expel it out.
-    Mod+BracketLeft  { consume-or-expel-window-left; }
-    Mod+BracketRight { consume-or-expel-window-right; }
-
-    // Consume one window from the right to the bottom of the focused column.
-    Mod+Comma  { consume-window-into-column; }
-    // Expel the bottom window from the focused column to the right.
-    Mod+Period { expel-window-from-column; }
-
+    // Ajustes de ancho/altura de columna/ventana
     Mod+R { switch-preset-column-width; }
-    // Cycling through the presets in reverse order is also possible.
-    // Mod+R { switch-preset-column-width-back; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
-
-    // Expand the focused column to space not taken up by other fully visible columns.
-    // Makes the column "fill the rest of the space".
-    Mod+Ctrl+F { expand-column-to-available-width; }
-
-    Mod+C { center-column; }
-
-    // Center all fully visible columns on screen.
-    Mod+Ctrl+C { center-visible-columns; }
-
-    // Finer width adjustments.
-    // This command can also:
-    // * set width in pixels: "1000"
-    // * adjust width in pixels: "-5" or "+5"
-    // * set width as a percentage of screen width: "25%"
-    // * adjust width as a percentage of screen width: "-10%" or "+10%"
-    // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
-    // set-column-width "100" will make the column occupy 200 physical screen pixels.
     Mod+Minus { set-column-width "-10%"; }
     Mod+Equal { set-column-width "+10%"; }
-
-    // Finer height adjustments when in column with other windows.
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
 
-    // Move the focused window between the floating and the tiling layout.
-    Mod+V       { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    // Mover/cambiar tamaño de ventana con el ratón
+    // Niri usa Mod+clic y arrastrar, que es el comportamiento predeterminado en Hyprland (bindm).
+    // Las acciones `movewindow` y `resizewindow` son manejadas por el compositor por defecto.
 
-    // Toggle tabbed column display mode.
-    // Windows in this column will appear as vertical tabs,
-    // rather than stacked on top of each other.
-    Mod+W { toggle-column-tabbed-display; }
+    // Teclas multimedia (se usa la vinculación wpctl de Hyprland)
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
-    // Actions to switch layouts.
-    // Note: if you uncomment these, make sure you do NOT have
-    // a matching layout switch hotkey configured in xkb options above.
-    // Having both at once on the same hotkey will break the switching,
-    // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
-    // Mod+Space       { switch-layout "next"; }
-    // Mod+Shift+Space { switch-layout "prev"; }
+    // Brillo (se usa la vinculación brightnessctl de Hyprland)
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%-"; }
 
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
+    // Control de reproductor (playerctl)
+    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; } // Mapea Play y Pause
+    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
 
-    // Applications such as remote-desktop clients and software KVM switches may
-    // request that niri stops processing the keyboard shortcuts defined here
-    // so they may, for example, forward the key presses as-is to a remote machine.
-    // It's a good idea to bind an escape hatch to toggle the inhibitor,
-    // so a buggy application can't hold your session hostage.
-    //
-    // The allow-inhibiting=false property can be applied to other binds as well,
-    // which ensures niri always processes them, even when an inhibitor is active.
-    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-
-    // The quit action will show a confirmation dialog to avoid accidental exits.
+    // Quitar sesión
+    // La acción `quit` de Niri muestra un diálogo de confirmación por defecto.
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
 
-    // Powers off the monitors. To turn them back on, do any input like
-    // moving the mouse or pressing any other key.
-    Mod+Shift+P { power-off-monitors; }
+    // Otras acciones útiles de Niri (sin mapeo directo en Hyprland config.kdl.ia)
+    // Mod+W { toggle-column-tabbed-display; } // Alternar modo de visualización en pestañas
+    // Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    // Mod+C { center-column; }
+    // Mod+Ctrl+C { center-visible-columns; }
+    // Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; } // Alternar el inhibidor de atajos (para apps KVM)
+    // Mod+Shift+P { power-off-monitors; }
 }
