@@ -147,6 +147,9 @@ else
   export EDITOR='nvim'
 fi
 
+export XCURSOR_THEME="Dracula-cursors"
+export XCURSOR_SIZE=10
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 

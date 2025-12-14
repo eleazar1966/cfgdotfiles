@@ -71,6 +71,10 @@ input {
     //     // middle-emulation
     // }
 }
+cursor {
+    xcursor-theme "Dracula-cursors"
+    xcursor-size 10
+}
 
 // Configuración del monitor.
 // Puedes configurar las salidas por su nombre, que puedes encontrar
@@ -126,7 +130,7 @@ layout {
         // off // Descomentar para deshabilitar el anillo de foco.
 
         // Cuántos píxeles lógicos se extiende el anillo desde las ventanas.
-        width 1.5 // Mapeo de border_size = 2 de Hyprland
+        width 2 // Mapeo de border_size = 2 de Hyprland
 
         // Color del anillo en el monitor activo.
         // Se utilizan los colores predeterminados de Niri ya que los de Hyprland usan variables KDL.
@@ -144,9 +148,9 @@ layout {
     border {
         // Se deshabilita el borde para depender únicamente del anillo de foco, como en Hyprland
         // con un border_size pequeño.
-        off
+       // off
 
-        width 1.5 // Mapeo de border_size = 2 de Hyprland (aunque está deshabilitado)
+        width 2 // Mapeo de border_size = 2 de Hyprland (aunque está deshabilitado)
         active-color "#ffc87f"
         inactive-color "#505050"
 
@@ -422,3 +426,4 @@ binds {
     // Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; } // Alternar el inhibidor de atajos (para apps KVM)
     // Mod+Shift+P { power-off-monitors; }
 }
+
