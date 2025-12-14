@@ -1,6 +1,5 @@
 #!/bin/bash
-# Script con persistencia para reanudar el ciclo de fondos de pantalla,
-# modificado para evitar la repetición inmediata de la última imagen mostrada.
+# Script con persistencia para reanudar el ciclo de fondos de pantalla.
 
 # --- Configuración ---
 DIRECTORIO="$HOME/.config/wallpaper"
@@ -34,8 +33,7 @@ function cargar_estado() {
     done < <(tail -n +2 "$ESTADO_ARCHIVO")
 
     # Verificación de validez: ¿El índice es válido y la lista tiene elementos?
-    if [ "$ULTIMO_INDICE" -ge 0 ] && [ "$ULTIMO_INDICE" -le ${#LISTA_GUARDADA[@]} ]; then
-      # Se usa <= en lugar de < para permitir que el índice cargado sea igual al tamaño (fin de ciclo).
+    if [ "$ULTIMO_INDICE" -ge 0 ] && [ "$ULTIMO_INDICE" -lt ${#LISTA_GUARDADA[@]} ]; then
       echo "✅ Estado previo cargado con éxito. Reanudando desde el índice $ULTIMO_INDICE."
       IMAGENES=("${LISTA_GUARDADA[@]}")
       return 0 # Éxito en la carga
@@ -65,19 +63,10 @@ fi
 
 # 2. Intentar cargar el estado. Si falla, inicializar variables.
 INDICE_ACTUAL=0
-ULTIMA_IMAGEN_MOSTRADA="" # Variable para rastrear la última imagen del ciclo anterior
-if cargar_estado; then
-  # Si se cargó el estado, revisa si el índice está al final de la lista.
-  if [ "$ULTIMO_INDICE" -eq ${#IMAGENES[@]} ]; then
-    # El estado cargado indica que el ciclo anterior terminó.
-    # Se fuerza la lógica de "Fin de la lista" más adelante.
-    INDICE_ACTUAL=${#IMAGENES[@]}
-  else
-    INDICE_ACTUAL=$ULTIMO_INDICE
-  fi
-else
-  # Si no se pudo cargar el estado, se busca la lista completa de imágenes y se baraja.
+if ! cargar_estado; then
+  # Si no se pudo cargar el estado, se busca la lista completa de imágenes.
   encontrar_imagenes
+  # Si se encontraron imágenes, se baraja la lista inicial.
   if [ ${#IMAGENES[@]} -gt 0 ]; then
     mapfile -t IMAGENES < <(printf "%s\n" "${IMAGENES[@]}" | shuf)
   fi
@@ -86,29 +75,54 @@ fi
 # 3. Bucle Principal
 while true; do
 
-  # A. Lógica de Fin de Lista (Se ejecuta al inicio si INDICE_ACTUAL es igual al tamaño de la lista)
-  if [ "$INDICE_ACTUAL" -ge ${#IMAGENES[@]} ]; then
-    echo "--- Fin de la lista actual. Generando una nueva lista aleatoria sin repetición inmediata. ---"
-
-    # 1. Guarda la última imagen mostrada del ciclo anterior.
-    if [ ${#IMAGENES[@]} -gt 0 ]; then
-      # La última imagen mostrada fue la que estaba en el índice ${#IMAGENES[@]}-1.
-      ULTIMA_IMAGEN_MOSTRADA="${IMAGENES[${#IMAGENES[@]}-1]}"
-    else
-      # Esto ocurre si IMAGENES estaba vacía al cargar estado.
-      ULTIMA_IMAGEN_MOSTRADA=""
-    fi
-    
-    # 2. Genera la lista completa de TODAS las imágenes (refresca por si se añadieron/eliminaron archivos).
+  # A. Verificación de imágenes (si está vacío, intenta buscar de nuevo)
+  if [ ${#IMAGENES[@]} -eq 0 ]; then
     encontrar_imagenes
+    if [ ${#IMAGENES[@]} -eq 0 ]; then
+      echo "No se encontraron archivos de imagen en '$DIRECTORIO'. Reintentando en $PAUSA_REINTENTO segundos."
+      sleep $PAUSA_REINTENTO
+      continue
+    fi
+    # Si encuentra imágenes después del reintento, las baraja y reinicia el índice.
+    mapfile -t IMAGENES < <(printf "%s\n" "${IMAGENES[@]}" | shuf)
+    INDICE_ACTUAL=0
+  fi
 
-    if [ ${#IMAGENES[@]} -gt 0 ]; then
-      
-      # 3. Barajar el resto de las imágenes (excluyendo la última mostrada si existe).
-      if [ -n "$ULTIMA_IMAGEN_MOSTRADA" ]; then
-        # Filtra la última imagen mostrada, baraja el resto y lo guarda en LISTA_BARAJADA.
-        mapfile -t LISTA_BARAJADA < <(printf "%s\n" "${IMAGENES[@]}" | grep -v -F -x "$ULTIMA_IMAGEN_MOSTRADA" | shuf)
-        
-        # 4. Construir la nueva lista final: (Ultima Imagen) + (Resto Barajado).
-        # Esto asegura que la última imagen que se mostró NO será la siguiente en mostrarse.
-        IMAGENES=("$ULTIMA_IMAGEN_MOSTRADA" "${LISTA_BARAJADA[@]
+  # B. Iteración sobre las imágenes restantes (desde el INDICE_ACTUAL)
+  # Se usa un bucle 'for' tradicional para controlar el índice fácilmente.
+  for ((i = $INDICE_ACTUAL; i < ${#IMAGENES[@]}; i++)); do
+    imagen_aleatoria="${IMAGENES[i]}"
+
+    echo "🎨 Aplicando fondo [${i}/${#IMAGENES[@]}-1]: $imagen_aleatoria"
+
+    # 1. Aplica la imagen y extrae la paleta de colores.
+    matugen image "$imagen_aleatoria" &>/dev/null
+
+    # 2. Llama al script para recargar Waybar.
+    if [ -x "$WAYBAR_RELOAD_SCRIPT" ]; then
+      "$WAYBAR_RELOAD_SCRIPT" &
+    fi
+
+    # 3. Actualiza el índice para la próxima imagen (i+1) y guarda el estado.
+    guardar_estado $((i + 1))
+
+    # 4. Pausa antes del próximo cambio.
+    echo "💤 Esperando $PAUSA_SEGUNDOS segundos..."
+    sleep $PAUSA_SEGUNDOS
+  done
+
+  # C. Fin de la lista: Reiniciar el ciclo.
+  echo "--- Fin de la lista actual. Generando una nueva lista aleatoria. ---"
+
+  # Genera una nueva lista, la baraja y reinicia el índice.
+  encontrar_imagenes # Rebusca en caso de que se hayan añadido/eliminado archivos
+  if [ ${#IMAGENES[@]} -gt 0 ]; then
+    mapfile -t IMAGENES < <(printf "%s\n" "${IMAGENES[@]}" | shuf)
+  else
+    # Si la búsqueda no encontró nada, vacía el estado y se reintenta en el bucle principal.
+    rm -f "$ESTADO_ARCHIVO"
+  fi
+
+  INDICE_ACTUAL=0  # Reinicia el índice para el nuevo bucle
+  guardar_estado 0 # Guarda el estado de la nueva lista
+done

@@ -176,6 +176,7 @@ LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias git-update="~/.local/share/systools/acualiza_git.sh | lolcat" 
 alias grabavideo="~/.local/share/systools/graba_video.sh"
+alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 #clear
 #fastfetch
 export DRI_PRIME=1
