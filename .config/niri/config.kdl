@@ -201,11 +201,9 @@ spawn-at-startup "pipewire"
 spawn-at-startup "udiskie" "-s"
 spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "nm-applet" "--indicator"
-
-// Para ejecutar un comando shell (con variables, tuberías, etc.), usa spawn-sh-at-startup:
-// Hyprland tiene waybar & pkill waybar & ~/.local/share/systools/launch-waybar.sh
-// Se ajusta el orden para iniciar waybar
-spawn-sh-at-startup "~/.local/share/systools/launch-waybar.sh & waybar"
+spawn-at-startup "waybar"
+//spawn-at-startup "pkill" "waybar"
+//spawn-at-startup "~/.local/share/systools/launch-waybar.sh"
 
 hotkey-overlay {
      skip-at-startup // Descomentar para deshabilitar la ventana emergente de "Atajos Importantes" al inicio.

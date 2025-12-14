@@ -4,7 +4,7 @@
 
 # --- Configuración ---
 DIRECTORIO="$HOME/.config/wallpaper"
-WAYBAR_RELOAD_SCRIPT="$HOME/.local/share/systools/launch-waybar.sh"
+WAYBAR_RELOAD_SCRIPT="$HOME/.local/share/systools/reload-waybar-simple.sh"
 ESTADO_ARCHIVO="$HOME/.cache/wallpaper_state" # Archivo para guardar la lista e índice
 PAUSA_SEGUNDOS=600                            # Pausa entre cada cambio de imagen (10 minutos)
 PAUSA_REINTENTO=5                             # Pausa antes de reintentar si no se encuentran imágenes
@@ -131,8 +131,8 @@ while true; do
   
   # Comando para establecer el fondo de pantalla (CAMBIAR SI USAS OTRO)
   # El & es importante para que el script no se quede esperando a que el fondo termine de ejecutarse.
-  swaybg -i "$IMAGEN_ACTUAL" -m fill &
-  
+  #swaybg -i "$IMAGEN_ACTUAL" -m fill &
+  matugen image "$IMAGEN_ACTUAL" & >/dev/null
   # Opcional: Recargar Waybar
   if [ -f "$WAYBAR_RELOAD_SCRIPT" ]; then
     "$WAYBAR_RELOAD_SCRIPT" &
