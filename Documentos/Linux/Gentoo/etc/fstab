@@ -1,8 +1,26 @@
-LABEL="gentoo"		/		 btrfs	subvol=@,compress=zstd,ssd,noatime,discard=async				0 1
-LABEL="gentoo"		/home		 btrfs	subvol=@home,compress=zstd,ssd,noatime,discard=async				0 2
-LABEL="gentoo"		/var/log	 btrfs	subvol=@var_log,compress=zstd,ssd,noatime,discard=async				0 2
-LABEL="gentoo"		/tmp             btrfs	subvol=@tmp,compress=zstd,ssd,noatime,discard=async				0 2
-UUID="4B1D-4107"	/boot        vfat	umask=0077,tz=UTC,noauto,rw,noatime,fmask=0022,dmask=0022,codepage=850,iocharset=iso8859-15,shortname=mixed,errors=remount-ro									0 2
-#UUID="4B1D-4107"	/efi        vfat	umask=0077,tz=UTC,noauto,rw,noatime,fmask=0022,dmask=0022,codepage=850,iocharset=iso8859-15,shortname=mixed,errors=remount-ro									0 2
-tmpfs			/var/tmp         tmpfs rw,nosuid,nodev,size=10G,mode=1777						0 0
-tmpfs			/var/tmp/portage tmpfs rw,nosuid,nodev,size=10G,mode=775,uid=portage,gid=portage,x-mount.mkdir=775	0 0
+
+# /dev/nvme0n1p1
+
+#/dev/nvme0n1p1   /boot   vfat    umask=0077 0 2
+PARTUUID=b106f3ff-1436-4c00-9847-b3aba82ae7ba   /boot   vfat    umask=0077,noauto,noatime 0 2
+
+
+#/dev/nvme0n1p2  /            btrfs   subvol=@,noatime,discard=async,compress-force=zstd:3,space_cache=v2 0 0
+PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2  /            btrfs   subvol=@,noatime,discard=async,compress-force=zstd:3,space_cache=v2 0 0
+PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2  /home        btrfs   subvol=@home,noatime,discard=async,compress-force=zstd:3,space_cache=v2 0 0
+PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2  /var/tmp     btrfs   subvol=@var_tmp,noatime,discard=async,compress-force=zstd:3,space_cache=v2 0 0
+#/dev/nvme0n1p2  /home        btrfs   subvol=@home,noatime,discard=async,compress-force=zstd:3,space_cache=v2 0 0
+#/dev/nvme0n1p2  /var/tmp     btrfs   subvol=@var_tmp,noatime,discard=async,compress-force=zstd:3,space_cache=v2 0 0
+
+# --- PORTAGE (Sin CoW) ---
+# nodatacow: Desactiva Copy-on-Write para bases de datos y distfiles (mejora rendimiento I/O).
+#/dev/nvme0n1p2  /var/db/repos/gentoo  btrfs   subvol=@portage,noatime,nodatacow 0 0
+#/dev/nvme0n1p2  /var/cache/distfiles  btrfs   subvol=@distfiles,noatime,nodatacow 0 0
+
+# --- COMPILACIÓN EN RAM ---
+
+# Asignamos 14GB para compilación. Si se llena, ZRAM entra al rescate.
+
+tmpfs /var/tmp         tmpfs rw,nosuid,nodev,size=15G,mode=1777 0 0
+tmpfs /var/tmp/portage tmpfs rw,nosuid,nodev,size=15G,mode=775,uid=portage,gid=portage,x-mount.mkdir=775 0 0
+/dev/zram0	swap	swap	pri=16383	0 0
