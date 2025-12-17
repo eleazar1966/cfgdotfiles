@@ -49,7 +49,7 @@ echo "--------------------------------------------------------"
 sudo emerge --depclean
 sudo revdep-rebuild
 sudo emerge @preserved-rebuild
-#sudo qcheck --update
+sudo qcheck --update
 sudo emaint -c all
 
 # Limpieza final de la caché
