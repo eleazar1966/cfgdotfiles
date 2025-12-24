@@ -4,7 +4,7 @@
   "spacing": 4, // Espacio entre módulos en píxeles.
 
   // --- 1. Distribución de Módulos (Izquierda, Centro, Derecha) ---
-  
+
   // Lado Izquierdo: Lanzadores de Aplicaciones y Taskbar
   "modules-left": [
     "custom/menu", // Menú de aplicaciones (Rofi).
@@ -51,14 +51,14 @@
     "format": "{name}", // Formato de visualización del nombre.
     "persistent-workspaces": {
       "*": 5, // 5 espacios de trabajo por defecto en todos los monitores.
-      "HDMI-A-1": 3 // Pero solo 3 en el monitor HDMI-A-1.
-    }
+      "HDMI-A-1": 3, // Pero solo 3 en el monitor HDMI-A-1.
+    },
   },
 
   // Título de la Ventana
   "hyprland/window": {
     "format": "{}", // Muestra solo el título de la ventana.
-    "separate-outputs": true // Muestra el título solo en la salida donde está la ventana.
+    "separate-outputs": true, // Muestra el título solo en la salida donde está la ventana.
   },
 
   // --- 3. Módulos de Control y Estado del Sistema (Derecha) ---
@@ -69,7 +69,7 @@
     "interval": 1, // Ejecuta el script cada 1 segundo.
     "format": "  {}", // Formato de salida.
     "on-click": "niri msg action switch-layout next", // Comando clave para cambiar layout en Niri.
-    "tooltip": true
+    "tooltip": true,
   },
 
   // Estado de Teclas de Bloqueo (Caps/Num Lock)
@@ -79,7 +79,7 @@
     "exec": "~/.local/share/systools/waybar-lock-status.py", // Script externo para obtener el estado.
     "return-type": "json", // Espera salida en formato JSON.
     "format": "{}", // El formato lo maneja el script.
-    "hide-empty-text": true // Oculta si no hay texto.
+    "hide-empty-text": true, // Oculta si no hay texto.
   },
 
   // Control de Volumen
@@ -87,21 +87,21 @@
     "format": "{volume}% {icon}",
     "format-muted": "",
     "on-click": "helvum", // Lanza el controlador de rutas de audio.
-    "format-icons": ["", "", ""]
+    "format-icons": ["", "", ""],
   },
 
   // Uso de CPU
   "cpu": {
     "interval": 10, // Intervalo de actualización en segundos.
     "format": "{}% ", // Muestra el porcentaje con ícono.
-    "max-length": 10 // Longitud máxima.
+    "max-length": 10, // Longitud máxima.
   },
 
   // Uso de Memoria
   "memory": {
     "interval": 30, // Intervalo de actualización en segundos.
     "format": "{}% ", // Muestra el porcentaje de uso con ícono.
-    "max-length": 10 // Longitud máxima.
+    "max-length": 10, // Longitud máxima.
   },
 
   // Temperatura
@@ -111,7 +111,7 @@
     "critical-threshold": 80, // Umbral de temperatura crítica en °C.
     "format-critical": "{icon} {temperatureC}°C", // Formato para temperatura crítica.
     "format": "{icon} {temperatureC}°C", // Formato normal.
-    "format-icons": ["", "", ""] // Íconos para diferentes rangos de temperatura.
+    "format-icons": ["", "", ""], // Íconos para diferentes rangos de temperatura.
   },
 
   // Bluetooth
@@ -124,7 +124,7 @@
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
   },
 
   // Área de Notificación (System Tray)
@@ -133,10 +133,10 @@
     "spacing": 10,
     "icons": {
       "blueman": "bluetooth",
-      "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
-    }
+      "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png",
+    },
   },
-  
+
   // Reloj y Calendario
   "clock": {
     "timezone": "America/Caracas", // Zona horaria.
@@ -153,14 +153,14 @@
         "days": "<span color='#ecc6d9'><b>{}</b></span>", // Color y formato para días.
         "weeks": "<span color='#99ffdd'><b>W{}</b></span>", // Color y formato para semanas.
         "weekdays": "<span color='#ffcc66'><b>{}</b></span>", // Color y formato para días de la semana.
-        "today": "<span color='#ff6699'><b><u>{}</u></b></span>" // Color y formato para hoy.
-      }
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>", // Color y formato para hoy.
+      },
     },
     "actions": {
       "on-click-right": "mode", // Cambia al formato alternativo.
       "on-scroll-up": "shift_up",
-      "on-scroll-down": "shift_down"
-    }
+      "on-scroll-down": "shift_down",
+    },
   },
 
   // --- 4. Módulos Custom (Lanzadores y Controles) ---
@@ -169,7 +169,7 @@
   "custom/menu": {
     "format": " ", // Ícono de menú.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "pkill rofi || rofi -show drun -theme ~/.config/rofi/themes/simple-tokyonight.rasi -show-icons" // Comando.
+    "on-click": "pkill rofi || rofi -show drun -theme ~/.config/rofi/themes/simple-tokyonight.rasi -show-icons", // Comando.
   },
 
   // Barra de Tareas
@@ -178,77 +178,77 @@
     "tooltip": true, // Habilita el tooltip.
     "tooltip-format": "{title}", // Muestra el título en el tooltip.
     "on-click": "activate", // Activa la ventana.
-    "on-click-middle": "close" // Cierra la ventana.
+    "on-click-middle": "close", // Cierra la ventana.
   },
-  
+
   // Lanzador de Opera
   "custom/opera": {
     "format": "󰖟 ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "opera --lang=es %U --private" // Abre en español y modo privado.
+    "on-click": "opera --lang=es %U --private", // Abre en español y modo privado.
   },
 
   // Lanzador de PCManFM
   "custom/pcmanfm": {
     "format": "󱂶 ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "pcmanfm" // Comando.
+    "on-click": "pcmanfm", // Comando.
   },
 
   // Lanzador de Thunar
   "custom/thunar": {
     "format": " ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "thunar" // Comando.
+    "on-click": "thunar", // Comando.
   },
 
   // Lanzador de Firefox
   "custom/firefox": {
     "format": " ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "firefox" // Comando.
+    "on-click": "firefox", // Comando.
   },
 
   // Lanzador de Thunderbird
   "custom/thunderbird": {
     "format": " ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "thunderbird" // Comando.
+    "on-click": "thunderbird", // Comando.
   },
 
   // Lanzador de Telegram
   "custom/TelegramDesktop": {
     "format": " ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "Telegram" // Comando.
+    "on-click": "Telegram", // Comando.
   },
 
   // Lanzador de Mousepad
   "custom/mousepad": {
     "format": "󱞁 ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "mousepad" // Comando.
+    "on-click": "mousepad", // Comando.
   },
 
   // Lanzador de Terminal (Kitty)
   "custom/terminal": {
     "format": " ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "kitty" // Comando.
+    "on-click": "kitty", // Comando.
   },
 
   // Lanzador de Calculadora (Gnome-Calculator)
   "custom/calculadora": {
     "format": "󱖦 ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "gnome-calculator" // Comando.
+    "on-click": "gnome-calculator", // Comando.
   },
 
   // Lanzador de LocalSend
   "custom/localsend": {
     "format": "󰈪 ", // Ícono.
     "tooltip": false, // Deshabilita el tooltip.
-    "on-click": "/opt/LocalSend-1.17.0-linux-x86-64/localsend_app" // Ruta explícita.
+    "on-click": "/opt/LocalSend-1.17.0-linux-x86-64/localsend_app", // Ruta explícita.
   },
 
   // Menú de Apagado/Reinicio/Cerrar Sesión
@@ -258,9 +258,9 @@
     "tooltip": false, // Deshabilita el tooltip.
     "menu-file": "$HOME/.config/waybar/power_menu.xml", // Ruta al archivo GtkMenu.
     "menu-actions": {
-      "shutdown": "sudo poweroff", // Comando para apagar.
-      "reboot": "sudo reboot", // Comando para reiniciar.
-      "logout": "niri msg action quit" // Comando para cerrar sesión de Niri.
-    }
-  }
+        "shutdown": "sudo poweroff", // Comando para apagar.
+        "reboot": "sudo reboot", // Comando para reiniciar.
+        "logout": "sh -c \"niri msg action quit -s\"", // Comando para cerrar sesion sin confirmar
+    },
+  },
 }
