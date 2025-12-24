@@ -25,7 +25,7 @@ function encontrar_imagenes() {
 function cargar_estado() {
   if [ -f "$ESTADO_ARCHIVO" ]; then
     echo "📄 Intentando cargar el estado previo..."
-    
+
     # Lee el índice y la lista guardada.
     ULTIMO_INDICE=$(head -n 1 "$ESTADO_ARCHIVO")
     LISTA_GUARDADA=()
@@ -89,29 +89,29 @@ while true; do
     ULTIMA_IMAGEN_MOSTRADA=""
     if [ ${#IMAGENES[@]} -gt 0 ]; then
       # La última imagen mostrada fue la que estaba en el índice ${#IMAGENES[@]}-1.
-      ULTIMA_IMAGEN_MOSTRADA="${IMAGENES[${#IMAGENES[@]}-1]}"
+      ULTIMA_IMAGEN_MOSTRADA="${IMAGENES[${#IMAGENES[@]} - 1]}"
     fi
-    
+
     # 2. Genera la lista completa de TODAS las imágenes (refresca).
     encontrar_imagenes
 
     if [ ${#IMAGENES[@]} -gt 0 ]; then
-      
+
       # 3. FILTRADO Y BARAJADO
       if [ -n "$ULTIMA_IMAGEN_MOSTRADA" ]; then
         # Filtra la última imagen mostrada, baraja el resto.
         mapfile -t LISTA_BARAJADA < <(printf "%s\n" "${IMAGENES[@]}" | grep -v -F -x "$ULTIMA_IMAGEN_MOSTRADA" | shuf)
-        
+
         # 4. Construir la nueva lista final: (Ultima Imagen) + (Resto Barajado).
         # Esto asegura que la última imagen que se mostró NO será la siguiente en mostrarse.
         # Sintaxis de arreglo corregida:
         IMAGENES=("$ULTIMA_IMAGEN_MOSTRADA" "${LISTA_BARAJADA[@]}")
-        
+
       else
         # Si no había imagen anterior (es el primer inicio), simplemente baraja toda la lista.
         mapfile -t IMAGENES < <(printf "%s\n" "${IMAGENES[@]}" | shuf)
       fi
-      
+
       # 5. Reiniciar y Guardar Estado
       INDICE_ACTUAL=0
       guardar_estado "$INDICE_ACTUAL"
@@ -124,24 +124,25 @@ while true; do
   fi # <--- CIERRA: Lógica de Fin de Lista
 
   # --- B. Lógica de Cambio de Imagen ---
-  
+
   # 6. Muestra la imagen actual.
   IMAGEN_ACTUAL="${IMAGENES[$INDICE_ACTUAL]}"
   echo "🖼️ Mostrando imagen $((INDICE_ACTUAL + 1)) de ${#IMAGENES[@]}: $IMAGEN_ACTUAL"
-  
+
   # Comando para establecer el fondo de pantalla (CAMBIAR SI USAS OTRO)
   # El & es importante para que el script no se quede esperando a que el fondo termine de ejecutarse.
   #swaybg -i "$IMAGEN_ACTUAL" -m fill &
-  matugen image "$IMAGEN_ACTUAL" & >/dev/null
+  matugen image "$IMAGEN_ACTUAL" &
+  >/dev/null
   # Opcional: Recargar Waybar
   if [ -f "$WAYBAR_RELOAD_SCRIPT" ]; then
     "$WAYBAR_RELOAD_SCRIPT" &
   fi
-  
+
   # 7. Prepara el estado para la próxima iteración.
   INDICE_ACTUAL=$((INDICE_ACTUAL + 1))
   guardar_estado "$INDICE_ACTUAL"
-  
+
   # 8. Pausa y espera al siguiente ciclo.
   echo "💤 Esperando $PAUSA_SEGUNDOS segundos..."
   sleep "$PAUSA_SEGUNDOS"

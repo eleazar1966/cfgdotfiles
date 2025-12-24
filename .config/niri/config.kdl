@@ -187,17 +187,6 @@ window-rule {
 }
 
 binds {
-    // shows a list of important hotkeys.
-    Mod+Shift+Slash { show-hotkey-overlay; }
-    Mod+E hotkey-overlay-title="Abrir Gestor de Archivos: thunar" { spawn "thunar"; } 
-    Mod+X { quit; } // exit
-    Mod+D { spawn "~/.local/share/systools/launch-rofi.sh"; }
-    Mod+Y { spawn "~/.local/share/systools/launch-waybar.sh"; }
-    Mod+F1 { spawn "opera" "--lang=es" "%U" "--private"; }
-    Mod+F2 { spawn "thunderbird"; }
-    Mod+F3 { spawn "kitty" "-e" "ranger"; }
-    Mod+F4 { spawn "rhythmbox"; }
-    Mod+F11 { spawn "vlc"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
@@ -221,12 +210,21 @@ binds {
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
-    // Open/close the Overview: a zoomed-out view of workspaces and windows.
-    // You can also move the mouse into the top-left hot corner,
-    // or do a four-finger swipe up on a touchpad.
+    // Mod-Shift-/, que suele ser lo mismo que Mod-?,
+    // muestra una lista de atajos importantes.
+    Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Return hotkey-overlay-title="Abrir Terminal: kitty" { spawn "kitty"; } // $terminal = kitty
+    Mod+E hotkey-overlay-title="Abrir Gestor de Archivos: thunar" { spawn "thunar"; } 
+    Mod+X { quit; } // exit
+    Mod+D { spawn "~/.local/share/systools/launch-rofi.sh"; }
+    Mod+Y { spawn "~/.local/share/systools/launch-waybar.sh"; }
     Mod+O repeat=false { toggle-overview; }
-
     Mod+Q repeat=false { close-window; }
+    Mod+F1 { spawn "opera" "--lang=es" "%U" "--private"; }
+    Mod+F2 { spawn "thunderbird"; }
+    Mod+F3 { spawn "kitty" "-e" "ranger"; }
+    Mod+F4 { spawn "rhythmbox"; }
+    Mod+F11 { spawn "vlc"; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-window-down; }
@@ -442,7 +440,7 @@ binds {
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
-    Mod+Shift+E { quit; }
+    Mod+Shift+E { quit skip-confirmation=true; }
     Ctrl+Alt+Delete { quit; }
 
     // Powers off the monitors. To turn them back on, do any input like
