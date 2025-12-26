@@ -63,8 +63,14 @@ cursor {
 
 layout {
     gaps 2
-    center-focused-column "on-overflow"
+    //center-focused-column "on-overflow"
+    center-focused-column "never"
     preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+    preset-window-heights {
         proportion 0.33333
         proportion 0.5
         proportion 0.66667
@@ -141,7 +147,7 @@ animations {
     // off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
-    // slowdown 3.0
+    slowdown 2.0
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -212,7 +218,8 @@ binds {
 
     // Mod-Shift-/, que suele ser lo mismo que Mod-?,
     // muestra una lista de atajos importantes.
-    Mod+Shift+Slash { show-hotkey-overlay; }
+    // Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Shift+Slash { spawn "~/.local/share/systools/atajos_niri.sh" ; }
     Mod+Return hotkey-overlay-title="Abrir Terminal: kitty" { spawn "kitty"; } // $terminal = kitty
     Mod+E hotkey-overlay-title="Abrir Gestor de Archivos: thunar" { spawn "thunar"; } 
     Mod+X { quit; } // exit
