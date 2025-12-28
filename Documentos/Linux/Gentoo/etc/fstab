@@ -19,8 +19,8 @@ PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2  /var/tmp     btrfs   subvol=@var_
 
 # --- COMPILACIÓN EN RAM ---
 
-# Asignamos 14GB para compilación. Si se llena, ZRAM entra al rescate.
+# Asignamos 16GB para compilación. Si se llena, ZRAM entra al rescate.
 
-tmpfs /var/tmp         tmpfs rw,nosuid,nodev,size=15G,mode=1777 0 0
-tmpfs /var/tmp/portage tmpfs rw,nosuid,nodev,size=15G,mode=775,uid=portage,gid=portage,x-mount.mkdir=775 0 0
-/dev/zram0	swap	swap	pri=16383	0 0
+tmpfs /var/tmp         tmpfs rw,nosuid,nodev,size=16G,mode=1777 0 0
+tmpfs /var/tmp/portage tmpfs rw,nosuid,nodev,size=16G,mode=775,uid=portage,gid=portage,x-mount.mkdir=775 0 0
+#/dev/zram0	swap	swap	pri=16383	0 0
