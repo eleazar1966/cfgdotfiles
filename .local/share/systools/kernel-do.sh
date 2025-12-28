@@ -29,6 +29,7 @@ sudo make -j $(nproc)
 sudo make modules_install
 sudo make install
 sudo dracut --force
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 #sudo rm /boot/*.png
 cd
 #sudo umount /efi
