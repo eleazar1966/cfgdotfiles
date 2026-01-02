@@ -49,16 +49,16 @@ cursor {
     xcursor-size 10
 }
 
-/-output "eDP-1" {
+output "DP-1" {
     // Uncomment this line to disable this output.
     // off
-    mode "1366x768@59.79"
+    mode "1366x768@59.790"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1
+    scale 1.0
     // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
     transform "normal"
-    position x=1280 y=0
+    position x=0 y=0
 }
 
 layout {
@@ -164,6 +164,20 @@ window-rule {
     default-column-width {}
 }
 
+window-rule {
+    match app-id="thunar"
+    open-floating true
+    default-floating-rect { width 800; height 600; }
+}
+
+window-rule {
+    match title="grabador-gpu"
+    open-floating true
+    
+    // En niri moderno se define así el tamaño inicial
+    default-column-width { fixed 600; }
+    default-window-height { fixed 400; }
+}
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
@@ -372,6 +386,14 @@ binds {
     // Switches focus between the current and the previous workspace.
     // Mod+Tab { focus-workspace-previous; }
 
+
+    // Iniciar grabación (abre Kitty con el script)
+    Mod+G { spawn "kitty" "--title" "grabador-gpu" "-e" "/home/eleazar/.local/share/systools/graba_video.sh"; }
+
+    // Detener grabación de forma segura
+    Mod+Shift+G { spawn "killall" "-SIGINT" "gpu-screen-recorder"; }
+
+
     // The following binds move the focused window in and out of a column.
     // If the window is alone, they will consume it into the nearby column to the side.
     // If the window is already in a column, they will expel it out.
@@ -435,6 +457,7 @@ binds {
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
+
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
