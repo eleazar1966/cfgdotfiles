@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # --- CONFIGURACIÓN ---
-DESTINO="$HOME/Videos"
+DESTINO="$HOME/Vídeos/Capturas_de_vídeo"
 MINIMO_GB=1
 mkdir -p "$DESTINO"
 
@@ -21,7 +21,7 @@ if [ "$ESPACIO_DISP" -lt "$MINIMO_GB" ]; then
 fi
 
 # 2. Evitar doble ejecución
-if pgrep -x "gpu-screen-recorder" > /dev/null || pgrep -x "ffmpeg" > /dev/null; then
+if pgrep -x "gpu-screen-recorder" > /dev/null; then
     enviar_aviso "Error" "Ya hay una grabación activa"
     exit 1
 fi
@@ -30,14 +30,9 @@ fi
 clear
 echo "      [ GRABADOR RADEON (5700G) ]"
 echo "------------------------------------"
-echo "MOTOR:"
-echo "1) GPU Screen Recorder"
-echo "2) FFmpeg (VAAPI/RadeonSI)"
-read -p "Elegir motor: " MOTOR_OPT
-
-echo -e "\nMODO:"
+echo "MODO:"
 echo "1) Pantalla Completa"
-echo "2) Ventana (Solo GPU-SR)"
+echo "2) Ventana"
 read -p "Opción: " MODO
 
 case $MODO in
@@ -61,38 +56,27 @@ echo -e "\n¡GRABANDO!"
 enviar_aviso "Grabadora" "Iniciando: $NOMBRE_FINAL"
 
 # 5. Ejecución
-if [ "$MOTOR_OPT" -eq "1" ]; then
-    gpu-screen-recorder -w "$TARGET" -k h264 -f 60 -a "default_output" -a "default_input" -o "$DESTINO/$NOMBRE_FINAL" 2>/dev/null
-else
-    # FFmpeg optimizado para tu APU Ryzen
-    ffmpeg -hide_banner -loglevel error \
-        -vaapi_device /dev/dri/renderD128 \
-        -f pipewire -i default \
-        -vf 'format=nv12,hwupload' \
-        -c:v h264_vaapi -level 40 -qp 20 \
-        -c:a aac -b:a 128k \
-        "$DESTINO/$NOMBRE_FINAL"
-fi
+gpu-screen-recorder -w "$TARGET" -k h264 -f 60 -a "default_output" -o "$DESTINO/$NOMBRE_FINAL" 2>/dev/null
 
-# 6. Finalización y Resumen (Lógica original de gestores)
+# 6. Finalización y Apertura de Carpeta
 if [ -f "$DESTINO/$NOMBRE_FINAL" ]; then
     PESO=$(du -h "$DESTINO/$NOMBRE_FINAL" | cut -f1)
     echo -e "\n------------------------------"
     echo "LISTO: $NOMBRE_FINAL"
     echo "TAMAÑO: $PESO"
     echo "------------------------------"
-
     enviar_aviso "Grabación Guardada" "Tamaño: $PESO"
     
-    # Abrir el gestor de archivos disponible
+    # Lógica de apertura con el orden solicitado
     if command -v thunar >/dev/null; then
         nohup thunar "$DESTINO" >/dev/null 2>&1 &
     elif command -v pcmanfm >/dev/null; then
         nohup pcmanfm "$DESTINO" >/dev/null 2>&1 &
+    elif command -v kitty >/dev/null && command -v ranger >/dev/null; then
+        nohup kitty -e ranger "$DESTINO" >/dev/null 2>&1 &
     else
         nohup xdg-open "$DESTINO" >/dev/null 2>&1 &
     fi
-    
     disown -a
 fi
 

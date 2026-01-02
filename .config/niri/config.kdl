@@ -392,8 +392,7 @@ binds {
     Mod+G { spawn "kitty" "--title" "grabador-gpu" "-e" "/home/eleazar/.local/share/systools/graba_video.sh"; }
 
     // Detener grabación de forma segura
-    Mod+Shift+G { spawn "killall" "-SIGINT" "gpu-screen-recorder ffmpeg"; }
-
+    Mod+Shift+G { spawn "sh" "-c" "killall -SIGINT gpu-screen-recorder; killall -SIGINT ffmpeg"; }
 
     // The following binds move the focused window in and out of a column.
     // If the window is alone, they will consume it into the nearby column to the side.
