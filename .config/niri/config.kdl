@@ -167,7 +167,8 @@ window-rule {
 window-rule {
     match app-id="thunar"
     open-floating true
-    default-floating-rect { width 800; height 600; }
+    default-column-width { proportion 0.5; }
+    geometry-corner-radius 12.0
 }
 
 window-rule {
@@ -391,7 +392,7 @@ binds {
     Mod+G { spawn "kitty" "--title" "grabador-gpu" "-e" "/home/eleazar/.local/share/systools/graba_video.sh"; }
 
     // Detener grabación de forma segura
-    Mod+Shift+G { spawn "killall" "-SIGINT" "gpu-screen-recorder"; }
+    Mod+Shift+G { spawn "killall" "-SIGINT" "gpu-screen-recorder ffmpeg"; }
 
 
     // The following binds move the focused window in and out of a column.
@@ -440,6 +441,13 @@ binds {
     // Move the focused window between the floating and the tiling layout.
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+    // Minimizar (ocultar) la ventana activa
+    Mod+M { move-column-to-workspace 9; }
+
+    // Mostrar la ventana que fue ocultada más recientemente
+    Mod+Shift+M { focus-workspace 9; }
+
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
