@@ -3,3 +3,5 @@
 */* INPUT_DEVICES: libinput
 sys-boot/plymouth -udev
 media-video/ffmpeg pipewire
+>=media-libs/mesa-25.3.2 -opencl rusticl llvm vaapi vdpau -abi_x86_32 vulkan zstd
+>=sys-auth/seatd-0.9.1 server
