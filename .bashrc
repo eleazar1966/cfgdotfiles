@@ -177,7 +177,11 @@ alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias git-update="~/.local/share/systools/acualiza_git.sh | lolcat" 
 alias grabavideo="~/.local/share/systools/graba_video.sh"
 alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
+alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
+alias eclean-dist='sudo eclean-dist --deep'
 #clear
 #fastfetch
 export DRI_PRIME=1
+export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
+RUSTICL_ENABLE=amdgpu clinfo -l

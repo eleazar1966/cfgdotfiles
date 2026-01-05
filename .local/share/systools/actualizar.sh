@@ -23,9 +23,10 @@ echo -e "\n## 🧹 Limpieza Pre-Actualización y Sincronización"
 echo "--------------------------------------------------------"
 
 # Limpieza y Sincronización
-sudo rm -rf /var/db/repos/*
+# sudo rm -rf /var/db/repos/*
 echo "✅ Directorios de repositorios eliminados."
-sudo emaint sync -a
+# sudo emaint sync -a
+sudo emerge --sync
 echo "✅ Sincronización de Portage completada."
 sudo eclean -d distfiles
 echo "✅ Distfiles obsoletos limpiados."
@@ -55,6 +56,8 @@ sudo emaint -c all
 # Limpieza final de la caché
 sudo eclean -d packages
 sudo eclean --destructive distfiles
+sudo eclean-dist --deep 
+sudo btrfs filesystem defragment -r /var/cache/distfiles
 
 echo "✅ Tareas de mantenimiento y limpieza finalizadas."
 

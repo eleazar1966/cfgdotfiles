@@ -25,7 +25,7 @@ sudo make localmodconfig
 zcat /proc/config.gz >~/.oldconfig
 sudo sudo mv ~/.oldconfig /usr/src/linux/.config
 sudo make menuconfig
-sudo make -j $(nproc)
+sudo make KCFLAGS="-march=znver3 -O3 -fgraphite-identity -floop-nest-optimize" -j $(nproc)
 sudo make modules_install
 sudo make install
 sudo dracut --force
