@@ -1,73 +1,61 @@
 #!/bin/bash
-clear
+set -e 
 
-# --- 1. Definición de Variables y Montaje ---
-# NOTA: Asegúrate de que /dev/nvme0n1p1 sea realmente tu Partición de Sistema EFI (ESP).
+echo "=========================================================="
+echo "   INICIANDO ACTUALIZACIÓN Y OPTIMIZACIÓN GENTOO (Zen 3)  "
+echo "=========================================================="
 
-echo -e "\n## 📁 Verificación y Montaje de /boot (Partición EFI)"
-echo "--------------------------------------------------------"
-PARTITION="/dev/nvme0n1p1"
-FOLDER="/boot" # Punto de montaje para la ESP
-set -e
-
-# Comprueba si /boot ya está montado
-if [[ $(findmnt -M "$FOLDER") ]]; then
-  echo -e "\n /boot ya está montado ..."
+# 1. Montaje seguro de /boot
+if ! mountpoint -q /boot; then
+    echo "[1/9] Montando partición /boot..."
+    sudo mount /boot
 else
-  echo -e "\n /boot no montado, se inicia el mount ..."
-  sudo mount /dev/nvme0n1p1 /boot
-  echo -e "\n /boot ya está montado ..."
+    echo "[1/9] /boot ya está montado."
 fi
 
-echo -e "\n## 🧹 Limpieza Pre-Actualización y Sincronización"
-echo "--------------------------------------------------------"
+# 2. Sincronización
+echo "[2/9] Sincronizando repositorios de Portage..."
+sudo emerge --sync --quiet
 
-# Limpieza y Sincronización
-# sudo rm -rf /var/db/repos/*
-echo "✅ Directorios de repositorios eliminados."
-# sudo emaint sync -a
-sudo emerge --sync
-echo "✅ Sincronización de Portage completada."
-sudo eclean -d distfiles
-echo "✅ Distfiles obsoletos limpiados."
-# --- 2. Actualización del Sistema ---
+# 3. Actualización de @world
+echo "[3/9] Calculando y aplicando actualizaciones de @world..."
+echo "      (Esto puede tomar tiempo dependiendo de los paquetes)"
+sudo emerge -uDvN --with-bdeps=y @world
 
-echo -e "\n## 🔄 Instalación de @world"
-echo "--------------------------------------------------------"
+# 4. Gestión de archivos de configuración
+echo "[4/9] Revisando cambios en archivos de configuración (/etc)..."
+echo "      (Usa 'u' para actualizar, 'z' para descartar)"
+sudo dispatch-conf
 
-# Actualización del sistema (World Set)
-# -u: update, -D: deep, -v: verbose, -N: new use/slot. --jobs usa todos los núcleos disponibles.
-# sudo emerge -uDvN --jobs=$(nproc) @world
-sudo emerge -uDvN @world
-echo "✅ Actualización de @world completada. Código de salida: $?"
-
-# --- 3. Mantenimiento y Limpieza Post-Actualización ---
-
-echo -e "\n##   Mantenimiento y Reconstrucción"
-echo "--------------------------------------------------------"
-
-# Tareas de mantenimiento estándar
+# 5. Limpieza de dependencias y reconstrucción
+echo "[5/9] Limpiando dependencias huérfanas (--depclean)..."
 sudo emerge --depclean
-sudo revdep-rebuild
+echo "[5.1/9] Reconstruyendo paquetes con librerías preservadas..."
 sudo emerge @preserved-rebuild
-sudo qcheck --update
-sudo emaint -c all
+echo "[5.2/9] Buscando binarios con enlaces rotos (revdep-rebuild)..."
+sudo revdep-rebuild
 
-# Limpieza final de la caché
-sudo eclean -d packages
-sudo eclean --destructive distfiles
-sudo eclean-dist --deep 
+# 6. Mantenimiento de Kernel y Distfiles
+echo "[6/9] Limpiando fuentes de paquetes antiguos (distfiles)..."
+sudo eclean-dist --deep
+echo "[6.1/9] Limpiando kernels antiguos (manteniendo los últimos 3)..."
+sudo eclean-kernel -n 3
+
+# 7. Optimización y Salud de BTRFS
+echo "[7/9] Iniciando verificación de salud BTRFS (Scrub)..."
+sudo btrfs scrub start -B /
+echo "[7.1/9] Desfragmentando metadatos de Portage y Distfiles..."
+sudo btrfs filesystem defragment -r /var/db/repos/gentoo
 sudo btrfs filesystem defragment -r /var/cache/distfiles
 
-echo "✅ Tareas de mantenimiento y limpieza finalizadas."
+# 8. Indexación de archivos
+echo "[8/9] Actualizando base de datos de búsqueda rápida (locate)..."
+sudo updatedb
 
-# --- 4. Finalización ---
+# 9. Finalización
+echo "[9/9] Desmontando /boot y finalizando..."
+sudo umount /boot
 
-echo -e "\n##   Desmontaje y Fin"
-echo "--------------------------------------------------------"
-
-# Desmonta la partición /boot (ESP)
-# Se utiliza $FOLDER que es la variable definida para /boot.
-sudo umount "$FOLDER"
-echo -e "\n✅ $FOLDER ha sido desmontado."
-echo -e "\n󰦖 ¡Actualización de Gentoo finalizada con éxito! 󰦕 "
+echo "=========================================================="
+echo "   ¡SISTEMA ACTUALIZADO, LIMPIO Y OPTIMIZADO CON ÉXITO!   "
+echo "=========================================================="
