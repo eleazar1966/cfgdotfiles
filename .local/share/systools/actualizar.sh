@@ -42,11 +42,11 @@ echo "[6.1/9] Limpiando kernels antiguos (manteniendo los últimos 3)..."
 sudo eclean-kernel -n 3
 
 # 7. Optimización y Salud de BTRFS
-echo "[7/9] Iniciando verificación de salud BTRFS (Scrub)..."
-sudo btrfs scrub start -B /
-echo "[7.1/9] Desfragmentando metadatos de Portage y Distfiles..."
-sudo btrfs filesystem defragment -r /var/db/repos/gentoo
-sudo btrfs filesystem defragment -r /var/cache/distfiles
+# echo "[7/9] Iniciando verificación de salud BTRFS (Scrub)..."
+# sudo btrfs scrub start -B /
+# echo "[7.1/9] Desfragmentando metadatos de Portage y Distfiles..."
+# sudo btrfs filesystem defragment -r /var/db/repos/gentoo
+# sudo btrfs filesystem defragment -r /var/cache/distfiles
 
 # 8. Indexación de archivos
 echo "[8/9] Actualizando base de datos de búsqueda rápida (locate)..."

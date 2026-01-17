@@ -259,7 +259,7 @@
     "menu-file": "$HOME/.config/waybar/power_menu.xml", // Ruta al archivo GtkMenu.
     "menu-actions": {
         "shutdown": "sudo poweroff", // Comando para apagar.
-        "reboot": "loginctl reboot", // Comando para reiniciar. 
+        "reboot": "sudo reboot", // Comando para reiniciar. 
         "logout": "niri msg action quit --skip-confirmation" // Comando para cerrar sesion sin confirmar
     },
   },
