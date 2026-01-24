@@ -172,7 +172,7 @@ export VDPAU_DRIVER=radeonsi
 LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias grabavideo="~/.local/share/systools/graba_video.sh"
-#alias git-update="~/.local/share/systools/acualiza_git.sh | lolcat"
+alias update-git="~/.local/share/systools/acualiza_git.sh | lolcat"
 alias git-update="~/.local/share/systools/git-actualiza.sh | lolcat"
 alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
