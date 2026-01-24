@@ -1,0 +1,33 @@
+2026-01-24 13:25:54[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: 
+ - unexpected token `{` (19:3 to 19:4), expected `}` after last field
+ - unexpected token `{` (19:3 to 19:4), unexpected token, this needs to be a statement
+ - unexpected token `import` (19:5 to 19:11), unexpected statement after last statement
+ - unexpected token `}` (19:38 to 19:39), unexpected token, this needs to be a statement
+ - unexpected token `dependencies` (22:5 to 22:17), unexpected statement after last statement
+ - unexpected token `=` (27:12 to 27:13), unexpected token, this needs to be a statement
+ - unexpected token `(` (27:22 to 27:23), expected function name
+ - unexpected token `(` (27:22 to 27:23), expected an expression after `(`
+ - unexpected token `)` (27:23 to 27:24), unexpected token, this needs to be a statement
+ - unexpected token `local` (28:7 to 28:12), unexpected statement after last statement
+ - unexpected token `end` (66:5 to 66:8), unexpected token, this needs to be a statement
+ - unexpected token `event` (71:5 to 71:10), unexpected statement after last statement
+ - unexpected token `=` (72:12 to 72:13), unexpected token, this needs to be a statement
+ - unexpected token `(` (72:22 to 72:23), expected function name
+ - unexpected token `(` (72:22 to 72:23), expected an expression after `(`
+ - unexpected token `)` (72:23 to 72:24), unexpected token, this needs to be a statement
+ - unexpected token `local` (73:7 to 73:12), unexpected statement after last statement
+ - unexpected token `end` (85:5 to 85:8), unexpected token, this needs to be a statement
+ - unexpected token `,` (101:6 to 101:7), trailing commas are not allowed
+ - unexpected token `opts` (89:5 to 89:9), unexpected statement after last statement
+ - unexpected token `}` (102:3 to 102:4), unexpected token, this needs to be a statement
+
+2026-01-24 14:08:08[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: 
+ - unexpected token `` (43:1 to 43:1), expected `then` after condition
+ - unexpected token `=` (41:12 to 41:13), expected values to set to
+
+2026-01-24 14:58:00[ERROR] Formatter 'shfmt' error: /home/eleazar/test.sh:7:1: "fi" can only be used to end an if
+
+2026-01-24 15:02:15[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: unexpected token `(` (43:13 to 43:14), expected `)` to close function call
+
+2026-01-24 15:35:42[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: unexpected token `` (161:1 to 161:1), expected `}` after last field
+

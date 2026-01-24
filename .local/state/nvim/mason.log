@@ -1,0 +1,192 @@
+[INFO  sáb 24 ene 2026 13:10:26] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=black) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:26] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=isort) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:26] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=jq) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:26] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=prettier) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:26] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=shfmt) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:26] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=stylua) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:33] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=shfmt)
+[INFO  sáb 24 ene 2026 13:10:33] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=stylua)
+[INFO  sáb 24 ene 2026 13:10:33] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=jq)
+[INFO  sáb 24 ene 2026 13:10:33] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=prettier)
+[INFO  sáb 24 ene 2026 13:10:34] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=isort)
+[INFO  sáb 24 ene 2026 13:10:35] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=black)
+[INFO  sáb 24 ene 2026 13:10:45] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=bash-language-server) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:45] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=json-lsp) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:45] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=css-lsp) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:45] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=lua-language-server) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:45] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=pyright) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:45] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=html-lsp) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:10:46] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=lua-language-server)
+[INFO  sáb 24 ene 2026 13:10:49] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=css-lsp)
+[INFO  sáb 24 ene 2026 13:10:49] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=html-lsp)
+[INFO  sáb 24 ene 2026 13:10:49] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=json-lsp)
+[INFO  sáb 24 ene 2026 13:10:49] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=pyright)
+[INFO  sáb 24 ene 2026 13:10:49] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=bash-language-server)
+[INFO  sáb 24 ene 2026 13:13:55] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=jsonlint) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:13:58] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=jsonlint)
+[INFO  sáb 24 ene 2026 13:14:23] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=ruff) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:14:27] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=ruff)
+[INFO  sáb 24 ene 2026 13:14:30] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=shellcheck) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:14:31] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=shellcheck)
+[INFO  sáb 24 ene 2026 13:18:54] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=debugpy) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:18:58] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=debugpy)
+[INFO  sáb 24 ene 2026 13:19:11] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=bash-debug-adapter) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:19:12] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=bash-debug-adapter)
+[INFO  sáb 24 ene 2026 13:36:02] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=pyright) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 13:36:05] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=pyright) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 13:36:05] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=pyright)
+[INFO  sáb 24 ene 2026 13:36:05] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=pyright)
+[INFO  sáb 24 ene 2026 14:18:01] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=pyright) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 14:18:04] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=pyright) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 14:18:04] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=pyright)
+[INFO  sáb 24 ene 2026 14:18:04] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=pyright)
+[INFO  sáb 24 ene 2026 14:36:32] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=shellcheck) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 14:36:33] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=shellcheck) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 14:36:33] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=shellcheck)
+[INFO  sáb 24 ene 2026 14:36:33] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=shellcheck)
+[INFO  sáb 24 ene 2026 14:38:05] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=shellcheck) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 14:38:06] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=shellcheck) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 14:38:06] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=shellcheck)
+[INFO  sáb 24 ene 2026 14:38:06] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=shellcheck)
+[INFO  sáb 24 ene 2026 14:40:54] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=shfmt) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 14:40:55] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=shfmt) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 14:40:55] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=shfmt)
+[INFO  sáb 24 ene 2026 14:40:55] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=shfmt)
+[INFO  sáb 24 ene 2026 15:12:43] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=bash-debug-adapter) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 15:12:43] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=bash-debug-adapter) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 15:12:43] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=bash-debug-adapter)
+[INFO  sáb 24 ene 2026 15:12:43] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=bash-debug-adapter)
+[INFO  sáb 24 ene 2026 15:31:16] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=bash-debug-adapter) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 15:31:16] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=bash-debug-adapter) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 15:31:16] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=bash-debug-adapter)
+[INFO  sáb 24 ene 2026 15:31:16] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=bash-debug-adapter)
+[INFO  sáb 24 ene 2026 15:53:55] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=debugpy) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 15:53:55] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=debugpy) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 15:53:55] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=debugpy)
+[INFO  sáb 24 ene 2026 15:53:58] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=debugpy)
+[INFO  sáb 24 ene 2026 16:01:20] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=debugpy) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 24 ene 2026 16:01:20] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=debugpy) {
+  bypass_permit = true
+}
+[INFO  sáb 24 ene 2026 16:01:20] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=debugpy)
+[INFO  sáb 24 ene 2026 16:01:23] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=debugpy)

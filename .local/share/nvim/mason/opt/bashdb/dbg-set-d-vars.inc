@@ -1,0 +1,1 @@
+../../packages/bash-debug-adapter/extension/bashdb_dir/dbg-set-d-vars.inc
