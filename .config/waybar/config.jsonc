@@ -31,13 +31,46 @@
     "tray",
     "custom/power"
   ],
-  "niri/workspaces": {
-    "format": "{name}",
-    "all-outputs": true
+  "keyboard-state": {
+    "numlock": true,
+    "capslock": true,
+    "scrolllock": true,
+    "format": {
+      "numlock": "N {icon}",
+      "capslock": "C {icon}",
+      "scrolllock": "S {icon}"
+    },
+    "format-icons": {
+      "locked": "󰌾",
+      "unlocked": ""
+    }
   },
-  "niri/window": {
-    "format": "{title}",
-    "separate-outputs": true
+  "cpu": {
+    "format": " ",
+    "tooltip": true
+  },
+  "memory": {
+    "format": " ",
+    "tooltip": true
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "{icon}",
+    "format-icons": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "wireplumber": {
+    "format": "{icon}",
+    "format-muted": "",
+    "on-click": "helvum",
+    "format-icons": [
+      "",
+      "",
+      ""
+    ]
   },
   "custom/language": {
     "exec": "niri msg -j keyboard-layouts | jq -r '.names[.current_idx]' | sed 's/English (US)/EN/;s/Spanish/ES/'",
@@ -46,22 +79,14 @@
     "on-click": "niri msg action switch-layout next",
     "tooltip": false
   },
-  "temperature": {
-    "critical-threshold": 80,
-    "format": "{temperatureC}°C {icon}",
-    "format-icons": [
-      "",
-      "",
-      ""
-    ]
-  },
   "clock": {
     "locale": "es_ES.UTF-8",
+    "timezone": "America/Caracas",
     "format": "{:%I:%M %p %d/%m/%Y}  ",
     "format-alt": "{:%A, %B %d, %Y (%R)}  ",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
-      "mode": "month", // Cambiado a mes por defecto
+      "mode": "month",
       "mode-mon-col": 3,
       "weeks-pos": "right",
       "on-scroll": 1,
@@ -74,17 +99,16 @@
       }
     },
     "actions": {
-      "on-click": "mode", // Click izquierdo: Mes actual
-      "on-click-right": "mode", // Click derecho: Cicla a modo año
+      "on-click": "mode",
+      "on-click-right": "mode",
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     }
   },
-  "custom/power": {
-    "format": "⏻ ",
-    "on-click": "~/.config/waybar/power_menu.py"
+  "niri/workspaces": {
+    "format": "{name}",
+    "all-outputs": true
   },
-  /* Iconos y aplicaciones */
   "custom/menu": {
     "format": " ",
     "on-click": "rofi -show drun"
@@ -128,5 +152,9 @@
   "custom/localsend": {
     "format": "󰈪 ",
     "on-click": "/opt/LocalSend-1.17.0-linux-x86-64/localsend_app"
+  },
+  "custom/power": {
+    "format": "⏻ ",
+    "on-click": "~/.config/waybar/power_menu.py"
   }
 }

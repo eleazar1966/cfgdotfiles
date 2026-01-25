@@ -82,3 +82,21 @@
 [error]   62 |     "on-click": "niri msg action switch-layout next",
 [error]   63 |     "tooltip": false
 
+2026-01-25 18:04:04[ERROR] Formatter 'prettier' error: [error] /home/eleazar/.config/waybar/style.css: SyntaxError: CssSyntaxError: Missed semicolon (5:16)
+[error]   3 | * {
+[error]   4 |   font-family: "Roboto Condensed Light", "EnvyCodeR Nerd Font", sans-serif;
+[error] > 5 |   font-size: 10
+[error]     |                ^
+[error]   6 |   border: none;
+[error]   7 |   min-height: 0;
+[error]   8 | }
+
+2026-01-25 18:23:46[ERROR] Formatter 'prettier' error: [error] /home/eleazar/.config/waybar/style.css: SyntaxError: CssSyntaxError: Unexpected } (3:1)
+[error]   1 |   margin: 3px 3px;
+[error]   2 |   min-width: 40px; /* Asegura un ancho mínimo para que sea visible */
+[error] > 3 | }
+[error]     | ^
+[error]   4 |
+[error]   5 | /* 4. EFECTO HOVER (Brillo y cambio de color) */
+[error]   6 | /* Colocado al final para que tenga prioridad sobre los estados anteriores */
+
