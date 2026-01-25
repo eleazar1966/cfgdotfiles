@@ -82,7 +82,7 @@
   },
   "custom/power": {
     "format": "⏻ ",
-    "on-click": "niri msg action quit"
+    "on-click": "~/.config/waybar/power_menu.py"
   },
   /* Iconos y aplicaciones */
   "custom/menu": {

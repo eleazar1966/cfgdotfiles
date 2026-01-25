@@ -129,7 +129,7 @@ spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "nm-applet" "--indicator"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "xmodmap" "-e" "add mod3 = Scroll_Lock"
-
+spawn-at-startup "sh" "-c" "echo 1 > /sys/class/leds/input3::scrolllock/brightness"
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
@@ -170,6 +170,12 @@ window-rule {
     open-floating true
     default-column-width { proportion 0.5; }
     geometry-corner-radius 12.0
+}
+
+window-rule {
+    match title="Power Menu"
+    open-floating true
+    default-column-width { fixed 200; }
 }
 
 window-rule {
@@ -313,6 +319,13 @@ binds {
     Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
     Mod+Ctrl+U         { move-column-to-workspace-down; }
     Mod+Ctrl+I         { move-column-to-workspace-up; }
+
+    // Enciende la luz con Mod + Scroll Lock
+    Mod+Scroll_Lock { spawn "sh" "-c" "echo 1 > /sys/class/leds/input3::scrolllock/brightness"; }
+
+    // Apaga la luz con Mod + Shift + Scroll Lock
+    Mod+Shift+Scroll_Lock { spawn "sh" "-c" "echo 0 > /sys/class/leds/input3::scrolllock/brightness"; }
+
 
     // Alternatively, there are commands to move just a single window:
     // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
