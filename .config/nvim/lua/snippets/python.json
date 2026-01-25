@@ -1,0 +1,18 @@
+{
+    "Función con Docstring": {
+        "prefix": "defp",
+        "body": [
+            "def ${1:nombre_funcion}(${2:params}):",
+            "\t\"\"\"${3:Descripción de la función}.\"\"\"",
+            "\t${0:pass}"
+        ],
+        "description": "Crea una función con espacio para docstring"
+    },
+    "Main block": {
+        "prefix": "ifmain",
+        "body": [
+            "if __name__ == \"__main__\":",
+            "\t${0:main()}"
+        ]
+    }
+}

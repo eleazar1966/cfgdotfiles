@@ -10,24 +10,24 @@ echo "Añadiendo archivos de configuracion al staging area..."
 
 # Usamos 'git --git-dir... --work-tree...' en lugar del alias para que funcione dentro del script
 git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
-    ~/.nanorc \
-    ~/.bashrc \
-    ~/.config/waybar \
-    ~/.config/wallpaper \
-    ~/.bashrc \
-    ~/.config/rofi \
-    ~/.config/nwg-look \
-    ~/.config/nvim \
-    ~/.config/matugen \
-    ~/.config/hypr \
-    ~/.config/niri \
-    ~/.config/kitty \
-    ~/.local/share/systools \
-    ~/.local/share/nvim \
-    ~/.local/state/nvim \
-    ~/Documentos/Linux/Gentoo/etc/fstab \
-    ~/Documentos/Linux/Gentoo/etc/portage/make.conf \
-    ~/Documentos/Linux/Gentoo/etc/portage/package.use/00cpu-flags
+  ~/.nanorc \
+  ~/.bashrc \
+  ~/.config/waybar \
+  ~/.config/wallpaper \
+  ~/.bashrc \
+  ~/.config/rofi \
+  ~/.config/nwg-look \
+  ~/.config/nvim \
+  ~/.config/matugen \
+  ~/.config/hypr \
+  ~/.config/niri \
+  ~/.config/kitty \
+  ~/.local/share/systools \
+  ~/.local/share/nvim \
+  ~/.local/state/nvim \
+  ~/Documentos/Linux/Gentoo/etc/fstab \
+  ~/Documentos/Linux/Gentoo/etc/portage/make.conf \
+  ~/Documentos/Linux/Gentoo/etc/portage/package.use/00cpu-flags
 
 echo "Realizando commit de los cambios..."
 

@@ -31,3 +31,36 @@
 
 2026-01-24 15:35:42[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: unexpected token `` (161:1 to 161:1), expected `}` after last field
 
+2026-01-25 08:28:20[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: 
+ - unexpected token `=` (10:22 to 10:23), expected `}` after last field
+ - unexpected token `=` (10:22 to 10:23), unexpected token, this needs to be a statement
+
+2026-01-25 09:09:02[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: 
+ - unexpected token `{` (15:3 to 15:4), expected `}` after last field
+ - unexpected token `{` (15:3 to 15:4), unexpected token, this needs to be a statement
+ - unexpected token `,` (19:8 to 19:9), trailing commas are not allowed
+ - unexpected token `config` (17:5 to 17:11), unexpected statement after last statement
+ - unexpected token `}` (20:3 to 20:4), unexpected token, this needs to be a statement
+ - unexpected token `,` (38:6 to 38:7), trailing commas are not allowed
+ - unexpected token `opts` (24:5 to 24:9), unexpected statement after last statement
+ - unexpected token `}` (39:3 to 39:4), unexpected token, this needs to be a statement
+ - unexpected token `import` (41:5 to 41:11), unexpected statement after last statement
+ - unexpected token `}` (41:38 to 41:39), unexpected token, this needs to be a statement
+ - unexpected token `cmd` (46:5 to 46:8), unexpected statement after last statement
+ - unexpected token `=` (47:10 to 47:11), unexpected token, this needs to be a statement
+ - unexpected token `dependencies` (48:5 to 48:17), unexpected statement after last statement
+ - unexpected token `=` (53:12 to 53:13), unexpected token, this needs to be a statement
+ - unexpected token `(` (53:22 to 53:23), expected function name
+ - unexpected token `(` (53:22 to 53:23), expected an expression after `(`
+ - unexpected token `)` (53:23 to 53:24), unexpected token, this needs to be a statement
+ - unexpected token `local` (54:7 to 54:12), unexpected statement after last statement
+ - unexpected token `end` (107:5 to 107:8), unexpected token, this needs to be a statement
+ - unexpected token `,` (124:6 to 124:7), trailing commas are not allowed
+ - unexpected token `opts` (112:5 to 112:9), unexpected statement after last statement
+ - unexpected token `}` (125:3 to 125:4), unexpected token, this needs to be a statement
+ - unexpected token `dependencies` (129:5 to 129:17), unexpected statement after last statement
+ - unexpected token `=` (130:10 to 130:11), unexpected token, this needs to be a statement
+ - unexpected token `,` (133:8 to 133:9), trailing commas are not allowed
+ - unexpected token `config` (131:5 to 131:11), unexpected statement after last statement
+ - unexpected token `}` (134:3 to 134:4), unexpected token, this needs to be a statement
+

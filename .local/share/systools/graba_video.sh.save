@@ -6,24 +6,24 @@ MINIMO_GB=1
 mkdir -p "$DESTINO"
 
 enviar_aviso() {
-    if command -v notify-send >/dev/null; then
-        notify-send -a "Grabador" "$1" "$2" >/dev/null 2>&1 || echo ">> $1: $2"
-    else
-        echo ">> $1: $2"
-    fi
+  if command -v notify-send >/dev/null; then
+    notify-send -a "Grabador" "$1" "$2" >/dev/null 2>&1 || echo ">> $1: $2"
+  else
+    echo ">> $1: $2"
+  fi
 }
 
 # 1. Comprobar espacio
 ESPACIO_DISP=$(df -BG "$DESTINO" | tail -n1 | awk '{print $4}' | tr -d 'G')
 if [ "$ESPACIO_DISP" -lt "$MINIMO_GB" ]; then
-    enviar_aviso "Error" "Espacio insuficiente ($ESPACIO_DISP GB)"
-    exit 1
+  enviar_aviso "Error" "Espacio insuficiente ($ESPACIO_DISP GB)"
+  exit 1
 fi
 
 # 2. Evitar doble ejecución
-if pgrep -x "gpu-screen-recorder" > /dev/null || pgrep -x "ffmpeg" > /dev/null; then
-    enviar_aviso "Error" "Ya hay una grabación activa"
-    exit 1
+if pgrep -x "gpu-screen-recorder" >/dev/null || pgrep -x "ffmpeg" >/dev/null; then
+  enviar_aviso "Error" "Ya hay una grabación activa"
+  exit 1
 fi
 
 # 3. Menú interactivo
@@ -41,9 +41,9 @@ echo "2) Ventana (Solo GPU-SR)"
 read -p "Opción: " MODO
 
 case $MODO in
-    1) TARGET="portal" ;;
-    2) TARGET="window" ;;
-    *) exit 0 ;;
+  1) TARGET="portal" ;;
+  2) TARGET="window" ;;
+  *) exit 0 ;;
 esac
 
 echo -e "\nNombre del video (ENTER para fecha):"
@@ -53,8 +53,8 @@ FECHA=$(date +"%Y-%m-%d_%H-%M")
 
 # 4. Cuenta atrás
 for i in {3..1}; do
-    echo -ne "Iniciando en: $i... \r"
-    sleep 1
+  echo -ne "Iniciando en: $i... \r"
+  sleep 1
 done
 
 echo -e "\n¡GRABANDO!"
@@ -62,38 +62,38 @@ enviar_aviso "Grabadora" "Iniciando: $NOMBRE_FINAL"
 
 # 5. Ejecución
 if [ "$MOTOR_OPT" -eq "1" ]; then
-    gpu-screen-recorder -w "$TARGET" -k h264 -f 60 -a "default_output" -a "default_input" -o "$DESTINO/$NOMBRE_FINAL" 2>/dev/null
+  gpu-screen-recorder -w "$TARGET" -k h264 -f 60 -a "default_output" -a "default_input" -o "$DESTINO/$NOMBRE_FINAL" 2>/dev/null
 else
-    # FFmpeg optimizado para tu APU Ryzen
-    ffmpeg -hide_banner -loglevel error \
-        -vaapi_device /dev/dri/renderD128 \
-        -f pipewire -i default \
-        -vf 'format=nv12,hwupload' \
-        -c:v h264_vaapi -level 40 -qp 20 \
-        -c:a aac -b:a 128k \
-        "$DESTINO/$NOMBRE_FINAL"
+  # FFmpeg optimizado para tu APU Ryzen
+  ffmpeg -hide_banner -loglevel error \
+    -vaapi_device /dev/dri/renderD128 \
+    -f pipewire -i default \
+    -vf 'format=nv12,hwupload' \
+    -c:v h264_vaapi -level 40 -qp 20 \
+    -c:a aac -b:a 128k \
+    "$DESTINO/$NOMBRE_FINAL"
 fi
 
 # 6. Finalización y Resumen (Lógica original de gestores)
 if [ -f "$DESTINO/$NOMBRE_FINAL" ]; then
-    PESO=$(du -h "$DESTINO/$NOMBRE_FINAL" | cut -f1)
-    echo -e "\n------------------------------"
-    echo "LISTO: $NOMBRE_FINAL"
-    echo "TAMAÑO: $PESO"
-    echo "------------------------------"
+  PESO=$(du -h "$DESTINO/$NOMBRE_FINAL" | cut -f1)
+  echo -e "\n------------------------------"
+  echo "LISTO: $NOMBRE_FINAL"
+  echo "TAMAÑO: $PESO"
+  echo "------------------------------"
 
-    enviar_aviso "Grabación Guardada" "Tamaño: $PESO"
-    
-    # Abrir el gestor de archivos disponible
-    if command -v thunar >/dev/null; then
-        nohup thunar "$DESTINO" >/dev/null 2>&1 &
-    elif command -v pcmanfm >/dev/null; then
-        nohup pcmanfm "$DESTINO" >/dev/null 2>&1 &
-    else
-        nohup xdg-open "$DESTINO" >/dev/null 2>&1 &
-    fi
-    
-    disown -a
+  enviar_aviso "Grabación Guardada" "Tamaño: $PESO"
+
+  # Abrir el gestor de archivos disponible
+  if command -v thunar >/dev/null; then
+    nohup thunar "$DESTINO" >/dev/null 2>&1 &
+  elif command -v pcmanfm >/dev/null; then
+    nohup pcmanfm "$DESTINO" >/dev/null 2>&1 &
+  else
+    nohup xdg-open "$DESTINO" >/dev/null 2>&1 &
+  fi
+
+  disown -a
 fi
 
 sleep 2

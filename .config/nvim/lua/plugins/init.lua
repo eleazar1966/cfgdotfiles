@@ -6,10 +6,28 @@ return {
   },
 
   {
+    "L3MON4D3/LuaSnip",
+    config = function()
+      -- En lua/plugins/init.lua, dentro de la config de LuaSnip:
+      require("luasnip.loaders.from_vscode").lazy_load {
+        paths = { vim.fn.stdpath "config" .. "/lua/custom/snippets" },
+      }
+    end,
+  },
+
+  {
     "neovim/nvim-lspconfig",
     config = function()
       require "configs.lspconfig"
     end,
+  },
+
+  -- Añade esto dentro de la tabla de plugins en lua/plugins/init.lua
+  {
+    "Saghen/blink.cmp",
+    opts = {
+      snippets = { preset = "luasnip" },
+    },
   },
 
   {
@@ -115,5 +133,19 @@ return {
         "kdl",
       },
     },
+  },
+
+  {
+    "nvim-pack/nvim-spectre",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    lazy = false,
+    config = function()
+      require("spectre").setup()
+    end,
+  },
+
+  {
+    "michaeljsmith/vim-indent-object",
+    event = "VeryLazy",
   },
 }

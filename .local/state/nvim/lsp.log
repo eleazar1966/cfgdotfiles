@@ -156,3 +156,6 @@
 [WARN][2026-01-24 17:48:01] ...lsp/handlers.lua:564	"21:48:01.685 WARNING ⛔️ file:///home/eleazar/.bashrc line 183: failed to resolve path"
 [WARN][2026-01-24 17:48:06] ...lsp/handlers.lua:564	"21:48:06.250 WARNING ⛔️ file:///home/eleazar/.bashrc line 134: failed to resolve path"
 [WARN][2026-01-24 17:48:06] ...lsp/handlers.lua:564	"21:48:06.250 WARNING ⛔️ file:///home/eleazar/.bashrc line 183: failed to resolve path"
+[START][2026-01-24 18:06:19] LSP logging initiated
+[WARN][2026-01-24 18:06:19] ...lsp/handlers.lua:564	"22:06:19.924 WARNING ⛔️ file:///home/eleazar/.bashrc line 134: failed to resolve path"
+[WARN][2026-01-24 18:06:19] ...lsp/handlers.lua:564	"22:06:19.924 WARNING ⛔️ file:///home/eleazar/.bashrc line 183: failed to resolve path"

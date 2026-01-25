@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-import pyinotify
 import os
 import sys
+
+import pyinotify
 
 # --- CONFIGURACIÓN ---
 # Asegúrate de que esta ruta es correcta para tu LED de Scroll Lock

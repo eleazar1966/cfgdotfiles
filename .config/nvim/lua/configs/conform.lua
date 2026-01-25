@@ -3,6 +3,7 @@ local options = {
     lua = { "stylua" },
     css = { "prettier" },
     html = { "prettier" },
+    -- isort ordena los imports y black formatea el código
     python = { "isort", "black" },
     bash = { "shfmt" },
     sh = { "shfmt" },
@@ -12,12 +13,12 @@ local options = {
   -- Personalización de argumentos
   formatters = {
     shfmt = {
-      prepend_args = { "-i", "4" }, -- "-i 4" configura 4 espacios de sangría
+      -- Cambiado a 2 para coincidir con tu configuración de Neovim
+      prepend_args = { "-i", "2", "-ci" },
     },
   },
 
   format_on_save = {
-    --   -- These options will be passed to conform.format()
     timeout_ms = 500,
     lsp_fallback = true,
   },

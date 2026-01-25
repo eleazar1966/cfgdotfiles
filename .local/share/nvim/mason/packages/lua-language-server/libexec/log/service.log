@@ -1,10 +1,10 @@
-[15:36:57.385][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:71]: Lua Lsp startup, root: 	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec
-[15:36:57.385][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:72]: ROOT:	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec
-[15:36:57.385][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:73]: LOGPATH:	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/log
-[15:36:57.385][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:74]: METAPATH:	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/meta
-[15:36:57.385][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:75]: VERSION:	3.17.1
-[15:36:57.403][info] [#0:script/proto/proto.lua:260]: Listen Mode: stdio
-[15:36:57.403][info] [#0:script/service/service.lua:145]: 
+[09:16:20.083][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:71]: Lua Lsp startup, root: 	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec
+[09:16:20.083][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:72]: ROOT:	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec
+[09:16:20.083][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:73]: LOGPATH:	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/log
+[09:16:20.083][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:74]: METAPATH:	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/meta
+[09:16:20.083][info] [#0:/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/main.lua:75]: VERSION:	3.17.1
+[09:16:20.102][info] [#0:script/proto/proto.lua:260]: Listen Mode: stdio
+[09:16:20.102][info] [#0:script/service/service.lua:145]: 
 ========= Medical Examination Report =========
     --------------- Memory ---------------
         Total: 1.915 MB
@@ -26,7 +26,7 @@
         Holdon:   0
         Waiting:  0
 ==============================================
-[15:36:57.407][info] [#0:script/client.lua:657]: Client init	{
+[09:16:20.106][info] [#0:script/client.lua:657]: Client init	{
   capabilities = {
     general = {
       positionEncodings = { "utf-8", "utf-16", "utf-32" }
@@ -225,7 +225,7 @@
     name = "Neovim",
     version = "0.11.5"
   },
-  processId = 418825,
+  processId = 151367,
   rootPath = "/home/eleazar/.config/nvim",
   rootUri = "file:///home/eleazar/.config/nvim",
   trace = "off",
@@ -235,7 +235,7 @@
       uri = "file:///home/eleazar/.config/nvim"
     } }
 }
-[15:36:57.407][info] [#0:script/language.lua:137]: VSC language: nil
-[15:36:57.407][info] [#0:script/language.lua:138]: LS  language: en-us
-[15:36:57.407][info] [#0:script/workspace/workspace.lua:38]: Workspace init root: 	file:///home/eleazar/.config/nvim
-[15:36:57.407][info] [#0:script/workspace/workspace.lua:42]: Log path: 	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/log/file_home_eleazar_.config_nvim.log
+[09:16:20.106][info] [#0:script/language.lua:137]: VSC language: nil
+[09:16:20.106][info] [#0:script/language.lua:138]: LS  language: en-us
+[09:16:20.106][info] [#0:script/workspace/workspace.lua:38]: Workspace init root: 	file:///home/eleazar/.config/nvim
+[09:16:20.106][info] [#0:script/workspace/workspace.lua:42]: Log path: 	/home/eleazar/.local/share/nvim/mason/packages/lua-language-server/libexec/log/file_home_eleazar_.config_nvim.log
