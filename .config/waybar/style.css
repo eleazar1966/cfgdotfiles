@@ -1,273 +1,174 @@
 @import "colors.css";
 
-/* =========================================================================
-   1. ESTILOS BASE Y GENERALES
-   ========================================================================= */
 * {
-  /* Fuentes: Asegúrate de tenerlas instaladas (ej. Nerd Font) */
-  font-family:
-    "Roboto Condensed Light", "EnvyCodeR Nerd Font",
-    "Noto Sans ExtraCondensed Light", FontAwesome, Roboto, Helvetica, Arial,
-    sans-serif;
+  font-family: "Roboto Condensed Light", "EnvyCodeR Nerd Font", sans-serif;
   border: none;
-  border-radius: 0;
   min-height: 0;
 }
 
 window#waybar {
   background-color: transparent;
   color: @on_surface;
-  transition-property: background-color;
-  transition-duration: 0.5s;
 }
 
-/* Opacidad reducida si la barra está oculta */
-window#waybar.hidden {
-  opacity: 0.2;
-}
-
-/* Estilos específicos (manteniendo los originales, pero pueden ser redundantes) */
-window#waybar.termite,
-window#waybar.chromium {
-  background-color: @on_secondary;
-  border-color: @inverse_primary;
-  border: none;
-}
-
-/* Tooltip (Calendario, etc.) */
-tooltip {
-  background: @on_surface;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-}
-tooltip label {
-  color: @on_surface;
-}
-
-/* Estilos base para botones generales (normalmente overridden) */
-button {
-  box-shadow: inset 0 -3px @primary;
-  border-color: @inverse_primary;
-  background-color: @on_secondary;
-  border: @primary;
-  border-radius: 100px;
-}
-button:hover {
-  background: inherit;
-  border-color: @primary;
-  background-color: @on_secondary;
-  box-shadow: inset 0 -3px @inverse_primary;
-}
-
-/* =========================================================================
-   2. MÓDULOS DEL CENTRO (WORKSPACES Y VENTANA)
-   ========================================================================= */
-
-/* Workspaces */
-#workspaces button {
-  background-color: @on_secondary;
-  color: @on_surface;
-  padding: 0 2px;
-  margin: 1px;
-  border-radius: 100px;
-  border: 2px solid rgba(100, 114, 125, 0.5);
-  box-shadow: inset 0 -3px @secondary;
-  border-color: @inverse_primary;
-}
-
-#workspaces button:hover {
-  /* Solo se definen los cambios respecto al estado base */
-  font-size: 10px; 
-  margin: 0px; 
-  background-color: @background; /* Corregido: @backgound -> @background */
-  border-color: @inverse_primary;
-  color: @primary;
-  box-shadow: inset 0 -3px #ffffff;
-}
-
-#workspaces button.focused,
-#workspaces button.active {
-  color: @background;
-  background-color: @primary;
-  border-color: @inverse_primary;
-  border-radius: 100px;
-  box-shadow: inset 0 -3px #ffffff;
-}
-
-#workspaces button.urgent {
-  background-color: #eb4d4b;
-  border-color: @inverse_primary;
-  box-shadow: inset 0 -3px @secondary;
-}
-
-#workspaces {
-  margin: 0px;
-}
-
-/* Título de la Ventana */
 #window {
-  font-size: 10px;
-  padding: 0 2px;
-  background-color: @on_primary;
-  color: @on_surface;
-  border-radius: 100px;
-  margin: 0px;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-  border-color: @inverse_primary;
+  background-color: @background;
+  padding: 0 15px;
+  border-radius: 16px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-/* Modo de Hyprland (Redimensionar, etc.) */
-#mode {
-  background-color: @background; /* Corregido: @backgound -> @background */
-  border-color: @inverse_primary;
-  box-shadow: inset 0 -3px #ffffff;
-}
-
-/* =========================================================================
-   3. MÓDULOS DEL SISTEMA Y TASKBAR (Derecha e Izquierda)
-   ========================================================================= */
-
-/* Grupo general de módulos de información (Reloj, CPU, Memoria, etc.) */
-/* Incluye: clock, cpu, keyboard-state, language, memory, temp, network, volume, tray, window, bluetooth, etc. */
+/* 1. Base unificada para todos los círculos */
 #clock,
 #cpu,
-#custom-keyboard-state,
-#custom-language,
 #memory,
 #temperature,
-#network,
 #wireplumber,
 #tray,
 #bluetooth,
-#power-profiles-daemon,
-#language {
-  font-size: 10px;
-  padding: 0 2px;
+#custom-language,
+#custom-menu,
+#custom-power,
+#custom-opera,
+#custom-pcmanfm,
+#custom-thunar,
+#custom-firefox,
+#custom-thunderbird,
+#custom-TelegramDesktop,
+#custom-mousepad,
+#custom-terminal,
+#custom-calculadora,
+#custom-localsend,
+#workspaces button,
+#taskbar button,
+#keyboard-state label {
+  padding: 2px 4px;
+  margin: 0;
   background-color: @on_primary;
   color: @on_surface;
   border-radius: 100px;
-  margin: 0px;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-  border-color: @inverse_primary;
+  border: 1px solid rgba(100, 114, 125, 0.3);
+  min-width: 0;
+  min-height: 0;
+  transition: all 0.2s ease-in-out;
 }
 
-/* Sub-selectores específicos (Network y Tray) */
-#network.disabled,
-#network.disconnected,
-#network.linked,
-#network.ethernet,
-#network.wifi,
-#tray > .passive,
-#tray > .active,
-#tray > .needs-attention {
-    /* Heredan del grupo principal */
+/* 2. Tamaños de fuente */
+#custom-menu,
+#custom-power,
+#custom-opera,
+#custom-firefox,
+#custom-terminal,
+#custom-pcmanfm,
+#custom-thunar,
+#custom-thunderbird,
+#custom-TelegramDesktop,
+#custom-mousepad,
+#custom-calculadora,
+#custom-localsend,
+#taskbar button {
+  font-size: 18px;
 }
 
-/* Estado Hover para módulos de información */
+#clock,
+#network,
+#cpu,
+#memory,
+#temperature,
+#wireplumber,
+#tray,
+#bluetooth,
+#custom-language,
+#keyboard-state label {
+  padding: 0;
+  background-color: @background;
+  border-radius: 10px;
+  margin: 4px 2px;
+}
+
+/* 3. Estados de los LEDs (Bloqueado/Encendido) */
+#keyboard-state label.locked {
+  color: @primary;
+  border: 1px solid @inverse_primary;
+}
+
+#custom-language {
+  padding: 0 10px; /* Añade un poco de padding lateral */
+  background-color: @background;
+  border-radius: 10px;
+  margin: 4px 2px;
+  min-width: 40px; /* Asegura un ancho mínimo para que sea visible */
+}
+
+/* 4. EFECTO HOVER (Brillo y cambio de color) */
+/* Colocado al final para que tenga prioridad sobre los estados anteriores */
 #clock:hover,
 #cpu:hover,
-#custom-language:hover,
-#custom-keyboard-state:hover,
 #memory:hover,
 #temperature:hover,
-#network:hover,
 #wireplumber:hover,
 #tray:hover,
 #bluetooth:hover,
-#power-profiles-daemon:hover,
-#window:hover,
-#language:hover {
-  color: @primary;
-  background-color: @background; /* Corregido: @backgound -> @background */
-  box-shadow: inset 0 -3px #ffffff;
-}
-
-/* Taskbar: Estilos para el contenedor y los botones */
-#taskbar {
-  background-color: @on_primarye; /* Posible error tipográfico en la variable: @on_primarye */
-  border-color: @primary;
-  font-size: 10px;
-  border-radius: 100px;
-  padding: 0 2px;
-  color: @on_surface;
-  margin: 0px;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-}
-
-#taskbar button {
-  border-color: @primary;
-  background-color: @inverse_primary;
-  font-size: 10px;
-  padding: 0 2px;
-  color: @on_surface;
-  border-radius: 100px;
-  margin: 0px;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-}
-
-/* Taskbar: Botón activo */
-#taskbar button.active {
-  /* Simplificado: solo se definen los cambios */
-  background-color: @on_primary;
-  border-color: @inverse_surface;
-}
-
-
-/* =========================================================================
-   4. MÓDULOS CUSTOM (LANZADORES)
-   ========================================================================= */
-
-/* Grupo de lanzadores (Izquierda) y botón de Apagado (Derecha) */
-#custom-menu,
-#custom-localsend,
-#custom-pcmanfm,
-#custom-thunar,
-#custom-mousepad,
-#custom-power,
-#custom-firefox,
-#custom-opera,
-#custom-thunderbird,
-#custom-TelegramDesktop,
-#custom-calculadora,
-#custom-terminal {
-  font-size: 18px; 
-  padding: 0 2px; 
-  background-color: @on_primary;
-  color: @on_surface;
-  border-radius: 100px;
-  border: 1px solid rgba(100, 114, 125, 0.5);
-  border-color: @inverse_primary;
-  transition: all 0.3s ease-in-out; /* Propiedad de Transición */
-}
-
-/* Animación de los iconos de aplicaciones al pasar el mouse (Hover) */
+#language:hover,
+#network:hover,
 #custom-menu:hover,
-#custom-localsend:hover,
+#custom-power:hover,
+#custom-opera:hover,
 #custom-pcmanfm:hover,
 #custom-thunar:hover,
-#custom-mousepad:hover,
-#custom-power:hover,
 #custom-firefox:hover,
-#custom-opera:hover,
 #custom-thunderbird:hover,
 #custom-TelegramDesktop:hover,
+#custom-mousepad:hover,
+#custom-terminal:hover,
 #custom-calculadora:hover,
-#custom-terminal:hover {
-  /* Simplificado: Solo se mantienen los cambios y la corrección de typo */
-  font-size: 18px; /* Aumento de tamaño para efecto */
-  color: @primary;
-  background-color: @background; /* Corregido: @backgound -> @background */
-  box-shadow: inset 0 -3px #ffffff;
+#custom-localsend:hover,
+#workspaces button:hover,
+#taskbar button:hover,
+#keyboard-state label:hover,
+#keyboard-state label.locked:hover {
+  background-color: @primary;
+  color: @background;
+  border: 1px solid @primary;
+  box-shadow: 0 0 10px @primary;
 }
 
-/* =========================================================================
-   5. MENU CONTEXTUAL
-   ========================================================================= */
-menu {
-  border-radius: 5px;
-  background: @on_primary;
-  color: @inverse_primary;
+/* 5. Otros estados activos */
+#taskbar button.active {
+  border: 1px solid @primary;
 }
-menuitem {
-  border-radius: 5px;
-  background: @on_primary;
+
+#workspaces button {
+  padding: 0 8px;
+  color: @foreground;
+  background-color: transparent;
+  /* Para que se vea circular como el resto */
+  border-radius: 16px;
+}
+
+#workspaces button.active {
+  background-color: #7aa2f7; /* Azul (puedes cambiarlo a tu color favorito) */
+  color: #1a1b26;
+  font-weight: bold;
+}
+
+#workspaces button.urgent {
+  background-color: #f7768e; /* Rojo para alertas */
+  color: #1a1b26;
+}
+
+#workspaces button.empty {
+  color: @outline;
+}
+#temperature.critical {
+  background-color: #ff4f4f; /* Rojo intenso */
+  color: @background;
+  border: 1px solid #ff4f4f;
+}
+
+/* Estado desconectado */
+#network.disconnected {
+  background-color: #ff4f4f;
+  color: @background;
 }

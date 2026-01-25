@@ -64,3 +64,21 @@
  - unexpected token `config` (131:5 to 131:11), unexpected statement after last statement
  - unexpected token `}` (134:3 to 134:4), unexpected token, this needs to be a statement
 
+2026-01-25 12:53:50[ERROR] Formatter 'prettier' error: [error] /home/eleazar/.config/waybar/style.css: SyntaxError: CssSyntaxError: Missed semicolon (10:28)
+[error]    8 | #bluetooth,
+[error]    9 | #custom-language {
+[error] > 10 |   font-size: 10px; [cite: 1]
+[error]      |                            ^
+[error]   11 |   padding: 0 8px; [cite: 1]
+[error]   12 |   background-color: @on_primary; [cite: 1]
+[error]   13 |   color: @on_surface; [cite: 1]
+
+2026-01-25 16:08:12[ERROR] Formatter 'prettier' error: [error] /home/eleazar/.config/waybar/style.css: SyntaxError: CssSyntaxError: Missed semicolon (60:19)
+[error]   58 |   "custom/language": {
+[error]   59 |     "exec": "niri msg -j keyboard-layouts | jq -r '.names[.current_idx]' | sed 's/English (US)/EN 🇺🇸/;s/Spanish/ES 🇪🇸/'",
+[error] > 60 |     "interval": 1,
+[error]      |                   ^
+[error]   61 |     "format": "  {}",
+[error]   62 |     "on-click": "niri msg action switch-layout next",
+[error]   63 |     "tooltip": false
+

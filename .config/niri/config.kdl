@@ -128,7 +128,7 @@ spawn-at-startup "udiskie" "-s"
 spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "nm-applet" "--indicator"
 spawn-at-startup "blueman-applet"
-
+spawn-at-startup "xmodmap" "-e" "add mod3 = Scroll_Lock"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
