@@ -39,33 +39,12 @@
     "format": "{title}",
     "separate-outputs": true
   },
-  "keyboard-state": {
-    "numlock": true,
-    "capslock": true,
-    "format": {
-      "numlock": "{icon}N",
-      "capslock": "{icon}C"
-    },
-    "format-icons": {
-      "locked": "  ",
-      "unlocked": ""
-    }
-  },
   "custom/language": {
-    "interval": 1,
-    //"exec": "niri msg -j keyboard-layouts | jq -r '.names[.current_idx]' | sed 's/English (US)/EN 🇺🇸/;s/Spanish/ES 🇪🇸/'",
     "exec": "niri msg -j keyboard-layouts | jq -r '.names[.current_idx]' | sed 's/English (US)/EN/;s/Spanish/ES/'",
+    "interval": 1,
     "format": "  {}",
     "on-click": "niri msg action switch-layout next",
     "tooltip": false
-  },
-  "cpu": {
-    "format": "{usage}% ",
-    "on-click": "kitty -e btop"
-  },
-  "memory": {
-    "format": "{}% ",
-    "on-click": "kitty -e btop"
   },
   "temperature": {
     "critical-threshold": 80,
@@ -74,21 +53,38 @@
       "",
       "",
       ""
-    ],
-    "on-click": "kitty -e watch sensors"
+    ]
   },
   "clock": {
-    "format": "{:L%a, %d %b, %Y (%I:%M %p)}  ",
-    "on-click": "kitty --class floating_cal -e sh -c 'cal; read'"
-  },
-  "tray": {
-    "icon-size": 15,
-    "spacing": 10
+    "locale": "es_ES.UTF-8",
+    "format": "{:%I:%M %p %d/%m/%Y}  ",
+    "format-alt": "{:%A, %B %d, %Y (%R)}  ",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month", // Cambiado a mes por defecto
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click": "mode", // Click izquierdo: Mes actual
+      "on-click-right": "mode", // Click derecho: Cicla a modo año
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
   },
   "custom/power": {
     "format": "⏻ ",
     "on-click": "niri msg action quit"
   },
+  /* Iconos y aplicaciones */
   "custom/menu": {
     "format": " ",
     "on-click": "rofi -show drun"
@@ -132,15 +128,5 @@
   "custom/localsend": {
     "format": "󰈪 ",
     "on-click": "/opt/LocalSend-1.17.0-linux-x86-64/localsend_app"
-  },
-  "wlr/taskbar": {
-    "format": "{icon}",
-    "on-click": "activate"
-  },
-  "bluetooth": {
-    "format": "",
-    "format-connected": " {device_alias}",
-    "on-click": "blueman-manager",
-    "on-click-right": "rfkill toggle bluetooth"
   }
 }
