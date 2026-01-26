@@ -100,3 +100,45 @@
 [error]   5 | /* 4. EFECTO HOVER (Brillo y cambio de color) */
 [error]   6 | /* Colocado al final para que tenga prioridad sobre los estados anteriores */
 
+2026-01-26 11:32:20[ERROR] Formatter 'jq' error: jq: parse error: Expected string key before ':' at line 20, column 21
+
+2026-01-26 12:52:33[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: 
+ - unexpected token `end` (29:5 to 29:8), expected `}` after last field
+ - unexpected token `end` (29:5 to 29:8), unexpected token, this needs to be a statement
+ - unexpected token `dependencies` (34:5 to 34:17), unexpected statement after last statement
+ - unexpected token `=` (35:10 to 35:11), unexpected token, this needs to be a statement
+ - unexpected token `snippets` (36:7 to 36:15), unexpected statement after last statement
+ - unexpected token `=` (39:15 to 39:16), unexpected token, this needs to be a statement
+ - unexpected token `,` (41:58 to 41:59), trailing commas are not allowed
+ - unexpected token `default` (41:9 to 41:16), unexpected statement after last statement
+ - unexpected token `}` (42:7 to 42:8), unexpected token, this needs to be a statement
+ - unexpected token `,` (49:8 to 49:9), trailing commas are not allowed
+ - unexpected token `completion` (43:7 to 43:17), unexpected statement after last statement
+ - unexpected token `}` (50:5 to 50:6), unexpected token, this needs to be a statement
+ - unexpected token `,` (58:8 to 58:9), trailing commas are not allowed
+ - unexpected token `config` (56:5 to 56:11), unexpected statement after last statement
+ - unexpected token `}` (59:3 to 59:4), unexpected token, this needs to be a statement
+ - unexpected token `,` (78:6 to 78:7), trailing commas are not allowed
+ - unexpected token `opts` (64:5 to 64:9), unexpected statement after last statement
+ - unexpected token `}` (79:3 to 79:4), unexpected token, this needs to be a statement
+ - unexpected token `cmd` (84:5 to 84:8), unexpected statement after last statement
+ - unexpected token `=` (85:10 to 85:11), unexpected token, this needs to be a statement
+ - unexpected token `dependencies` (86:5 to 86:17), unexpected statement after last statement
+ - unexpected token `=` (91:12 to 91:13), unexpected token, this needs to be a statement
+ - unexpected token `(` (91:22 to 91:23), expected function name
+ - unexpected token `(` (91:22 to 91:23), expected an expression after `(`
+ - unexpected token `)` (91:23 to 91:24), unexpected token, this needs to be a statement
+ - unexpected token `local` (92:7 to 92:12), unexpected statement after last statement
+ - unexpected token `end` (111:5 to 111:8), unexpected token, this needs to be a statement
+ - unexpected token `,` (129:6 to 129:7), trailing commas are not allowed
+ - unexpected token `opts` (117:5 to 117:9), unexpected statement after last statement
+ - unexpected token `}` (130:3 to 130:4), unexpected token, this needs to be a statement
+ - unexpected token `dependencies` (135:5 to 135:17), unexpected statement after last statement
+ - unexpected token `=` (136:10 to 136:11), unexpected token, this needs to be a statement
+ - unexpected token `,` (139:8 to 139:9), trailing commas are not allowed
+ - unexpected token `config` (137:5 to 137:11), unexpected statement after last statement
+ - unexpected token `}` (140:3 to 140:4), unexpected token, this needs to be a statement
+ - unexpected token `,` (145:23 to 145:24), trailing commas are not allowed
+ - unexpected token `event` (145:5 to 145:10), unexpected statement after last statement
+ - unexpected token `}` (146:3 to 146:4), unexpected token, this needs to be a statement
+

@@ -99,3 +99,27 @@ map("n", "<leader>tv", function()
     end,
   })
 end, { desc = "Terminal derecha 30% (auto-close)" })
+
+-- Atajo para alternar números relativos (líder + n + r)
+map("n", "<leader>nr", function()
+  vim.opt.relativenumber = not vim.opt.relativenumber:get()
+end, { desc = "Alternar números relativos" })
+
+-- Alternar números relativos
+map("n", "<leader>rn", function()
+  vim.opt.relativenumber = not vim.opt.relativenumber:get()
+end, { desc = "Alternar números relativos" })
+
+-- Alternar resaltado de línea actual
+map("n", "<leader>cl", function()
+  vim.opt.cursorline = not vim.opt.cursorline:get()
+end, { desc = "Alternar resaltado de línea" })
+
+-- Ejecutar Python con limpieza previa
+map("n", "<leader>py", "<cmd>set splitbelow | sp | term clear && python3 % <CR>", { desc = "Ejecutar Python (Limpio)" })
+
+-- Ejecutar Bash con limpieza previa
+map("n", "<leader>sh", "<cmd>set splitbelow | sp | term clear && bash % <CR>", { desc = "Ejecutar Bash (Limpio)" })
+
+-- Cerrar la ventana o terminal actual a la fuerza
+map({ "n", "t" }, "<leader>tx", "<C-\\><C-n><cmd>bd!<CR>", { desc = "Cerrar Terminal/Buffer forzado" })

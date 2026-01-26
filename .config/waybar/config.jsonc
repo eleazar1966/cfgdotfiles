@@ -31,6 +31,16 @@
     "tray",
     "custom/power"
   ],
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "on-click-right": "minimize",
+    "on-click-middle": "close",
+    /* Forzamos el uso de sh para asegurar la ejecución del comando */
+    "on-scroll-up": "sh -c 'niri msg action focus-column-left'",
+    "on-scroll-down": "sh -c 'niri msg action focus-column-right'",
+    "all-outputs": true
+  },
   "keyboard-state": {
     "numlock": true,
     "capslock": true,
@@ -46,15 +56,19 @@
     }
   },
   "cpu": {
-    "format": " ",
-    "tooltip": true
+    "interval": 10,
+    "format": "{}% ",
+    "max-length": 10
   },
   "memory": {
-    "format": " ",
-    "tooltip": true
+    "interval": 30,
+    "format": "{}% ",
+    "max-length": 10
   },
   "temperature": {
     "critical-threshold": 80,
+    "format-critical": "{temperatureC}°C ",
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
     "format": "{icon}",
     "format-icons": [
       "",
@@ -63,7 +77,7 @@
     ]
   },
   "wireplumber": {
-    "format": "{icon}",
+    "format": "{volume}% {icon}",
     "format-muted": "",
     "on-click": "helvum",
     "format-icons": [
@@ -111,7 +125,7 @@
   },
   "custom/menu": {
     "format": " ",
-    "on-click": "rofi -show drun"
+    "on-click": "~/.local/share/systools/launch-rofi.sh"
   },
   "custom/opera": {
     "format": "󰖟 ",
@@ -127,7 +141,7 @@
   },
   "custom/firefox": {
     "format": " ",
-    "on-click": "firefox"
+    "on-click": "firefox --private-window"
   },
   "custom/thunderbird": {
     "format": " ",

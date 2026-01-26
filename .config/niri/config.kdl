@@ -167,7 +167,7 @@ window-rule {
 
 window-rule {
     match app-id="thunar"
-    open-floating true
+    open-floating false
     default-column-width { proportion 0.5; }
     geometry-corner-radius 12.0
 }

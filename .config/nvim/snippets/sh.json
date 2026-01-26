@@ -1,0 +1,124 @@
+{
+  "Shebang Bash": {
+    "prefix": "shebang",
+    "body": [
+      "#!/bin/bash",
+      "",
+      "${0}"
+    ]
+  },
+  "Template Script Seguro": {
+    "prefix": "bashset",
+    "body": [
+      "#!/usr/bin/env bash",
+      "set -euo pipefail",
+      "IFS=$'\\n\\t'",
+      "",
+      "# Directorio del script",
+      "readonly SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"",
+      "",
+      "main() {",
+      "    ${0:# código aquí}",
+      "}",
+      "",
+      "main \"$@\""
+    ],
+    "description": "Script con modo estricto y función main"
+  },
+  "Parsear Argumentos": {
+    "prefix": "getopts",
+    "body": [
+      "while getopts \"${1:hv}\" opt; do",
+      "    case \"$opt\" in",
+      "        h) echo \"Uso: $0 [-h] [-v]\"; exit 0 ;;",
+      "        v) verbose=true ;;",
+      "        *) echo \"Opción inválida\"; exit 1 ;;",
+      "    esac",
+      "done",
+      "shift $((OPTIND -1))"
+    ],
+    "description": "Estructura para procesar banderas/opciones"
+  },
+  "Iterar Archivos": {
+    "prefix": "forfile",
+    "body": [
+      "for ${1:file} in ${2:*}; do",
+      "    [[ -e \"$${1:file}\" ]] || continue",
+      "    echo \"Procesando $${1:file}...\"",
+      "    ${0}",
+      "done"
+    ],
+    "description": "Bucle for seguro para archivos"
+  },
+  "Check dependencias": {
+    "prefix": "checkcmd",
+    "body": [
+      "if ! command -v ${1:comando} &> /dev/null; then",
+      "    echo \"Error: ${1:comando} no está instalado.\"",
+      "    exit 1",
+      "fi"
+    ],
+    "description": "Verifica si un programa existe antes de ejecutar"
+  },
+  "Logs con Colores": {
+    "prefix": "logfunc",
+    "body": [
+      "# Colores",
+      "readonly RED='\\033[0;31m'",
+      "readonly GREEN='\\033[0;32m'",
+      "readonly YELLOW='\\033[1;33m'",
+      "readonly NC='\\033[0m' # No Color",
+      "",
+      "log_info()  { echo -e \"${GREEN}[INFO]${NC}  $1\"; }",
+      "log_warn()  { echo -e \"${YELLOW}[WARN]${NC}  $1\"; }",
+      "log_error() { echo -e \"${RED}[ERROR]${NC} $1\" >&2; }",
+      "",
+      "log_info \"${1:Iniciando proceso...}\"",
+      "${0}"
+    ],
+    "description": "Funciones de logging con colores (info, warn, error)"
+  },
+  "Encabezado Seguro": {
+    "prefix": "header",
+    "body": [
+      "#!/usr/bin/env bash",
+      "###############################################################################",
+      "# Script:      ${TM_FILENAME}",
+      "# Descripción: ${1:Descripción breve}",
+      "# Autor:       ${2:Tu Nombre}",
+      "# Fecha:       ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "###############################################################################",
+      "",
+      "set -euo pipefail",
+      "IFS=$'\\n\\t'",
+      "",
+      "readonly SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"",
+      "",
+      "${0}"
+    ],
+    "description": "Encabezado profesional y seguro para Bash"
+  },
+  "Archivo Temporal Seguro": {
+    "prefix": "mktmp",
+    "body": [
+      "# Crear archivo temporal que se elimina al salir",
+      "readonly TMP_FILE=$(mktemp /tmp/${1:script_name}.XXXXXX)",
+      "trap 'rm -f \"$TMP_FILE\"' EXIT",
+      "",
+      "${0:# usar $TMP_FILE}"
+    ],
+    "description": "Crea un archivo temporal y asegura su eliminación con trap"
+  },
+  "Directorio Temporal Seguro": {
+    "prefix": "mktmpdir",
+    "body": [
+      "# Crear directorio temporal que se elimina al salir",
+      "readonly TMP_DIR=$(mktemp -d /tmp/${1:script_name}.XXXXXX)",
+      "trap 'rm -rf \"$TMP_DIR\"' EXIT",
+      "",
+      "cd \"$TMP_DIR\" || exit 1",
+      "${0}"
+    ],
+    "description": "Crea un directorio temporal y asegura su eliminación con trap"
+  }
+}

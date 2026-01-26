@@ -1,20 +1,47 @@
 return {
+  -- Formateo de código
   {
     "stevearc/conform.nvim",
     event = "BufWritePre",
     opts = require "configs.conform",
   },
 
+  -- Configuración de Snippets
   {
     "L3MON4D3/LuaSnip",
+    lazy = false,
     config = function()
-      -- En lua/plugins/init.lua, dentro de la config de LuaSnip:
-      require("luasnip.loaders.from_vscode").lazy_load {
-        paths = { vim.fn.stdpath "config" .. "/lua/custom/snippets" },
+      require "nvchad.configs.luasnip"
+
+      -- Usamos .load en lugar de .lazy_load para forzar la lectura
+      require("luasnip.loaders.from_vscode").load {
+        paths = { vim.fn.expand "~/.config/nvim/snippets" },
       }
     end,
   },
+  -- Motor de autocompletado (Blink.cmp)
+  {
+    "Saghen/blink.cmp",
+    dependencies = { { import = "nvchad.blink.lazyspec" } },
+    opts = {
+      snippets = {
+        preset = "luasnip",
+      },
+      sources = {
+        -- Prioridad de fuentes: LSP y Snippets primero
+        default = { "lsp", "snippets", "buffer", "path" },
+      },
+      completion = {
+        menu = {
+          draw = {
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+          },
+        },
+      },
+    },
+  },
 
+  -- Configuración de LSP
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -22,14 +49,7 @@ return {
     end,
   },
 
-  -- Añade esto dentro de la tabla de plugins en lua/plugins/init.lua
-  {
-    "Saghen/blink.cmp",
-    opts = {
-      snippets = { preset = "luasnip" },
-    },
-  },
-
+  -- Gestor de herramientas (LSP, Linters, Debuggers)
   {
     "williamboman/mason.nvim",
     opts = {
@@ -49,11 +69,9 @@ return {
     },
   },
 
-  { import = "nvchad.blink.lazyspec" },
-
+  -- Depuración (DAP)
   {
     "mfussenegger/nvim-dap",
-    -- Esto carga el plugin automáticamente al usar el comando o las teclas
     cmd = { "DapToggleBreakpoint", "DapContinue", "DapTerminate" },
     keys = { "<leader>db", "<leader>dc" },
     dependencies = {
@@ -66,47 +84,13 @@ return {
       local ui = require "dapui"
       ui.setup()
 
-      -- Registro manual de comandos
-      vim.api.nvim_create_user_command("DapToggleBreakpoint", function()
-        dap.toggle_breakpoint()
-      end, {})
-      vim.api.nvim_create_user_command("DapContinue", function()
-        dap.continue()
-      end, {})
-      vim.api.nvim_create_user_command("DapTerminate", function()
-        dap.terminate()
-      end, {})
+      require("dap-python").setup "python3"
 
-      -- Adaptador Bash
+      -- Adaptador para Bash
       dap.adapters.bashdb = {
         type = "executable",
         command = vim.fn.stdpath "data" .. "/mason/bin/bash-debug-adapter",
         args = { "start" },
-      }
-
-      require("dap-python").setup "python3"
-
-      -- Configuración de depuración para Shell
-      dap.configurations.sh = {
-        {
-          type = "bashdb",
-          request = "launch",
-          name = "Launch file",
-          showDebugOutput = true,
-          pathBashdb = vim.fn.stdpath "data" .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb",
-          pathBashdbLib = vim.fn.stdpath "data" .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir",
-          trace = true,
-          file = "${file}",
-          program = "${file}",
-          cwd = "${workspaceFolder}",
-          pathCat = "cat",
-          pathBash = "/bin/bash",
-          pathMkfifo = "mkfifo",
-          pathPkill = "pkill",
-          args = {},
-          env = {},
-          terminalKind = "integrated",
-        },
       }
 
       dap.listeners.before.attach.dapui_config = function()
@@ -118,6 +102,7 @@ return {
     end,
   },
 
+  -- Resaltado de sintaxis
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -135,6 +120,7 @@ return {
     },
   },
 
+  -- Búsqueda y reemplazo avanzado
   {
     "nvim-pack/nvim-spectre",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -144,6 +130,7 @@ return {
     end,
   },
 
+  -- Objetos de texto para indentación
   {
     "michaeljsmith/vim-indent-object",
     event = "VeryLazy",

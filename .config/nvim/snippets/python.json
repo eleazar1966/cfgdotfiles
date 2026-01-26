@@ -1,0 +1,49 @@
+{
+  "trylog": {
+    "prefix": "trylog",
+    "body": [
+      "try:",
+      "    ${1:pass}",
+      "except ${2:Exception} as e:",
+      "    logging.error(f\"Error en ${3:proceso}: {e}\")",
+      "    ${0:raise e}"
+    ],
+    "description": "Try except con logging"
+  },
+  "defp": {
+    "prefix": "defp",
+    "body": [
+      "def ${1:nombre_funcion}(${2:params}):",
+      "    \"\"\"${3:Descripción de la función}.\"\"\"",
+      "    ${0:pass}"
+    ],
+    "description": "Función con docstring"
+  },
+  "ifmain": {
+    "prefix": "ifmain",
+    "body": [
+      "if __name__ == \"__main__\":",
+      "    ${0:main()}"
+    ],
+    "description": "Bloque main"
+  },
+  "Encabezado Profesional": {
+    "prefix": "header",
+    "body": [
+      "#!/usr/bin/env python3",
+      "# -*- coding: utf-8 -*-",
+      "\"\"\"",
+      "Archivo: ${TM_FILENAME}",
+      "Autor:   ${1:Tu Nombre}",
+      "Fecha:   ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "Descripción: ${2:Propósito del script.}",
+      "\"\"\"",
+      "",
+      "import os",
+      "import sys",
+      "",
+      "${0}"
+    ],
+    "description": "Encabezado con metadatos para Python"
+  }
+}

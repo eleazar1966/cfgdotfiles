@@ -14,13 +14,13 @@ window#waybar {
 
 #window {
   background-color: @background;
-  padding: 0 6px;
+  padding: 0 2px;
   border-radius: 10px;
-  margin: 0 4px;
-  font-size: 9px;
+  margin: 0;
+  font-size: 10px;
 }
 
-/* 1. Círculos Mínimos (20px) */
+/* 1. Estilo base para círculos de 20px */
 #clock,
 #cpu,
 #memory,
@@ -44,21 +44,19 @@ window#waybar {
 #workspaces button,
 #taskbar button,
 #keyboard-state label.locked {
-  margin: 1px 0.3px; /* Espacio casi nulo */
+  margin: 1px 1px;
   background-color: @background;
   color: @on_surface;
   border: 1px solid rgba(100, 114, 125, 0.2);
-
-  /* Tamaño mínimo para que sigan siendo redondos */
   min-width: 20px;
   min-height: 20px;
   padding: 0;
   border-radius: 100%;
-
+  font-size: 10px;
   transition: all 0.2s ease-in-out;
 }
 
-/* 2. Ajuste de iconos y textos específicos */
+/* 2. Tamaño de iconos aumentado (16px) */
 #custom-menu,
 #custom-power,
 #custom-opera,
@@ -72,30 +70,62 @@ window#waybar {
 #custom-calculadora,
 #custom-localsend,
 #taskbar button {
-  font-size: 12px;
+  font-size: 16px;
 }
 
-/* Excepción: Píldoras para texto */
+/* 3. Excepciones de tamaño (Píldoras) */
 #clock,
 #custom-language {
   padding: 0 5px;
   min-width: 30px;
   border-radius: 8px;
+  font-size: 10px;
 }
 
-/* 3. Keyboard State (Leds de bloqueo) */
+/* 4. Keyboard State */
 #keyboard-state label {
   font-size: 0px;
-  padding: 0;
-  margin: 0;
 }
 
 #keyboard-state label.locked {
-  font-size: 8px;
+  font-size: 10px;
   color: @primary;
 }
 
-/* 4. Efecto HOVER con Brillo */
+/* 5. Estados del Taskbar (Única sección) */
+#taskbar {
+  padding: 0 10px;
+}
+
+#taskbar button {
+  border: 1px solid rgba(100, 114, 125, 0.4);
+}
+
+#taskbar button.focused {
+  background-color: @primary;
+  color: @background;
+  border: 1px solid @primary;
+  box-shadow: 0 0 6px @primary;
+}
+
+#taskbar button.active {
+  border: 1px solid @primary;
+  background-color: rgba(122, 162, 247, 0.15);
+}
+
+#taskbar button.minimized {
+  opacity: 0.4;
+  background-color: transparent;
+  border: 1px dashed rgba(100, 114, 125, 0.5);
+}
+
+/* 6. Workspaces activo */
+#workspaces button.active {
+  background-color: @primary;
+  color: @background;
+}
+
+/* 7. Efecto HOVER global */
 #clock:hover,
 #cpu:hover,
 #memory:hover,
@@ -122,15 +152,4 @@ window#waybar {
   background-color: @primary;
   color: @background;
   box-shadow: 0 0 6px @primary;
-}
-
-/* 5. Colores para aplicaciones activas */
-#taskbar button.active {
-  border: 1px solid @primary;
-  background-color: rgba(122, 162, 247, 0.15); /* Sutil tinte azul */
-}
-
-#workspaces button.active {
-  background-color: @primary;
-  color: @background;
 }
