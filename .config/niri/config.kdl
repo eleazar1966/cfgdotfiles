@@ -254,6 +254,7 @@ binds {
     Mod+F3 { spawn "kitty" "-e" "ranger"; }
     Mod+F4 { spawn "rhythmbox"; }
     Mod+F11 { spawn "vlc"; }
+    Mod+Shift+W { spawn "pkill" "-USR1" "-f" "mostrar_imagenes.sh"; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-window-down; }
