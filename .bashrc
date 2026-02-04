@@ -177,6 +177,7 @@ alias git-update="~/.local/share/systools/git-actualiza.sh | lolcat"
 alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
+alias pgadmin='~/pgadmin4/venv/bin/python ~/pgadmin4/venv/lib/python3.13/site-packages/pgadmin4/pgAdmin4.py'
 #clear
 #fastfetch
 export DRI_PRIME=1

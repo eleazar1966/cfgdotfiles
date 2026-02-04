@@ -42,7 +42,7 @@
     "all-outputs": true
   },
   "keyboard-state": {
-    "numlock": true,
+    "numlock": false,
     "capslock": true,
     "scrolllock": true,
     "format": {

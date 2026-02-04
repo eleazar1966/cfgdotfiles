@@ -10,7 +10,7 @@ vim.notify = function(msg, level, opts)
   end
   original_notify(msg, level, opts)
 end
-
+vim.opt.clipboard = "unnamedplus"
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
 if not vim.loop.fs_stat(lazypath) then

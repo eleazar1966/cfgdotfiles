@@ -142,3 +142,7 @@
  - unexpected token `event` (145:5 to 145:10), unexpected statement after last statement
  - unexpected token `}` (146:3 to 146:4), unexpected token, this needs to be a statement
 
+2026-02-04 09:57:56[ERROR] Formatter 'shfmt' error: /home/eleazar/.local/share/systools/EAPI-guru.sh:43:1: "done" can only be used to end a loop
+
+2026-02-04 09:59:26[ERROR] Formatter 'shfmt' error: /home/eleazar/.local/share/systools/EAPI-guru.sh:43:1: "done" can only be used to end a loop
+

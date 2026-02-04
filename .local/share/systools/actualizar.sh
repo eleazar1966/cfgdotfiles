@@ -16,7 +16,7 @@ fi
 # 2. Sincronización
 echo "[2/9] Sincronizando repositorios de Portage..."
 sudo emerge --sync --quiet
-
+# ~/.local/share/systools/EAPI-guru.sh
 # 3. Actualización de @world
 echo "[3/9] Calculando y aplicando actualizaciones de @world..."
 echo "      (Esto puede tomar tiempo dependiendo de los paquetes)"
