@@ -1,6 +1,8 @@
 */* CPU_FLAGS_X86: aes avx avx2 bmi1 bmi2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3 vpclmulqdq
 */* VIDEO_CARDS: -* amdgpu radeonsi fbdev
 */* INPUT_DEVICES: libinput
+*/* PYTHON_TARGETS: -* python3_12 python3_13
+*/* PYTHON_SINGLE_TARGET: -* python3_13
 sys-boot/plymouth -udev
 media-video/ffmpeg pipewire
 x11-base/xorg-server -minimal
@@ -11,3 +13,10 @@ x11-base/xorg-server -minimal
 >=app-emulation/wine-gecko-2.47.4 abi_x86_32
 >=net-fs/samba-4.23.3 winbind
 >=dev-util/mingw64-toolchain-13.0.0_p1 abi_x86_32
+>=dev-python/trytond_gis-7.8.0 -python_targets_python3_13
+>=app-tryton/web_shop_shopify-7.8.3 -python_targets_python3_13
+>=app-tryton/sale_product_recommendation_association_rule-7.8.0 -python_targets_python3_13
+>=app-tryton/authentication_saml-7.8.0 -python_targets_python3_13
+sys-apps/file -python
+dev-python/relatorio fodt
+dev-python/python-stdnum vies

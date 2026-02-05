@@ -6,7 +6,7 @@ PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /        btrfs   subvol=@,noatim
 PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /home    btrfs   subvol=@home,noatime,discard=async,compress=zstd:3,space_cache=v2,autodefrag 0 0
 
 # REPOSITORIOS (Optimizado sin CoW)
-PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /var/db/repos/gentoo  btrfs  subvol=@portage,noatime,nodatacow 0 0
+PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /var/db/repos btrfs  subvol=@portage,noatime,nodatacow 0 0
 PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /var/cache/distfiles  btrfs  subvol=@distfiles,noatime,nodatacow 0 0
 
 # COMPILACIÓN EN RAM (Unificado y ajustado a 24GB para aprovechar tus 32GB + ZRAM)
