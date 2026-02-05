@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+# Función para cambiar el título de la terminal actual
+set_title() {
+  echo -ne "\033]0;$1\007"
+}
+
+# Guardar título original
+ORIGINAL_TITLE="Terminal"
+
 echo "=========================================================="
 echo "   INICIANDO ACTUALIZACIÓN Y OPTIMIZACIÓN GENTOO (Zen 3)  "
 echo "=========================================================="
@@ -15,19 +23,20 @@ fi
 
 # 2. Sincronización
 echo "[2/9] Sincronizando repositorios de Portage..."
+set_title "emerge" # Activa borde naranja en Niri
 sudo emerge --sync --quiet
-# ~/.local/share/systools/EAPI-guru.sh
+
 # 3. Actualización de @world
 echo "[3/9] Calculando y aplicando actualizaciones de @world..."
-echo "      (Esto puede tomar tiempo dependiendo de los paquetes)"
 sudo emerge -uDvN --with-bdeps=y @world
 
 # 4. Gestión de archivos de configuración
+set_title "actualizar.sh"
 echo "[4/9] Revisando cambios en archivos de configuración (/etc)..."
-echo "      (Usa 'u' para actualizar, 'z' para descartar)"
 sudo dispatch-conf
 
 # 5. Limpieza de dependencias y reconstrucción
+set_title "emerge"
 echo "[5/9] Limpiando dependencias huérfanas (--depclean)..."
 sudo emerge --depclean
 echo "[5.1/9] Reconstruyendo paquetes con librerías preservadas..."
@@ -40,20 +49,17 @@ echo "[6/9] Limpiando fuentes de paquetes antiguos (distfiles)..."
 sudo eclean-dist --deep
 echo "[6.1/9] Limpiando kernels antiguos (manteniendo los últimos 3)..."
 sudo eclean-kernel -n 22
-# 7. Optimización y Salud de BTRFS
-# echo "[7/9] Iniciando verificación de salud BTRFS (Scrub)..."
-# sudo btrfs scrub start -B /
-# echo "[7.1/9] Desfragmentando metadatos de Portage y Distfiles..."
-# sudo btrfs filesystem defragment -r /var/db/repos/gentoo
-# sudo btrfs filesystem defragment -r /var/cache/distfiles
 
 # 8. Indexación de archivos
+set_title "actualizar.sh"
 echo "[8/9] Actualizando base de datos de búsqueda rápida (locate)..."
 sudo updatedb
 
 # 9. Finalización
 echo "[9/9] Desmontando /boot y finalizando..."
 sudo umount /boot
+
+set_title "$ORIGINAL_TITLE"
 
 echo "=========================================================="
 echo "   ¡SISTEMA ACTUALIZADO, LIMPIO Y OPTIMIZADO CON ÉXITO!   "

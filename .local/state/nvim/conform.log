@@ -146,3 +146,129 @@
 
 2026-02-04 09:59:26[ERROR] Formatter 'shfmt' error: /home/eleazar/.local/share/systools/EAPI-guru.sh:43:1: "done" can only be used to end a loop
 
+2026-02-05 08:55:53[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: 
+ - unexpected token `[` (7:26 to 7:27), unexpected token, this needs to be a statement
+ - unexpected token `:` (7:31 to 7:32), expected identifier after `:`
+ - unexpected token `8` (7:33 to 7:34), unexpected expression when looking for a statement
+ - unexpected token `8` (7:33 to 7:34), unexpected token, this needs to be a statement
+ - unexpected token `:` (8:29 to 8:30), expected identifier after `:`
+ - unexpected token `8` (8:31 to 8:32), unexpected expression when looking for a statement
+ - unexpected token `8` (8:31 to 8:32), unexpected token, this needs to be a statement
+ - unexpected token `:` (9:30 to 9:31), expected identifier after `:`
+ - unexpected token `8` (9:32 to 9:33), unexpected expression when looking for a statement
+ - unexpected token `8` (9:32 to 9:33), unexpected token, this needs to be a statement
+ - unexpected token `:` (10:26 to 10:27), expected identifier after `:`
+ - unexpected token `8` (10:28 to 10:29), unexpected expression when looking for a statement
+ - unexpected token `8` (10:28 to 10:29), unexpected token, this needs to be a statement
+ - unexpected token `:` (11:26 to 11:27), expected identifier after `:`
+ - unexpected token `8` (11:28 to 11:29), unexpected expression when looking for a statement
+ - unexpected token `8` (11:28 to 11:29), unexpected token, this needs to be a statement
+ - unexpected token `:` (12:66 to 12:67), expected identifier after `:`
+ - unexpected token `8` (12:68 to 12:69), unexpected expression when looking for a statement
+ - unexpected token `8` (12:68 to 12:69), unexpected token, this needs to be a statement
+ - unexpected token `:` (13:35 to 13:36), expected identifier after `:`
+ - unexpected token `8` (13:37 to 13:38), unexpected expression when looking for a statement
+ - unexpected token `8` (13:37 to 13:38), unexpected token, this needs to be a statement
+ - unexpected token `:` (14:73 to 14:74), expected identifier after `:`
+ - unexpected token `8` (14:75 to 14:76), unexpected expression when looking for a statement
+ - unexpected token `8` (14:75 to 14:76), unexpected token, this needs to be a statement
+ - unexpected token `:` (17:33 to 17:34), expected identifier after `:`
+ - unexpected token `8` (17:35 to 17:36), unexpected expression when looking for a statement
+ - unexpected token `8` (17:35 to 17:36), unexpected token, this needs to be a statement
+ - unexpected token `:` (18:64 to 18:65), expected identifier after `:`
+ - unexpected token `8` (18:59 to 18:64), expected `]` to close index expression
+ - unexpected token `8` (18:66 to 18:67), unexpected expression when looking for a statement
+ - unexpected token `8` (18:66 to 18:67), unexpected token, this needs to be a statement
+ - unexpected token `:` (23:85 to 23:86), expected identifier after `:`
+ - unexpected token `8` (23:80 to 23:85), expected `]` to close index expression
+ - unexpected token `8` (23:87 to 23:88), unexpected token, this needs to be a statement
+ - unexpected token `[` (30:5 to 30:33), expected `end` to close function body block
+ - unexpected token `[` (30:34 to 30:35), expected `}` after last field
+ - unexpected token `(` (26:28 to 26:29), expected `)` to close function call
+ - unexpected token `:` (30:39 to 30:40), expected identifier after `:`
+ - unexpected token `8` (30:34 to 30:39), expected `]` to close index expression
+ - unexpected token `8` (30:41 to 30:42), unexpected expression when looking for a statement
+ - unexpected token `8` (30:41 to 30:42), unexpected token, this needs to be a statement
+ - unexpected token `:` (31:36 to 31:37), expected identifier after `:`
+ - unexpected token `8` (31:38 to 31:39), unexpected expression when looking for a statement
+ - unexpected token `8` (31:38 to 31:39), unexpected token, this needs to be a statement
+ - unexpected token `:` (32:41 to 32:42), expected identifier after `:`
+ - unexpected token `8` (32:43 to 32:44), unexpected expression when looking for a statement
+ - unexpected token `8` (32:43 to 32:44), unexpected token, this needs to be a statement
+ - unexpected token `:` (33:43 to 33:44), expected identifier after `:`
+ - unexpected token `8` (33:45 to 33:46), unexpected expression when looking for a statement
+ - unexpected token `8` (33:45 to 33:46), unexpected token, this needs to be a statement
+ - unexpected token `[` (44:5 to 44:35), expected `end` to close function body block
+ - unexpected token `[` (44:36 to 44:37), expected `}` after last field
+ - unexpected token `(` (38:28 to 38:29), expected `)` to close function call
+ - unexpected token `:` (44:41 to 44:42), expected identifier after `:`
+ - unexpected token `8` (44:36 to 44:41), expected `]` to close index expression
+ - unexpected token `8` (44:43 to 44:44), unexpected expression when looking for a statement
+ - unexpected token `8` (44:43 to 44:44), unexpected token, this needs to be a statement
+ - unexpected token `:` (52:35 to 52:36), expected identifier after `:`
+ - unexpected token `8` (52:30 to 52:35), expected `]` after expression
+ - unexpected token `8` (52:37 to 52:38), unexpected token, this needs to be a statement
+ - unexpected token `:` (54:39 to 54:40), expected identifier after `:`
+ - unexpected token `8` (54:34 to 54:39), expected `]` after expression
+ - unexpected token `8` (54:41 to 54:42), unexpected token, this needs to be a statement
+ - unexpected token `:` (55:44 to 55:45), expected identifier after `:`
+ - unexpected token `8` (55:46 to 55:47), unexpected expression when looking for a statement
+ - unexpected token `8` (55:46 to 55:47), unexpected token, this needs to be a statement
+ - unexpected token `:` (59:44 to 59:45), expected identifier after `:`
+ - unexpected token `8` (59:46 to 59:47), unexpected expression when looking for a statement
+ - unexpected token `8` (59:46 to 59:47), unexpected token, this needs to be a statement
+ - unexpected token `:` (63:28 to 63:29), expected identifier after `:`
+ - unexpected token `8` (63:23 to 63:28), expected `]` after expression
+ - unexpected token `8` (63:30 to 63:31), expected `}` after last field
+ - unexpected token `8` (63:30 to 63:31), unexpected token, this needs to be a statement
+ - unexpected token `,` (64:72 to 64:73), trailing commas are not allowed
+ - unexpected token `[` (64:74 to 64:75), unexpected token, this needs to be a statement
+ - unexpected token `:` (64:79 to 64:80), expected identifier after `:`
+ - unexpected token `8` (64:81 to 64:82), unexpected expression when looking for a statement
+ - unexpected token `8` (64:81 to 64:82), unexpected token, this needs to be a statement
+ - unexpected token `,` (66:26 to 66:27), trailing commas are not allowed
+ - unexpected token `[` (66:28 to 66:29), unexpected token, this needs to be a statement
+ - unexpected token `:` (66:33 to 66:34), expected identifier after `:`
+ - unexpected token `8` (66:35 to 66:36), unexpected expression when looking for a statement
+ - unexpected token `8` (66:35 to 66:36), unexpected token, this needs to be a statement
+ - unexpected token `:` (68:32 to 68:33), expected identifier after `:`
+ - unexpected token `8` (68:27 to 68:32), expected `]` after expression
+ - unexpected token `8` (68:34 to 68:35), unexpected token, this needs to be a statement
+ - unexpected token `,` (69:38 to 69:39), trailing commas are not allowed
+ - unexpected token `[` (69:40 to 69:41), unexpected token, this needs to be a statement
+ - unexpected token `:` (69:45 to 69:46), expected identifier after `:`
+ - unexpected token `8` (69:47 to 69:48), unexpected expression when looking for a statement
+ - unexpected token `8` (69:47 to 69:48), unexpected token, this needs to be a statement
+ - unexpected token `:` (74:42 to 74:43), expected identifier after `:`
+ - unexpected token `8` (74:37 to 74:42), expected `]` after expression
+ - unexpected token `8` (74:44 to 74:45), unexpected token, this needs to be a statement
+ - unexpected token `:` (77:100 to 77:101), expected identifier after `:`
+ - unexpected token `8` (77:95 to 77:100), expected `]` after expression
+ - unexpected token `8` (77:102 to 77:103), unexpected token, this needs to be a statement
+ - unexpected token `:` (80:43 to 80:44), expected identifier after `:`
+ - unexpected token `8` (80:38 to 80:43), expected `]` to close index expression
+ - unexpected token `8` (80:9 to 80:43), expected `end` to close function body block
+ - unexpected token `8` (80:45 to 80:46), expected `}` after last field
+ - unexpected token `8` (80:45 to 80:46), unexpected token, this needs to be a statement
+ - unexpected token `:` (81:49 to 81:50), expected identifier after `:`
+ - unexpected token `8` (81:44 to 81:49), expected `]` to close index expression
+ - unexpected token `8` (81:51 to 81:52), unexpected token, this needs to be a statement
+ - unexpected token `:` (82:45 to 82:46), expected identifier after `:`
+ - unexpected token `8` (82:40 to 82:45), expected `]` to close index expression
+ - unexpected token `8` (82:47 to 82:48), unexpected token, this needs to be a statement
+ - unexpected token `[` (87:38 to 87:39), expected `end` to conclude `if`
+ - unexpected token `[` (87:38 to 87:39), unexpected token, this needs to be a statement
+ - unexpected token `:` (87:43 to 87:44), expected identifier after `:`
+ - unexpected token `8` (87:45 to 87:46), unexpected expression when looking for a statement
+ - unexpected token `8` (87:45 to 87:46), unexpected token, this needs to be a statement
+ - unexpected token `>` (88:27 to 88:28), unexpected expression when looking for a statement
+ - unexpected token `>` (88:27 to 88:28), unexpected token, this needs to be a statement
+ - unexpected token `:` (89:45 to 89:46), expected identifier after `:`
+ - unexpected token `8` (89:47 to 89:48), unexpected expression when looking for a statement
+ - unexpected token `8` (89:47 to 89:48), unexpected token, this needs to be a statement
+ - unexpected token `>` (90:27 to 90:28), unexpected expression when looking for a statement
+ - unexpected token `>` (90:27 to 90:28), unexpected token, this needs to be a statement
+ - unexpected token `:` (91:42 to 91:43), expected identifier after `:`
+ - unexpected token `8` (91:44 to 91:45), unexpected expression when looking for a statement
+ - unexpected token `8` (91:44 to 91:45), unexpected token, this needs to be a statement
+

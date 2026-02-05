@@ -1,7 +1,9 @@
 ---@type ChadrcConfig
 local M = {}
 
--- Opciones globales
+-- =============================================================================
+-- OPCIONES GLOBALES
+-- =============================================================================
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
@@ -11,14 +13,16 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.inccommand = "split"
 vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
 
--- ColorColumn sutil
+-- ColorColumn sutil para guías de estilo
 vim.opt.colorcolumn = "80"
 vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#1e222a" })
 
--- Agrupar comandos automáticos
+-- =============================================================================
+-- AUTOCOMANDOS DE INDENTACIÓN (Terminal HKA v39.0)
+-- =============================================================================
 local au_group = vim.api.nvim_create_augroup("CustomIndent", { clear = true })
 
--- Autocomandos para Python y Bash
+-- Configuración para Python (4 espacios)
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "python" },
   group = au_group,
@@ -30,6 +34,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Configuración para Bash/Shell (Sincronizado a 2 espacios)
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "sh", "bash" },
   group = au_group,
@@ -37,17 +42,12 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.shiftwidth = 2
     vim.opt_local.tabstop = 2
     vim.opt_local.expandtab = true
-    vim.opt_local.colorcolumn = "80"
   end,
 })
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  group = au_group,
-  command = "silent! retab!",
-})
-
--- Configuración de NvChad
+-- =============================================================================
+-- CONFIGURACIÓN DE UI (NVCHAD)
+-- =============================================================================
 M.base46 = {
   theme = "midnight_breeze",
   hl_override = {
@@ -80,21 +80,16 @@ M.ui = {
         local total_line = vim.fn.line "$"
         local col = vim.fn.virtcol "."
 
-        -- Colores de bloque (fondo de color, texto oscuro) para máxima legibilidad
-        local color = "%#St_LspHintsBg#" -- Verde (Base)
+        local color = "%#St_LspHintsBg#"
         if total_line > 1000 then
-          color = "%#St_LspErrorBg#" -- Rojo vibrante
+          color = "%#St_LspErrorBg#"
         elseif total_line > 750 then
-          color = "%#St_LspWarningBg#" -- Naranja vibrante
+          color = "%#St_LspWarningBg#"
         elseif total_line > 500 then
-          color = "%#St_LspInfoBg#" -- Azul vibrante
-        elseif total_line > 250 then
-          color = "%#St_pos_bg#" -- Gris resaltado (Estilo NvChad)
-        elseif total_line > 100 then
-          color = "%#St_cwd_bg#" -- Color de la carpeta actual
+          color = "%#St_LspInfoBg#"
         end
 
-        return color .. string.format("  %d/%d : %d ", line, total_line, col)
+        return color .. "  " .. line .. ":" .. col .. " "
       end,
     },
   },

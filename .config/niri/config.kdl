@@ -166,6 +166,18 @@ window-rule {
 }
 
 window-rule {
+    // Detecta ventanas de kitty que ejecutan emerge
+    match app-id="kitty" title="emerge"
+    
+    // Cambia el color del borde para que sea distintivo
+    border {
+        on
+        width 2
+        active-color "#ff8c00" // Naranja Portage
+    }
+}
+
+window-rule {
     match app-id="thunar"
     open-floating false
     default-column-width { proportion 0.5; }
