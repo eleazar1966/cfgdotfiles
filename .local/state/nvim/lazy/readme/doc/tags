@@ -20,34 +20,6 @@ base46-supported-integrations	base46.md	/## Supported Integrations
 base46-testing-your-theme	base46.md	/### Testing your theme
 base46-tips	base46.md	/## Tips
 base46-understanding-theme-variables	base46.md	/## Understanding theme variables
-cmp-async-path-cmp-async-path	cmp-async-path.md	/# cmp-async-path
-cmp-async-path-configuration	cmp-async-path.md	/## Configuration
-cmp-async-path-get-cwd-type-function	cmp-async-path.md	/### get_cwd (type: function)
-cmp-async-path-label-trailing-slash-type-boolean	cmp-async-path.md	/### label_trailing_slash (type: boolean)
-cmp-async-path-order-in-completion	cmp-async-path.md	/### Order in completion
-cmp-async-path-setup	cmp-async-path.md	/# Setup
-cmp-async-path-show-hidden-files-by-default-type-boolean	cmp-async-path.md	/### show_hidden_files_by_default (type: boolean)
-cmp-async-path-trailing-slash-type-boolean	cmp-async-path.md	/### trailing_slash (type: boolean)
-cmp-buffer-all-buffers	cmp-buffer.md	/##### All buffers
-cmp-buffer-cmp-buffer	cmp-buffer.md	/# cmp-buffer
-cmp-buffer-configuration	cmp-buffer.md	/## Configuration
-cmp-buffer-get-bufnrs-type-fun-number	cmp-buffer.md	/### get_bufnrs (type: fun(): number\[\])
-cmp-buffer-indexing-and-how-to-optimize-it	cmp-buffer.md	/## Indexing and how to optimize it
-cmp-buffer-indexing-batch-size-type-number	cmp-buffer.md	/### indexing_batch_size (type: number)
-cmp-buffer-indexing-interval-type-number	cmp-buffer.md	/### indexing_interval (type: number)
-cmp-buffer-keyword-length-type-number	cmp-buffer.md	/### keyword_length (type: number)
-cmp-buffer-keyword-pattern-type-string	cmp-buffer.md	/### keyword_pattern (type: string)
-cmp-buffer-locality-bonus-comparator-distance-based-sorting	cmp-buffer.md	/## Locality bonus comparator (distance-based sorting)
-cmp-buffer-max-indexed-line-length-type-number	cmp-buffer.md	/### max_indexed_line_length (type: number)
-cmp-buffer-performance-on-large-text-files	cmp-buffer.md	/### Performance on large text files
-cmp-buffer-setup	cmp-buffer.md	/## Setup
-cmp-buffer-visible-buffers	cmp-buffer.md	/##### Visible buffers
-cmp-nvim-lua-cmp-nvim-lua	cmp-nvim-lua.md	/# cmp-nvim-lua
-cmp-nvim-lua-include-deprecated-boolean-default-false	cmp-nvim-lua.md	/### `include_deprecated` (boolean: default false)
-cmp-nvim-lua-options	cmp-nvim-lua.md	/# Options
-cmp-nvim-lua-setup	cmp-nvim-lua.md	/# Setup
-cmp-nvim-lua-what-is-this-source	cmp-nvim-lua.md	/# What is this source?
-cmp_luasnip-cmp-luasnip	cmp_luasnip.md	/# cmp_luasnip
 friendly-snippets-add-snippets-from-a-framework-to-a-filetype	friendly-snippets.md	/## Add snippets from a framework to a filetype.
 friendly-snippets-credits	friendly-snippets.md	/## Credits
 friendly-snippets-excluding-snippets	friendly-snippets.md	/## Excluding snippets

@@ -190,3 +190,8 @@
 }
 [INFO  sáb 24 ene 2026 16:01:20] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=debugpy)
 [INFO  sáb 24 ene 2026 16:01:23] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=debugpy)
+[ERROR vie 06 feb 2026 19:16:45] ...al/share/nvim/lazy/mason.nvim/lua/mason-core/process.lua:226: Failed to spawn process. cmd="luarocks", err="ENOENT: no such file or directory"
+[ERROR vie 06 feb 2026 19:16:45] ...al/share/nvim/lazy/mason.nvim/lua/mason-core/process.lua:226: Failed to spawn process. cmd="composer", err="ENOENT: no such file or directory"
+[ERROR vie 06 feb 2026 19:16:45] ...al/share/nvim/lazy/mason.nvim/lua/mason-core/process.lua:226: Failed to spawn process. cmd="php", err="ENOENT: no such file or directory"
+[ERROR vie 06 feb 2026 19:16:45] ...al/share/nvim/lazy/mason.nvim/lua/mason-core/process.lua:226: Failed to spawn process. cmd="julia", err="ENOENT: no such file or directory"
+[ERROR vie 06 feb 2026 19:17:51] ...l/share/nvim/lazy/mason.nvim/lua/mason-registry/init.lua:31: Cannot find package "\"all\"".
