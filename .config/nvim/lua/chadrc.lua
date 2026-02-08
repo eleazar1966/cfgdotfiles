@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- CONFIGURACIÓN DE UI (NVCHAD)
 -- =============================================================================
 M.base46 = {
-  theme = "midnight_breeze",
+  theme = "gatekeeper",
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },

@@ -272,3 +272,5 @@
  - unexpected token `8` (91:44 to 91:45), unexpected expression when looking for a statement
  - unexpected token `8` (91:44 to 91:45), unexpected token, this needs to be a statement
 
+2026-02-08 09:03:40[ERROR] Formatter 'shfmt' error: /home/eleazar/.local/share/systools/mostrar_imagenes.sh:28:16: > must be followed by a word
+

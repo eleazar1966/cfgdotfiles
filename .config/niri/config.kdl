@@ -122,9 +122,10 @@ layout {
 
 // spawn-at-startup "waybar"
 spawn-at-startup "xmodmap" "-e" "add mod3 = Scroll_Lock"
-spawn-at-startup "sh" "-c" "echo 1 > /sys/class/leds/input3::scrolllock/brightness"
+// spawn-at-startup "sh" "-c" "echo 1 > /sys/class/leds/input3::scrolllock/brightness"
 spawn-at-startup "swww-daemon"
 spawn-at-startup "~/.local/share/systools/mostrar_imagenes.sh"
+// spawn-at-startup "~/.local/share/systools/launch-waybar.sh"
 spawn-at-startup "pipewire"
 spawn-at-startup "udiskie" "-s"
 spawn-at-startup "openrgb" "--startminimized"
