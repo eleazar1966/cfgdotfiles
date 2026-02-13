@@ -15,20 +15,12 @@ window#waybar {
 #window {
   background-color: @background;
   padding: 0 2px;
-  border-radius: 10px;
+  border-radius: 8px;
   margin: 0;
   font-size: 10px;
 }
 
 /* 1. Estilo base para círculos de 20px */
-#clock,
-#cpu,
-#memory,
-#temperature,
-#wireplumber,
-#tray,
-#bluetooth,
-#custom-language,
 #custom-menu,
 #custom-power,
 #custom-opera,
@@ -51,11 +43,30 @@ window#waybar {
   min-width: 10px;
   min-height: 10px;
   padding: 0 5px;
-  border-radius: 10%;
+  border-radius: 100%;
   font-size: 10px;
   transition: all 0.2s ease-in-out;
 }
 
+#bluetooth,
+#clock,
+#cpu,
+#memory,
+#temperature,
+#wireplumber,
+#custom-language,
+#tray {
+  margin: 1px 1px;
+  background-color: @background;
+  color: @on_surface;
+  border: 1px solid rgba(100, 114, 125, 0.2);
+  min-width: 10px;
+  min-height: 10px;
+  padding: 0 5px;
+  border-radius: 15%;
+  font-size: 10px;
+  transition: all 0.2s ease-in-out;
+}
 /* 2. Tamaño de iconos aumentado (16px) */
 #custom-menu,
 #custom-power,
@@ -78,7 +89,7 @@ window#waybar {
 #custom-language {
   padding: 0 5px;
   min-width: 10px;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 10px;
 }
 
