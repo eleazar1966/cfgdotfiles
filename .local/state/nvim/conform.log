@@ -274,3 +274,5 @@
 
 2026-02-08 09:03:40[ERROR] Formatter 'shfmt' error: /home/eleazar/.local/share/systools/mostrar_imagenes.sh:28:16: > must be followed by a word
 
+2026-02-14 17:53:28[ERROR] Formatter 'black' error: error: cannot format /home/eleazar/.config/waybar/power_menu.py: Cannot parse: 124:8:     Gtk.
+
