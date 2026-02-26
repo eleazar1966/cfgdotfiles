@@ -1,11 +1,11 @@
 * {
   /* Colores Dinámicos con Transparencia CC (80%) */
-  bg0     : #101417CC;
-  bg1     : #1c2024CC;
-  bg2     : #41474d;
-  bg3     : #8b9198;
-  fg0     : #e0e3e8;
-  accent  : #97ccf8;
+  bg0     : #17130bCC;
+  bg1     : #231f17CC;
+  bg2     : #4d4639;
+  bg3     : #999080;
+  fg0     : #ebe1d4;
+  accent  : #e8c26c;
 
   font: "Iosevka Nerd Font Medium 11";
   background-color : transparent;
