@@ -21,34 +21,52 @@ else
   echo "[1/9] /boot ya está montado."
 fi
 
-# 2. Sincronización
-echo "[2/9] Sincronizando repositorios de Portage..."
-set_title "emerge" # Activa borde naranja en Niri
+# 2. Verificación de integridad y limpieza profunda
+echo "[2/9] Limpiando índices de binarios y sesiones previas..."
+set_title "limpieza"
+
+# Crear directorio y archivos de índice vacíos (silencia errores de Packages/Packages.gz)
+sudo mkdir -p /var/cache/binpkgs
+sudo touch /var/cache/binpkgs/Packages
+echo -n "" | sudo gzip -c >/tmp/Packages.gz
+sudo mv /tmp/Packages.gz /var/cache/binpkgs/Packages.gz
+
+# Limpieza total de archivos de 'resume' para evitar mensajes de paquetes pendientes
+sudo rm -f /var/cache/edb/resume /var/cache/edb/resume_backup
+
+# Verificación de integridad de Portage
+sudo emaint --check all
+sudo emaint --fix all
+
+# 3. Sincronización
+echo "[3/9] Sincronizando repositorios de Portage..."
+set_title "emerge"
 sudo emerge --sync --quiet
 
-# 3. Actualización de @world
-echo "[3/9] Calculando y aplicando actualizaciones de @world..."
+# 4. Actualización de @world
+echo "[4/9] Calculando y aplicando actualizaciones de @world..."
 sudo emerge -uDvN --with-bdeps=y @world
 
-# 4. Gestión de archivos de configuración
+# 5. Gestión de archivos de configuración
 set_title "actualizar.sh"
-echo "[4/9] Revisando cambios en archivos de configuración (/etc)..."
-sudo dispatch-conf
+echo "[5/9] Revisando cambios en archivos de configuración (/etc)..."
+# Sustitución de dispatch-conf por etc-update
+sudo etc-update
 
-# 5. Limpieza de dependencias y reconstrucción
+# 6. Limpieza de dependencias y reconstrucción
 set_title "emerge"
-echo "[5/9] Limpiando dependencias huérfanas (--depclean)..."
+echo "[6/9] Limpiando dependencias huérfanas (--depclean)..."
 sudo emerge --depclean
-echo "[5.1/9] Reconstruyendo paquetes con librerías preservadas..."
+echo "[6.1/9] Reconstruyendo paquetes con librerías preservadas..."
 sudo emerge @preserved-rebuild
-echo "[5.2/9] Buscando binarios con enlaces rotos (revdep-rebuild)..."
+echo "[6.2/9] Buscando binarios con enlaces rotos (revdep-rebuild)..."
 sudo revdep-rebuild
 
-# 6. Mantenimiento de Kernel y Distfiles
-echo "[6/9] Limpiando fuentes de paquetes antiguos (distfiles)..."
+# 7. Mantenimiento de Kernel y Distfiles
+echo "[7/9] Limpiando fuentes de paquetes antiguos (distfiles)..."
 sudo eclean-dist --deep
-echo "[6.1/9] Limpiando kernels antiguos (manteniendo los últimos 3)..."
-sudo eclean-kernel -n 22
+echo "[7.1/9] Limpiando kernels antiguos (manteniendo los últimos 2)..."
+sudo eclean-kernel -n 2
 
 # 8. Indexación de archivos
 set_title "actualizar.sh"
