@@ -1,5 +1,4 @@
-[config.wallpaper]
-set = false
+[config]
 
 [templates.kitty]
 input_path = '~/.config/matugen/templates/kitty-colors.conf'
@@ -10,5 +9,6 @@ input_path = '~/.config/matugen/templates/rofi-colors.rasi'
 output_path = '~/.config/rofi/colors.rasi'
 
 [templates.waybar]
+# Importante: El nombre del archivo de salida debe ser el que importa tu style.css
 input_path = '~/.config/matugen/templates/waybar-colors.css'
 output_path = '~/.config/waybar/colors.css'

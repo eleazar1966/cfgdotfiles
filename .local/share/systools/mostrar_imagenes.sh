@@ -13,23 +13,17 @@ apply_changes() {
   [[ -f "$CACHE_LAST" ]] && [[ "$(<"$CACHE_LAST")" == "$img" ]] && return
 
   # 1. GENERAR COLORES PRIMERO (Matugen)
-  # Esto asegura que waybar-colors.css sea CSS válido antes de abrir Waybar
   matugen image "$img" >/dev/null 2>&1
 
   # 2. APLICAR WALLPAPER (swww)
-  swww clear # Limpia fantasmas visuales
+  swww clear
   swww img "$img" $TRANSITION_ARGS
 
   # 3. RECARGA LIMPIA DE INTERFAZ
   (
-    # Esperamos a que la transición progrese
     sleep $((TRANS_DUR + 1))
-
-    # Matar instancias previas y esperar a que cierren
     killall -q waybar
     while pgrep -x waybar >/dev/null; do sleep 0.1; done
-
-    # Lanzar Waybar apuntando a los nuevos colores ya procesados
     waybar >/dev/null 2>&1 &
   ) &
 
@@ -42,11 +36,16 @@ if ! pgrep -x "swww-daemon" >/dev/null; then
   sleep 1
 fi
 
+# MANEJADOR DE SEÑAL: Al recibir USR1, termina el 'sleep' actual para saltar a la siguiente imagen
+trap 'kill $! 2>/dev/null' USR1
+
 while true; do
   mapfile -t images < <(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | shuf)
 
   for img in "${images[@]}"; do
     apply_changes "$img"
-    sleep 1800 # 30 min
+    # El sleep se ejecuta en segundo plano para poder ser interrumpido por el trap
+    sleep 1800 &
+    wait $!
   done
 done
