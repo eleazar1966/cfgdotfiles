@@ -3,50 +3,40 @@
 # --- CONFIGURACIÓN ---
 WALLPAPER_DIR="$HOME/.config/wallpaper"
 CACHE_LAST="/tmp/last_wallpaper"
-TRANSITION_ARGS="--transition-fps 60 --transition-type random --transition-duration 2 --transition-bezier .43,1.19,1,.4 --transition-step 60"
-
-# --- LÓGICA DE PERSISTENCIA ---
-trap 'SIG_SKIP=1' SIGUSR1
+TRANS_DUR=2
+TRANSITION_ARGS="--transition-fps 60 --transition-type random --transition-duration $TRANS_DUR --transition-bezier .43,1.19,1,.4 --transition-step 60"
 
 apply_changes() {
   local img="$1"
 
-  # Validar si la imagen es la misma que la actual para evitar doble ejecución
-  if [[ -f "$CACHE_LAST" ]]; then
-    local last_img=$(cat "$CACHE_LAST")
-    if [[ "$last_img" == "$img" ]]; then
-      return
-    fi
-  fi
+  # Validar duplicados
+  [[ -f "$CACHE_LAST" ]] && [[ "$(<"$CACHE_LAST")" == "$img" ]] && return
 
-  # 1. Aplicar wallpaper (swww gestiona su propia transición)
+  # 1. GENERAR COLORES PRIMERO (Matugen)
+  # Esto asegura que waybar-colors.css sea CSS válido antes de abrir Waybar
+  matugen image "$img" >/dev/null 2>&1
+
+  # 2. APLICAR WALLPAPER (swww)
+  swww clear # Limpia fantasmas visuales
   swww img "$img" $TRANSITION_ARGS
 
-  # 2. Procesos paralelos con retraso controlado
+  # 3. RECARGA LIMPIA DE INTERFAZ
   (
-    # Generar colores
-    matugen image "$img" >/dev/null 2>&1
+    # Esperamos a que la transición progrese
+    sleep $((TRANS_DUR + 1))
 
-    # Pausa estratégica para dejar que la transición de swww se estabilice
-    sleep 0.5
+    # Matar instancias previas y esperar a que cierren
+    killall -q waybar
+    while pgrep -x waybar >/dev/null; do sleep 0.1; done
 
-    # Recarga de Waybar
-    if pgrep -x "waybar" >/dev/null; then
-      killall -q waybar
-      while pgrep -x waybar >/dev/null; do sleep 0.1; done
-    fi
+    # Lanzar Waybar apuntando a los nuevos colores ya procesados
     waybar >/dev/null 2>&1 &
   ) &
 
   echo "$img" >"$CACHE_LAST"
 }
 
-# --- BUCLE PRINCIPAL ---
-if [[ ! -d "$WALLPAPER_DIR" ]]; then
-  echo "❌ Error: $WALLPAPER_DIR no existe."
-  exit 1
-fi
-
+# --- INICIALIZACIÓN ---
 if ! pgrep -x "swww-daemon" >/dev/null; then
   swww-daemon --format xrgb &
   sleep 1
@@ -56,12 +46,7 @@ while true; do
   mapfile -t images < <(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | shuf)
 
   for img in "${images[@]}"; do
-    SIG_SKIP=0
     apply_changes "$img"
-
-    for ((i = 0; i < 1800; i++)); do
-      sleep 1
-      [[ $SIG_SKIP -eq 1 ]] && break
-    done
+    sleep 1800 # 30 min
   done
 done

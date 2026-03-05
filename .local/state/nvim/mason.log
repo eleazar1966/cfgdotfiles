@@ -215,3 +215,29 @@
 }
 [INFO  vie 06 feb 2026 19:31:17] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=ruff)
 [INFO  vie 06 feb 2026 19:31:21] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=ruff)
+[INFO  jue 05 mar 2026 10:46:54] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=flake8) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  jue 05 mar 2026 10:46:57] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=flake8)
+[INFO  jue 05 mar 2026 10:47:27] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=isort) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  jue 05 mar 2026 10:47:27] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=isort) {
+  bypass_permit = true
+}
+[INFO  jue 05 mar 2026 10:47:27] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=isort)
+[INFO  jue 05 mar 2026 10:47:30] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=isort)
+[INFO  jue 05 mar 2026 10:47:33] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=ruff) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  jue 05 mar 2026 10:47:33] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=ruff) {
+  bypass_permit = true
+}
+[INFO  jue 05 mar 2026 10:47:33] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=ruff)
+[INFO  jue 05 mar 2026 10:49:03] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=ruff)

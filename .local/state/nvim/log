@@ -1,0 +1,3 @@
+ERR 2026-03-05T12:03:02.392 ui.26974   terminfo_start:523: uv_tty_set_mode failed: i/o error
+ERR 2026-03-05T12:03:02.392 ui.27141   terminfo_start:523: uv_tty_set_mode failed: i/o error
+ERR 2026-03-05T12:03:02.392 ui.27195   terminfo_start:523: uv_tty_set_mode failed: i/o error

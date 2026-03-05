@@ -1,12 +1,5 @@
 [config.wallpaper]
 set = false
-command = "swww"
-arguments = ["img", "--transition-type", "random"]
-
-# Comentado para evitar error en Niri
-# [templates.hyprland]
-# input_path = '~/.config/matugen/templates/hyprland-colors.conf'
-# output_path = '~/.config/hypr/colors.conf'
 
 [templates.kitty]
 input_path = '~/.config/matugen/templates/kitty-colors.conf'
@@ -17,5 +10,5 @@ input_path = '~/.config/matugen/templates/rofi-colors.rasi'
 output_path = '~/.config/rofi/colors.rasi'
 
 [templates.waybar]
-input_path = '~/.config/matugen/templates/colors.css'
+input_path = '~/.config/matugen/templates/waybar-colors.css'
 output_path = '~/.config/waybar/colors.css'

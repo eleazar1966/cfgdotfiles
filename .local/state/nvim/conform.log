@@ -276,3 +276,5 @@
 
 2026-02-14 17:53:28[ERROR] Formatter 'black' error: error: cannot format /home/eleazar/.config/waybar/power_menu.py: Cannot parse: 124:8:     Gtk.
 
+2026-03-05 09:58:21[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: unexpected token `,` (45:2 to 45:3), unexpected token, this needs to be a statement
+
