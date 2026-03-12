@@ -183,4 +183,4 @@ alias pgadmin='~/pgadmin4/venv/bin/python ~/pgadmin4/venv/lib/python3.13/site-pa
 export DRI_PRIME=1
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
-RUSTICL_ENABLE=amdgpu clinfo -l
+#RUSTICL_ENABLE=amdgpu clinfo -l

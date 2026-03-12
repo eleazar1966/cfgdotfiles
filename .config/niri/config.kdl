@@ -200,13 +200,13 @@ window-rule {
     default-window-height { fixed 400; }
 }
 // Open the Firefox picture-in-picture player as floating by default.
-window-rule {
+// window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    open-floating true
-}
+    // match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    // open-floating false //true
+// }
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
