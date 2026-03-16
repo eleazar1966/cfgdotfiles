@@ -8,35 +8,34 @@ TRANSITION_ARGS="--transition-fps 60 --transition-type random --transition-durat
 
 apply_changes() {
   local img="$1"
-
-  # Validar duplicados
   [[ -f "$CACHE_LAST" ]] && [[ "$(<"$CACHE_LAST")" == "$img" ]] && return
 
-  # 1. GENERAR COLORES PRIMERO (Matugen)
-  matugen image "$img" >/dev/null 2>&1
+  # 1. Matugen asíncrono (no bloquea)
+  matugen image "$img" >/dev/null 2>&1 &
 
-  # 2. APLICAR WALLPAPER (swww)
-  swww clear
+  # 2. Aplicar wallpaper
   swww img "$img" $TRANSITION_ARGS
 
-  # 3. RECARGA LIMPIA DE INTERFAZ
-  (
-    sleep $((TRANS_DUR + 1))
-    killall -q waybar
-    while pgrep -x waybar >/dev/null; do sleep 0.1; done
-    waybar >/dev/null 2>&1 &
-  ) &
+  # 3. Recarga Waybar solo si ya existe (evita colisión en primer arranque)
+  if pgrep -x waybar >/dev/null; then
+    (
+      sleep $((TRANS_DUR + 1))
+      killall -q waybar
+      sleep 0.5
+      waybar >/dev/null 2>&1 &
+    ) &
+  fi
 
   echo "$img" >"$CACHE_LAST"
 }
 
-# --- INICIALIZACIÓN ---
-if ! pgrep -x "swww-daemon" >/dev/null; then
-  swww-daemon --format xrgb &
-  sleep 1
-fi
+# --- INICIALIZACIÓN SEGURA ---
+sleep 3 # Tiempo para que Niri registre el teclado y la salida de video
 
-# MANEJADOR DE SEÑAL: Al recibir USR1, termina el 'sleep' actual para saltar a la siguiente imagen
+until swww query >/dev/null 2>&1; do
+  sleep 0.5
+done
+
 trap 'kill $! 2>/dev/null' USR1
 
 while true; do
@@ -44,7 +43,6 @@ while true; do
 
   for img in "${images[@]}"; do
     apply_changes "$img"
-    # El sleep se ejecuta en segundo plano para poder ser interrumpido por el trap
     sleep 1800 &
     wait $!
   done
