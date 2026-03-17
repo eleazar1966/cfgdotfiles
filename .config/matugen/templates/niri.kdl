@@ -1,0 +1,8 @@
+layout {
+    focus-ring {
+        active-color "{{colors.primary.default.hex}}"
+    }
+    border {
+        active-color "{{colors.accent.default.hex}}"
+    }
+}

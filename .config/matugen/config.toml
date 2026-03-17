@@ -1,5 +1,7 @@
 [config]
 
+wallpaper_common = true
+
 [templates.kitty]
 input_path = '~/.config/matugen/templates/kitty-colors.conf'
 output_path = '~/.config/kitty/colors.conf'
@@ -12,3 +14,7 @@ output_path = '~/.config/rofi/colors.rasi'
 # Importante: El nombre del archivo de salida debe ser el que importa tu style.css
 input_path = '~/.config/matugen/templates/waybar-colors.css'
 output_path = '~/.config/waybar/colors.css'
+
+[[outputs]]
+template = "niri_template.kdl"
+dest = "~/.config/niri/colors.kdl"
