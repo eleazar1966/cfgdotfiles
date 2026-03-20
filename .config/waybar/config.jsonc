@@ -36,10 +36,20 @@
     "on-click": "activate",
     "on-click-right": "minimize",
     "on-click-middle": "close",
-    /* Forzamos el uso de sh para asegurar la ejecución del comando */
     "on-scroll-up": "sh -c 'niri msg action focus-column-left'",
     "on-scroll-down": "sh -c 'niri msg action focus-column-right'",
-    "all-outputs": true
+    "all-outputs": true,
+    "swap-icon-label": true // Esta línea corrige el warning 
+  },
+  "wireplumber": {
+    "format": "{volume}% {icon}",
+    "format-muted": "",
+    "on-click": "helvum",
+    "format-icons": [
+      "",
+      "",
+      ""
+    ]
   },
   "bluetooth": {
     "format": " {status}",
@@ -81,16 +91,6 @@
     "critical-threshold": 80,
     "format-critical": "{temperatureC}°C ",
     "format": "{temperatureC}°C "
-  },
-  "wireplumber": {
-    "format": "{volume}% {icon}",
-    "format-muted": "",
-    "on-click": "helvum",
-    "format-icons": [
-      "",
-      "",
-      ""
-    ]
   },
   "custom/language": {
     "exec": "niri msg -j keyboard-layouts | jq -r '.names[.current_idx]' | sed 's/English (US)/EN/;s/Spanish/ES/'",

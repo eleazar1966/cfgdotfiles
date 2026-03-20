@@ -2,55 +2,65 @@
 
 # --- CONFIGURACIÓN ---
 WALLPAPER_DIR="$HOME/.config/wallpaper"
-CACHE_DIR="$HOME/.cache/wallpaper_logic"
-PID_FILE="/tmp/mostrar_imagenes.pid"
 CACHE_LAST="/tmp/last_wallpaper"
-NIRI_COLORS="$HOME/.config/niri/colors.kdl"
-TRANS_DUR=2
-TRANSITION_ARGS="--transition-fps 60 --transition-type random --transition-duration $TRANS_DUR --transition-bezier .43,1.19,1,.4 --transition-step 60"
+TRANSITION_ARGS="--transition-fps 60 --transition-type random --transition-duration 2 --transition-bezier .43,1.19,1,.4 --transition-step 60"
 
-echo $$ >"$PID_FILE"
-mkdir -p "$CACHE_DIR"
-
-# BOOTSTRAP: Crea el archivo si no existe para evitar errores en config.kdl
-if [ ! -f "$NIRI_COLORS" ]; then
-  echo "layout { }" >"$NIRI_COLORS"
-fi
+# --- LÓGICA DE PERSISTENCIA ---
+trap 'SIG_SKIP=1' SIGUSR1
 
 apply_changes() {
   local img="$1"
-  [[ -f "$CACHE_LAST" ]] && [[ "$(<"$CACHE_LAST")" == "$img" ]] && return
 
-  # 1. Matugen genera colores
-  matugen image "$img" >/dev/null 2>&1
+  # Validar si la imagen es la misma que la actual para evitar doble ejecución
+  if [[ -f "$CACHE_LAST" ]]; then
+    local last_img=$(cat "$CACHE_LAST")
+    if [[ "$last_img" == "$img" ]]; then
+      return
+    fi
+  fi
 
-  # 2. Aplicar wallpaper
+  # 1. Aplicar wallpaper (swww gestiona su propia transición)
   swww img "$img" $TRANSITION_ARGS
 
-  # 3. Recargar Niri para aplicar colores
-  niri msg action reload-config
+  # 2. Procesos paralelos con retraso controlado
+  (
+    # Pausa estratégica para dejar que la transición de swww se estabilice
+    sleep 0.5
+    # Generar colores
+    matugen image "$img" >/dev/null 2>&1
 
-  # 4. Recarga Waybar
-  if pgrep -x waybar >/dev/null; then
-    (
-      sleep $((TRANS_DUR + 1))
+    # Recarga de Waybar
+    if pgrep -x "waybar" >/dev/null; then
       killall -q waybar
-      sleep 0.5
-      waybar >/dev/null 2>&1 &
-    ) &
-  fi
+      while pgrep -x waybar >/dev/null; do sleep 0.1; done
+    fi
+    waybar >/dev/null 2>&1 &
+  ) &
 
   echo "$img" >"$CACHE_LAST"
 }
 
-trap 'kill $! 2>/dev/null' USR1
+# --- BUCLE PRINCIPAL ---
+if [[ ! -d "$WALLPAPER_DIR" ]]; then
+  echo "❌ Error: $WALLPAPER_DIR no existe."
+  exit 1
+fi
+
+if ! pgrep -x "swww-daemon" >/dev/null; then
+  swww-daemon --format xrgb &
+  sleep 1
+fi
 
 while true; do
   mapfile -t images < <(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | shuf)
 
   for img in "${images[@]}"; do
+    SIG_SKIP=0
     apply_changes "$img"
-    sleep 1800 &
-    wait $!
+
+    for ((i = 0; i < 1800; i++)); do
+      sleep 1
+      [[ $SIG_SKIP -eq 1 ]] && break
+    done
   done
 done
