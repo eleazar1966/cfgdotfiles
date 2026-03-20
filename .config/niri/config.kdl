@@ -63,7 +63,7 @@ spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "nm-applet" "--indicator"
 spawn-at-startup "waybar"
 spawn-at-startup "sh" "-c" "sleep 600 && ~/.local/share/systools/mostrar_imagenes.sh"
-//spawn-at-startup "~/.local/share/systools/launch-waybar.sh"
+spawn-at-startup "blueman-applet"
 
 hotkey-overlay {
      skip-at-startup 

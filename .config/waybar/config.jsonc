@@ -31,6 +31,10 @@
     "tray",
     "custom/power"
   ],
+  "tray": {
+    "icon-size": 15,
+    "spacing": 10
+  },
   "wlr/taskbar": {
     "format": "{icon}",
     "on-click": "activate",
