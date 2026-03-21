@@ -33,7 +33,7 @@
   ],
   "tray": {
     "icon-size": 15,
-    "spacing": 10
+    "spacing": 5
   },
   "wlr/taskbar": {
     "format": "{icon}",
