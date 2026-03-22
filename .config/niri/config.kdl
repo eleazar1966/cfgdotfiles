@@ -1,5 +1,3 @@
-// Este archivo de configuración está en formato KDL: https://kdl.dev
-// Versión adaptada de la configuración de Hyprland.
 prefer-no-csd
 
 input {
@@ -24,12 +22,6 @@ cursor {
     xcursor-size 10
 }
 
-/-output "DP-1" {
-    mode "1366x768@59.79"
-    scale 1
-    transform "normal"
-}
-
 layout {
     gaps 2
     center-focused-column "on-overflow"
@@ -46,40 +38,26 @@ layout {
         inactive-color "#505050"
         urgent-color "#9b0000"
     }
-
-    shadow {
-        off
-        softness 3
-        spread 5
-        offset x=0 y=0
-        color "#1a1a1aee"
-    }
 }
 
+// --- SERVICIOS Y APLICACIONES ---
 spawn-at-startup "swww-daemon"
 spawn-at-startup "pipewire"
 spawn-at-startup "udiskie" "-s"
-spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "nm-applet" "--indicator"
-spawn-at-startup "waybar"
-spawn-at-startup "sh" "-c" "sleep 600 && ~/.local/share/systools/mostrar_imagenes.sh"
 spawn-at-startup "blueman-applet"
+// Restauración de OpenRGB (modo minimizado/server según prefieras)
+spawn-at-startup "openrgb" "--startminimized"
+
+// Scripts de gestión
+spawn-at-startup "/home/eleazar/.local/share/systools/launch-waybar.sh"
+spawn-at-startup "sh" "-c" "sleep 2 && /home/eleazar/.local/share/systools/mostrar_imagenes.sh"
 
 hotkey-overlay {
-     skip-at-startup 
+    skip-at-startup
 }
 
-
-window-rule {
-    match app-id=r#"^org\.wezfurlong\.wezterm$"#
-    default-column-width {}
-}
-
-window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    open-floating true
-}
-
+// --- REGLAS DE VENTANA ---
 window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
@@ -93,38 +71,23 @@ binds {
     Mod+X { quit; }
     Mod+V { toggle-window-floating; }
     
-    // Hotkey para forzar cambio de wallpaper
-    Mod+Shift+W { spawn "~/.local/share/systools/mostrar_imagenes.sh"; }
-
-    Mod+D { spawn "~/.local/share/systools/launch-rofi.sh"; }
-    Mod+W { spawn "~/.local/share/systools/launch-waybar.sh"; }
-    Mod+F1 { spawn "opera" "--lang=es" "%U" "--private"; }
+    // Restauración de cambio de Layout de teclado
+    Mod+Space { switch-layout "next"; }
     
-    Mod+H     { focus-column-left; }
-    Mod+J     { focus-window-down; }
-    Mod+K     { focus-window-up; }
-    Mod+L     { focus-column-right; }
+    Mod+Shift+W { spawn "/home/eleazar/.local/share/systools/mostrar_imagenes.sh"; }
+    Mod+W { spawn "/home/eleazar/.local/share/systools/launch-waybar.sh"; }
+    Mod+D { spawn "/home/eleazar/.local/share/systools/launch-rofi.sh"; }
 
-    Mod+Ctrl+H     { move-column-left; }
-    Mod+Ctrl+J     { move-window-down; }
-    Mod+Ctrl+K     { move-window-up; }
-    Mod+Ctrl+L     { move-column-right; }
+    Mod+H { focus-column-left; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    Mod+L { focus-column-right; }
 
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
 
-    Mod+Ctrl+1 { move-column-to-workspace 1; }
-    Mod+Ctrl+2 { move-column-to-workspace 2; }
-    Mod+Ctrl+3 { move-column-to-workspace 3; }
-
     Mod+R { switch-preset-column-width; }
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
-    Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
-
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
 }

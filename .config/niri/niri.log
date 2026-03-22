@@ -1,0 +1,46 @@
+--- INICIO DE SESIÓN: dom 22 mar 2026 10:51:52 -04 ---
+[2m2026-03-22T14:51:52.719709Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
+[2m2026-03-22T14:51:52.723138Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-22T14:51:53.327698Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
+[2m2026-03-22T14:51:53.365323Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
+[2m2026-03-22T14:51:53.365356Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
+[2m2026-03-22T14:51:53.683132Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
+[2m2026-03-22T14:51:53.683148Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
+[2m2026-03-22T14:51:53.727436Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
+[2m2026-03-22T14:51:53.739451Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
+[2m2026-03-22T14:51:53.740931Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
+[2m2026-03-22T14:51:53.741087Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
+[2m2026-03-22T14:51:53.741106Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
+[2m2026-03-22T14:51:53.754167Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
+[2m2026-03-22T14:51:53.754225Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
+[2m2026-03-22T14:51:53.754232Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.2780.sock
+[2m2026-03-22T14:51:53.767658Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
+[2m2026-03-22T14:51:53.828929Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.8' (uid=1000 pid=2780 comm="niri --session")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.11' (uid=1000 pid=3094 comm="openrgb --startminimized")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.10' (uid=1000 pid=3099 comm="nm-applet --indicator")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.14' (uid=1000 pid=3214 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.14' (uid=1000 pid=3214 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.14' (uid=1000 pid=3214 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3217]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3099 comm="nm-applet --indicator")
+dbus-daemon[3217]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(xdg-desktop-portal-gnome:3246): Adwaita-WARNING **: 10:51:54.128: Using GtkSettings:gtk-application-prefer-dark-theme with libadwaita is unsupported. Please use AdwStyleManager:color-scheme instead.
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.14' (uid=1000 pid=3214 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.14' (uid=1000 pid=3214 comm="/usr/libexec/xdg-desktop-portal")
+** Message: 10:51:54.279: couldn't access control socket: /run/user/1000/keyring/control: No existe el fichero o el directorio
+discover_other_daemon: 0dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.22' (uid=1000 pid=3097 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Successfully activated service 'org.bluez.obex'
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.freedesktop.Notifications' requested by ':1.10' (uid=1000 pid=3099 comm="nm-applet --indicator")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activated service 'org.freedesktop.Notifications' failed: Process org.freedesktop.Notifications received signal 11
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activating service name='org.freedesktop.Notifications' requested by ':1.46' (uid=1000 pid=4106 comm="kitty")
+dbus-daemon[2779]: [session uid=1000 pid=2779 pidfd=5] Activated service 'org.freedesktop.Notifications' failed: Process org.freedesktop.Notifications received signal 11
