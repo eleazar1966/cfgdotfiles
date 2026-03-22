@@ -3,20 +3,19 @@ WAYBAR_CONFIG_DIR="$HOME/.config/waybar"
 CONFIG_FILES="$WAYBAR_CONFIG_DIR/config.jsonc $WAYBAR_CONFIG_DIR/style.css $WAYBAR_CONFIG_DIR/colors.css"
 
 function reload_waybar {
-  if [ -f /tmp/waybar_reloading ]; then return; fi
-  touch /tmp/waybar_reloading
-  pkill -x waybar
-  while pgrep -x waybar >/dev/null; do sleep 0.1; done
-  waybar >/dev/null 2>&1 &
-  sleep 0.5
-  rm /tmp/waybar_reloading
+  if pgrep -x "waybar" >/dev/null; then
+    killall waybar
+    sleep 0.5
+  fi
+  waybar &
 }
 
-pkill -x waybar
+trap "killall waybar 2>/dev/null; exit 0" EXIT
+
 reload_waybar
 
 while true; do
-  inotifywait -e modify,close_write $CONFIG_FILES >/dev/null 2>&1
+  inotifywait -q -qq -e close_write $CONFIG_FILES
   sleep 0.3
   reload_waybar
 done
