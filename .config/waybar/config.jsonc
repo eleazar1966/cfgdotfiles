@@ -43,7 +43,20 @@
     "on-scroll-up": "sh -c 'niri msg action focus-column-left'",
     "on-scroll-down": "sh -c 'niri msg action focus-column-right'",
     "all-outputs": true,
-    "swap-icon-label": true // Esta línea corrige el warning 
+    "swap-icon-label": true
+  },
+  "niri/workspaces": {
+    "format": "{icon}",
+    "all-outputs": true,
+    "format-icons": {
+      "active": "󰮯",
+      "default": "󰊠",
+      "empty": "󰑊"
+    }
+  },
+  "niri/window": {
+    "format": "{title}",
+    "separate-outputs": true
   },
   "wireplumber": {
     "format": "{volume}% {icon}",
@@ -128,10 +141,6 @@
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     }
-  },
-  "niri/workspaces": {
-    "format": "{name}",
-    "all-outputs": true
   },
   "custom/menu": {
     "format": " ",

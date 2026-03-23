@@ -20,7 +20,14 @@ window#waybar {
   font-size: 10px;
 }
 
-/* 1. Estilo base para círculos de 20px */
+/* 1. Definición de la Animación de Urgencia */
+@keyframes urgent-glow {
+  0% { background-color: @background; box-shadow: none; }
+  50% { background-color: @error; box-shadow: 0 0 10px @error; }
+  100% { background-color: @background; box-shadow: none; }
+}
+
+/* 2. Estilo base circular */
 #custom-menu,
 #custom-power,
 #custom-opera,
@@ -45,17 +52,11 @@ window#waybar {
   padding: 0 5px;
   border-radius: 100%;
   font-size: 10px;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
-#bluetooth,
-#clock,
-#cpu,
-#memory,
-#temperature,
-#wireplumber,
-#custom-language,
-#tray {
+/* Módulos de información (Píldoras) */
+#bluetooth, #clock, #cpu, #memory, #temperature, #wireplumber, #custom-language, #tray {
   margin: 1px 1px;
   background-color: @background;
   color: @on_surface;
@@ -65,101 +66,61 @@ window#waybar {
   padding: 0 5px;
   border-radius: 15%;
   font-size: 10px;
-  transition: all 0.2s ease-in-out;
 }
-/* 2. Tamaño de iconos aumentado (16px) */
-#custom-menu,
-#custom-power,
-#custom-opera,
-#custom-firefox,
-#custom-terminal,
-#custom-pcmanfm,
-#custom-thunar,
-#custom-thunderbird,
-#custom-TelegramDesktop,
-#custom-mousepad,
-#custom-calculadora,
-#custom-localsend,
+
+/* 3. Tamaño de iconos de aplicaciones */
+#custom-menu, #custom-power, #custom-opera, #custom-firefox, #custom-terminal, #custom-pcmanfm, #custom-thunar, #custom-thunderbird, #custom-TelegramDesktop, #custom-mousepad, #custom-calculadora, #custom-localsend {
+  font-size: 16px;
+}
+
+/* 4. Animaciones Sincronizadas */
+#workspaces button,
+#taskbar button {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#workspaces button {
+  font-size: 13px;
+  color: rgba(145, 155, 175, 0.5);
+}
+
+#workspaces button.active,
+#taskbar button.focused {
+  background-color: @primary;
+  color: @background;
+  box-shadow: 0 0 8px @primary;
+}
+
+#workspaces button:not(.active):not(.empty) {
+  color: @on_surface;
+}
+
+/* 5. Aplicación del efecto Urgent */
+#workspaces button.urgent,
+#taskbar button.urgent {
+  animation: urgent-glow 2s ease-in-out infinite;
+  color: @on_surface;
+}
+
+/* 6. Estados del Taskbar */
 #taskbar button {
   font-size: 16px;
 }
 
-/* 3. Excepciones de tamaño (Píldoras) */
-#clock,
-#custom-language {
-  padding: 0 5px;
-  min-width: 10px;
-  border-radius: 8px;
-  font-size: 10px;
+#taskbar button.minimized {
+  opacity: 0.3;
+  background-color: transparent;
 }
 
-/* 4. Keyboard State */
-#keyboard-state label {
-  font-size: 0px;
-}
-
+/* 7. Keyboard State */
+#keyboard-state label { font-size: 0px; }
 #keyboard-state label.locked {
   font-size: 10px;
   color: @primary;
 }
 
-/* 5. Estados del Taskbar (Única sección) */
-#taskbar {
-  padding: 0 10px;
-}
-
-#taskbar button {
-  border: 1px solid rgba(100, 114, 125, 0.4);
-}
-
-#taskbar button.focused {
-  background-color: @primary;
-  color: @background;
-  border: 1px solid @primary;
-  box-shadow: 0 0 6px @primary;
-}
-
-#taskbar button.active {
-  border: 1px solid @primary;
-  background-color: rgba(122, 162, 247, 0.15);
-}
-
-#taskbar button.minimized {
-  opacity: 0.4;
-  background-color: transparent;
-  border: 1px dashed rgba(100, 114, 125, 0.5);
-}
-
-/* 6. Workspaces activo */
-#workspaces button.active {
-  background-color: @primary;
-  color: @background;
-}
-
-/* 7. Efecto HOVER global */
-#clock:hover,
-#cpu:hover,
-#memory:hover,
-#temperature:hover,
-#wireplumber:hover,
-#tray:hover,
-#bluetooth:hover,
-#custom-language:hover,
-#custom-menu:hover,
-#custom-power:hover,
-#custom-opera:hover,
-#custom-pcmanfm:hover,
-#custom-thunar:hover,
-#custom-firefox:hover,
-#custom-thunderbird:hover,
-#custom-TelegramDesktop:hover,
-#custom-mousepad:hover,
-#custom-terminal:hover,
-#custom-calculadora:hover,
-#custom-localsend:hover,
-#workspaces button:hover,
-#taskbar button:hover,
-#keyboard-state label.locked:hover {
+/* 8. Efecto HOVER global */
+#clock:hover, #cpu:hover, #memory:hover, #temperature:hover, #wireplumber:hover, #tray:hover, #bluetooth:hover, #custom-language:hover, #custom-menu:hover, #custom-power:hover, #custom-opera:hover, #custom-pcmanfm:hover, #custom-thunar:hover, #custom-firefox:hover, #custom-thunderbird:hover, #custom-TelegramDesktop:hover, #custom-mousepad:hover, #custom-terminal:hover, #custom-calculadora:hover, #custom-localsend:hover, #workspaces button:hover, #taskbar button:hover, #keyboard-state label.locked:hover {
   background-color: @primary;
   color: @background;
   box-shadow: 0 0 6px @primary;
