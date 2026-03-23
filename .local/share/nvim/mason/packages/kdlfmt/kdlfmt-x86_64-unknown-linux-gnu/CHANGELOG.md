@@ -1,0 +1,429 @@
+### Changelog
+
+All notable changes to this project will be documented in this file. Dates are displayed in UTC.
+
+#### [Unreleased](https://github.com/hougesen/kdlfmt/compare/v0.1.6...HEAD)
+
+#### [v0.1.6](https://github.com/hougesen/kdlfmt/compare/v0.1.5...v0.1.6)
+
+> 28 February 2026
+
+- build(cargo-dist): upgrade to v0.31.0 [`#335`](https://github.com/hougesen/kdlfmt/pull/335)
+- build(deps-dev): bump esbuild from 0.27.2 to 0.27.3 in /github-action [`#329`](https://github.com/hougesen/kdlfmt/pull/329)
+- build(deps-dev): bump eslint from 9.39.2 to 10.0.2 in /github-action [`#334`](https://github.com/hougesen/kdlfmt/pull/334)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#330`](https://github.com/hougesen/kdlfmt/pull/330)
+- build(deps-dev): bump globals from 17.2.0 to 17.3.0 in /github-action [`#333`](https://github.com/hougesen/kdlfmt/pull/333)
+- build(deps-dev): bump @eslint/js from 9.39.2 to 10.0.1 in /github-action [`#331`](https://github.com/hougesen/kdlfmt/pull/331)
+- build(deps): bump tempfile from 3.24.0 to 3.25.0 [`#323`](https://github.com/hougesen/kdlfmt/pull/323)
+- build(deps): bump env_logger from 0.11.8 to 0.11.9 [`#326`](https://github.com/hougesen/kdlfmt/pull/326)
+- build(deps): bump predicates from 3.1.3 to 3.1.4 [`#324`](https://github.com/hougesen/kdlfmt/pull/324)
+- build(deps-dev): bump minimatch from 3.1.2 to 3.1.5 in /github-action [`#328`](https://github.com/hougesen/kdlfmt/pull/328)
+- build(deps): bump clap from 4.5.56 to 4.5.60 [`#327`](https://github.com/hougesen/kdlfmt/pull/327)
+- build(deps): bump clap_complete from 4.5.65 to 4.5.66 [`#322`](https://github.com/hougesen/kdlfmt/pull/322)
+- build(deps): bump clap from 4.5.54 to 4.5.56 [`#319`](https://github.com/hougesen/kdlfmt/pull/319)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#314`](https://github.com/hougesen/kdlfmt/pull/314)
+- build(deps-dev): bump globals from 16.5.0 to 17.2.0 in /github-action [`#315`](https://github.com/hougesen/kdlfmt/pull/315)
+- build(deps): bump @actions/tool-cache in /github-action [`#316`](https://github.com/hougesen/kdlfmt/pull/316)
+- build(deps): bump @actions/core from 2.0.1 to 3.0.0 in /github-action [`#317`](https://github.com/hougesen/kdlfmt/pull/317)
+- build(deps): bump assert_cmd from 2.1.1 to 2.1.2 [`#312`](https://github.com/hougesen/kdlfmt/pull/312)
+- build(deps): bump clap_complete from 4.5.64 to 4.5.65 [`#313`](https://github.com/hougesen/kdlfmt/pull/313)
+- build(deps): bump clap_complete from 4.5.62 to 4.5.64 [`#311`](https://github.com/hougesen/kdlfmt/pull/311)
+- build(deps): bump clap from 4.5.53 to 4.5.54 [`#310`](https://github.com/hougesen/kdlfmt/pull/310)
+- build(deps): bump tempfile from 3.23.0 to 3.24.0 [`#309`](https://github.com/hougesen/kdlfmt/pull/309)
+- build(deps): bump clap_complete from 4.5.61 to 4.5.62 [`#308`](https://github.com/hougesen/kdlfmt/pull/308)
+
+#### [v0.1.5](https://github.com/hougesen/kdlfmt/compare/v0.1.4...v0.1.5)
+
+> 17 December 2025
+
+- chore: release v0.1.5 [`#307`](https://github.com/hougesen/kdlfmt/pull/307)
+- build(cargo-dist): upgrade to v0.30.3 [`#305`](https://github.com/hougesen/kdlfmt/pull/305)
+- build: create new github action bundle [`#306`](https://github.com/hougesen/kdlfmt/pull/306)
+- build(deps-dev): bump esbuild from 0.27.0 to 0.27.2 in /github-action [`#302`](https://github.com/hougesen/kdlfmt/pull/302)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#300`](https://github.com/hougesen/kdlfmt/pull/300)
+- build(deps): bump @actions/core from 1.11.1 to 2.0.1 in /github-action [`#301`](https://github.com/hougesen/kdlfmt/pull/301)
+- build(deps): bump console from 0.16.1 to 0.16.2 [`#303`](https://github.com/hougesen/kdlfmt/pull/303)
+- build(deps-dev): bump eslint from 9.39.1 to 9.39.2 in /github-action [`#299`](https://github.com/hougesen/kdlfmt/pull/299)
+- build(deps-dev): bump @eslint/js from 9.39.1 to 9.39.2 in /github-action [`#298`](https://github.com/hougesen/kdlfmt/pull/298)
+- build(deps): bump actions/cache from 4 to 5 [`#297`](https://github.com/hougesen/kdlfmt/pull/297)
+- build(deps): bump log from 0.4.28 to 0.4.29 [`#296`](https://github.com/hougesen/kdlfmt/pull/296)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#295`](https://github.com/hougesen/kdlfmt/pull/295)
+- build(deps): bump clap from 4.5.51 to 4.5.53 [`#293`](https://github.com/hougesen/kdlfmt/pull/293)
+- build(deps): bump actions/checkout from 5 to 6 [`#292`](https://github.com/hougesen/kdlfmt/pull/292)
+- build(deps): bump clap_complete from 4.5.60 to 4.5.61 [`#294`](https://github.com/hougesen/kdlfmt/pull/294)
+- build(deps-dev): bump esbuild from 0.25.12 to 0.27.0 in /github-action [`#289`](https://github.com/hougesen/kdlfmt/pull/289)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#288`](https://github.com/hougesen/kdlfmt/pull/288)
+- build(deps-dev): bump js-yaml from 4.1.0 to 4.1.1 in /github-action [`#287`](https://github.com/hougesen/kdlfmt/pull/287)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#286`](https://github.com/hougesen/kdlfmt/pull/286)
+- build(deps-dev): bump eslint from 9.39.0 to 9.39.1 in /github-action [`#284`](https://github.com/hougesen/kdlfmt/pull/284)
+- test: use cargo_bin_cmd instead of cargo_bin [`#283`](https://github.com/hougesen/kdlfmt/pull/283)
+- build(deps-dev): bump @eslint/js from 9.38.0 to 9.39.0 in /github-action [`#277`](https://github.com/hougesen/kdlfmt/pull/277)
+- build(deps): bump clap_complete from 4.5.59 to 4.5.60 [`#271`](https://github.com/hougesen/kdlfmt/pull/271)
+- build(deps-dev): bump globals from 16.4.0 to 16.5.0 in /github-action [`#273`](https://github.com/hougesen/kdlfmt/pull/273)
+- build(deps-dev): bump esbuild from 0.25.11 to 0.25.12 in /github-action [`#278`](https://github.com/hougesen/kdlfmt/pull/278)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#274`](https://github.com/hougesen/kdlfmt/pull/274)
+- build(deps-dev): bump eslint from 9.38.0 to 9.39.0 in /github-action [`#276`](https://github.com/hougesen/kdlfmt/pull/276)
+- build(deps): bump ignore from 0.4.24 to 0.4.25 [`#270`](https://github.com/hougesen/kdlfmt/pull/270)
+- build(deps): bump clap_complete_nushell from 4.5.9 to 4.5.10 [`#272`](https://github.com/hougesen/kdlfmt/pull/272)
+- build(cargo-dist): upgrade to v0.30.2 [`#269`](https://github.com/hougesen/kdlfmt/pull/269)
+- build(deps): bump clap from 4.5.50 to 4.5.51 [`#267`](https://github.com/hougesen/kdlfmt/pull/267)
+- build(deps): bump assert_cmd from 2.0.17 to 2.1.1 [`#268`](https://github.com/hougesen/kdlfmt/pull/268)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#266`](https://github.com/hougesen/kdlfmt/pull/266)
+- build(deps): bump actions/setup-node from 4 to 6 [`#254`](https://github.com/hougesen/kdlfmt/pull/254)
+- build(deps-dev): bump eslint from 9.37.0 to 9.38.0 in /github-action [`#257`](https://github.com/hougesen/kdlfmt/pull/257)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#262`](https://github.com/hougesen/kdlfmt/pull/262)
+- build(deps): bump clap_complete_nushell from 4.5.8 to 4.5.9 [`#251`](https://github.com/hougesen/kdlfmt/pull/251)
+- build(deps-dev): bump @eslint/js from 9.37.0 to 9.38.0 in /github-action [`#255`](https://github.com/hougesen/kdlfmt/pull/255)
+- build(deps): bump clap_complete from 4.5.58 to 4.5.59 [`#253`](https://github.com/hougesen/kdlfmt/pull/253)
+- build(deps): bump ignore from 0.4.23 to 0.4.24 [`#250`](https://github.com/hougesen/kdlfmt/pull/250)
+- build(deps-dev): bump esbuild from 0.25.10 to 0.25.11 in /github-action [`#258`](https://github.com/hougesen/kdlfmt/pull/258)
+- build(deps): bump clap from 4.5.48 to 4.5.50 [`#260`](https://github.com/hougesen/kdlfmt/pull/260)
+- build(dist): use default runner [`#245`](https://github.com/hougesen/kdlfmt/pull/245)
+- build(deps): bump actions/setup-node from 4 to 5 [`#218`](https://github.com/hougesen/kdlfmt/pull/218)
+- build(deps-dev): bump eslint from 9.36.0 to 9.37.0 in /github-action [`#242`](https://github.com/hougesen/kdlfmt/pull/242)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#241`](https://github.com/hougesen/kdlfmt/pull/241)
+- build(deps): bump tempfile from 3.22.0 to 3.23.0 [`#240`](https://github.com/hougesen/kdlfmt/pull/240)
+- build(deps): bump clap from 4.5.47 to 4.5.48 [`#235`](https://github.com/hougesen/kdlfmt/pull/235)
+- build(deps-dev): bump eslint from 9.35.0 to 9.36.0 in /github-action [`#239`](https://github.com/hougesen/kdlfmt/pull/239)
+- build(deps-dev): bump @eslint/js from 9.35.0 to 9.36.0 in /github-action [`#237`](https://github.com/hougesen/kdlfmt/pull/237)
+- build(deps-dev): bump esbuild from 0.25.9 to 0.25.10 in /github-action [`#236`](https://github.com/hougesen/kdlfmt/pull/236)
+- build(deps): bump clap_complete from 4.5.57 to 4.5.58 [`#234`](https://github.com/hougesen/kdlfmt/pull/234)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#232`](https://github.com/hougesen/kdlfmt/pull/232)
+- build(deps): bump kdl from 6.3.4 to 6.5.0 [`#231`](https://github.com/hougesen/kdlfmt/pull/231)
+- chore: add citation file [`fc6d4cb`](https://github.com/hougesen/kdlfmt/commit/fc6d4cb5ee628a376e39e033d1c959d36147d521)
+
+#### [v0.1.4](https://github.com/hougesen/kdlfmt/compare/v0.1.3...v0.1.4)
+
+> 9 September 2025
+
+- chore: release v0.1.4 [`#229`](https://github.com/hougesen/kdlfmt/pull/229)
+- build(deps): bump actions/checkout from 4 to 5 [`#205`](https://github.com/hougesen/kdlfmt/pull/205)
+- build(deps-dev): bump globals from 16.3.0 to 16.4.0 in /github-action [`#228`](https://github.com/hougesen/kdlfmt/pull/228)
+- build(cargo-dist): bump version to v0.30.0 [`#227`](https://github.com/hougesen/kdlfmt/pull/227)
+- build(deps): bump tempfile from 3.21.0 to 3.22.0 [`#226`](https://github.com/hougesen/kdlfmt/pull/226)
+- build(deps): bump console from 0.16.0 to 0.16.1 [`#225`](https://github.com/hougesen/kdlfmt/pull/225)
+- build(deps): bump log from 0.4.27 to 0.4.28 [`#224`](https://github.com/hougesen/kdlfmt/pull/224)
+- build(deps): bump clap from 4.5.46 to 4.5.47 [`#222`](https://github.com/hougesen/kdlfmt/pull/222)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#220`](https://github.com/hougesen/kdlfmt/pull/220)
+- build(deps-dev): bump eslint from 9.34.0 to 9.35.0 in /github-action [`#223`](https://github.com/hougesen/kdlfmt/pull/223)
+- build(deps): bump clap from 4.5.45 to 4.5.46 [`#217`](https://github.com/hougesen/kdlfmt/pull/217)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#216`](https://github.com/hougesen/kdlfmt/pull/216)
+- build(deps): bump console to v0.16.0 [`#215`](https://github.com/hougesen/kdlfmt/pull/215)
+
+#### [v0.1.3](https://github.com/hougesen/kdlfmt/compare/v0.1.2...v0.1.3)
+
+> 23 August 2025
+
+- chore: release v0.1.3 [`#214`](https://github.com/hougesen/kdlfmt/pull/214)
+- build(deps-dev): bump eslint from 9.33.0 to 9.34.0 in /github-action [`#213`](https://github.com/hougesen/kdlfmt/pull/213)
+- build(deps): bump tempfile from 3.20.0 to 3.21.0 [`#211`](https://github.com/hougesen/kdlfmt/pull/211)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#208`](https://github.com/hougesen/kdlfmt/pull/208)
+- build(deps): bump clap from 4.5.44 to 4.5.45 [`#207`](https://github.com/hougesen/kdlfmt/pull/207)
+- build(deps-dev): bump esbuild from 0.25.8 to 0.25.9 in /github-action [`#210`](https://github.com/hougesen/kdlfmt/pull/210)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#202`](https://github.com/hougesen/kdlfmt/pull/202)
+- build(deps): bump clap_complete from 4.5.56 to 4.5.57 [`#206`](https://github.com/hougesen/kdlfmt/pull/206)
+- build(deps): bump clap from 4.5.43 to 4.5.44 [`#204`](https://github.com/hougesen/kdlfmt/pull/204)
+- build(deps): bump clap_complete from 4.5.55 to 4.5.56 [`#203`](https://github.com/hougesen/kdlfmt/pull/203)
+- build(deps-dev): bump @eslint/js from 9.32.0 to 9.33.0 in /github-action [`#201`](https://github.com/hougesen/kdlfmt/pull/201)
+- build(deps-dev): bump eslint from 9.32.0 to 9.33.0 in /github-action [`#200`](https://github.com/hougesen/kdlfmt/pull/200)
+- build(deps): bump clap from 4.5.42 to 4.5.43 [`#198`](https://github.com/hougesen/kdlfmt/pull/198)
+- build(cargo-dist): bump version to v0.29.0 [`#195`](https://github.com/hougesen/kdlfmt/pull/195)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#193`](https://github.com/hougesen/kdlfmt/pull/193)
+- build(deps): bump clap from 4.5.41 to 4.5.42 [`#194`](https://github.com/hougesen/kdlfmt/pull/194)
+- build(deps-dev): bump eslint from 9.31.0 to 9.32.0 in /github-action [`#191`](https://github.com/hougesen/kdlfmt/pull/191)
+- build: upgrade cargo dist to v0.28.1 [`#189`](https://github.com/hougesen/kdlfmt/pull/189)
+- build(deps-dev): bump esbuild from 0.25.6 to 0.25.8 in /github-action [`#187`](https://github.com/hougesen/kdlfmt/pull/187)
+- build(deps-dev): bump @biomejs/biome from 2.1.1 to 2.1.2 in /github-action [`#188`](https://github.com/hougesen/kdlfmt/pull/188)
+- build: use windows-latest when publishing artifacts [`#185`](https://github.com/hougesen/kdlfmt/pull/185)
+- docs: config file [`#184`](https://github.com/hougesen/kdlfmt/pull/184)
+- docs: usage with treefmt [`#183`](https://github.com/hougesen/kdlfmt/pull/183)
+- feat: setup pre-commit hooks [`#182`](https://github.com/hougesen/kdlfmt/pull/182)
+- build(deps-dev): bump @biomejs/biome from 2.1.0 to 2.1.1 in /github-action [`#181`](https://github.com/hougesen/kdlfmt/pull/181)
+- build(deps-dev): bump eslint from 9.30.1 to 9.31.0 in /github-action [`#178`](https://github.com/hougesen/kdlfmt/pull/178)
+- build(deps-dev): bump @eslint/js from 9.30.1 to 9.31.0 in /github-action [`#179`](https://github.com/hougesen/kdlfmt/pull/179)
+- build(deps): bump clap_complete_nushell from 4.5.7 to 4.5.8 [`#174`](https://github.com/hougesen/kdlfmt/pull/174)
+- build(deps): bump clap from 4.5.40 to 4.5.41 [`#173`](https://github.com/hougesen/kdlfmt/pull/173)
+- build(deps): bump clap_complete from 4.5.54 to 4.5.55 [`#175`](https://github.com/hougesen/kdlfmt/pull/175)
+- build(deps-dev): bump esbuild from 0.25.5 to 0.25.6 in /github-action [`#171`](https://github.com/hougesen/kdlfmt/pull/171)
+- build(deps-dev): bump @biomejs/biome from 2.0.6 to 2.1.0 in /github-action [`#172`](https://github.com/hougesen/kdlfmt/pull/172)
+- build(deps): lock @types/node to v22.x [`#170`](https://github.com/hougesen/kdlfmt/pull/170)
+- build(deps-dev): bump globals from 16.2.0 to 16.3.0 in /github-action [`#169`](https://github.com/hougesen/kdlfmt/pull/169)
+- build(deps-dev): bump eslint from 9.30.0 to 9.30.1 in /github-action [`#167`](https://github.com/hougesen/kdlfmt/pull/167)
+- ci: set permissions for release-crates.yml [`#165`](https://github.com/hougesen/kdlfmt/pull/165)
+- ci: set permissions for validate.yml [`#164`](https://github.com/hougesen/kdlfmt/pull/164)
+- ci: set workflow permissions for kdlfmt.yml [`#163`](https://github.com/hougesen/kdlfmt/pull/163)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#160`](https://github.com/hougesen/kdlfmt/pull/160)
+- build(deps-dev): bump eslint from 9.29.0 to 9.30.0 in /github-action [`#159`](https://github.com/hougesen/kdlfmt/pull/159)
+- refactor: apply rust 1.88.0 fixes [`#158`](https://github.com/hougesen/kdlfmt/pull/158)
+- build(deps-dev): bump @biomejs/biome in /github-action [`#157`](https://github.com/hougesen/kdlfmt/pull/157)
+
+#### [v0.1.2](https://github.com/hougesen/kdlfmt/compare/v0.1.1...v0.1.2)
+
+> 19 June 2025
+
+- chore: release v0.1.2 [`#156`](https://github.com/hougesen/kdlfmt/pull/156)
+- build(deps-dev): bump @biomejs/biome from 1.9.4 to 2.0.0 in /github-action [`#155`](https://github.com/hougesen/kdlfmt/pull/155)
+- fix: skip timestamp update when no changes are applied [`#154`](https://github.com/hougesen/kdlfmt/pull/154)
+- build(deps-dev): bump @types/node in /github-action [`#152`](https://github.com/hougesen/kdlfmt/pull/152)
+- build(deps-dev): bump eslint from 9.28.0 to 9.29.0 in /github-action [`#150`](https://github.com/hougesen/kdlfmt/pull/150)
+- build(deps-dev): bump @eslint/js from 9.28.0 to 9.29.0 in /github-action [`#151`](https://github.com/hougesen/kdlfmt/pull/151)
+
+#### [v0.1.1](https://github.com/hougesen/kdlfmt/compare/v0.1.0...v0.1.1)
+
+> 10 June 2025
+
+- chore: release v0.1.1 [`#149`](https://github.com/hougesen/kdlfmt/pull/149)
+- build(deps): bump clap from 4.5.39 to 4.5.40 [`#146`](https://github.com/hougesen/kdlfmt/pull/146)
+- build(deps): bump clap_complete from 4.5.52 to 4.5.54 [`#147`](https://github.com/hougesen/kdlfmt/pull/147)
+- build(deps): bump clap_complete_nushell from 4.5.6 to 4.5.7 [`#148`](https://github.com/hougesen/kdlfmt/pull/148)
+- build(deps-dev): bump @types/node in /github-action [`#145`](https://github.com/hougesen/kdlfmt/pull/145)
+- build(deps-dev): bump eslint from 9.27.0 to 9.28.0 in /github-action [`#143`](https://github.com/hougesen/kdlfmt/pull/143)
+- build(deps-dev): bump @types/node in /github-action [`#144`](https://github.com/hougesen/kdlfmt/pull/144)
+- build(deps-dev): bump @eslint/js from 9.27.0 to 9.28.0 in /github-action [`#142`](https://github.com/hougesen/kdlfmt/pull/142)
+- build(deps): bump clap_complete from 4.5.51 to 4.5.52 [`#141`](https://github.com/hougesen/kdlfmt/pull/141)
+- chore: use mise instead of just for tasks [`#140`](https://github.com/hougesen/kdlfmt/pull/140)
+- fix(github-action): extract .tar.xz [`#139`](https://github.com/hougesen/kdlfmt/pull/139)
+- build(deps): bump clap_complete_nushell from 4.5.5 to 4.5.6 [`#136`](https://github.com/hougesen/kdlfmt/pull/136)
+- ci: run hougesen/kdlfmt@v0.1.0 [`8a96285`](https://github.com/hougesen/kdlfmt/commit/8a96285242cac3b5f33cba4ee77e44bcf39b7505)
+
+#### [v0.1.0](https://github.com/hougesen/kdlfmt/compare/v0.0.17...v0.1.0)
+
+> 28 May 2025
+
+- chore: release v0.1.0 [`#138`](https://github.com/hougesen/kdlfmt/pull/138)
+- chore: setup action.yml [`#137`](https://github.com/hougesen/kdlfmt/pull/137)
+- feat: official kdlfmt github action [`#135`](https://github.com/hougesen/kdlfmt/pull/135)
+- build(deps): bump clap_complete from 4.5.50 to 4.5.51 [`#133`](https://github.com/hougesen/kdlfmt/pull/133)
+- build(deps): bump clap from 4.5.38 to 4.5.39 [`#134`](https://github.com/hougesen/kdlfmt/pull/134)
+- refactor(test): separate cli e2e tests [`#132`](https://github.com/hougesen/kdlfmt/pull/132)
+- build(deps): update sub dependencies [`#131`](https://github.com/hougesen/kdlfmt/pull/131)
+
+#### [v0.0.17](https://github.com/hougesen/kdlfmt/compare/v0.0.16...v0.0.17)
+
+> 12 May 2025
+
+- chore: release v0.0.17 [`#130`](https://github.com/hougesen/kdlfmt/pull/130)
+- docs: automatically update command help in readme [`#129`](https://github.com/hougesen/kdlfmt/pull/129)
+- feat: add --config path arg to format command [`#128`](https://github.com/hougesen/kdlfmt/pull/128)
+- test(cli): validate check and format commands [`#127`](https://github.com/hougesen/kdlfmt/pull/127)
+- build(deps): bump clap from 4.5.37 to 4.5.38 [`#125`](https://github.com/hougesen/kdlfmt/pull/125)
+- build(deps): bump tempfile from 3.19.1 to 3.20.0 [`#126`](https://github.com/hougesen/kdlfmt/pull/126)
+- refactor(cli): make log level to global arg [`#124`](https://github.com/hougesen/kdlfmt/pull/124)
+- feat(init): add --force argument [`#123`](https://github.com/hougesen/kdlfmt/pull/123)
+- feat: support nushell completions [`#122`](https://github.com/hougesen/kdlfmt/pull/122)
+- test(cli): validate completions command [`#121`](https://github.com/hougesen/kdlfmt/pull/121)
+- test: setup code coverage tracking [`#120`](https://github.com/hougesen/kdlfmt/pull/120)
+- build(deps): bump clap_complete from 4.5.48 to 4.5.50 [`#119`](https://github.com/hougesen/kdlfmt/pull/119)
+- docs: add link to repology [`#118`](https://github.com/hougesen/kdlfmt/pull/118)
+- docs: add bash script installer instructions [`#117`](https://github.com/hougesen/kdlfmt/pull/117)
+- docs: add npm/npx installation instructions [`#116`](https://github.com/hougesen/kdlfmt/pull/116)
+- build: custom gh runner for x86_64-unknown-linux-musl & aarch64-unknown-linux-gnu [`#115`](https://github.com/hougesen/kdlfmt/pull/115)
+- docs: add Homebrew installation instructions [`#114`](https://github.com/hougesen/kdlfmt/pull/114)
+
+#### [v0.0.16](https://github.com/hougesen/kdlfmt/compare/v0.0.15...v0.0.16)
+
+> 5 May 2025
+
+- chore: release v0.0.16 [`#113`](https://github.com/hougesen/kdlfmt/pull/113)
+- build(deps): bump clap_complete from 4.5.47 to 4.5.48 [`#112`](https://github.com/hougesen/kdlfmt/pull/112)
+- build(deps): bump miette from 7.5.0 to 7.6.0 [`#111`](https://github.com/hougesen/kdlfmt/pull/111)
+- build(deps): bump ec4rs from 1.1.1 to 1.2.0 [`#109`](https://github.com/hougesen/kdlfmt/pull/109)
+- build(deps): bump clap from 4.5.36 to 4.5.37 [`#108`](https://github.com/hougesen/kdlfmt/pull/108)
+- fix(cargo-dist): manually set gh action runs-on to ubuntu-latest [`#110`](https://github.com/hougesen/kdlfmt/pull/110)
+- build(deps): bump clap from 4.5.35 to 4.5.36 [`#107`](https://github.com/hougesen/kdlfmt/pull/107)
+- build(deps): bump clap from 4.5.34 to 4.5.35 [`#106`](https://github.com/hougesen/kdlfmt/pull/106)
+- build(deps): bump env_logger from 0.11.7 to 0.11.8 [`#105`](https://github.com/hougesen/kdlfmt/pull/105)
+- build(deps): bump clap from 4.5.32 to 4.5.34 [`#103`](https://github.com/hougesen/kdlfmt/pull/103)
+- build(deps): bump log from 0.4.26 to 0.4.27 [`#104`](https://github.com/hougesen/kdlfmt/pull/104)
+- refactor: inline small utility functions [`#102`](https://github.com/hougesen/kdlfmt/pull/102)
+
+#### [v0.0.15](https://github.com/hougesen/kdlfmt/compare/v0.0.14...v0.0.15)
+
+> 20 March 2025
+
+- chore: release v0.0.15 [`#101`](https://github.com/hougesen/kdlfmt/pull/101)
+- build(deps): bump clap_complete from 4.5.46 to 4.5.47 [`#99`](https://github.com/hougesen/kdlfmt/pull/99)
+- feat: add --stdin argument [`#100`](https://github.com/hougesen/kdlfmt/pull/100)
+- build(deps): bump clap from 4.5.31 to 4.5.32 [`#96`](https://github.com/hougesen/kdlfmt/pull/96)
+- build(deps): bump env_logger from 0.11.6 to 0.11.7 [`#97`](https://github.com/hougesen/kdlfmt/pull/97)
+- chore(dependabot): run weekly [`#95`](https://github.com/hougesen/kdlfmt/pull/95)
+- build: upgrade to Rust edition 2024 [`#94`](https://github.com/hougesen/kdlfmt/pull/94)
+- build(deps): bump console from 0.15.10 to 0.15.11 [`#93`](https://github.com/hougesen/kdlfmt/pull/93)
+- build(deps): bump clap from 4.5.30 to 4.5.31 [`#92`](https://github.com/hougesen/kdlfmt/pull/92)
+- build(deps): bump clap_complete from 4.5.45 to 4.5.46 [`#91`](https://github.com/hougesen/kdlfmt/pull/91)
+
+#### [v0.0.14](https://github.com/hougesen/kdlfmt/compare/v0.0.13...v0.0.14)
+
+> 24 February 2025
+
+- chore: release v0.0.14 [`#89`](https://github.com/hougesen/kdlfmt/pull/89)
+- chore: setup npm publishing [`#88`](https://github.com/hougesen/kdlfmt/pull/88)
+- chore: update changelog [`b791821`](https://github.com/hougesen/kdlfmt/commit/b7918212fb45e56a779245c5559bc756807872f9)
+
+#### [v0.0.13](https://github.com/hougesen/kdlfmt/compare/v0.0.12...v0.0.13)
+
+> 21 February 2025
+
+- fix: crates release pipeline [`6fa06dc`](https://github.com/hougesen/kdlfmt/commit/6fa06dca598453a84004cd031359f34955e094c2)
+
+#### [v0.0.12](https://github.com/hougesen/kdlfmt/compare/v0.0.11...v0.0.12)
+
+> 21 February 2025
+
+- chore: update cli help template [`#87`](https://github.com/hougesen/kdlfmt/pull/87)
+- build: setup cargo dist [`#86`](https://github.com/hougesen/kdlfmt/pull/86)
+- build(deps): bump log from 0.4.25 to 0.4.26 [`#84`](https://github.com/hougesen/kdlfmt/pull/84)
+- build(deps): bump clap from 4.5.27 to 4.5.30 [`#83`](https://github.com/hougesen/kdlfmt/pull/83)
+- build(deps): bump kdl from 6.3.3 to 6.3.4 [`#85`](https://github.com/hougesen/kdlfmt/pull/85)
+- build(deps): bump clap_complete from 4.5.44 to 4.5.45 [`#82`](https://github.com/hougesen/kdlfmt/pull/82)
+- build(deps): bump miette from 7.4.0 to 7.5.0 [`#81`](https://github.com/hougesen/kdlfmt/pull/81)
+- build(deps): bump clap_complete from 4.5.42 to 4.5.44 [`#80`](https://github.com/hougesen/kdlfmt/pull/80)
+- build(deps): bump kdl from 6.3.2 to 6.3.3 [`#79`](https://github.com/hougesen/kdlfmt/pull/79)
+- build(deps): bump clap from 4.5.26 to 4.5.27 [`#78`](https://github.com/hougesen/kdlfmt/pull/78)
+- chore: release v0.0.12 [`7419663`](https://github.com/hougesen/kdlfmt/commit/74196639d117e1b63e4c512c50c88e218c65bbe6)
+- chore: update changelog [`34bac33`](https://github.com/hougesen/kdlfmt/commit/34bac33326916c3c4443d32800c78e7f639d50ed)
+
+#### [v0.0.11](https://github.com/hougesen/kdlfmt/compare/v0.0.10...v0.0.11)
+
+> 17 January 2025
+
+- build(deps): bump kdl from 6.2.2 to 6.3.2 [`#77`](https://github.com/hougesen/kdlfmt/pull/77)
+- build(deps): bump log from 0.4.22 to 0.4.25 [`#76`](https://github.com/hougesen/kdlfmt/pull/76)
+- chore: release v0.0.11 [`1a6c804`](https://github.com/hougesen/kdlfmt/commit/1a6c804cd3b93c722a073b0b5e7b45d690ac2529)
+- chore: update release notes for v0.0.10 [`30b4938`](https://github.com/hougesen/kdlfmt/commit/30b49380e75d98db96c4d228e70a0425af95cdb5)
+
+#### [v0.0.10](https://github.com/hougesen/kdlfmt/compare/v0.0.9...v0.0.10)
+
+> 12 January 2025
+
+- build(deps): downgrade log to 0.4.22 [`#75`](https://github.com/hougesen/kdlfmt/pull/75)
+- chore: update changelog [`d016a8e`](https://github.com/hougesen/kdlfmt/commit/d016a8e5b0bd91e087d9f124bea162da2ae6ad00)
+
+#### [v0.0.9](https://github.com/hougesen/kdlfmt/compare/v0.0.8...v0.0.9)
+
+> 11 January 2025
+
+- build(deps): bump clap_complete from 4.5.40 to 4.5.42 [`#72`](https://github.com/hougesen/kdlfmt/pull/72)
+- build(deps): bump log from 0.4.22 to 0.4.24 [`#74`](https://github.com/hougesen/kdlfmt/pull/74)
+- build(deps): bump clap from 4.5.23 to 4.5.26 [`#73`](https://github.com/hougesen/kdlfmt/pull/73)
+- build(deps): bump kdl from 6.2.1 to 6.2.2 [`#71`](https://github.com/hougesen/kdlfmt/pull/71)
+- build(deps): bump kdl from 6.1.0 to 6.2.1 [`#70`](https://github.com/hougesen/kdlfmt/pull/70)
+- chore: bump version to v0.0.9 [`#68`](https://github.com/hougesen/kdlfmt/pull/68)
+
+#### [v0.0.8](https://github.com/hougesen/kdlfmt/compare/v0.0.7...v0.0.8)
+
+> 23 December 2024
+
+- fix: ensure kdl version after formatting [`#64`](https://github.com/hougesen/kdlfmt/pull/64)
+
+#### [v0.0.7](https://github.com/hougesen/kdlfmt/compare/v0.0.6...v0.0.7)
+
+> 22 December 2024
+
+- chore: release v0.0.7 [`#63`](https://github.com/hougesen/kdlfmt/pull/63)
+- build(deps): bump clap to v4.5.23 [`#62`](https://github.com/hougesen/kdlfmt/pull/62)
+- build(deps): bump clap_complete to v4.5.40 [`#61`](https://github.com/hougesen/kdlfmt/pull/61)
+- build(deps): bump console to v0.15.10 [`#60`](https://github.com/hougesen/kdlfmt/pull/60)
+- build(deps): bump env_logger to v0.11.6 [`#59`](https://github.com/hougesen/kdlfmt/pull/59)
+- feat: arg for specifying kdl version [`#58`](https://github.com/hougesen/kdlfmt/pull/58)
+- feat: support editorconfig formatter options [`#57`](https://github.com/hougesen/kdlfmt/pull/57)
+- feat: set custom indent count [`#55`](https://github.com/hougesen/kdlfmt/pull/55)
+- build(deps): bump kdl from 4.6.0 to 4.7.0 [`#53`](https://github.com/hougesen/kdlfmt/pull/53)
+- feat: arg for specifying kdl version (#58) [`#56`](https://github.com/hougesen/kdlfmt/issues/56)
+- feat: support editorconfig formatter options (#57) [`#54`](https://github.com/hougesen/kdlfmt/issues/54)
+- chore: bump dev version to v0.0.7 [`2cd49a3`](https://github.com/hougesen/kdlfmt/commit/2cd49a3048b6203a98deeb14dad89888e9d149d7)
+
+#### [v0.0.6](https://github.com/hougesen/kdlfmt/compare/v0.0.5...v0.0.6)
+
+> 16 November 2024
+
+- build(deps): bump clap_complete to v4.5.38 [`#51`](https://github.com/hougesen/kdlfmt/pull/51)
+- build(deps): bump clap to v4.5.21 [`#50`](https://github.com/hougesen/kdlfmt/pull/50)
+- feat: syntax error reporting [`#49`](https://github.com/hougesen/kdlfmt/pull/49)
+- build(deps): downgrade kdl to 4.6.0 [`#48`](https://github.com/hougesen/kdlfmt/pull/48)
+- build(deps): bump clap_complete from 4.5.33 to 4.5.36 [`#46`](https://github.com/hougesen/kdlfmt/pull/46)
+- chore: bump version to 0.0.6 [`85182b7`](https://github.com/hougesen/kdlfmt/commit/85182b7fcf5f6fb15bb592d8299447de5d5073f2)
+
+#### [v0.0.5](https://github.com/hougesen/kdlfmt/compare/v0.0.4...v0.0.5)
+
+> 23 October 2024
+
+- build(deps): upgrade clap_complete to 4.5.33 [`#45`](https://github.com/hougesen/kdlfmt/pull/45)
+- build(deps): bump clap to 4.5.20 [`#44`](https://github.com/hougesen/kdlfmt/pull/44)
+- build(deps): upgrade kdl to 6.0.0-alpha.1 [`#43`](https://github.com/hougesen/kdlfmt/pull/43)
+- build(deps): bump clap from 4.5.16 to 4.5.18 [`#42`](https://github.com/hougesen/kdlfmt/pull/42)
+- build(deps): bump ignore from 0.4.22 to 0.4.23 [`#41`](https://github.com/hougesen/kdlfmt/pull/41)
+- build(deps): bump clap_complete from 4.5.24 to 4.5.28 [`#40`](https://github.com/hougesen/kdlfmt/pull/40)
+- build(deps): bump clap_complete from 4.5.17 to 4.5.24 [`#39`](https://github.com/hougesen/kdlfmt/pull/39)
+- chore: bump dev version to v0.0.5 [`ae92599`](https://github.com/hougesen/kdlfmt/commit/ae925995b573e620072dffa9c8e479f3fea21854)
+- chore: prepare release [`f89173d`](https://github.com/hougesen/kdlfmt/commit/f89173d2a765e93a2414d7f3393d2794fa9e03dc)
+
+#### [v0.0.4](https://github.com/hougesen/kdlfmt/compare/v0.0.3...v0.0.4)
+
+> 16 August 2024
+
+- build(deps): bump clap_complete to 4.5.17 [`#38`](https://github.com/hougesen/kdlfmt/pull/38)
+- build(deps): bump clap to 4.5.16 [`#37`](https://github.com/hougesen/kdlfmt/pull/37)
+- feat: support multiple file inputs [`#36`](https://github.com/hougesen/kdlfmt/pull/36)
+- feat: support multiple file inputs (#36) [`#35`](https://github.com/hougesen/kdlfmt/issues/35)
+- chore: bump dev version to 0.0.4 [`e2cc78b`](https://github.com/hougesen/kdlfmt/commit/e2cc78b2c9066b56414e7a8d06b9b3f321751790)
+
+#### [v0.0.3](https://github.com/hougesen/kdlfmt/compare/v0.0.2...v0.0.3)
+
+> 6 August 2024
+
+- build: update sub deps [`#34`](https://github.com/hougesen/kdlfmt/pull/34)
+- chore(dependabot): remove me from assignees [`#33`](https://github.com/hougesen/kdlfmt/pull/33)
+- build(deps): bump clap from 4.5.11 to 4.5.13 [`#31`](https://github.com/hougesen/kdlfmt/pull/31)
+- build(deps): bump clap_complete from 4.5.8 to 4.5.12 [`#32`](https://github.com/hougesen/kdlfmt/pull/32)
+- build(deps): bump env_logger from 0.11.3 to 0.11.5 [`#30`](https://github.com/hougesen/kdlfmt/pull/30)
+- build(deps): bump clap from 4.5.9 to 4.5.11 [`#29`](https://github.com/hougesen/kdlfmt/pull/29)
+- build(deps): bump clap_complete to 4.5.8 [`#28`](https://github.com/hougesen/kdlfmt/pull/28)
+- chore: bump dev version to v0.0.3 [`74cfeba`](https://github.com/hougesen/kdlfmt/commit/74cfeba2cb20697635a6bf5ba549bf3c492c37e1)
+
+#### [v0.0.2](https://github.com/hougesen/kdlfmt/compare/v0.0.1...v0.0.2)
+
+> 10 July 2024
+
+- chore: generate changelog [`#27`](https://github.com/hougesen/kdlfmt/pull/27)
+- docs: add command --help output to readme [`#26`](https://github.com/hougesen/kdlfmt/pull/26)
+- feat: add support for stdin/stdout only [`#25`](https://github.com/hougesen/kdlfmt/pull/25)
+- build(deps): bump clap to 4.5.9 [`#24`](https://github.com/hougesen/kdlfmt/pull/24)
+- build(deps): bump clap from 4.5.7 to 4.5.8 [`#22`](https://github.com/hougesen/kdlfmt/pull/22)
+- build(deps): bump clap_complete from 4.5.5 to 4.5.7 [`#20`](https://github.com/hougesen/kdlfmt/pull/20)
+- build(deps): bump log from 0.4.21 to 0.4.22 [`#21`](https://github.com/hougesen/kdlfmt/pull/21)
+- feat: log levels for prints [`#19`](https://github.com/hougesen/kdlfmt/pull/19)
+- build(deps): bump clap_complete to 4.5.5 [`#18`](https://github.com/hougesen/kdlfmt/pull/18)
+- build(deps): bump clap to 4.5.7 [`#17`](https://github.com/hougesen/kdlfmt/pull/17)
+- build(deps): bump kdl to 5.0.0-alpha.1 [`#16`](https://github.com/hougesen/kdlfmt/pull/16)
+- chore: set msrv to 1.74.1 [`#15`](https://github.com/hougesen/kdlfmt/pull/15)
+- chore: generate changelog for v0.0.2 [`19d9a0e`](https://github.com/hougesen/kdlfmt/commit/19d9a0e25114034dfb7c56da042e45569e8bb228)
+- chore: bump version to 0.0.2 [`733c68b`](https://github.com/hougesen/kdlfmt/commit/733c68b1d4947a071ed19195f02dfedad97f7f80)
+
+#### [v0.0.1](https://github.com/hougesen/kdlfmt/compare/v0.0.0...v0.0.1)
+
+> 7 June 2024
+
+- chore(deps): bump clap_complete to 4.5.4 [`#14`](https://github.com/hougesen/kdlfmt/pull/14)
+- chore(deps): bump clap to 4.5.6 [`#12`](https://github.com/hougesen/kdlfmt/pull/12)
+- docs: used -&gt; uses [`#13`](https://github.com/hougesen/kdlfmt/pull/13)
+- docs: usage guide [`#11`](https://github.com/hougesen/kdlfmt/pull/11)
+- feat: shell completion command [`#10`](https://github.com/hougesen/kdlfmt/pull/10)
+- feat: check command [`#9`](https://github.com/hougesen/kdlfmt/pull/9)
+- chore(deps): bump clap to 4.5.5 [`#8`](https://github.com/hougesen/kdlfmt/pull/8)
+- chore: pretty stdout logs [`#7`](https://github.com/hougesen/kdlfmt/pull/7)
+- feat: add support for walking directories [`#6`](https://github.com/hougesen/kdlfmt/pull/6)
+- chore: setup dependabot [`#5`](https://github.com/hougesen/kdlfmt/pull/5)
+- chore: prepare v0.0.1 release [`ee2c88d`](https://github.com/hougesen/kdlfmt/commit/ee2c88da586ccebe88402ba8de1815490d26c821)
+
+#### v0.0.0
+
+> 6 June 2024
+
+- ci: release workflow [`#3`](https://github.com/hougesen/kdlfmt/pull/3)
+- chore(just): setup commands [`#4`](https://github.com/hougesen/kdlfmt/pull/4)
+- ci: validation workflow [`#2`](https://github.com/hougesen/kdlfmt/pull/2)
+- feat(cli): accept input path [`#1`](https://github.com/hougesen/kdlfmt/pull/1)
+- feat: format kdl file [`5c353bf`](https://github.com/hougesen/kdlfmt/commit/5c353bf06edeb5217c3871639dfba4c255877200)
+- chore: add MIT licence [`6523fd0`](https://github.com/hougesen/kdlfmt/commit/6523fd07f63f866cd759f809afa25933ccc54df1)
+- chore: rustfmt config [`25f1c22`](https://github.com/hougesen/kdlfmt/commit/25f1c22e11bf664460731c940d6f7e16b031d78b)

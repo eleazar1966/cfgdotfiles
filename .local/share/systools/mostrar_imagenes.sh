@@ -9,7 +9,6 @@ LOCKFILE="/tmp/wallpaper_change.lock"
 apply_changes() {
   local img="$1"
 
-  # Evitar cambios duplicados o procesos simultáneos
   [[ "$img" == "$(cat "$CACHE_LAST" 2>/dev/null)" ]] && return
   [[ -f "$LOCKFILE" ]] && return
 
@@ -20,12 +19,12 @@ apply_changes() {
 
   # 2. Generar colores con Matugen
   if command -v matugen &>/dev/null; then
-    matugen image "$img" -t scheme-dark --contrast extreme >/dev/null 2>&1
+    matugen image "$img" &>/dev/null 2>&1
 
-    # Pausa breve para que Matugen termine de escribir todos los archivos
-    sleep 0.2
+    # Pausa crítica para asegurar escritura completa de archivos
+    sleep 0.5
 
-    # 3. Notificar a Waybar (una sola vez)
+    # 3. Notificar a Waybar mediante el trigger de inotify
     touch "$WAYBAR_COLORS"
 
     # 4. Notificar a Niri
@@ -38,14 +37,14 @@ apply_changes() {
   rm -f "$LOCKFILE"
 }
 
-# Si se pasa un argumento, cambia una vez y sale (útil para el bind de teclado)
+# Ejecución manual (Mod+Shift+W)
 if [[ -n "$1" ]]; then
   img=$(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | shuf -n 1)
   apply_changes "$img"
   exit 0
 fi
 
-# Bucle normal de 30 minutos
+# Bucle automático
 while true; do
   mapfile -t images < <(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | shuf)
   for img in "${images[@]}"; do

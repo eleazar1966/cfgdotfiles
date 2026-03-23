@@ -5,6 +5,8 @@ return {
     "stevearc/conform.nvim",
     event = "BufWritePre",
     opts = require "configs.conform",
+
+
   },
 
   -- Linter (Validación extra para Python/Bash)

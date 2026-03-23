@@ -5,6 +5,7 @@ local options = {
     bash = { "shfmt" },
     sh = { "shfmt" },
     json = { "jq" },
+    kdl = { "kdlfmt" },
   },
 
   formatters = {

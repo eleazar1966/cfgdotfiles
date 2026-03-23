@@ -278,3 +278,32 @@
 
 2026-03-05 09:58:21[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: unexpected token `,` (45:2 to 45:3), unexpected token, this needs to be a statement
 
+2026-03-23 10:49:43[ERROR] Formatter 'stylua' error: error: could not format from stdin: failed to format from stdin: error parsing: 
+ - unexpected token `"configs.conform"` (7:20 to 7:37), expected a field
+ - unexpected token `:` (9:1 to 9:2), expected `}` after last field
+ - unexpected token `:` (9:1 to 9:2), unexpected token, this needs to be a statement
+ - unexpected token `event` (15:5 to 15:10), unexpected statement after last statement
+ - unexpected token `=` (16:12 to 16:13), unexpected token, this needs to be a statement
+ - unexpected token `(` (16:22 to 16:23), expected function name
+ - unexpected token `(` (16:22 to 16:23), expected an expression after `(`
+ - unexpected token `)` (16:23 to 16:24), unexpected token, this needs to be a statement
+ - unexpected token `local` (17:7 to 17:12), unexpected statement after last statement
+ - unexpected token `end` (23:5 to 23:8), unexpected token, this needs to be a statement
+ - unexpected token `,` (31:8 to 31:9), trailing commas are not allowed
+ - unexpected token `config` (29:5 to 29:11), unexpected statement after last statement
+ - unexpected token `}` (32:3 to 32:4), unexpected token, this needs to be a statement
+ - unexpected token `,` (50:6 to 50:7), trailing commas are not allowed
+ - unexpected token `opts` (37:5 to 37:9), unexpected statement after last statement
+ - unexpected token `}` (51:3 to 51:4), unexpected token, this needs to be a statement
+ - unexpected token `event` (56:5 to 56:10), unexpected statement after last statement
+ - unexpected token `=` (57:12 to 57:13), unexpected token, this needs to be a statement
+ - unexpected token `(` (57:22 to 57:23), expected function name
+ - unexpected token `(` (57:22 to 57:23), expected an expression after `(`
+ - unexpected token `)` (57:23 to 57:24), unexpected token, this needs to be a statement
+ - unexpected token `require` (58:7 to 58:14), unexpected statement after last statement
+ - unexpected token `end` (64:5 to 64:8), unexpected token, this needs to be a statement
+ - unexpected token `cmd` (70:5 to 70:8), unexpected statement after last statement
+ - unexpected token `=` (71:10 to 71:11), unexpected token, this needs to be a statement
+ - unexpected token `open_cmd` (71:14 to 71:22), unexpected statement after last statement
+ - unexpected token `}` (71:43 to 71:44), unexpected token, this needs to be a statement
+

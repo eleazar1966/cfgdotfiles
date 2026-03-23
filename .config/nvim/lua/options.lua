@@ -10,3 +10,10 @@ opt.clipboard = "unnamedplus"
 
 -- Mejora la experiencia visual al pegar
 opt.mouse = "a" -- Habilita el mouse en todos los modos
+
+-- Al final de custom/options.lua
+vim.filetype.add {
+  extension = {
+    kdl = "kdl",
+  },
+}

@@ -1,7 +1,7 @@
 local nvlsp = require "nvchad.configs.lspconfig"
 local lspconfig = require "lspconfig"
 
-local servers = { "pyright", "bashls", "jsonls", "lua_ls" }
+local servers = { "pyright", "bashls", "jsonls", "lua_ls", "kdl_ls" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {

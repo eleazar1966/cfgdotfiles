@@ -241,3 +241,10 @@
 }
 [INFO  jue 05 mar 2026 10:47:33] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=ruff)
 [INFO  jue 05 mar 2026 10:49:03] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=ruff)
+[INFO  lun 23 mar 2026 10:44:09] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=kdlfmt) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  lun 23 mar 2026 10:44:09] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=kdlfmt)
+[ERROR lun 23 mar 2026 10:47:02] ...l/share/nvim/lazy/mason.nvim/lua/mason-registry/init.lua:31: Cannot find package "\"kdl-ls\"".
