@@ -1,106 +1,106 @@
 
-@define-color background #161217;
+@define-color background #121318;
 
 @define-color error #ffb4ab;
 
 @define-color error_container #93000a;
 
-@define-color inverse_on_surface #332f35;
+@define-color inverse_on_surface #2f3036;
 
-@define-color inverse_primary #735187;
+@define-color inverse_primary #485d92;
 
-@define-color inverse_surface #e9e0e7;
+@define-color inverse_surface #e2e2e9;
 
-@define-color on_background #e9e0e7;
+@define-color on_background #e2e2e9;
 
 @define-color on_error #690005;
 
 @define-color on_error_container #ffdad6;
 
-@define-color on_primary #422255;
+@define-color on_primary #172e60;
 
-@define-color on_primary_container #f4d9ff;
+@define-color on_primary_container #dae2ff;
 
-@define-color on_primary_fixed #2b0b3f;
+@define-color on_primary_fixed #001847;
 
-@define-color on_primary_fixed_variant #5a396d;
+@define-color on_primary_fixed_variant #304578;
 
-@define-color on_secondary #382c3e;
+@define-color on_secondary #2a3042;
 
-@define-color on_secondary_container #efdcf5;
+@define-color on_secondary_container #dce2f9;
 
-@define-color on_secondary_fixed #221728;
+@define-color on_secondary_fixed #151b2c;
 
-@define-color on_secondary_fixed_variant #4f4255;
+@define-color on_secondary_fixed_variant #404659;
 
-@define-color on_surface #e9e0e7;
+@define-color on_surface #e2e2e9;
 
-@define-color on_surface_variant #cec3ce;
+@define-color on_surface_variant #c5c6d0;
 
-@define-color on_tertiary #4c2527;
+@define-color on_tertiary #412741;
 
-@define-color on_tertiary_container #ffdada;
+@define-color on_tertiary_container #fed7f9;
 
-@define-color on_tertiary_fixed #331113;
+@define-color on_tertiary_fixed #2b122b;
 
-@define-color on_tertiary_fixed_variant #663b3c;
+@define-color on_tertiary_fixed_variant #5a3d59;
 
-@define-color outline #978e98;
+@define-color outline #8f909a;
 
-@define-color outline_variant #4b444d;
+@define-color outline_variant #45464f;
 
-@define-color primary #e1b8f5;
+@define-color primary #b2c5ff;
 
-@define-color primary_container #5a396d;
+@define-color primary_container #304578;
 
-@define-color primary_fixed #f4d9ff;
+@define-color primary_fixed #dae2ff;
 
-@define-color primary_fixed_dim #e1b8f5;
+@define-color primary_fixed_dim #b2c5ff;
 
 @define-color scrim #000000;
 
-@define-color secondary #d3c0d8;
+@define-color secondary #c0c6dd;
 
-@define-color secondary_container #4f4255;
+@define-color secondary_container #404659;
 
-@define-color secondary_fixed #efdcf5;
+@define-color secondary_fixed #dce2f9;
 
-@define-color secondary_fixed_dim #d3c0d8;
+@define-color secondary_fixed_dim #c0c6dd;
 
 @define-color shadow #000000;
 
-@define-color source_color #542372;
+@define-color source_color #314880;
 
-@define-color surface #161217;
+@define-color surface #121318;
 
-@define-color surface_bright #3c383d;
+@define-color surface_bright #38393f;
 
-@define-color surface_container #221e24;
+@define-color surface_container #1e1f25;
 
-@define-color surface_container_high #2d282e;
+@define-color surface_container_high #282a2f;
 
-@define-color surface_container_highest #383339;
+@define-color surface_container_highest #33343a;
 
-@define-color surface_container_low #1e1a20;
+@define-color surface_container_low #1a1b21;
 
-@define-color surface_container_lowest #100d12;
+@define-color surface_container_lowest #0d0e13;
 
-@define-color surface_dim #161217;
+@define-color surface_dim #121318;
 
-@define-color surface_tint #e1b8f5;
+@define-color surface_tint #b2c5ff;
 
-@define-color surface_variant #4b444d;
+@define-color surface_variant #45464f;
 
-@define-color tertiary #f4b7b8;
+@define-color tertiary #e1bbdd;
 
-@define-color tertiary_container #663b3c;
+@define-color tertiary_container #5a3d59;
 
-@define-color tertiary_fixed #ffdada;
+@define-color tertiary_fixed #fed7f9;
 
-@define-color tertiary_fixed_dim #f4b7b8;
+@define-color tertiary_fixed_dim #e1bbdd;
 
 
 /* Alias para compatibilidad con style.css */
-@define-color primary #e1b8f5;
-@define-color background #161217;
-@define-color on_surface #e9e0e7;
+@define-color primary #b2c5ff;
+@define-color background #121318;
+@define-color on_surface #e2e2e9;

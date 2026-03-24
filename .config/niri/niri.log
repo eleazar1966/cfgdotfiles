@@ -1,219 +1,3 @@
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.gnome.evince.Daemon' requested by ':1.64' (uid=1000 pid=24069 comm="/usr/bin/evince /home/eleazar/libro-50-dias-de-cri")
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Successfully activated service 'org.gnome.evince.Daemon'
-[2m2026-03-23T16:17:46.536398Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T16:47:47.098987Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T16:48:22.827346Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-
-(/usr/libexec/xdg-desktop-portal:3266): xdg-desktop-portal-WARNING **: 13:00:12.305: Caught PipeWire error: connection error
-
-(/usr/libexec/xdg-desktop-portal:3266): xdg-desktop-portal-WARNING **: 13:00:12.306: Failed connect to PipeWire: Couldn't connect to PipeWire
-[2m2026-03-23T17:00:12.365403Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m pausing session
-[2m2026-03-23T17:00:13.403732Z[0m [32m INFO[0m [2mniri::utils::signals::platform[0m[2m:[0m quitting due to receiving signal SIGHUP
-[2m2026-03-23T17:00:13.404373Z[0m [33m WARN[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m xwayland-satellite exited with: signal: 1 (SIGHUP)
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Reloaded configuration
-dbus-daemon[3295]: Reloaded configuration
-[2m2026-03-23T17:00:13.412788Z[0m [34mDEBUG[0m [2mniri::utils::watcher[0m[2m:[0m exiting watcher thread for Regular { user_path: "/home/eleazar/.config/niri/config.kdl", system_path: "/etc/niri/config.kdl" }
---- INICIO DE SESIÓN: lun 23 mar 2026 13:00:44 -04 ---
-[2m2026-03-23T17:00:45.557734Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
-[2m2026-03-23T17:00:45.560800Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:00:46.022283Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
-[2m2026-03-23T17:00:46.063200Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
-[2m2026-03-23T17:00:46.063239Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
-[2m2026-03-23T17:00:46.369030Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
-[2m2026-03-23T17:00:46.369047Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
-[2m2026-03-23T17:00:46.412290Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
-[2m2026-03-23T17:00:46.421073Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
-[2m2026-03-23T17:00:46.422064Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
-[2m2026-03-23T17:00:46.422200Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
-[2m2026-03-23T17:00:46.422217Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
-[2m2026-03-23T17:00:46.427560Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
-[2m2026-03-23T17:00:46.427608Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
-[2m2026-03-23T17:00:46.427615Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.3221.sock
-[2m2026-03-23T17:00:46.438964Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
-[2m2026-03-23T17:00:46.442440Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=3352 comm="wireplumber")
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.5' (uid=1000 pid=3347 comm="openrgb --startminimized")
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.9' (uid=1000 pid=3365 comm="nm-applet --indicator")
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Successfully activated service 'org.a11y.Bus'
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3432]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3365 comm="nm-applet --indicator")
-dbus-daemon[3432]: Successfully activated service 'org.a11y.atspi.Registry'
-SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
-
-** (xdg-desktop-portal-gnome:3439): WARNING **: 13:00:46.728: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
-Non-compatible display server, exposing settings only.
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3560): Gtk-WARNING **: 13:00:46.759: cannot open display: 
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.761: Failed to create settings proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3563): Gtk-WARNING **: 13:00:46.769: cannot open display: 
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.770: Failed to create notification proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.770: No skeleton to export
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3567): Gtk-WARNING **: 13:00:46.777: cannot open display: 
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.779: Failed to create inhibit proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.779: No skeleton to export
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-[2m2026-03-23T17:00:46.790729Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-
-(xdg-desktop-portal-gtk:3578): Gtk-WARNING **: 13:00:46.790: cannot open display: 
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.792: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.792: No skeleton to export
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3583): Gtk-WARNING **: 13:00:46.799: cannot open display: 
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3587): Gtk-WARNING **: 13:00:46.807: cannot open display: 
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.808: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.808: No skeleton to export
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3591): Gtk-WARNING **: 13:00:46.815: cannot open display: 
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3594): Gtk-WARNING **: 13:00:46.823: cannot open display: 
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.824: Failed to create email proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:00:46.824: No skeleton to export
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.6' (uid=1000 pid=3401 comm="/usr/libexec/xdg-desktop-portal")
-** Message: 13:00:46.832: couldn't access control socket: /run/user/1000/keyring/control: No existe el fichero o el directorio
-discover_other_daemon: 0dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.8' (uid=1000 pid=3362 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Successfully activated service 'org.bluez.obex'
-[2m2026-03-23T17:01:00.163559Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:01:04.279351Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:03:20.575785Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:03:35.037641Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:03:38.836872Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:03:41.588631Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:05:41.392779Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:05:48.382825Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:05:53.179250Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:06:03.607: Caught PipeWire error: connection error
-
-(/usr/libexec/xdg-desktop-portal:3401): xdg-desktop-portal-WARNING **: 13:06:03.609: Failed connect to PipeWire: Couldn't connect to PipeWire
-[2m2026-03-23T17:06:03.661711Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error queueing frame: The underlying drm surface encountered an error: DRM access error: Page flip commit failed on device `Some("/dev/dri/card0")` (Permission denied (os error 13))
-[2m2026-03-23T17:06:03.661797Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m pausing session
-[2m2026-03-23T17:06:04.976503Z[0m [32m INFO[0m [2mniri::utils::signals::platform[0m[2m:[0m quitting due to receiving signal SIGHUP
-dbus-daemon[3432]: Reloaded configuration
-dbus-daemon[3218]: [session uid=1000 pid=3218 pidfd=5] Reloaded configuration
-[2m2026-03-23T17:06:04.984641Z[0m [34mDEBUG[0m [2mniri::utils::watcher[0m[2m:[0m exiting watcher thread for Regular { user_path: "/home/eleazar/.config/niri/config.kdl", system_path: "/etc/niri/config.kdl" }
---- INICIO DE SESIÓN: lun 23 mar 2026 13:06:37 -04 ---
-[2m2026-03-23T17:06:38.730412Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
-[2m2026-03-23T17:06:38.734190Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T17:06:39.250057Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
-[2m2026-03-23T17:06:39.287288Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
-[2m2026-03-23T17:06:39.287325Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
-[2m2026-03-23T17:06:39.600151Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
-[2m2026-03-23T17:06:39.600169Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
-[2m2026-03-23T17:06:39.644310Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
-[2m2026-03-23T17:06:39.654638Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
-[2m2026-03-23T17:06:39.655658Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
-[2m2026-03-23T17:06:39.655796Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
-[2m2026-03-23T17:06:39.655814Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
-[2m2026-03-23T17:06:39.668968Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
-[2m2026-03-23T17:06:39.669024Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
-[2m2026-03-23T17:06:39.669030Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.2989.sock
-[2m2026-03-23T17:06:39.680747Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
-[2m2026-03-23T17:06:39.683437Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=3220 comm="wireplumber")
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.5' (uid=1000 pid=3222 comm="openrgb --startminimized")
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.6' (uid=1000 pid=3211 comm="nm-applet --indicator")
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Successfully activated service 'org.a11y.Bus'
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3279]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3211 comm="nm-applet --indicator")
-dbus-daemon[3279]: Successfully activated service 'org.a11y.atspi.Registry'
-SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
-
-** (xdg-desktop-portal-gnome:3307): WARNING **: 13:06:39.986: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
-Non-compatible display server, exposing settings only.
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3372): Gtk-WARNING **: 13:06:40.014: cannot open display: 
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.015: Failed to create settings proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3376): Gtk-WARNING **: 13:06:40.023: cannot open display: 
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.024: Failed to create notification proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.024: No skeleton to export
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3385): Gtk-WARNING **: 13:06:40.032: cannot open display: 
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.033: Failed to create inhibit proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.033: No skeleton to export
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3389): Gtk-WARNING **: 13:06:40.043: cannot open display: 
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.044: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.044: No skeleton to export
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3392): Gtk-WARNING **: 13:06:40.052: cannot open display: 
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-[2m2026-03-23T17:06:40.058029Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-
-(xdg-desktop-portal-gtk:3398): Gtk-WARNING **: 13:06:40.060: cannot open display: 
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.062: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.062: No skeleton to export
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3404): Gtk-WARNING **: 13:06:40.069: cannot open display: 
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3254 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3407): Gtk-WARNING **: 13:06:40.078: cannot open display: 
-dbus-daemon[2988]: [session uid=1000 pid=2988 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
 
 (/usr/libexec/xdg-desktop-portal:3254): xdg-desktop-portal-WARNING **: 13:06:40.079: Failed to create email proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
 
@@ -1096,3 +880,254 @@ dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Successfully activated se
 dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.8' (uid=1000 pid=3391 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
 dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Successfully activated service 'org.bluez.obex'
 [2m2026-03-23T23:13:32.338202Z[0m [34mDEBUG[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m connection to X11 abstract socket; spawning xwayland-satellite
+[2m2026-03-23T23:19:29.788830Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m pausing session
+
+(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:19:29.814: Caught PipeWire error: connection error
+
+(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:19:29.816: Failed connect to PipeWire: Couldn't connect to PipeWire
+[2m2026-03-23T23:19:31.124370Z[0m [32m INFO[0m [2mniri::utils::signals::platform[0m[2m:[0m quitting due to receiving signal SIGHUP
+[2m2026-03-23T23:19:31.124568Z[0m [33m WARN[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m xwayland-satellite exited with: signal: 1 (SIGHUP)
+dbus-daemon[3446]: Reloaded configuration
+dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Reloaded configuration
+[2m2026-03-23T23:19:31.134345Z[0m [34mDEBUG[0m [2mniri::utils::watcher[0m[2m:[0m exiting watcher thread for Regular { user_path: "/home/eleazar/.config/niri/config.kdl", system_path: "/etc/niri/config.kdl" }
+--- INICIO DE SESIÓN: lun 23 mar 2026 19:36:12 -04 ---
+[2m2026-03-23T23:36:13.294799Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
+[2m2026-03-23T23:36:13.298371Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-23T23:36:13.636590Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
+[2m2026-03-23T23:36:13.675522Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
+[2m2026-03-23T23:36:13.675557Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
+[2m2026-03-23T23:36:13.985333Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
+[2m2026-03-23T23:36:13.985350Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
+[2m2026-03-23T23:36:14.033443Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
+[2m2026-03-23T23:36:14.042943Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
+[2m2026-03-23T23:36:14.043993Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
+[2m2026-03-23T23:36:14.044128Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
+[2m2026-03-23T23:36:14.044146Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
+[2m2026-03-23T23:36:14.053806Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
+[2m2026-03-23T23:36:14.053859Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
+[2m2026-03-23T23:36:14.053865Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.3316.sock
+[2m2026-03-23T23:36:14.066316Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
+[2m2026-03-23T23:36:14.069152Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=3451 comm="wireplumber")
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+fusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.5' (uid=1000 pid=3444 comm="openrgb --startminimized")
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.6' (uid=1000 pid=3448 comm="nm-applet --indicator")
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3514]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3448 comm="nm-applet --indicator")
+dbus-daemon[3514]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+** (xdg-desktop-portal-gnome:3536): WARNING **: 19:36:14.374: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
+Non-compatible display server, exposing settings only.
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3602): Gtk-WARNING **: 19:36:14.401: cannot open display: 
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.402: Failed to create settings proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3605): Gtk-WARNING **: 19:36:14.411: cannot open display: 
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.413: Failed to create notification proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.413: No skeleton to export
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3609): Gtk-WARNING **: 19:36:14.420: cannot open display: 
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.421: Failed to create inhibit proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.421: No skeleton to export
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3612): Gtk-WARNING **: 19:36:14.431: cannot open display: 
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.432: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.432: No skeleton to export
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3621): Gtk-WARNING **: 19:36:14.439: cannot open display: 
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3625): Gtk-WARNING **: 19:36:14.448: cannot open display: 
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.450: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.450: No skeleton to export
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3628): Gtk-WARNING **: 19:36:14.458: cannot open display: 
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+[2m2026-03-23T23:36:14.465544Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+
+(xdg-desktop-portal-gtk:3633): Gtk-WARNING **: 19:36:14.466: cannot open display: 
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.467: Failed to create email proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.467: No skeleton to export
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
+** Message: 19:36:14.475: couldn't access control socket: /run/user/1000/keyring/control: No existe el fichero o el directorio
+discover_other_daemon: 0dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.7' (uid=1000 pid=3450 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.bluez.obex'
+[2m2026-03-24T00:06:14.670926Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T00:08:48.177195Z[0m [31mERROR[0m [2msmithay::backend::renderer::gles[0m[2m:[0m [GL] GL_INVALID_VALUE in glTexSubImage2D(yoffset 0 + height 786 > 758)
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 20:22:40.551: Caught PipeWire error: connection error
+
+(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 20:22:40.553: Failed connect to PipeWire: Couldn't connect to PipeWire
+[2m2026-03-24T00:22:40.581439Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m pausing session
+[2m2026-03-24T00:22:41.844320Z[0m [32m INFO[0m [2mniri::utils::signals::platform[0m[2m:[0m quitting due to receiving signal SIGHUP
+dbus-daemon[3514]: Reloaded configuration
+dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Reloaded configuration
+[2m2026-03-24T00:22:41.852690Z[0m [34mDEBUG[0m [2mniri::utils::watcher[0m[2m:[0m exiting watcher thread for Regular { user_path: "/home/eleazar/.config/niri/config.kdl", system_path: "/etc/niri/config.kdl" }
+--- INICIO DE SESIÓN: mar 24 mar 2026 07:50:08 -04 ---
+[2m2026-03-24T11:50:09.561305Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
+[2m2026-03-24T11:50:09.565136Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T11:50:10.139203Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
+[2m2026-03-24T11:50:10.180601Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
+[2m2026-03-24T11:50:10.180638Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
+[2m2026-03-24T11:50:10.496472Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
+[2m2026-03-24T11:50:10.496486Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
+[2m2026-03-24T11:50:10.547388Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
+[2m2026-03-24T11:50:10.557073Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
+[2m2026-03-24T11:50:10.558091Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
+[2m2026-03-24T11:50:10.558222Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
+[2m2026-03-24T11:50:10.558243Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
+[2m2026-03-24T11:50:10.570108Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
+[2m2026-03-24T11:50:10.570154Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
+[2m2026-03-24T11:50:10.570160Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.3083.sock
+[2m2026-03-24T11:50:10.586887Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
+[2m2026-03-24T11:50:10.590643Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=3529 comm="wireplumber")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+fusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.5' (uid=1000 pid=3523 comm="openrgb --startminimized")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.6' (uid=1000 pid=3514 comm="nm-applet --indicator")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3574]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3514 comm="nm-applet --indicator")
+dbus-daemon[3574]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+** (xdg-desktop-portal-gnome:3615): WARNING **: 07:50:10.914: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
+Non-compatible display server, exposing settings only.
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3680): Gtk-WARNING **: 07:50:10.941: cannot open display: 
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.942: Failed to create settings proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3684): Gtk-WARNING **: 07:50:10.951: cannot open display: 
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.952: Failed to create notification proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.952: No skeleton to export
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3694): Gtk-WARNING **: 07:50:10.959: cannot open display: 
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.961: Failed to create inhibit proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.961: No skeleton to export
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3697): Gtk-WARNING **: 07:50:10.972: cannot open display: 
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.973: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.973: No skeleton to export
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3700): Gtk-WARNING **: 07:50:10.981: cannot open display: 
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+[2m2026-03-24T11:50:10.986459Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+
+(xdg-desktop-portal-gtk:3705): Gtk-WARNING **: 07:50:10.989: cannot open display: 
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.990: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:10.990: No skeleton to export
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3711): Gtk-WARNING **: 07:50:10.997: cannot open display: 
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3715): Gtk-WARNING **: 07:50:11.005: cannot open display: 
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:11.006: Failed to create email proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3564): xdg-desktop-portal-WARNING **: 07:50:11.006: No skeleton to export
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
+** Message: 07:50:11.015: couldn't access control socket: /run/user/1000/keyring/control: No existe el fichero o el directorio
+discover_other_daemon: 0dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.8' (uid=1000 pid=3520 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.bluez.obex'
+[2m2026-03-24T12:17:52.203848Z[0m [34mDEBUG[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m connection to X11 abstract socket; spawning xwayland-satellite
+[2m2026-03-24T12:20:11.196239Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='ca.desrt.dconf' requested by ':1.48' (uid=1000 pid=126758 comm="gnome-calculator")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'ca.desrt.dconf'
+libinput error: event6  -  USB OPTICAL MOUSE: client bug: event processing lagging behind by 22ms, your system is too slow
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.51' (uid=1000 pid=147915 comm="/usr/lib64/thunderbird/thunderbird")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.gtk.vfs.UDisks2VolumeMonitor'
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.51' (uid=1000 pid=147915 comm="/usr/lib64/thunderbird/thunderbird")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.gtk.vfs.MTPVolumeMonitor'
+[2m2026-03-24T12:50:11.456244Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T12:51:37.515694Z[0m [31mERROR[0m [2msmithay::backend::renderer::gles[0m[2m:[0m [GL] GL_INVALID_VALUE in glTexSubImage2D(yoffset 0 + height 786 > 758)
+[2m2026-03-24T13:00:11.527958Z[0m [33m WARN[0m [2mniri::ipc::server[0m[2m:[0m disconnecting IPC event stream client because it is reading events too slowly
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.xfce.Xfconf' requested by ':1.89' (uid=1000 pid=193016 comm="thunar")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.xfce.Xfconf'
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.gtk.vfs.Metadata' requested by ':1.89' (uid=1000 pid=193016 comm="thunar")
+dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.gtk.vfs.Metadata'
+[2m2026-03-24T13:20:11.717444Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T13:50:11.883608Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T14:20:12.076263Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T14:50:12.266154Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T15:20:12.469688Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T15:50:12.641038Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T16:20:12.827502Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T16:50:13.010604Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T17:20:13.200719Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T17:50:13.394398Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T18:20:13.569130Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T18:50:13.760385Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T19:20:13.948551Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T19:50:14.131019Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T20:20:14.329229Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T20:50:14.521590Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T21:20:14.710240Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T21:50:14.885782Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-24T21:50:30.247759Z[0m [31mERROR[0m [2msmithay::backend::renderer::gles[0m[2m:[0m [GL] GL_INVALID_VALUE in glTexSubImage2D(yoffset 0 + height 768 > 740)
+[2m2026-03-24T22:20:15.065981Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
