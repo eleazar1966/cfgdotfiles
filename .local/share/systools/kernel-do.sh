@@ -19,8 +19,8 @@ cd /usr/src/linux
 
 # Configuración del Kernel
 sudo make mrproper
-sudo cp /boot/config-$(uname -r) .config
-sudo make localmodconfig
+sudo cp /boot/config-$(uname -r) /usr/src/.config
+# sudo make localmodconfig
 
 # Compilación con optimizaciones para Zen 3
 sudo make menuconfig
@@ -33,10 +33,10 @@ sudo dracut --force
 
 # Limpieza de kernels antiguos (mantiene los 3 más recientes)
 # Requiere tener instalado app-admin/eclean-kernel
-if command -v eclean-kernel &> /dev/null; then
-    sudo eclean-kernel -n 3
+if command -v eclean-kernel &>/dev/null; then
+  sudo eclean-kernel -n 3
 else
-    echo -e "\n [!] eclean-kernel no encontrado. Saltando limpieza... \n"
+  echo -e "\n [!] eclean-kernel no encontrado. Saltando limpieza... \n"
 fi
 
 sudo grub-mkconfig -o /boot/grub/grub.cfg
