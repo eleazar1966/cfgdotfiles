@@ -1095,3 +1095,251 @@ discover_other_daemon: 0dbus-daemon[3298]: [session uid=1000 pid=3298 pidfd=5] S
 dbus-daemon[3298]: [session uid=1000 pid=3298 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
 dbus-daemon[3298]: [session uid=1000 pid=3298 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.5' (uid=1000 pid=3381 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
 dbus-daemon[3298]: [session uid=1000 pid=3298 pidfd=5] Successfully activated service 'org.bluez.obex'
+[2m2026-03-26T16:42:00.025433Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T16:44:11.566738Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T16:48:16.647971Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T16:53:56.251343Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Tab {
+ 146 │         focus-floating-window-next
+     ·         ─────────────┬────────────
+     ·                      ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T16:54:13.260628Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+F {
+ 146 │         focus-floating-window-next
+     ·         ─────────────┬────────────
+     ·                      ╰── invalid value
+ 147 │     }
+     ╰────
+Error:   × duplicate keybind
+     ╭─[config.kdl:212:1]
+ 212 │     }
+ 213 │     Mod+F {
+     ·     ──┬──
+     ·       ╰── unexpected keybind
+ 214 │         maximize-column
+     ╰────
+
+[2m2026-03-26T16:54:39.273751Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Space {
+ 146 │         focus-floating-window-next
+     ·         ─────────────┬────────────
+     ·                      ╰── invalid value
+ 147 │     }
+     ╰────
+Error:   × duplicate keybind
+     ╭─[config.kdl:144:1]
+ 144 │     }
+ 145 │     Mod+Space {
+     ·     ────┬────
+     ·         ╰── unexpected keybind
+ 146 │         focus-floating-window-next
+     ╰────
+
+[2m2026-03-26T16:55:24.791018Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-floating-window-next
+     ·         ─────────────┬────────────
+     ·                      ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T16:57:07.331078Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-floating-window-next
+     ·         ─────────────┬────────────
+     ·                      ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T16:58:33.865551Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-floating-window-next
+     ·         ─────────────┬────────────
+     ·                      ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:01:12.430754Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-floating-window-next
+     ·         ─────────────┬────────────
+     ·                      ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:01:41.944253Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-floating-window-next;
+     ·         ─────────────┬────────────
+     ·                      ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:02:08.957694Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:144:1]
+ 144 │     }
+ 145 │     Mod+Grave {focus-floating-window-next;}
+     ·                ─────────────┬────────────
+     ·                             ╰── invalid value
+ 146 │     
+     ╰────
+
+[2m2026-03-26T17:03:06.977060Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-window-or-workspace-next
+     ·         ───────────────┬──────────────
+     ·                        ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:04:06.824618Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-window-or-workspace-next
+     ·         ───────────────┬──────────────
+     ·                        ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:04:07.327967Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-floating-window
+     ·         ──────────┬──────────
+     ·                   ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:04:41.343205Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-floating-window
+     ·         ──────────┬──────────
+     ·                   ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:05:03.852777Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-floating-window;
+     ·         ──────────┬──────────
+     ·                   ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:05:47.870137Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-window-or-workspace-next;
+     ·         ───────────────┬──────────────
+     ·                        ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:06:12.381863Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T17:06:23.890399Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T17:08:46.436766Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T17:11:11.481027Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × expected `quit`, `suspend`, or one of 133 others
+  ╰─▶ expected `quit`, `suspend`, or one of 133 others
+     ╭─[config.kdl:145:1]
+ 145 │     Mod+Grave {
+ 146 │         focus-window-next
+     ·         ────────┬────────
+     ·                 ╰── invalid value
+ 147 │     }
+     ╰────
+
+[2m2026-03-26T17:14:45.564446Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T17:17:23.111325Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"

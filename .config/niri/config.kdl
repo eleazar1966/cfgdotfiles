@@ -142,7 +142,37 @@ binds {
     Mod+Shift+L {
         move-column-right
     }
+    Mod+Shift+V {
+        switch-focus-between-floating-and-tiling
+    }
+    Mod+O {
+        toggle-overview
+    }
     // --- ESPACIOS DE TRABAJO (WORKSPACES) ---
+    Mod+Page_Down {
+        focus-workspace-down
+    }
+    Mod+Ctrl+Page_Down {
+        move-column-to-workspace-down
+    }
+    Mod+Ctrl+Page_Up {
+        move-column-to-workspace-up
+    }
+    Mod+Page_Up {
+        focus-workspace-up
+    }
+    Mod+BracketLeft {
+        consume-window-into-column
+    }
+    Mod+BracketRight {
+        expel-window-from-column
+    }
+    Mod+Comma {
+        consume-or-expel-window-left
+    }
+    Mod+Period {
+        consume-or-expel-window-right
+    }
     Mod+1 {
         focus-workspace 1
     }
