@@ -2304,3 +2304,8 @@ dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated se
 (/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:43.234: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
 [2m2026-03-26T14:42:08.287356Z[0m [33m WARN[0m [2mniri::ipc::server[0m[2m:[0m disconnecting IPC event stream client because it is reading events too slowly
 [2m2026-03-26T14:44:00.317592Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T14:48:18.277371Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T15:18:18.475930Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T15:48:19.075181Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T15:48:19.088657Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T16:18:19.261611Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
