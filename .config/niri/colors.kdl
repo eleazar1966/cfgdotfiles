@@ -3,6 +3,6 @@ layout {
         off
     }
     border {
-        active-gradient from="#86d1e9" to="#c1c4eb" angle=45
+        active-gradient from="#a9c7ff" to="#dcbce1" angle=45
     }
 }
