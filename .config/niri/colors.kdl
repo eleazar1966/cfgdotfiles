@@ -1,1 +1,8 @@
-layout { }
+layout {
+    focus-ring {
+        off
+    }
+    border {
+        active-gradient from="#d8bafb" to="#f2b7c1" angle=45
+    }
+}

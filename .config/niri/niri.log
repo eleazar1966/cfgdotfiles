@@ -1,222 +1,3 @@
-SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
-
-** (xdg-desktop-portal-gnome:3487): WARNING **: 19:13:01.729: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
-Non-compatible display server, exposing settings only.
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3552): Gtk-WARNING **: 19:13:01.756: cannot open display: 
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.757: Failed to create settings proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3555): Gtk-WARNING **: 19:13:01.766: cannot open display: 
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.768: Failed to create notification proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.768: No skeleton to export
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3559): Gtk-WARNING **: 19:13:01.775: cannot open display: 
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.776: Failed to create inhibit proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.776: No skeleton to export
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3562): Gtk-WARNING **: 19:13:01.786: cannot open display: 
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.787: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.787: No skeleton to export
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3565): Gtk-WARNING **: 19:13:01.795: cannot open display: 
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3575): Gtk-WARNING **: 19:13:01.804: cannot open display: 
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.806: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.806: No skeleton to export
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3578): Gtk-WARNING **: 19:13:01.814: cannot open display: 
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3581): Gtk-WARNING **: 19:13:01.823: cannot open display: 
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.825: Failed to create email proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:13:01.825: No skeleton to export
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.10' (uid=1000 pid=3436 comm="/usr/libexec/xdg-desktop-portal")
-[2m2026-03-23T23:13:01.830761Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-** Message: 19:13:01.834: couldn't access control socket: /run/user/1000/keyring/control: No existe el fichero o el directorio
-discover_other_daemon: 0dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.8' (uid=1000 pid=3391 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Successfully activated service 'org.bluez.obex'
-[2m2026-03-23T23:13:32.338202Z[0m [34mDEBUG[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m connection to X11 abstract socket; spawning xwayland-satellite
-[2m2026-03-23T23:19:29.788830Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m pausing session
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:19:29.814: Caught PipeWire error: connection error
-
-(/usr/libexec/xdg-desktop-portal:3436): xdg-desktop-portal-WARNING **: 19:19:29.816: Failed connect to PipeWire: Couldn't connect to PipeWire
-[2m2026-03-23T23:19:31.124370Z[0m [32m INFO[0m [2mniri::utils::signals::platform[0m[2m:[0m quitting due to receiving signal SIGHUP
-[2m2026-03-23T23:19:31.124568Z[0m [33m WARN[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m xwayland-satellite exited with: signal: 1 (SIGHUP)
-dbus-daemon[3446]: Reloaded configuration
-dbus-daemon[3300]: [session uid=1000 pid=3300 pidfd=5] Reloaded configuration
-[2m2026-03-23T23:19:31.134345Z[0m [34mDEBUG[0m [2mniri::utils::watcher[0m[2m:[0m exiting watcher thread for Regular { user_path: "/home/eleazar/.config/niri/config.kdl", system_path: "/etc/niri/config.kdl" }
---- INICIO DE SESIÓN: lun 23 mar 2026 19:36:12 -04 ---
-[2m2026-03-23T23:36:13.294799Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
-[2m2026-03-23T23:36:13.298371Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-23T23:36:13.636590Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
-[2m2026-03-23T23:36:13.675522Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
-[2m2026-03-23T23:36:13.675557Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
-[2m2026-03-23T23:36:13.985333Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
-[2m2026-03-23T23:36:13.985350Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
-[2m2026-03-23T23:36:14.033443Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
-[2m2026-03-23T23:36:14.042943Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
-[2m2026-03-23T23:36:14.043993Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
-[2m2026-03-23T23:36:14.044128Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
-[2m2026-03-23T23:36:14.044146Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
-[2m2026-03-23T23:36:14.053806Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
-[2m2026-03-23T23:36:14.053859Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
-[2m2026-03-23T23:36:14.053865Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.3316.sock
-[2m2026-03-23T23:36:14.066316Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
-[2m2026-03-23T23:36:14.069152Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=3451 comm="wireplumber")
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
-fusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.5' (uid=1000 pid=3444 comm="openrgb --startminimized")
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.6' (uid=1000 pid=3448 comm="nm-applet --indicator")
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.a11y.Bus'
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3514]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3448 comm="nm-applet --indicator")
-dbus-daemon[3514]: Successfully activated service 'org.a11y.atspi.Registry'
-SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
-
-** (xdg-desktop-portal-gnome:3536): WARNING **: 19:36:14.374: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
-Non-compatible display server, exposing settings only.
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3602): Gtk-WARNING **: 19:36:14.401: cannot open display: 
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.402: Failed to create settings proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3605): Gtk-WARNING **: 19:36:14.411: cannot open display: 
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.413: Failed to create notification proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.413: No skeleton to export
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3609): Gtk-WARNING **: 19:36:14.420: cannot open display: 
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.421: Failed to create inhibit proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.421: No skeleton to export
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3612): Gtk-WARNING **: 19:36:14.431: cannot open display: 
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.432: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.432: No skeleton to export
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3621): Gtk-WARNING **: 19:36:14.439: cannot open display: 
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3625): Gtk-WARNING **: 19:36:14.448: cannot open display: 
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.450: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.450: No skeleton to export
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-
-(xdg-desktop-portal-gtk:3628): Gtk-WARNING **: 19:36:14.458: cannot open display: 
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-[2m2026-03-23T23:36:14.465544Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-
-(xdg-desktop-portal-gtk:3633): Gtk-WARNING **: 19:36:14.466: cannot open display: 
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.467: Failed to create email proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 19:36:14.467: No skeleton to export
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.9' (uid=1000 pid=3486 comm="/usr/libexec/xdg-desktop-portal")
-** Message: 19:36:14.475: couldn't access control socket: /run/user/1000/keyring/control: No existe el fichero o el directorio
-discover_other_daemon: 0dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.7' (uid=1000 pid=3450 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Successfully activated service 'org.bluez.obex'
-[2m2026-03-24T00:06:14.670926Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-24T00:08:48.177195Z[0m [31mERROR[0m [2msmithay::backend::renderer::gles[0m[2m:[0m [GL] GL_INVALID_VALUE in glTexSubImage2D(yoffset 0 + height 786 > 758)
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 20:22:40.551: Caught PipeWire error: connection error
-
-(/usr/libexec/xdg-desktop-portal:3486): xdg-desktop-portal-WARNING **: 20:22:40.553: Failed connect to PipeWire: Couldn't connect to PipeWire
-[2m2026-03-24T00:22:40.581439Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m pausing session
-[2m2026-03-24T00:22:41.844320Z[0m [32m INFO[0m [2mniri::utils::signals::platform[0m[2m:[0m quitting due to receiving signal SIGHUP
-dbus-daemon[3514]: Reloaded configuration
-dbus-daemon[3315]: [session uid=1000 pid=3315 pidfd=5] Reloaded configuration
-[2m2026-03-24T00:22:41.852690Z[0m [34mDEBUG[0m [2mniri::utils::watcher[0m[2m:[0m exiting watcher thread for Regular { user_path: "/home/eleazar/.config/niri/config.kdl", system_path: "/etc/niri/config.kdl" }
---- INICIO DE SESIÓN: mar 24 mar 2026 07:50:08 -04 ---
-[2m2026-03-24T11:50:09.561305Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
-[2m2026-03-24T11:50:09.565136Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
-[2m2026-03-24T11:50:10.139203Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
-[2m2026-03-24T11:50:10.180601Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
-[2m2026-03-24T11:50:10.180638Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
-[2m2026-03-24T11:50:10.496472Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
-[2m2026-03-24T11:50:10.496486Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
-[2m2026-03-24T11:50:10.547388Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
-[2m2026-03-24T11:50:10.557073Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
-[2m2026-03-24T11:50:10.558091Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
-[2m2026-03-24T11:50:10.558222Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
-[2m2026-03-24T11:50:10.558243Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
-[2m2026-03-24T11:50:10.570108Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
-[2m2026-03-24T11:50:10.570154Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
-[2m2026-03-24T11:50:10.570160Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.3083.sock
-[2m2026-03-24T11:50:10.586887Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
-[2m2026-03-24T11:50:10.590643Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=3529 comm="wireplumber")
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
-fusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.5' (uid=1000 pid=3523 comm="openrgb --startminimized")
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.6' (uid=1000 pid=3514 comm="nm-applet --indicator")
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.a11y.Bus'
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
-dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
-dbus-daemon[3574]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3514 comm="nm-applet --indicator")
-dbus-daemon[3574]: Successfully activated service 'org.a11y.atspi.Registry'
-SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
-
-** (xdg-desktop-portal-gnome:3615): WARNING **: 07:50:10.914: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
 Non-compatible display server, exposing settings only.
 dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
 dbus-daemon[3082]: [session uid=1000 pid=3082 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.10' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal")
@@ -1096,3 +877,1396 @@ dbus-daemon[3303]: [session uid=1000 pid=3303 pidfd=5] Successfully activated se
 dbus-daemon[3303]: [session uid=1000 pid=3303 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.7' (uid=1000 pid=3401 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
 dbus-daemon[3303]: [session uid=1000 pid=3303 pidfd=5] Successfully activated service 'org.bluez.obex'
 [2m2026-03-25T21:39:19.421291Z[0m [34mDEBUG[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m connection to X11 abstract socket; spawning xwayland-satellite
+
+(/usr/libexec/xdg-desktop-portal:3439): xdg-desktop-portal-WARNING **: 17:41:59.427: Caught PipeWire error: connection error
+
+(/usr/libexec/xdg-desktop-portal:3439): xdg-desktop-portal-WARNING **: 17:41:59.429: Failed connect to PipeWire: Couldn't connect to PipeWire
+[2m2026-03-25T21:41:59.479822Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m pausing session
+[2m2026-03-25T21:42:00.601926Z[0m [32m INFO[0m [2mniri::utils::signals::platform[0m[2m:[0m quitting due to receiving signal SIGHUP
+[2m2026-03-25T21:42:00.602201Z[0m [33m WARN[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m xwayland-satellite exited with: signal: 1 (SIGHUP)
+dbus-daemon[3470]: Reloaded configuration
+[2m2026-03-25T21:42:00.610367Z[0m [34mDEBUG[0m [2mniri::utils::watcher[0m[2m:[0m exiting watcher thread for Regular { user_path: "/home/eleazar/.config/niri/config.kdl", system_path: "/etc/niri/config.kdl" }
+dbus-daemon[3303]: [session uid=1000 pid=3303 pidfd=5] Reloaded configuration
+--- INICIO DE SESIÓN: mié 25 mar 2026 17:42:32 -04 ---
+[2m2026-03-25T21:42:33.818202Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
+[2m2026-03-25T21:42:33.823715Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-25T21:42:34.387507Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
+[2m2026-03-25T21:42:34.424178Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
+[2m2026-03-25T21:42:34.424213Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
+[2m2026-03-25T21:42:34.727606Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
+[2m2026-03-25T21:42:34.727624Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
+[2m2026-03-25T21:42:34.775633Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
+[2m2026-03-25T21:42:34.785704Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
+[2m2026-03-25T21:42:34.786719Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
+[2m2026-03-25T21:42:34.786854Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
+[2m2026-03-25T21:42:34.786874Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
+[2m2026-03-25T21:42:34.791682Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
+[2m2026-03-25T21:42:34.791741Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
+[2m2026-03-25T21:42:34.791747Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.3082.sock
+[2m2026-03-25T21:42:34.804882Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
+[2m2026-03-25T21:42:34.808640Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=3470 comm="wireplumber")
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+fusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.5' (uid=1000 pid=3467 comm="openrgb --startminimized")
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.6' (uid=1000 pid=3464 comm="nm-applet --indicator")
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3571]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3464 comm="nm-applet --indicator")
+dbus-daemon[3571]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+** (xdg-desktop-portal-gnome:3605): WARNING **: 17:42:35.106: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
+Non-compatible display server, exposing settings only.
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3670): Gtk-WARNING **: 17:42:35.135: cannot open display: 
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.136: Failed to create settings proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3673): Gtk-WARNING **: 17:42:35.145: cannot open display: 
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.146: Failed to create notification proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.146: No skeleton to export
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3677): Gtk-WARNING **: 17:42:35.154: cannot open display: 
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.156: Failed to create inhibit proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.156: No skeleton to export
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3680): Gtk-WARNING **: 17:42:35.166: cannot open display: 
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.167: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.167: No skeleton to export
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3683): Gtk-WARNING **: 17:42:35.176: cannot open display: 
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3686): Gtk-WARNING **: 17:42:35.185: cannot open display: 
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.186: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.186: No skeleton to export
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3689): Gtk-WARNING **: 17:42:35.195: cannot open display: 
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3692): Gtk-WARNING **: 17:42:35.204: cannot open display: 
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.205: Failed to create email proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 17:42:35.205: No skeleton to export
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.8' (uid=1000 pid=3557 comm="/usr/libexec/xdg-desktop-portal")
+** Message: 17:42:35.214: couldn't access control socket: /run/user/1000/keyring/control: No existe el fichero o el directorio
+discover_other_daemon: 0dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.10' (uid=1000 pid=3475 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Successfully activated service 'org.bluez.obex'
+[2m2026-03-25T21:42:36.031294Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-25T21:48:27.109113Z[0m [34mDEBUG[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m connection to X11 abstract socket; spawning xwayland-satellite
+[2m2026-03-25T22:12:36.212186Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-25T22:42:36.385197Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-25T23:12:36.590298Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 19:40:22.490: Caught PipeWire error: connection error
+
+(/usr/libexec/xdg-desktop-portal:3557): xdg-desktop-portal-WARNING **: 19:40:22.492: Failed connect to PipeWire: Couldn't connect to PipeWire
+[2m2026-03-25T23:40:22.499297Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m pausing session
+[2m2026-03-25T23:40:23.797993Z[0m [32m INFO[0m [2mniri::utils::signals::platform[0m[2m:[0m quitting due to receiving signal SIGHUP
+[2m2026-03-25T23:40:23.798666Z[0m [33m WARN[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m xwayland-satellite exited with: signal: 1 (SIGHUP)
+dbus-daemon[3081]: [session uid=1000 pid=3081 pidfd=5] Reloaded configuration
+dbus-daemon[3571]: Reloaded configuration
+[2m2026-03-25T23:40:23.807242Z[0m [34mDEBUG[0m [2mniri::utils::watcher[0m[2m:[0m exiting watcher thread for Regular { user_path: "/home/eleazar/.config/niri/config.kdl", system_path: "/etc/niri/config.kdl" }
+--- INICIO DE SESIÓN: jue 26 mar 2026 07:48:14 -04 ---
+[2m2026-03-26T11:48:15.762601Z[0m [32m INFO[0m [2mniri[0m[2m:[0m starting version 25.11 (b35bcae)
+[2m2026-03-26T11:48:15.766702Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T11:48:16.350035Z[0m [32m INFO[0m [2mniri::backend::tty[0m[2m:[0m using as the render node: "/dev/dri/renderD128"
+[2m2026-03-26T11:48:16.390468Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m adding device: 57856 "/dev/dri/card0"
+[2m2026-03-26T11:48:16.390502Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m this is the primary node
+[2m2026-03-26T11:48:16.702087Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m got render node: renderD128
+[2m2026-03-26T11:48:16.702105Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m initializing the primary renderer
+[2m2026-03-26T11:48:16.751690Z[0m [33m WARN[0m [2mniri::backend::tty[0m[2m:[0m error binding wl-display in EGL: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])
+[2m2026-03-26T11:48:16.762068Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m device changed: 57856
+[2m2026-03-26T11:48:16.763231Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m new connector: DP-1 "Samsung Electric Company S19B300 HTHC402609"
+[2m2026-03-26T11:48:16.763424Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m connecting connector: DP-1
+[2m2026-03-26T11:48:16.763446Z[0m [34mDEBUG[0m [2mniri::backend::tty[0m[2m:[0m picking mode: Mode { name: "1366x768", clock: 85500, size: (1366, 768), hsync: (1436, 1579, 1792), vsync: (771, 774, 798), hskew: 0, vscan: 0, vrefresh: 60, mode_type: ModeTypeFlags(PREFERRED | DRIVER) }
+[2m2026-03-26T11:48:16.772169Z[0m [34mDEBUG[0m [2mniri::niri[0m[2m:[0m putting output DP-1 at x=0 y=0
+[2m2026-03-26T11:48:16.772223Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on Wayland socket: wayland-1
+[2m2026-03-26T11:48:16.772229Z[0m [32m INFO[0m [2mniri[0m[2m:[0m IPC listening on: /run/user/1000/niri.wayland-1.3101.sock
+[2m2026-03-26T11:48:16.792473Z[0m [32m INFO[0m [2mniri[0m[2m:[0m listening on X11 socket: :0
+[2m2026-03-26T11:48:16.796057Z[0m [33m WARN[0m [2mniri::dbus::freedesktop_locale1[0m[2m:[0m error receiving initial properties: ServiceUnknown("The name org.freedesktop.locale1 was not provided by any .service files")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=3304 comm="wireplumber")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+fusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.5' (uid=1000 pid=3301 comm="nm-applet --indicator")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.7' (uid=1000 pid=3310 comm="openrgb --startminimized")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[3444]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3301 comm="nm-applet --indicator")
+dbus-daemon[3444]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+** (xdg-desktop-portal-gnome:3504): WARNING **: 07:48:17.086: Failed to open service channel Wayland connection, portals dialogs may missbehave (No se puede invocar al método; el proxy no tiene dueño para un nombre org.gnome.Mutter.ServiceChannelconocido y el proxy se construyó con la opción G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START).
+Non-compatible display server, exposing settings only.
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3575): Gtk-WARNING **: 07:48:17.118: cannot open display: 
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.120: Failed to create settings proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3578): Gtk-WARNING **: 07:48:17.128: cannot open display: 
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.129: Failed to create notification proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.129: No skeleton to export
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3582): Gtk-WARNING **: 07:48:17.136: cannot open display: 
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.137: Failed to create inhibit proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.137: No skeleton to export
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3585): Gtk-WARNING **: 07:48:17.148: cannot open display: 
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.149: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.149: No skeleton to export
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3588): Gtk-WARNING **: 07:48:17.156: cannot open display: 
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3596): Gtk-WARNING **: 07:48:17.164: cannot open display: 
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.165: Failed to create access proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.165: No skeleton to export
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3601): Gtk-WARNING **: 07:48:17.172: cannot open display: 
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+
+(xdg-desktop-portal-gtk:3604): Gtk-WARNING **: 07:48:17.181: cannot open display: 
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.183: Failed to create email proxy: Error al llamar StartSereviceByName para org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 07:48:17.183: No skeleton to export
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.8' (uid=1000 pid=3460 comm="/usr/libexec/xdg-desktop-portal")
+** Message: 07:48:17.191: couldn't access control socket: /run/user/1000/keyring/control: No existe el fichero o el directorio
+discover_other_daemon: 0dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
+[2m2026-03-26T11:48:17.201654Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.10' (uid=1000 pid=3311 comm="/usr/bin/python3.13 /usr/bin/blueman-applet")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.bluez.obex'
+[2m2026-03-26T12:18:17.376255Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T12:18:45.656880Z[0m [34mDEBUG[0m [2mniri::utils::xwayland::satellite[0m[2m:[0m connection to X11 abstract socket; spawning xwayland-satellite
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.52' (uid=1000 pid=28788 comm="pcmanfm")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.gtk.vfs.UDisks2VolumeMonitor'
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.52' (uid=1000 pid=28788 comm="pcmanfm")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.gtk.vfs.MTPVolumeMonitor'
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='ca.desrt.dconf' requested by ':1.50' (uid=1000 pid=28585 comm="/usr/lib64/libreoffice/program/soffice.bin --calc")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'ca.desrt.dconf'
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 08:43:50.033: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 08:43:54.798: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 08:44:02.866: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+[2m2026-03-26T12:48:17.076381Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente usando los colores de Matugen (asegúrate que tu template los exporte)
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T12:48:17.566718Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente usando los colores de Matugen (asegúrate que tu template los exporte)
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T12:50:13.613996Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × found `[`, expected `"`, `(`, `+`, `-`, `0`, `;`, `\`, `r`, `{`, `false`,
+  │ `null`, `true`, letter, newline, whitespace or end of input
+    ╭─[config.kdl:8:1]
+  8 │         xkb {
+  9 │             layout "us,es" [cite: 1]
+    ·                            ┬
+    ·                            ╰── unexpected token
+ 10 │             options "grp:alt_shift_toggle" [cite: 1]
+    ╰────
+
+[2m2026-03-26T12:51:10.640158Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico con colores de Matugen
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.gtk.vfs.Metadata' requested by ':1.64' (uid=1000 pid=36111 comm="pcmanfm")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.gtk.vfs.Metadata'
+[2m2026-03-26T12:54:42.725095Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × found `[`, expected `"`, `(`, `+`, `-`, `0`, `;`, `\`, `r`, `{`, `false`,
+  │ `null`, `true`, letter, newline, whitespace or end of input
+    ╭─[config.kdl:8:1]
+  8 │         xkb {
+  9 │             layout "us,es" [cite: 1]
+    ·                            ┬
+    ·                            ╰── unexpected token
+ 10 │             options "grp:alt_shift_toggle" [cite: 1]
+    ╰────
+
+[2m2026-03-26T12:54:53.712116Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × found `[`, expected `"`, `(`, `+`, `-`, `0`, `;`, `\`, `r`, `{`, `false`,
+  │ `null`, `true`, letter, newline, whitespace or end of input
+    ╭─[config.kdl:8:1]
+  8 │         xkb {
+  9 │             layout "us,es" [cite: 1]
+    ·                            ┬
+    ·                            ╰── unexpected token
+ 10 │             options "grp:alt_shift_toggle" [cite: 1]
+    ╰────
+
+[2m2026-03-26T12:55:06.219424Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × found `[`, expected `"`, `(`, `+`, `-`, `0`, `;`, `\`, `r`, `{`, `false`,
+  │ `null`, `true`, letter, newline, whitespace or end of input
+    ╭─[config.kdl:8:1]
+  8 │         xkb {
+  9 │             layout "us,es" [cite: 1]
+    ·                            ┬
+    ·                            ╰── unexpected token
+ 10 │             options "grp:alt_shift_toggle" [cite: 1]
+    ╰────
+
+[2m2026-03-26T12:56:07.747581Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico utilizando las variables de Matugen
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T12:56:48.371315Z[0m [33m WARN[0m [2mniri::ipc::server[0m[2m:[0m disconnecting IPC event stream client because it is reading events too slowly
+[2m2026-03-26T12:57:27.112871Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico utilizando las variables de Matugen
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T12:57:47.618042Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Gradiente usando las variables exportadas por la nueva plantilla
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T12:58:19.548075Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Gradiente usando las variables exportadas por la nueva plantilla
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T12:59:23.071989Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Las variables deben ir entre comillas para evitar errores de parseo
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:00:32.699166Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Las variables deben ir entre comillas para evitar errores de parseo
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:00:52.707666Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Ahora Niri podrá leer estas variables desde el nuevo colors.kdl
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:02:08.236786Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Las variables $ deben estar entre comillas dobles
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:03:33.797456Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Las variables $ deben estar entre comillas dobles
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:04:40.308899Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Las variables $ deben estar entre comillas dobles
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:05:00.319242Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to read included config from "/home/eleazar/.config/niri/
+  │ colors.kdl": No such file or directory (os error 2)
+   ╭─[config.kdl:1:1]
+ 1 │ // El archivo debe incluirse entre comillas
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Las variables $ deben estar entre comillas dobles
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:06:02.287108Z[0m [33m WARN[0m [2mniri::ipc::server[0m[2m:[0m disconnecting IPC event stream client because it is reading events too slowly
+[2m2026-03-26T13:06:06.397505Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to read included config from "/home/eleazar/.config/niri/
+  │ colors.kdl": No such file or directory (os error 2)
+   ╭─[config.kdl:1:1]
+ 1 │ // El archivo debe incluirse entre comillas
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Las variables $ deben estar entre comillas dobles
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:07:31.328287Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to read included config from "/home/eleazar/.config/niri/
+  │ colors.kdl": No such file or directory (os error 2)
+   ╭─[config.kdl:1:1]
+ 1 │ // El archivo debe incluirse entre comillas
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Las variables $ deben estar entre comillas dobles
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:09:06.374876Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // El archivo debe incluirse entre comillas
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Las variables $ deben estar entre comillas dobles
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+   ·              ──────┬─────
+   ·                    ╰── unexpected identifier
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ·              ────────┬────────
+   ·                      ╰── unexpected identifier
+ 3 │ 
+   ╰────
+  help: consider enclosing in double quotes ".."
+
+[2m2026-03-26T13:10:05.900840Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Gradiente dinámico utilizando las variables de Matugen
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+   ·              ──────┬─────
+   ·                    ╰── unexpected identifier
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ·              ────────┬────────
+   ·                      ╰── unexpected identifier
+ 3 │ 
+   ╰────
+  help: consider enclosing in double quotes ".."
+
+[2m2026-03-26T13:10:08.904303Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Gradiente dinámico utilizando las variables de Matugen
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+   ·              ──────┬─────
+   ·                    ╰── unexpected identifier
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ·              ────────┬────────
+   ·                      ╰── unexpected identifier
+ 3 │ 
+   ╰────
+  help: consider enclosing in double quotes ".."
+
+[2m2026-03-26T13:10:52.427782Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Gradiente dinámico utilizando las variables de Matugen
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+   ·              ──────┬─────
+   ·                    ╰── unexpected identifier
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ·              ────────┬────────
+   ·                      ╰── unexpected identifier
+ 3 │ 
+   ╰────
+  help: consider enclosing in double quotes ".."
+
+[2m2026-03-26T13:11:07.936945Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Gradiente dinámico utilizando las variables de Matugen
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+   ·              ──────┬─────
+   ·                    ╰── unexpected identifier
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#d0ca73"
+ 2 │ set-variable $secondary_accent "#a5d0ba"
+   ·              ────────┬────────
+   ·                      ╰── unexpected identifier
+ 3 │ 
+   ╰────
+  help: consider enclosing in double quotes ".."
+
+[2m2026-03-26T13:11:21.217069Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:13:1]
+ 13 │         // Gradiente dinámico utilizando las variables de Matugen
+ 14 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 15 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#fdb0d3"
+   ·              ──────┬─────
+   ·                    ╰── unexpected identifier
+ 2 │ set-variable $secondary_accent "#f2bb99"
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × identifiers cannot be used as arguments
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable $main_accent "#fdb0d3"
+ 2 │ set-variable $secondary_accent "#f2bb99"
+   ·              ────────┬────────
+   ·                      ╰── unexpected identifier
+ 3 │ 
+   ╰────
+  help: consider enclosing in double quotes ".."
+
+[2m2026-03-26T13:13:03.257914Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Uso de variables con comillas obligatorias
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:13:36.500863Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Uso de variables con comillas obligatorias
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:14:38.527323Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Las variables SIEMPRE con comillas
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:15:40.589278Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Las variables SIEMPRE con comillas
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:16:23.950733Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Las variables SIEMPRE con comillas
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:17:42.670732Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Las variables SIEMPRE con comillas
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:18:17.733462Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Las variables SIEMPRE con comillas
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:19:25.440390Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Las variables SIEMPRE con comillas
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:20:11.502153Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Las variables SIEMPRE con comillas
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:20:35.627522Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:11:1]
+ 11 │         // Las variables SIEMPRE con comillas
+ 12 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 13 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:21:00.639402Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × identifiers cannot be used as arguments
+   ╭─[config.kdl:1:1]
+ 1 │ include colors.kdl
+   ·         ─────┬────
+   ·              ╰── unexpected identifier
+ 2 │ layout {
+   ╰────
+  help: consider enclosing in double quotes ".."
+Error:   × found `$`, expected `"`, `(`, `+`, `-`, `0`, `r`, `false`, `null` or
+  │ `true`
+    ╭─[config.kdl:9:1]
+  9 │         // Usa las variables con comillas
+ 10 │         active-gradient from=$main_accent to=$secondary_accent angle=45
+    ·                              ┬
+    ·                              ╰── unexpected token
+ 11 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:22:03.166575Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × unexpected node `xext`
+    ╭─[config.kdl:5:1]
+  5 │         keyboard {
+  6 │ ╭─▶         xext {
+  7 │ │               layout "us,es"
+  8 │ │               options "grp:alt_shift_toggle"
+  9 │ ├─▶         }
+    · ╰──── unexpected node
+ 10 │             numlock
+ 11 │         }
+    ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico usando las variables de Matugen (con comillas)
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × unexpected node `set-variable`
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+   · ───────────────────┬──────────────────
+   ·                    ╰── unexpected node
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   ╰────
+Error:   × duplicate node `set-variable`, single node expected
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   · ──────┬─────
+   ·       ╰── unexpected node
+   ╰────
+
+[2m2026-03-26T13:22:11.168469Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T13:22:22.176912Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ 
+   ╰────
+Error:   × unexpected node `xext`
+    ╭─[config.kdl:7:1]
+  7 │         keyboard {
+  8 │ ╭─▶         xext {
+  9 │ │               layout "us,es"
+ 10 │ │               options "grp:alt_shift_toggle"
+ 11 │ ├─▶         }
+    · ╰──── unexpected node
+ 12 │             numlock
+ 13 │         }
+    ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:39:1]
+ 39 │         // Gradiente dinámico usando las variables de Matugen (con comillas)
+ 40 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 41 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × unexpected node `set-variable`
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+   · ───────────────────┬──────────────────
+   ·                    ╰── unexpected node
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   ╰────
+Error:   × duplicate node `set-variable`, single node expected
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   · ──────┬─────
+   ·       ╰── unexpected node
+   ╰────
+
+[2m2026-03-26T13:23:40.713680Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico usando las variables de Matugen
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × unexpected node `set-variable`
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+   · ───────────────────┬──────────────────
+   ·                    ╰── unexpected node
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   ╰────
+Error:   × duplicate node `set-variable`, single node expected
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   · ──────┬─────
+   ·       ╰── unexpected node
+   ╰────
+
+[2m2026-03-26T13:25:08.258330Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico usando las variables de Matugen
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × unexpected node `set-variable`
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+   · ───────────────────┬──────────────────
+   ·                    ╰── unexpected node
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   ╰────
+Error:   × duplicate node `set-variable`, single node expected
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   · ──────┬─────
+   ·       ╰── unexpected node
+   ╰────
+
+[2m2026-03-26T13:27:15.810666Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico utilizando las variables definidas en colors.kdl
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × unexpected node `set-variable`
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+   · ───────────────────┬──────────────────
+   ·                    ╰── unexpected node
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   ╰────
+Error:   × duplicate node `set-variable`, single node expected
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#f2be6e"
+ 2 │ set-variable "$secondary_accent" "#b6cea3"
+   · ──────┬─────
+   ·       ╰── unexpected node
+   ╰────
+
+[2m2026-03-26T13:27:45.822382Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico utilizando las variables definidas en colors.kdl
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × found `=`, expected `;`, `\`, `{`, newline, whitespace or end of input
+   ╭─[colors.kdl:1:1]
+ 1 │ "$main_accent"="#d0ca73"
+   ·               ┬
+   ·               ╰── unexpected token
+ 2 │ "$secondary_accent"="#a5d0ba"
+   ╰────
+
+[2m2026-03-26T13:29:00.350632Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico utilizando las variables definidas en colors.kdl
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × unexpected node `set-variable`
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#d0ca73"
+   · ───────────────────┬──────────────────
+   ·                    ╰── unexpected node
+ 2 │ set-variable "$secondary_accent" "#a5d0ba"
+   ╰────
+Error:   × duplicate node `set-variable`, single node expected
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#d0ca73"
+ 2 │ set-variable "$secondary_accent" "#a5d0ba"
+   · ──────┬─────
+   ·       ╰── unexpected node
+   ╰────
+
+[2m2026-03-26T13:29:14.356745Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × failed to parse included config
+   ╭─[config.kdl:1:1]
+ 1 │ // Importación de colores generados por Matugen
+ 2 │ include "colors.kdl"
+   · ───┬───
+   ·    ╰── node starts here
+ 3 │ prefer-no-csd
+   ╰────
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico con comillas obligatorias
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+Error:   × error parsing KDL
+
+Error:   × unexpected node `set-variable`
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#d0ca73"
+   · ───────────────────┬──────────────────
+   ·                    ╰── unexpected node
+ 2 │ set-variable "$secondary_accent" "#a5d0ba"
+   ╰────
+Error:   × duplicate node `set-variable`, single node expected
+   ╭─[colors.kdl:1:1]
+ 1 │ set-variable "$main_accent" "#d0ca73"
+ 2 │ set-variable "$secondary_accent" "#a5d0ba"
+   · ──────┬─────
+   ·       ╰── unexpected node
+   ╰────
+
+[2m2026-03-26T13:30:45.395762Z[0m [33m WARN[0m [2mniri::utils::watcher[0m[2m:[0m   × error loading config
+  ├─▶ error parsing
+  ╰─▶ error parsing KDL
+
+Error:   × invalid unknown format
+  ╰─▶ invalid unknown format
+    ╭─[config.kdl:33:1]
+ 33 │         // Gradiente dinámico con comillas obligatorias
+ 34 │         active-gradient from="$main_accent" to="$secondary_accent" angle=45
+    ·                              ───────┬──────
+    ·                                     ╰── invalid value
+ 35 │         inactive-color "#505050"
+    ╰────
+
+[2m2026-03-26T13:31:07.406052Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T13:31:15.410929Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T13:31:23.855587Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T13:48:17.926889Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"

@@ -1,8 +1,8 @@
 layout {
     focus-ring {
-        active-color "{{colors.primary.default.hex}}"
+        off
     }
     border {
-        active-color "{{colors.primary.default.hex}}"
+        active-gradient from="{{colors.primary.default.hex}}" to="{{colors.tertiary.default.hex}}" angle=45
     }
 }

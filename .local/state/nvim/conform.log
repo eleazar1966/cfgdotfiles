@@ -307,3 +307,45 @@
  - unexpected token `open_cmd` (71:14 to 71:22), unexpected statement after last statement
  - unexpected token `}` (71:43 to 71:44), unexpected token, this needs to be a statement
 
+2026-03-26 08:50:13[ERROR] Formatter 'kdlfmt' error: Error parsing content -   × Failed to parse KDL document
+
+Error: 
+  × Expected valid node terminator.
+    ╭─[9:13]
+  8 │         xkb {
+  9 │             layout "us,es" [cite: 1]
+    ·             ───────┬───────
+    ·                    ╰── parsed node
+ 10 │             options "grp:alt_shift_toggle" [cite: 1]
+    ╰────
+  help: Nodes can only be terminated by `;` or a valid line ending.
+
+
+2026-03-26 08:54:42[ERROR] Formatter 'kdlfmt' error: Error parsing content -   × Failed to parse KDL document
+
+Error: 
+  × Expected valid node terminator.
+    ╭─[9:13]
+  8 │         xkb {
+  9 │             layout "us,es" [cite: 1]
+    ·             ───────┬───────
+    ·                    ╰── parsed node
+ 10 │             options "grp:alt_shift_toggle" [cite: 1]
+    ╰────
+  help: Nodes can only be terminated by `;` or a valid line ending.
+
+
+2026-03-26 08:55:06[ERROR] Formatter 'kdlfmt' error: Error parsing content -   × Failed to parse KDL document
+
+Error: 
+  × Expected valid node terminator.
+    ╭─[9:13]
+  8 │         xkb {
+  9 │             layout "us,es" [cite: 1]
+    ·             ───────┬───────
+    ·                    ╰── parsed node
+ 10 │             options "grp:alt_shift_toggle" [cite: 1]
+    ╰────
+  help: Nodes can only be terminated by `;` or a valid line ending.
+
+
