@@ -2270,3 +2270,37 @@ Error:   × invalid unknown format
 [2m2026-03-26T13:31:15.410929Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
 [2m2026-03-26T13:31:23.855587Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
 [2m2026-03-26T13:48:17.926889Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T14:18:17.995702Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-03-26T14:18:18.098246Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:20:06.989: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:20:11.921: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:20:20.932: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:20:41.302: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Activating service name='org.xfce.Xfconf' requested by ':1.308' (uid=1000 pid=85231 comm="thunar")
+dbus-daemon[3099]: [session uid=1000 pid=3099 pidfd=5] Successfully activated service 'org.xfce.Xfconf'
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:26.911: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:34.162: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:40.733: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:41.853: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:42.065: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:42.497: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:42.689: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:42.866: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:43.073: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+
+(/usr/libexec/xdg-desktop-portal:3460): xdg-desktop-portal-WARNING **: 10:21:43.234: Backend call failed: No existe la interfaz «org.freedesktop.impl.portal.FileChooser» en el objeto en la ruta /org/freedesktop/portal/desktop
+[2m2026-03-26T14:42:08.287356Z[0m [33m WARN[0m [2mniri::ipc::server[0m[2m:[0m disconnecting IPC event stream client because it is reading events too slowly
+[2m2026-03-26T14:44:00.317592Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"

@@ -1,4 +1,4 @@
-// Importación directa del bloque layout generado por Matugen
+// Importación del bloque layout generado por Matugen (Colores y Gradiente)
 include "colors.kdl"
 prefer-no-csd
 input {
@@ -21,8 +21,6 @@ cursor {
     xcursor-theme "Dracula-cursors"
     xcursor-size 24
 }
-// Aquí puedes añadir otras opciones de layout si las necesitas,
-// pero los colores ya vienen del include "colors.kdl"
 layout {
     gaps 2
     center-focused-column "on-overflow"
@@ -32,18 +30,43 @@ layout {
         urgent-color "#9b0000"
     }
 }
-// --- RESTO DE TU CONFIGURACIÓN (spawn-at-startup, binds, etc.) ---
-spawn-at-startup "swww-daemon"
+// --- SERVICIOS Y APLICACIONES AL ARRANQUE ---
 spawn-at-startup "mako"
+spawn-at-startup "swww-daemon"
+spawn-at-startup "udiskie" "-s"
+spawn-at-startup "nm-applet" "--indicator"
+spawn-at-startup "blueman-applet"
+spawn-at-startup "openrgb" "--startminimized"
+spawn-at-startup "pipewire"
+spawn-at-startup "wireplumber"
+// Scripts de gestión (Rutas absolutas)
 spawn-at-startup "/home/eleazar/.local/share/systools/launch-waybar.sh"
 spawn-at-startup "/home/eleazar/.local/share/systools/mostrar_imagenes.sh"
+window-rule {
+    match app-id="floating_terminal"
+    open-floating true
+    default-column-width {
+        proportion 0.3
+    }
+    default-window-height {
+        proportion 0.4
+    }
+}
 window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
 }
+// --- ATAJOS DE TECLADO (BINDS) ---
 binds {
+    // Teclas de Sistema y Aplicaciones
+    Mod+Shift+Slash {
+        show-hotkey-overlay
+    }
     Mod+Return {
         spawn "kitty"
+    }
+    Mod+E {
+        spawn "thunar"
     }
     Mod+Q {
         close-window
@@ -51,10 +74,46 @@ binds {
     Mod+X {
         quit
     }
+    Mod+V {
+        toggle-window-floating
+    }
+    // Teclado y Notificaciones
+    Mod+Space {
+        switch-layout "next"
+    }
+    Mod+Shift+Space {
+        spawn "makoctl" "dismiss"
+    }
+    Mod+Control+Space {
+        spawn "makoctl" "dismiss" "-a"
+    }
+    Mod+Alt+Space {
+        spawn "makoctl" "restore"
+    }
+    // Scripts y Utilidades
     Mod+Shift+W {
         spawn "/home/eleazar/.local/share/systools/mostrar_imagenes.sh" "once"
     }
-    // Navegación HJKL
+    Mod+W {
+        spawn "sh" "-c" "killall waybar"
+    }
+    Mod+D {
+        spawn "/home/eleazar/.local/share/systools/launch-rofi.sh"
+    }
+    Mod+Alt+R {
+        spawn "kitty" "--class" "floating_terminal" "-e" "/home/eleazar/.local/share/systools/graba_video.sh"
+    }
+    // --- CAPTURAS DE PANTALLA ---
+    Print {
+        spawn "sh" "-c" "mkdir -p ~/Imágenes/Screenshot && grim ~/Imágenes/Screenshot/screenshot_$(date +%Y%m%d_%H%M%S).png"
+    }
+    Mod+Print {
+        spawn "sh" "-c" "mkdir -p ~/Imágenes/Screenshot && grim -g \"$(slurp)\" ~/Imágenes/Screenshot/area_$(date +%Y%m%d_%H%M%S).png"
+    }
+    Mod+Shift+S {
+        spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"
+    }
+    // --- NAVEGACIÓN Y FOCO (HJKL) ---
     Mod+H {
         focus-column-left
     }
@@ -66,6 +125,90 @@ binds {
     }
     Mod+L {
         focus-column-right
+    }
+    Mod+Shift+H {
+        move-column-left
+    }
+    Mod+Shift+J {
+        move-window-down
+    }
+    Mod+Shift+K {
+        move-window-up
+    }
+    Mod+Shift+L {
+        move-column-right
+    }
+    // --- ESPACIOS DE TRABAJO (WORKSPACES) ---
+    Mod+1 {
+        focus-workspace 1
+    }
+    Mod+2 {
+        focus-workspace 2
+    }
+    Mod+3 {
+        focus-workspace 3
+    }
+    Mod+4 {
+        focus-workspace 4
+    }
+    Mod+5 {
+        focus-workspace 5
+    }
+    Mod+6 {
+        focus-workspace 6
+    }
+    Mod+7 {
+        focus-workspace 7
+    }
+    Mod+8 {
+        focus-workspace 8
+    }
+    Mod+9 {
+        focus-workspace 9
+    }
+    Mod+Shift+1 {
+        move-column-to-workspace 1
+    }
+    Mod+Shift+2 {
+        move-column-to-workspace 2
+    }
+    Mod+Shift+3 {
+        move-column-to-workspace 3
+    }
+    // --- CONTROL DE VENTANAS Y LAYOUT ---
+    Mod+R {
+        switch-preset-column-width
+    }
+    Mod+F {
+        maximize-column
+    }
+    Mod+Shift+F {
+        fullscreen-window
+    }
+    Mod+C {
+        center-column
+    }
+    Mod+Minus {
+        set-column-width "-10%"
+    }
+    Mod+Equal {
+        set-column-width "+10%"
+    }
+    Mod+Shift+Minus {
+        set-window-height "-10%"
+    }
+    Mod+Shift+Equal {
+        set-window-height "+10%"
+    }
+    // --- MULTIMEDIA ---
+    XF86AudioRaiseVolume {
+        spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"
+    }
+    XF86AudioLowerVolume {
+        spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"
+    }
+    XF86AudioMute {
+        spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"
     }
 }
 
