@@ -42,6 +42,7 @@ spawn-at-startup "wireplumber"
 // Scripts de gestión (Rutas absolutas)
 spawn-at-startup "/home/eleazar/.local/share/systools/launch-waybar.sh"
 spawn-at-startup "/home/eleazar/.local/share/systools/mostrar_imagenes.sh"
+spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
 // Desactiva pantalla ayuda hotkeys
 hotkey-overlay {
     skip-at-startup

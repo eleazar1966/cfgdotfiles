@@ -182,5 +182,6 @@ alias pgadmin='~/pgadmin4/venv/bin/python ~/pgadmin4/venv/lib/python3.13/site-pa
 #fastfetch
 export DRI_PRIME=1
 export RUSTICL_ENABLE=amdgpu
+# RUSTICL_ENABLE=amdgpu clinfo -l
 source -- ~/.local/share/blesh/ble.sh
-#RUSTICL_ENABLE=amdgpu clinfo -l
+# [[ $(sudo btrfs device stats -c / | awk '{sum+=$2} END {print sum}') -ne 0 ]] && echo "⚠️ ATENCIÓN: Errores detectados en Btrfs. Revisa 'btrfs device stats /'"
