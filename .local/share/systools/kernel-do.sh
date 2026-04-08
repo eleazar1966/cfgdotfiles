@@ -19,8 +19,10 @@ cd /usr/src/linux
 
 # Configuración del Kernel
 sudo make mrproper
+sudo modprobed-db recall
 sudo cp /boot/config-$(uname -r) /usr/src/.config
-# sudo make localmodconfig
+sudo make LSMOD=/home/eleazar/.config/modprobed.db localmodconfig
+sudo make localmodconfig
 
 # Compilación con optimizaciones para Zen 3
 sudo make menuconfig
