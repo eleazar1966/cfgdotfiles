@@ -1,48 +1,55 @@
 #!/bin/bash
-echo -e "\n  Iniciando actualizacion de Kernel ... \n"
+echo -e "\n  Iniciando actualización de Kernel optimizada... \n"
 
-# Verificación y montaje de /boot
+# 1. Gestión de /boot
 FOLDER2="/boot"
 if [[ $(findmnt -M "$FOLDER2") ]]; then
-  echo -e "\n /boot ya está montado, se inicia configuraci'on de kernel ... \n"
+  echo -e "\n /boot ya está montado. \n"
 else
-  echo -e "\n /boot no montado, se inicia el mount ... \n"
+  echo -e "\n Montando /boot... \n"
   sudo mount /dev/nvme0n1p1 /boot
-  echo -e "\n /boot ya está montado, se inicia configuraci'on de kernel ... \n"
 fi
 
-# Limpieza y obtención de fuentes
+# 2. Preparación de fuentes
 sudo rm -rf /usr/src/*
 sudo emerge gentoo-sources
 sudo eselect kernel set 1
 cd /usr/src/linux
 
-# Configuración del Kernel
-sudo make mrproper
-sudo modprobed-db recall
-sudo cp /boot/config-$(uname -r) /usr/src/.config
-sudo make LSMOD=/home/eleazar/.config/modprobed.db localmodconfig
-sudo make localmodconfig
+# 3. Sincronización de módulos y configuración actual
+echo "Sincronizando base de datos de módulos..."
+modprobed-db store  # Guarda el estado actual de los módulos cargados
+modprobed-db recall # Recupera la lista completa para la configuración
 
-# Compilación con optimizaciones para Zen 3
+sudo make mrproper
+# Copiamos el config funcional actual como base
+sudo cp /boot/config-$(uname -r) /usr/src/linux/.config
+
+# 4. Configuración inteligente
+# Genera un .config basado en los módulos que modprobed-db sabe que usas
+sudo make LSMOD=$HOME/.config/modprobed.db localmodconfig
+
+# Permitir ajustes manuales para nuevos periféricos
+echo "Abriendo menuconfig para ajustes manuales adicionales..."
 sudo make menuconfig
-sudo make KCFLAGS="-march=znver3 -O3 -fgraphite-identity -floop-nest-optimize" -j $(nproc)
+
+# 5. Compilación y optimización Zen 3
+echo "Compilando kernel y módulos..."
+sudo make KCFLAGS="-march=znver3 -O3 -fgraphite-identity -floop-nest-optimize" -j$(nproc)
+
+# 6. Instalación
 sudo make modules_install
 sudo make install
 
-# Post-instalación y limpieza
+# 7. Post-instalación
 sudo dracut --force
-
-# Limpieza de kernels antiguos (mantiene los 3 más recientes)
-# Requiere tener instalado app-admin/eclean-kernel
-if command -v eclean-kernel &>/dev/null; then
-  sudo eclean-kernel -n 3
-else
-  echo -e "\n [!] eclean-kernel no encontrado. Saltando limpieza... \n"
-fi
-
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-cd
+# 8. Limpieza de kernels antiguos
+if command -v eclean-kernel &>/dev/null; then
+  sudo eclean-kernel -n 3
+fi
+
+cd ~
 sudo umount /boot
-echo -e "\n  Finalizada actualizacion de Kernel ..."
+echo -e "\n Procesos completados. El nuevo kernel incluye tus módulos actuales y nuevos cambios."
