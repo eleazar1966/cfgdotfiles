@@ -248,3 +248,63 @@
 }
 [INFO  lun 23 mar 2026 10:44:09] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=kdlfmt)
 [ERROR lun 23 mar 2026 10:47:02] ...l/share/nvim/lazy/mason.nvim/lua/mason-registry/init.lua:31: Cannot find package "\"kdl-ls\"".
+[INFO  sáb 11 abr 2026 15:04:25] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=black) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 11 abr 2026 15:04:25] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=black) {
+  bypass_permit = true
+}
+[INFO  sáb 11 abr 2026 15:04:25] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=black)
+[INFO  sáb 11 abr 2026 15:04:29] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=black)
+[INFO  sáb 11 abr 2026 15:04:39] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=lua-language-server) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 11 abr 2026 15:04:40] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=lua-language-server) {
+  bypass_permit = true
+}
+[INFO  sáb 11 abr 2026 15:04:40] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=lua-language-server)
+[INFO  sáb 11 abr 2026 15:04:40] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=lua-language-server)
+[INFO  sáb 11 abr 2026 15:04:43] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=prettier) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 11 abr 2026 15:04:45] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=prettier) {
+  bypass_permit = true
+}
+[INFO  sáb 11 abr 2026 15:04:45] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=prettier)
+[INFO  sáb 11 abr 2026 15:04:45] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=prettier)
+[INFO  sáb 11 abr 2026 15:04:48] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=ruff) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 11 abr 2026 15:04:48] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=ruff) {
+  bypass_permit = true
+}
+[INFO  sáb 11 abr 2026 15:04:48] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=ruff)
+[INFO  sáb 11 abr 2026 15:04:51] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=ruff)
+[INFO  sáb 11 abr 2026 15:04:54] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=shfmt) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 11 abr 2026 15:04:54] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=shfmt) {
+  bypass_permit = true
+}
+[INFO  sáb 11 abr 2026 15:04:54] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=shfmt)
+[INFO  sáb 11 abr 2026 15:04:54] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=shfmt)
+[INFO  sáb 11 abr 2026 15:04:58] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:40: Executing installer for Package(name=stylua) {
+  debug = false,
+  force = false,
+  strict = false
+}
+[INFO  sáb 11 abr 2026 15:04:59] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:37: Executing uninstaller for Package(name=stylua) {
+  bypass_permit = true
+}
+[INFO  sáb 11 abr 2026 15:04:59] .../mason.nvim/lua/mason-core/installer/UninstallRunner.lua:61: Uninstallation succeeded for Package(name=stylua)
+[INFO  sáb 11 abr 2026 15:04:59] ...zy/mason.nvim/lua/mason-core/installer/InstallRunner.lua:86: Installation succeeded for Package(name=stylua)

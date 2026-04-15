@@ -16,3 +16,9 @@ output_path = '~/.config/waybar/colors.css'
 [templates.niri]
 input_path = '~/.config/matugen/templates/niri_template.kdl'
 output_path = '~/.config/niri/colors.kdl'
+
+[templates.cava]
+input_path = '~/.config/matugen/templates/cava-colors.ini'
+output_path = '~/.config/cava/themes/matugen-colors'
+# Usar -USR2 es correcto, pero asegúrate de que Matugen tenga permisos de ejecución
+post_hook = 'sleep 0.1 && pkill -USR2 cava'

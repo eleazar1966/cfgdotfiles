@@ -46,7 +46,7 @@ io = {}
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-io.close"])
 ---
 ---@param file? file*
----@return boolean?  suc
+---@return true?     suc
 ---@return exitcode? exitcode
 ---@return integer?  code
 function io.close(file) end
@@ -184,7 +184,7 @@ local file = {}
 ---
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-file:close"])
 ---
----@return boolean?  suc
+---@return true?     suc
 ---@return exitcode? exitcode
 ---@return integer?  code
 function file:close() end

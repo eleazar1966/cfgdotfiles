@@ -8,13 +8,12 @@ export GIT_WORK_TREE=$HOME
 
 echo "Añadiendo archivos de configuracion al staging area..."
 
-# Usamos 'git --git-dir... --work-tree...' en lugar del alias para que funcione dentro del script
+# Se añade la configuración de CAVA y las plantillas de Matugen
 git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
   ~/.nanorc \
   ~/.bashrc \
   ~/.config/waybar \
   ~/.config/wallpaper \
-  ~/.bashrc \
   ~/.config/rofi \
   ~/.config/nwg-look \
   ~/.config/nvim \
@@ -22,6 +21,8 @@ git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
   ~/.config/hypr \
   ~/.config/niri \
   ~/.config/kitty \
+  ~/.config/cava/config \
+  ~/.config/cava/themes/ \
   ~/.local/share/systools \
   ~/.local/share/nvim \
   ~/.local/state/nvim \
@@ -31,8 +32,8 @@ git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
 
 echo "Realizando commit de los cambios..."
 
-# Usamos una fecha y hora como mensaje de commit automático
-COMMIT_MSG="Auto-update configurations @ $(date +'%Y-%m-%d %H:%M:%S')"
+# Mensaje de commit automático con fecha y hora
+COMMIT_MSG="Auto-update configurations (inc. CAVA Matugen) @ $(date +'%Y-%m-%d %H:%M:%S')"
 git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE commit -m "$COMMIT_MSG"
 
 echo "Sincronizando con GitHub via SSH..."

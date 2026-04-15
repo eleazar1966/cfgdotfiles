@@ -101,7 +101,7 @@ function os.difftime(t2, t1) end
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-os.execute"])
 ---
 ---@param command? string
----@return boolean?  suc
+---@return true?     suc
 ---@return exitcode? exitcode
 ---@return integer?  code
 function os.execute(command) end
@@ -131,8 +131,9 @@ function os.getenv(varname) end
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-os.remove"])
 ---
 ---@param filename string
----@return boolean suc
+---@return true? suc
 ---@return string? errmsg
+---@return integer? errcode
 function os.remove(filename) end
 
 ---
@@ -142,8 +143,9 @@ function os.remove(filename) end
 ---
 ---@param oldname string
 ---@param newname string
----@return boolean suc
+---@return true? suc
 ---@return string? errmsg
+---@return integer? errcode
 function os.rename(oldname, newname) end
 
 ---@alias localecategory

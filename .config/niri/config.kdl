@@ -55,6 +55,8 @@ animations {
 spawn-at-startup "mako"
 spawn-at-startup "swww-daemon"
 spawn-at-startup "udiskie" "-s"
+spawn-at-startup "gvfsd"
+spawn-at-startup "/usr/libexec/lxqt-policykit-agent"
 spawn-at-startup "nm-applet" "--indicator"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "openrgb" "--startminimized"
