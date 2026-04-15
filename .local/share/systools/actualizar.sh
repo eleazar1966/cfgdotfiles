@@ -1,81 +1,77 @@
 #!/bin/bash
 set -e
 
-# Función para cambiar el título de la terminal actual
 set_title() {
   echo -ne "\033]0;$1\007"
 }
 
-# Guardar título original
 ORIGINAL_TITLE="Terminal"
+BOOT_WAS_MOUNTED=0
 
 echo "=========================================================="
 echo "   INICIANDO ACTUALIZACIÓN Y OPTIMIZACIÓN GENTOO (Zen 3)  "
 echo "=========================================================="
 
-# 1. Montaje seguro de /boot
-if ! mountpoint -q /boot; then
-  echo "[1/9] Montando partición /boot..."
-  sudo mount /boot
+# 1. Montaje inteligente de /boot
+if mountpoint -q /boot; then
+  echo "[1/10] /boot ya está montado."
+  BOOT_WAS_MOUNTED=1
 else
-  echo "[1/9] /boot ya está montado."
+  echo "[1/10] Montando partición /boot..."
+  sudo mount /boot
 fi
 
-# 2. Verificación de integridad y limpieza profunda
-echo "[2/9] Limpiando índices de binarios y sesiones previas..."
-set_title "limpieza"
+# 2. Sincronización y Noticias
+echo "[2/10] Sincronizando repositorios y revisando noticias..."
+set_title "sync"
+sudo emerge --sync --quiet
+# Verificar si hay noticias críticas antes de proceder
+eselect news list | grep -q "read" && echo "(!) Hay noticias de Gentoo sin leer. Revísalas con 'eselect news read'."
 
-# Crear directorio y archivos de índice vacíos (silencia errores de Packages/Packages.gz)
-sudo mkdir -p /var/cache/binpkgs
-sudo touch /var/cache/binpkgs/Packages
-echo -n "" | sudo gzip -c >/tmp/Packages.gz
-sudo mv /tmp/Packages.gz /var/cache/binpkgs/Packages.gz
-
-# Limpieza total de archivos de 'resume' para evitar mensajes de paquetes pendientes
-sudo rm -f /var/cache/edb/resume /var/cache/edb/resume_backup
-
-# Verificación de integridad de Portage
+# 3. Limpieza de integridad
+echo "[3/10] Verificando integridad de Portage..."
+set_title "emaint"
 sudo emaint --check all
 sudo emaint --fix all
 
-# 3. Sincronización
-echo "[3/9] Sincronizando repositorios de Portage..."
-set_title "emerge"
-sudo emerge --sync --quiet
+# 4. Pre-descarga de paquetes (Seguridad)
+echo "[4/10] Descargando fuentes de @world..."
+set_title "fetch"
+sudo emerge -fDuN @world
 
-# 4. Actualización de @world
-echo "[4/9] Calculando y aplicando actualizaciones de @world..."
-sudo emerge -uDvN --with-bdeps=y @world
+# 5. Actualización de @world
+echo "[5/10] Aplicando actualizaciones de @world..."
+set_title "emerge: @world"
+# Añadido --keep-going para que no se detenga por un solo fallo
+sudo emerge -uDvN --with-bdeps=y --keep-going @world
 
-# 5. Gestión de archivos de configuración
-set_title "actualizar.sh"
-echo "[5/9] Revisando cambios en archivos de configuración (/etc)..."
-# Sustitución de dispatch-conf por etc-update
+# 6. Gestión de configuración
+echo "[6/10] Revisando cambios en /etc..."
+set_title "config"
 sudo etc-update
 
-# 6. Limpieza de dependencias y reconstrucción
-set_title "emerge"
-echo "[6/9] Limpiando dependencias huérfanas (--depclean)..."
+# 7. Limpieza y Reconstrucción
+echo "[7/10] Depurando sistema y reconstruyendo librerías..."
+set_title "limpieza"
 sudo emerge --depclean
-echo "[6.1/9] Reconstruyendo paquetes con librerías preservadas..."
 sudo emerge @preserved-rebuild
-echo "[6.2/9] Buscando binarios con enlaces rotos (revdep-rebuild)..."
 sudo revdep-rebuild
 
-# 7. Mantenimiento de Kernel y Distfiles
-echo "[7/9] Limpiando fuentes de paquetes antiguos (distfiles)..."
+# 8. Mantenimiento de Kernel y Cache
+echo "[8/10] Limpiando distfiles y kernels antiguos..."
 sudo eclean-dist --deep
-echo "[7.1/9] Limpiando kernels antiguos (manteniendo los últimos 2)..."
-sudo eclean-kernel -n 2
+# Solo intenta eclean-kernel si la herramienta está instalada
+command -v eclean-kernel >/dev/null 2>&1 && sudo eclean-kernel -n 2
 
-# 8. Indexación de archivos
-set_title "actualizar.sh"
-echo "[8/9] Actualizando base de datos de búsqueda rápida (locate)..."
+# 9. Indexación
+echo "[9/10] Actualizando base de datos de búsqueda..."
 sudo updatedb
 
-# 9. Finalización
-echo "[9/9] Desmontando /boot y finalizando..."
-sudo umount /boot
+# 10. Finalización y Desmontaje
+echo "[10/10] Finalizando proceso..."
+if [ "$BOOT_WAS_MOUNTED" -eq 0 ]; then
+  sudo umount /boot && echo "/boot desmontado con éxito."
+fi
 
 set_title "$ORIGINAL_TITLE"
 

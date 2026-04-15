@@ -1141,3 +1141,5 @@ dbus-daemon[3160]: [session uid=1000 pid=3160 pidfd=5] Successfully activated se
 [2m2026-04-15T17:11:06.036803Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
 [2m2026-04-15T17:11:06.089837Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
 [2m2026-04-15T17:14:51.926133Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
+[2m2026-04-15T17:37:36.571464Z[0m [33m WARN[0m [2mniri::ipc::server[0m[2m:[0m disconnecting IPC event stream client because it is reading events too slowly
+[2m2026-04-15T17:44:52.376591Z[0m [34mDEBUG[0m [2mniri_config[0m[2m:[0m loaded config from "/home/eleazar/.config/niri/config.kdl"
