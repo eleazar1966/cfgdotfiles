@@ -4,11 +4,10 @@
 export GIT_DIR=$HOME/.cfgdotfiles/
 export GIT_WORK_TREE=$HOME
 
-# --- Comandos Git ---
+echo "Añadiendo archivos de configuración al staging area..."
 
-echo "Añadiendo archivos de configuracion al staging area..."
-
-# Se añade la configuración de CAVA y las plantillas de Matugen
+# Lista unificada y limpia de todos los directorios y archivos críticos
+# Se incluyen las rutas de CAVA y las plantillas de Matugen
 git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
   ~/.nanorc \
   ~/.bashrc \
@@ -30,15 +29,17 @@ git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
   ~/Documentos/Linux/Gentoo/etc/portage/make.conf \
   ~/Documentos/Linux/Gentoo/etc/portage/package.use/00cpu-flags
 
-echo "Realizando commit de los cambios..."
+# Lógica de verificación inteligente: solo procede si hay cambios detectados
+if ! git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE diff-index --quiet HEAD; then
+  echo "Cambios detectados. Realizando commit..."
+  
+  # Mensaje de commit descriptivo con marca de tiempo
+  COMMIT_MSG="Auto-update configurations (CAVA/Matugen included) @ $(date +'%Y-%m-%d %H:%M:%S')"
+  git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE commit -m "$COMMIT_MSG"
 
-# Mensaje de commit automático con fecha y hora
-COMMIT_MSG="Auto-update configurations (inc. CAVA Matugen) @ $(date +'%Y-%m-%d %H:%M:%S')"
-git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE commit -m "$COMMIT_MSG"
-
-echo "Sincronizando con GitHub via SSH..."
-
-# Empujar los cambios a la rama main remota
-git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE push origin main
-
-echo "Proceso de actualizacion completado."
+  echo "Sincronizando con GitHub via SSH..."
+  git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE push origin main
+  echo "Proceso de actualización completado con éxito."
+else
+  echo "No se detectaron cambios en las configuraciones. Nada que actualizar."
+fi
