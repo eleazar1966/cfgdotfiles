@@ -1,0 +1,13 @@
+[color]
+gradient = 1
+# CAVA ignorará los colores si el conteo no coincide con los definidos abajo
+gradient_count = 8
+
+gradient_color_1 = '#80d4d9'
+gradient_color_2 = '#b1cccd'
+gradient_color_3 = '#b5c7e9'
+gradient_color_4 = '#004f53'
+gradient_color_5 = '#324b4c'
+gradient_color_6 = '#364764'
+gradient_color_7 = '#00696d'
+gradient_color_8 = '#9cf0f5'

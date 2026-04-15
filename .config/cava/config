@@ -1,0 +1,23 @@
+[general]
+# Mantener configuraciones de audio e input previas
+framerate = 60
+autosens = 1
+
+[input]
+method = pipewire
+source = alsa_input.pci-0000_0b_00.6.analog-stereo
+
+[output]
+method = noncurses
+synchronized_sync = 1
+
+[color]
+# Es vital activar el gradiente aquí para que el tema funcione
+gradient = 1
+
+# Llamar al tema dentro de la sección [color]
+theme = matugen-colors
+
+# Colores de respaldo
+background = default
+foreground = default
