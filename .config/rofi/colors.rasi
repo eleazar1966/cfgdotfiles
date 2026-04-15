@@ -1,10 +1,10 @@
 * {
-    bg0:      #1a1110CC;
-    bg1:      #271d1cCC;
-    bg2:      #534341;
-    bg3:      #a08c8a;
-    fg0:      #f1dedc;
-    accent:   #ffb4ab;
+    bg0:      #19120dCC;
+    bg1:      #261e19CC;
+    bg2:      #52443c;
+    bg3:      #9f8d83;
+    fg0:      #f0dfd7;
+    accent:   #ffb786;
     
     font: "Iosevka Nerd Font Medium 11";
     background-color: transparent;
