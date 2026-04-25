@@ -43,8 +43,8 @@ spawn-at-startup "blueman-applet"
 spawn-at-startup "sh" "-c" "openrgb --startminimized" 
 spawn-at-startup "nm-applet" "--indicator"
 // Scripts de gestión (Rutas absolutas)
-spawn-at-startup "~/.local/share/systools/wallpapers.sh"
-spawn-at-startup "/home/eleazar/.local/share/systools/launch-waybar.sh"
+spawn-at-startup "~/.local/bin/wallpapers.sh"
+spawn-at-startup "~/.local/bin/launch-waybar.sh"
 // Desactiva pantalla ayuda hotkeys
 hotkey-overlay {
     skip-at-startup
@@ -99,16 +99,16 @@ binds {
     }
     // Scripts y Utilidades
     Mod+Shift+W {
-        spawn "~/.local/share/systools/wallpapers.sh" "once"
+        spawn "~/.local/bin/wallpapers.sh" "once"
     }
     Mod+W {
-        spawn "sh" "-c" "killall waybar && ~/.local/share/systools/launch-waybar.sh" 
+        spawn "sh" "-c" "killall waybar && ~/.local/bin/launch-waybar.sh" 
     }
     Mod+D {
         spawn "fuzzel"
     }
     Mod+Alt+R {
-        spawn "kitty" "--class" "floating_terminal" "-e" "/home/eleazar/.local/share/systools/graba_video.sh"
+        spawn "kitty" "--class" "floating_terminal" "-e" "~/.local/bin/graba_video.sh"
     }
     // --- CAPTURAS DE PANTALLA ---
     Print {

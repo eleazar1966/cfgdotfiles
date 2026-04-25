@@ -17,7 +17,6 @@ git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add \
   ~/.config/nwg-look \
   ~/.config/nvim \
   ~/.config/matugen \
-  ~/.config/hypr \
   ~/.config/niri \
   ~/.config/kitty \
   ~/.config/pipewire \

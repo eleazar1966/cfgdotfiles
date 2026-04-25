@@ -1,6 +1,6 @@
 #!/bin/bash
 # Mantenimiento preventivo Btrfs - Gentoo
-# Ubicación: ~/.local/share/systools/btrfs-salud.sh
+# Ubicación: ~/.local/bin/btrfs-salud.sh
 
 echo "--- 1. SCRUB (Integridad) ---"
 sudo btrfs scrub start -B /

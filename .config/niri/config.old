@@ -197,7 +197,7 @@ layout {
 // Agrega líneas como esta para iniciar procesos al inicio.
 // Mapeo de las variables de autostart (exec-once) de Hyprland
 spawn-at-startup "swww-daemon"
-spawn-at-startup "~/.local/share/systools/mostrar_imagenes.sh"
+spawn-at-startup "~/.local/bin/mostrar_imagenes.sh"
 spawn-at-startup "pipewire"
 spawn-at-startup "udiskie" "-s"
 spawn-at-startup "openrgb" "--startminimized"
@@ -265,8 +265,8 @@ binds {
     // El comando de Hyprland `togglesplit` (dwindle) se omite, ya que Niri usa un diseño de columna/pila.
 
     // Comandos de Hyprland ejecutados con spawn
-    Mod+D { spawn "~/.local/share/systools/launch-rofi.sh"; }
-    Mod+W { spawn "~/.local/share/systools/launch-waybar.sh"; }
+    Mod+D { spawn "~/.local/bin/launch-rofi.sh"; }
+    Mod+W { spawn "~/.local/bin/launch-waybar.sh"; }
     Mod+F1 { spawn "opera" "--lang=es" "%U" "--private"; }
     Mod+F2 { spawn "thunderbird"; }
     Mod+F3 { spawn "kitty" "-e" "ranger"; }

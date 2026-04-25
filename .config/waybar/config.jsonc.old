@@ -69,7 +69,7 @@
   // Idioma / Layout de Teclado niri
   "custom/language": {
     // La ruta a tu script. (Asegúrate que el script está en la ruta correcta)
-    "exec": "~/.local/share/systools/niri_layout.sh", 
+    "exec": "~/.local/bin/niri_layout.sh", 
     // Ejecuta el script cada 1 segundo.
     "interval": 1, 
     // Formato a mostrar, {} es el output de tu script (ej. "ES" o "US")
@@ -92,7 +92,7 @@
     "interval": 1, // Intervalo de actualización en segundos.
     "spacing": 10, // Espacio después del módulo.
     // Script externo para obtener el estado de las teclas.
-    "exec": "~/.local/share/systools/waybar-lock-status.py",
+    "exec": "~/.local/bin/waybar-lock-status.py",
     "return-type": "json", // Espera salida en formato JSON.
     "format": "{}", // El formato lo maneja el script.
     "hide-empty-text": true, // Oculta si no hay texto.

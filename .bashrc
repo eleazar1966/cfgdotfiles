@@ -164,20 +164,18 @@ export XCURSOR_SIZE=10
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
-alias actualizar="~/.local/share/systools/actualizar.sh | lolcat"
-alias kernel=~/.local/share/systools/kernel-do.sh
-alias respaldo=~/.local/share/systools/respaldo.sh
+alias actualizar="~/.local/bin/actualizar.sh | lolcat"
+alias kernel=~/.local/bin/kernel-do.sh
+alias respaldo=~/.local/bin/respaldo.sh
 alias fastfetch="fastfetch | lolcat"
 export VDPAU_DRIVER=radeonsi
 LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
-alias grabavideo="~/.local/share/systools/graba_video.sh"
-alias update-git="~/.local/share/systools/acualiza_git.sh | lolcat"
-alias git-update="~/.local/share/systools/git-actualiza.sh | lolcat"
+alias grabavideo="~/.local/bin/graba_video.sh"
+alias update-git="~/.local/bin/acualiza_git.sh | lolcat"
 alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
-alias pgadmin='~/pgadmin4/venv/bin/python ~/pgadmin4/venv/lib/python3.13/site-packages/pgadmin4/pgAdmin4.py'
 alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux/WinBox'
 #clear
 #fastfetch
