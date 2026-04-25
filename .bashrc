@@ -173,6 +173,7 @@ LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias grabavideo="~/.local/bin/graba_video.sh"
 alias update-git="~/.local/bin/acualiza_git.sh | lolcat"
+alias git-update="~/.local/bin/acualiza_git.sh | lolcat"
 alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
