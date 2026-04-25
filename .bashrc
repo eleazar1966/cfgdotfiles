@@ -1,14 +1,20 @@
+# Iniciar automáticamente tmux
+#if [ -z "$TMUX" ]; then
+# Verificar si existe una sesión llamada 'default', si no, crearla
+#  tmux attach-session -t default 2>/dev/null || tmux new-session -s default
+#fi
 # Enable the subsequent settings only in interactive sessions
-case $- in
-  *i*) ;;
-    *) return;;
-esac
+#case $- in
+#  *i*) ;;
+#    *) return;;
+#esac
 
 # Path to your oh-my-bash installation.
 export OSH='/home/eleazar/.oh-my-bash'
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
+#OSH_THEME="font"
 OSH_THEME="powerline-multiline"
 
 # If you set OSH_THEME to "random", you can ignore themes you don't like.
@@ -135,11 +141,14 @@ source "$OSH"/oh-my-bash.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nvim'
+else
+  export EDITOR='nvim'
+fi
+
+export XCURSOR_THEME="Dracula-cursors"
+export XCURSOR_SIZE=10
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -155,7 +164,25 @@ source "$OSH"/oh-my-bash.sh
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
+alias actualizar="~/.local/share/systools/actualizar.sh | lolcat"
+alias kernel=~/.local/share/systools/kernel-do.sh
+alias respaldo=~/.local/share/systools/respaldo.sh
+alias fastfetch="fastfetch | lolcat"
+export VDPAU_DRIVER=radeonsi
+LANG=es_VE.UTF-8
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
+alias grabavideo="~/.local/share/systools/graba_video.sh"
+alias update-git="~/.local/share/systools/acualiza_git.sh | lolcat"
+alias git-update="~/.local/share/systools/git-actualiza.sh | lolcat"
+alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
+alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
+alias eclean-dist='sudo eclean-dist --deep'
+alias pgadmin='~/pgadmin4/venv/bin/python ~/pgadmin4/venv/lib/python3.13/site-packages/pgadmin4/pgAdmin4.py'
+alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux/WinBox'
+#clear
+#fastfetch
+export DRI_PRIME=1
+export RUSTICL_ENABLE=amdgpu
+# RUSTICL_ENABLE=amdgpu clinfo -l
 source -- ~/.local/share/blesh/ble.sh
-export XDG_CURRENT_DESKTOP=niri
-export XDG_SESSION_TYPE=wayland
-export GTK_USE_PORTAL=1
+# [[ $(sudo btrfs device stats -c / | awk '{sum+=$2} END {print sum}') -ne 0 ]] && echo "⚠️ ATENCIÓN: Errores detectados en Btrfs. Revisa 'btrfs device stats /'"
