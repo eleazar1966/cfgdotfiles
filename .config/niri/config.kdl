@@ -1,3 +1,4 @@
+// Importación del bloque layout generado por Matugen (Colores y Gradiente)
 include "colors.kdl"
 prefer-no-csd
 input {
@@ -29,42 +30,22 @@ layout {
         urgent-color "#9b0000"
     }
 }
-// --- SECCIÓN DE ANIMACIONES CORREGIDA ---
-animations {
-    // Para apertura, usamos spring (física) sin definir 'curve'
-    window-open {
-        spring damping-ratio=0.8 stiffness=800 epsilon=0.0001
-    }
-    // Para cierre, usamos una curva soportada: ease-out-cubic
-    window-close {
-        duration-ms 200
-        curve "ease-out-cubic"
-    }
-    // Movimientos internos: ease-out-expo es la más fluida disponible
-    window-movement {
-        duration-ms 250
-        curve "ease-out-expo"
-    }
-    // Cambio de workspace
-    workspace-switch {
-        duration-ms 400
-        curve "ease-out-expo"
-    }
-}
 // --- SERVICIOS Y APLICACIONES AL ARRANQUE ---
-spawn-at-startup "mako"
-spawn-at-startup "swww-daemon"
-spawn-at-startup "udiskie" "-s"
-spawn-at-startup "gvfsd"
-spawn-at-startup "/usr/libexec/lxqt-policykit-agent"
-spawn-at-startup "nm-applet" "--indicator"
-spawn-at-startup "blueman-applet"
-spawn-at-startup "openrgb" "--startminimized"
+spawn-at-startup "dbus-update-activation-environment --all"
+spawn-at-startup "dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
+spawn-at-startup "/usr/libexec/xdg-desktop-portal" "-r"
+spawn-at-startup "/usr/libexec/xdg-desktop-portal-gtk" "-r"
 spawn-at-startup "pipewire"
 spawn-at-startup "wireplumber"
+spawn-at-startup "pipewire-pulse"
+spawn-at-startup "udiskie" "-s"
+spawn-at-startup "blueman-applet"
+spawn-at-startup "sh" "-c" "openrgb --startminimized" 
+spawn-at-startup "nm-applet" "--indicator"
+// Scripts de gestión (Rutas absolutas)
+spawn-at-startup "~/.local/share/systools/wallpapers.sh"
 spawn-at-startup "/home/eleazar/.local/share/systools/launch-waybar.sh"
-spawn-at-startup "/home/eleazar/.local/share/systools/mostrar_imagenes.sh"
-spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
+// Desactiva pantalla ayuda hotkeys
 hotkey-overlay {
     skip-at-startup
 }
@@ -84,6 +65,7 @@ window-rule {
 }
 // --- ATAJOS DE TECLADO (BINDS) ---
 binds {
+    // Teclas de Sistema y Aplicaciones
     Mod+Shift+Slash {
         show-hotkey-overlay
     }
@@ -102,6 +84,7 @@ binds {
     Mod+V {
         toggle-window-floating
     }
+    // Teclado y Notificaciones
     Mod+Space {
         switch-layout "next"
     }
@@ -114,18 +97,20 @@ binds {
     Mod+Alt+Space {
         spawn "makoctl" "restore"
     }
+    // Scripts y Utilidades
     Mod+Shift+W {
-        spawn "/home/eleazar/.local/share/systools/mostrar_imagenes.sh" "once"
+        spawn "~/.local/share/systools/wallpapers.sh" "once"
     }
     Mod+W {
-        spawn "sh" "-c" "killall waybar"
+        spawn "sh" "-c" "killall waybar && ~/.local/share/systools/launch-waybar.sh" 
     }
     Mod+D {
-        spawn "/home/eleazar/.local/share/systools/launch-rofi.sh"
+        spawn "fuzzel"
     }
     Mod+Alt+R {
         spawn "kitty" "--class" "floating_terminal" "-e" "/home/eleazar/.local/share/systools/graba_video.sh"
     }
+    // --- CAPTURAS DE PANTALLA ---
     Print {
         spawn "sh" "-c" "mkdir -p ~/Imágenes/Screenshot && grim ~/Imágenes/Screenshot/screenshot_$(date +%Y%m%d_%H%M%S).png"
     }
@@ -135,6 +120,7 @@ binds {
     Mod+Shift+S {
         spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"
     }
+    // --- NAVEGACIÓN Y FOCO (HJKL) ---
     Mod+H {
         focus-column-left
     }
@@ -165,6 +151,7 @@ binds {
     Mod+O {
         toggle-overview
     }
+    // --- ESPACIOS DE TRABAJO (WORKSPACES) ---
     Mod+Page_Down {
         focus-workspace-down
     }
@@ -225,6 +212,7 @@ binds {
     Mod+Shift+3 {
         move-column-to-workspace 3
     }
+    // --- CONTROL DE VENTANAS Y LAYOUT ---
     Mod+R {
         switch-preset-column-width
     }
@@ -249,6 +237,7 @@ binds {
     Mod+Shift+Equal {
         set-window-height "+10%"
     }
+    // --- MULTIMEDIA ---
     XF86AudioRaiseVolume {
         spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"
     }

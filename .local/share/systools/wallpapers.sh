@@ -4,40 +4,31 @@ CACHE_LAST="/tmp/last_wallpaper"
 WAYBAR_COLORS="$HOME/.config/waybar/colors.css"
 LOCKFILE="/tmp/wallpaper_change.lock"
 
-# 1. Asegurar que swww-daemon esté vivo
-if ! swww query >/dev/null 2>&1; then
-  swww-daemon &
-  sleep 0.5
-fi
+# 1. Función de limpieza para asegurar que no queden procesos huérfanos
+cleanup_swaybg() {
+  pkill swaybg
+  sleep 0.1
+}
 
 apply_changes() {
   local img="$1"
-  [[ -f "$LOCKFILE" ]] && rm -f "$LOCKFILE" # Limpiar bloqueo previo si existe
+  [[ -f "$LOCKFILE" ]] && rm -f "$LOCKFILE"
   touch "$LOCKFILE"
 
-  # 2. Matugen genera los colores
+  # 2. Generar colores con Matugen
   if command -v matugen &>/dev/null; then
     matugen image "$img" &>/dev/null
     sleep 0.1
   fi
 
-  # 3. Extraer color con fallback (evita que swww falle por sintaxis)
-  # Buscamos la línea de background y limpiamos caracteres no deseados
-  BG_COLOR=$(grep "background" "$WAYBAR_COLORS" | head -n 1 | awk '{print $3}' | tr -d ';')
-  if [[ ! "$BG_COLOR" =~ ^# ]]; then
-    BG_COLOR="#000000"
-  fi
+  # 3. Aplicar fondo con swaybg
+  # swaybg no tiene transiciones, por lo que matamos el anterior y lanzamos el nuevo
+  cleanup_swaybg
+  swaybg -i "$img" -m fill & 
 
-  # 4. Cambiar fondo (Si falla con parámetros extra, intenta el simple)
-  swww img "$img" \
-    --transition-type grow \
-    --transition-pos top-right \
-    --transition-duration 1.5 \
-    --transition-bg "$BG_COLOR" || swww img "$img"
-
-  # 5. Notificaciones
+  # 4. Notificaciones y caché
   echo "$img" >"$CACHE_LAST"
-  touch "$WAYBAR_COLORS" # Esto activa el reinicio de Waybar en launch-waybar.sh
+  touch "$WAYBAR_COLORS"
   niri msg action load-config-file >/dev/null 2>&1
 
   rm -f "$LOCKFILE"
@@ -45,9 +36,11 @@ apply_changes() {
 
 # Lógica de ejecución
 if [[ -n "$1" ]]; then
+  # Si se pasa un argumento (aunque el script original buscaba aleatorio igual)
   img=$(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | shuf -n 1)
   [[ -n "$img" ]] && apply_changes "$img"
 else
+  # Modo bucle
   while true; do
     mapfile -t images < <(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | shuf)
     for img in "${images[@]}"; do

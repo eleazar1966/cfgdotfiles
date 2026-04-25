@@ -1,1 +1,0 @@
-../../packages/bash-debug-adapter/extension/bashdb_dir/getopts_long.sh

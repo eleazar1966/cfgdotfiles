@@ -17,6 +17,10 @@ output_path = '~/.config/waybar/colors.css'
 input_path = '~/.config/matugen/templates/niri_template.kdl'
 output_path = '~/.config/niri/colors.kdl'
 
+[templates.fuzzel]
+input_path = '~/.config/matugen/templates/fuzzel.ini'
+output_path = '~/.config/fuzzel/fuzzel.ini'
+
 [templates.cava]
 input_path = '~/.config/matugen/templates/cava-colors.ini'
 output_path = '~/.config/cava/themes/matugen-colors'

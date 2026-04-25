@@ -9,5 +9,5 @@ PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /home    btrfs   subvol=@home,no
 PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /var/db/repos btrfs  subvol=@portage,noatime,nodatacow 0 0
 PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /var/cache/distfiles  btrfs  subvol=@distfiles,noatime,nodatacow 0 0
 
-# COMPILACIÓN EN RAM (Unificado y ajustado a 24GB para aprovechar tus 32GB + ZRAM)
-tmpfs   /var/tmp/portage   tmpfs   rw,nosuid,nodev,noatime,size=28G,mode=775,uid=portage,gid=portage,x-mount.mkdir=775 0 0
+# COMPILACIÓN EN RAM (Unificado y ajustado a 28GB para aprovechar tus 32GB + ZRAM)
+tmpfs   /var/tmp/portage   tmpfs   rw,nosuid,nodev,noatime,size=100%,mode=775,uid=portage,gid=portage,x-mount.mkdir=775 0 0

@@ -3,8 +3,6 @@
   "spacing": 0,
   "modules-left": [
     "custom/menu",
-    "custom/opera",
-    "custom/pcmanfm",
     "custom/thunar",
     "custom/firefox",
     "custom/thunderbird",
@@ -144,7 +142,7 @@
   },
   "custom/menu": {
     "format": " ",
-    "on-click": "~/.local/share/systools/launch-rofi.sh"
+    "on-click": "fuzzel"
   },
   "custom/opera": {
     "format": "󰖟 ",

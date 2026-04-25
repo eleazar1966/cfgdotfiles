@@ -1,1 +1,0 @@
-../../../packages/bash-debug-adapter/extension/bashdb_dir/init/io.sh
