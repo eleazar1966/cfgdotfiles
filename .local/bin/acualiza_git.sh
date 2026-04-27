@@ -1,40 +1,61 @@
 #!/bin/bash
 
-# Configuración del entorno bare
-export GIT_DIR=$HOME/.cfgdotfiles/
-export GIT_WORK_TREE=$HOME
+# Configuración del repositorio bare
+export GIT_DIR="$HOME/.cfgdotfiles/"
+export GIT_WORK_TREE="$HOME"
 
-echo "Sincronizando cambios y eliminaciones en el índice..."
+# Función interna para simplificar comandos
+function config() {
+  /usr/bin/git --git-dir="$GIT_DIR" --work-tree="$GIT_WORK_TREE" "$@"
+}
 
-# 1. Lista de archivos/directorios a rastrear
+echo "Iniciando sincronización de dotfiles..."
+
+# 1. Definición de rutas (Targets)
 TARGETS=(
-  ~/.nanorc ~/.bashrc ~/.config/waybar ~/.config/wallpaper 
-  ~/.config/fuzzel ~/.config/nwg-look ~/.config/nvim 
-  ~/.config/matugen ~/.config/niri ~/.config/kitty 
-  ~/.config/pipewire ~/.config/cava ~/.local/bin
-  ~/Documentos/Linux/Gentoo/etc/fstab
-  ~/Documentos/Linux/Gentoo/etc/portage/make.conf
-  ~/Documentos/Linux/Gentoo/etc/portage/package.use/00cpu-flags
+  "$HOME/.nanorc" "$HOME/.bashrc" "$HOME/.config/waybar" "$HOME/.config/wallpaper" 
+  "$HOME/.config/fuzzel" "$HOME/.config/nwg-look" "$HOME/.config/nvim" 
+  "$HOME/.config/matugen" "$HOME/.config/niri" "$HOME/.config/kitty" 
+  "$HOME/.config/pipewire" "$HOME/.config/cava" "$HOME/.local/bin"
+  "$HOME/Documentos/Linux/Gentoo/etc/fstab"
+  "$HOME/Documentos/Linux/Gentoo/etc/portage/make.conf"
+  "$HOME/Documentos/Linux/Gentoo/etc/portage/package.use/00cpu-flags"
 )
 
-# 2. Agregamos cambios de las rutas definidas
-# --all incluye archivos nuevos, modificados y ELIMINADOS en esas rutas
-git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add --all "${TARGETS[@]}"
+# 2. Filtrar solo rutas que existen físicamente
+EXISTING_TARGETS=()
+for target in "${TARGETS[@]}"; do
+  if [ -e "$target" ]; then
+    EXISTING_TARGETS+=("$target")
+  else
+    # Si el archivo fue borrado, Git add -u lo detectará globalmente después
+    echo "Aviso: $target no encontrado, se omitirá el agregado directo."
+  fi
+done
 
-# 3. Limpieza de archivos que ya no existen (como los de systools)
-# Esto busca en todo el índice y elimina lo que falte en el disco
-git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE add -u
+# 3. Sincronizar el índice
+# --all maneja adiciones, cambios y eliminaciones en las rutas existentes
+if [ ${#EXISTING_TARGETS[@]} -gt 0 ]; then
+    config add --all "${EXISTING_TARGETS[@]}"
+fi
+
+# Elimina del índice cualquier archivo que ya no esté en el árbol de trabajo (limpieza global)
+config add -u
 
 # 4. Verificación y Commit
-if ! git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE diff-index --quiet HEAD; then
+if ! config diff-index --quiet HEAD; then
   echo "Cambios detectados. Realizando commit..."
   
   COMMIT_MSG="Sync configs: $(date +'%Y-%m-%d %H:%M:%S')"
-  git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE commit -m "$COMMIT_MSG"
+  config commit -m "$COMMIT_MSG"
 
   echo "Subiendo a GitHub..."
-  git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE push origin main
-  echo "Todo actualizado correctamente."
+  if config push origin main; then
+    echo "Todo actualizado correctamente."
+  else
+    echo "Error: No se pudo subir a GitHub. Verifica tu conexión o credenciales."
+    exit 1
+  fi
 else
   echo "El sistema ya está sincronizado. Nada que hacer."
 fi
