@@ -24,7 +24,7 @@ apply_changes() {
   # 3. Aplicar fondo con swaybg
   # swaybg no tiene transiciones, por lo que matamos el anterior y lanzamos el nuevo
   cleanup_swaybg
-  swaybg -i "$img" -m fill & 
+  swaybg -i "$img" -m fill &
 
   # 4. Notificaciones y caché
   echo "$img" >"$CACHE_LAST"

@@ -14,7 +14,7 @@ echo "=========================================================="
 
 # 1. Montaje inteligente de /boot
 if mountpoint -q /boot; then
-  echo "[1/9] /boot ya está montado."
+  echo "[1/10] /boot ya está montado."
   BOOT_WAS_MOUNTED=1
 else
   echo "[1/9] Montando partición /boot..."
@@ -25,34 +25,19 @@ fi
 echo "[2/9] Sincronizando repositorios y revisando noticias..."
 set_title "sync"
 sudo emerge --sync --quiet
+# Verificar si hay noticias críticas antes de proceder
 eselect news list | grep -q "read" && echo "(!) Hay noticias de Gentoo sin leer. Revísalas con 'eselect news read'."
 
 # 3. Limpieza de integridad
 echo "[3/9] Verificando integridad de Portage..."
 set_title "emaint"
-
-# Definir PORTAGE_LOGDIR para evitar avisos innecesarios
-export PORTAGE_LOGDIR="/var/log/portage"
-[ ! -d "$PORTAGE_LOGDIR" ] && sudo mkdir -p "$PORTAGE_LOGDIR"
-
-# Corregido: 'merges' es el comando correcto, no 'mergetally'
 sudo emaint --check all
-sudo emaint --fix binhost
-sudo emaint --fix merges
-sudo emaint --fix world
+sudo emaint --fix all
 
 # 4. Actualización de @world
 echo "[4/9] Aplicando actualizaciones de @world..."
 set_title "emerge: @world"
-
-# Manejo de los 6 paquetes pendientes (resume list)
-if [ -f /var/lib/portage/config/resume ]; then
-    echo "(!) Detectados paquetes pendientes. Intentando reanudar..."
-    sudo emerge --resume --keep-going || echo "No se pudo reanudar, descartando lista antigua..."
-    # Si falla el resume, limpiamos la lista para que no bloquee el siguiente paso
-    sudo emaint cleanresume
-fi
-
+# Añadido --keep-going para que no se detenga por un solo fallo
 sudo emerge -uDvN --with-bdeps=y --keep-going @world
 
 # 5. Gestión de configuración
@@ -70,6 +55,7 @@ sudo revdep-rebuild
 # 7. Mantenimiento de Kernel y Cache
 echo "[7/9] Limpiando distfiles y kernels antiguos..."
 sudo eclean-dist --deep
+# Solo intenta eclean-kernel si la herramienta está instalada
 command -v eclean-kernel >/dev/null 2>&1 && sudo eclean-kernel -n 2
 
 # 8. Indexación
