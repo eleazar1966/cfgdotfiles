@@ -43,6 +43,7 @@ fi
 
 # Mantenemos todas las opciones, incluidas las no usadas
 sudo make olddefconfig
+sudo make menuconfig
 
 # 5. Compilación optimizada para Zen 3
 echo "Compilando para Ryzen 7 5700G (Cezanne)..."
