@@ -10,7 +10,6 @@
     "custom/mousepad",
     "custom/terminal",
     "custom/calculadora",
-    "custom/localsend",
     "wlr/taskbar"
   ],
   "modules-center": [
@@ -144,14 +143,6 @@
     "format": " ",
     "on-click": "fuzzel"
   },
-  "custom/opera": {
-    "format": "󰖟 ",
-    "on-click": "opera --private"
-  },
-  "custom/pcmanfm": {
-    "format": "󱂶 ",
-    "on-click": "pcmanfm"
-  },
   "custom/thunar": {
     "format": " ",
     "on-click": "thunar"
@@ -166,7 +157,7 @@
   },
   "custom/TelegramDesktop": {
     "format": " ",
-    "on-click": "Telegram"
+    "on-click": "Telegram -startintray"
   },
   "custom/mousepad": {
     "format": "󱞁 ",
@@ -179,10 +170,6 @@
   "custom/calculadora": {
     "format": "󱖦 ",
     "on-click": "gnome-calculator"
-  },
-  "custom/localsend": {
-    "format": "󰈪 ",
-    "on-click": "/opt/LocalSend-1.17.0-linux-x86-64/localsend_app"
   },
   "custom/power": {
     "format": "⏻ ",

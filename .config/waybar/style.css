@@ -31,7 +31,6 @@ window#waybar {
 #custom-menu,
 #custom-power,
 #custom-opera,
-#custom-pcmanfm,
 #custom-thunar,
 #custom-firefox,
 #custom-thunderbird,
@@ -39,7 +38,6 @@ window#waybar {
 #custom-mousepad,
 #custom-terminal,
 #custom-calculadora,
-#custom-localsend,
 #workspaces button,
 #taskbar button,
 #keyboard-state label.locked {
@@ -69,7 +67,7 @@ window#waybar {
 }
 
 /* 3. Tamaño de iconos de aplicaciones */
-#custom-menu, #custom-power, #custom-opera, #custom-firefox, #custom-terminal, #custom-pcmanfm, #custom-thunar, #custom-thunderbird, #custom-TelegramDesktop, #custom-mousepad, #custom-calculadora, #custom-localsend {
+#custom-menu, #custom-power, #custom-firefox, #custom-terminal, #custom-thunar, #custom-thunderbird, #custom-TelegramDesktop, #custom-mousepad, #custom-calculadora {
   font-size: 16px;
 }
 
