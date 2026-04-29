@@ -79,7 +79,9 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Return { spawn "kitty"; }
     Mod+E { spawn "thunar"; }
+    Mod+G { spawn "gimp" "-s"; }
     Mod+Q { close-window; }
+    Mod+T { spawn "Telegram" "-startintray"; }
     Mod+X { quit; }
     Mod+V { toggle-window-floating; }
 
