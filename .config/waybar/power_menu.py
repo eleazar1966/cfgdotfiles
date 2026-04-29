@@ -92,8 +92,8 @@ class PowerMenuWindow(Gtk.Window):
         vbox.set_margin_end(6)
 
         actions = [
-            ("  Apagar", "sudo poweroff"),
-            ("󰑐  Reiniciar", "sudo reboot"),
+            ("  Apagar", "sudo openrc-shutdown --poweroff now"),
+            ("󰑐  Reiniciar", "sudo openrc-shutdown --reboot now"),
             ("󰍃  Sesión", "niri msg action quit"),
         ]
 
