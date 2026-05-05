@@ -164,16 +164,16 @@ export XCURSOR_SIZE=10
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
-alias actualizar="~/.local/bin/actualizar.sh | lolcat -a"
+alias actualizar="~/.local/bin/actualizar.sh | lolcat"
 alias kernel=~/.local/bin/kernel-do.sh
 alias respaldo=~/.local/bin/respaldo.sh
-alias fastfetch="fastfetch | lolcat -a"
+alias fastfetch="fastfetch | lolcat"
 export VDPAU_DRIVER=radeonsi
 LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias grabavideo="~/.local/bin/graba_video.sh"
-alias update-git="~/.local/bin/acualiza_git.sh | lolcat -a"
-alias git-update="~/.local/bin/acualiza_git.sh | lolcat -a"
+alias update-git="~/.local/bin/acualiza_git.sh | lolcat"
+alias git-update="~/.local/bin/acualiza_git.sh | lolcat"
 alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'

@@ -4,75 +4,70 @@ set -e
 BACKUP_DIR="/home/eleazar/.config/kernel_backups"
 mkdir -p "$BACKUP_DIR"
 
-echo -e "\n  Actualización de Kernel: Fuentes Limpias + Configuración Preservada \n"
+echo -e "\n  Iniciando actualización de Kernel (Optimizado para Zen 3) \n"
 
-# 1. Gestión de /boot y limpieza de espacio
+# 1. Gestión de espacio y montaje de /boot
 if ! mountpoint -q /boot; then
   sudo mount /dev/nvme0n1p1 /boot
 fi
 
-echo "Liberando espacio en /boot..."
+echo "Liberando espacio preventivo en /boot..."
 sudo rm -f /boot/*.old /boot/initramfs*.old
 
-# 2. Respaldo preventivo
-[ -f /usr/src/linux/.config ] && cp /usr/src/linux/.config "$BACKUP_DIR/last_working_config"
-
-# 3. Gestión de fuentes (Evita el error 'out of range')
-# Si borraste /usr/src/* manualmente, necesitamos forzar la descarga de nuevo
-if [ ! -d "/usr/src/linux-*" ]; then
-  echo "Fuentes no detectadas. Forzando instalación de gentoo-sources..."
-  sudo emerge --oneshot gentoo-sources
-else
-  echo "Actualizando fuentes..."
-  sudo emerge --update --newuse gentoo-sources
+# 2. Respaldo de seguridad del .config actual
+if [ -f /usr/src/linux/.config ]; then
+  cp /usr/src/linux/.config "$BACKUP_DIR/last_working_config"
 fi
 
-# 4. Selección dinámica del kernel más reciente
-# Obtenemos el índice más alto de la lista de eselect
+# 3. Sincronización de fuentes
+echo "Actualizando gentoo-sources..."
+sudo emerge --update --newuse gentoo-sources
+
+# 4. Selección dinámica de la versión más reciente
 K_INDEX=$(eselect kernel list | grep -oP '\[\K\d+(?=\])' | sort -rn | head -n1)
 
 if [ -n "$K_INDEX" ]; then
   echo "Seleccionando kernel índice: $K_INDEX"
   sudo eselect kernel set "$K_INDEX"
 else
-  echo "Error crítico: No se pudieron encontrar ni instalar fuentes en /usr/src"
+  echo "Error: No se detectaron fuentes en /usr/src"
   exit 1
 fi
 
 cd /usr/src/linux
 
-# 5. Integración de Configuración (Limpia + Backup)
-# Limpiamos el árbol de fuentes para asegurar que sea una compilación 'desde cero'
+# 5. Preparación y Configuración
 sudo make mrproper
 
 if [ -f "$BACKUP_DIR/last_working_config" ]; then
-  echo "Cargando configuración de respaldo..."
+  echo "Restaurando configuración previa..."
   sudo cp "$BACKUP_DIR/last_working_config" .config
-  # Integra opciones nuevas sin quitar las anteriores
   sudo make olddefconfig
 else
-  echo "Usando configuración del sistema actual..."
+  echo "Usando configuración del kernel en ejecución..."
   zcat /proc/config.gz | sudo tee .config >/dev/null
   sudo make olddefconfig
 fi
 
-# 6. Ajustes manuales y Compilación Zen 3
-echo "Abriendo menuconfig para ajustes finales..."
+# 6. Configuración Manual (Asegúrate de activar BRIDGE y NAT para Blueman)
+echo "Abriendo menuconfig..."
 sudo make menuconfig
 
-echo "Compilando para Ryzen 7 5700G (Cezanne)..."
+# 7. Compilación con optimización nativa Cezanne
+echo "Compilando para Ryzen 7 5700G con $(nproc) hilos..."
 sudo make KCFLAGS="-march=znver3 -O3 -pipe" -j$(nproc)
 
-# 7. Instalación y limpieza de espacio final
+# 8. Instalación
 sudo make modules_install
 sudo make install
 sudo rm -f /boot/*.old /boot/initramfs*.old
 
-# 8. Post-instalación
+# 9. Initramfs y GRUB
+echo "Generando Initramfs y actualizando GRUB..."
 sudo dracut --force
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-# 9. Finalización
+# 10. Finalización
 cd ~
 sudo umount /boot
-echo -e "\n Proceso completado exitosamente con fuentes nuevas y config preservada."
+echo -e "\n Proceso completado exitosamente."
