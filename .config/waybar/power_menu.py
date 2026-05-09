@@ -27,12 +27,12 @@ def apply_style():
     }}
     #main-window {{
         background-color: @background;
-        border: 2px solid @outline;
-        border-radius: 12px;
+        border: 1px solid @outline;
+        border-radius: 8px;
     }}
     #inner-box {{
         /* Asegura que el contenido respete el radio de la ventana */
-        border-radius: 10px; 
+        border-radius: 8px; 
         background-color: transparent;
     }}
     button {{
@@ -41,7 +41,7 @@ def apply_style():
         color: @on_surface;
         border: 1px solid @outline;
         border-radius: 6px;
-        margin: 2px;
+        margin: 1px;
         font-weight: bold;
     }}
     button:hover {{

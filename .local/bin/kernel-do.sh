@@ -61,7 +61,7 @@ sudo make KCFLAGS="-march=znver3 -O3 -pipe" -j$(nproc)
 sudo make modules_install
 sudo make install
 sudo rm -f /boot/*.old /boot/initramfs*.old
-
+sudo eclean-kernel -n 2
 # 9. Initramfs y GRUB
 echo "Generando Initramfs y actualizando GRUB..."
 sudo dracut --force
