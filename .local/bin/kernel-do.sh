@@ -21,7 +21,8 @@ fi
 
 # 3. Sincronización de fuentes
 echo "Actualizando gentoo-sources..."
-sudo emerge --update --newuse gentoo-sources
+sudo rm -rf /usr/src/*
+sudo emerge gentoo-sources
 
 # 4. Selección dinámica de la versión más reciente
 K_INDEX=$(eselect kernel list | grep -oP '\[\K\d+(?=\])' | sort -rn | head -n1)
@@ -37,7 +38,7 @@ fi
 cd /usr/src/linux
 
 # 5. Preparación y Configuración
-sudo make mrproper
+#sudo make mrproper
 
 if [ -f "$BACKUP_DIR/last_working_config" ]; then
   echo "Restaurando configuración previa..."

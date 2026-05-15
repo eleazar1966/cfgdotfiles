@@ -178,10 +178,8 @@ alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
 alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux/WinBox'
+alias moc="~/.local/bin/kitty-moc"
 #clear
 #fastfetch
-export DRI_PRIME=1
 export RUSTICL_ENABLE=amdgpu
-# RUSTICL_ENABLE=amdgpu clinfo -l
 source -- ~/.local/share/blesh/ble.sh
-# [[ $(sudo btrfs device stats -c / | awk '{sum+=$2} END {print sum}') -ne 0 ]] && echo "⚠️ ATENCIÓN: Errores detectados en Btrfs. Revisa 'btrfs device stats /'"

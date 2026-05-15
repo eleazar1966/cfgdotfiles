@@ -8,10 +8,10 @@ set_title() {
 ORIGINAL_TITLE="Terminal"
 BOOT_WAS_MOUNTED=0
 
-# Configuración dinámica para Zen 3 (8 núcleos / 16 hilos)
-# Ajustamos a 16 hilos para maximizar el paralelismo en el 5700G
-THREADS=16
-LOAD=16.5
+# Configuración balanceada para Zen 3 con 32GB RAM + tmpfs
+# Bajamos de 16 a 9 para evitar desbordamiento de RAM/tmpfs
+THREADS=9
+LOAD=8.0
 
 echo "=========================================================="
 echo "   INICIANDO ACTUALIZACIÓN Y OPTIMIZACIÓN GENTOO (Zen 3)  "
@@ -29,36 +29,39 @@ fi
 # 2. Sincronización
 echo "[2/9] Sincronizando repositorios..."
 set_title "sync"
-sudo emerge --sync --quiet
+# Usamos -v para detectar errores de configuración como el de ionice
+sudo emerge --sync
 eselect news list | grep -q "read" && echo "(!) Hay noticias de Gentoo sin leer."
 
-# 3. Integridad de Portage (Solución al bloqueo)
+# 3. Integridad de Portage
 echo "[3/9] Verificando y reparando integridad..."
 set_title "emaint"
-# Si check falla, ejecuta fix automáticamente sin detener el script
 sudo emaint --check all || sudo emaint --fix all
 
 # 4. Actualización @world
 echo "[4/9] Aplicando actualizaciones (Optimización Zen 3)..."
 set_title "emerge: @world"
-# Implementación de --jobs y --load-average para el Ryzen 7 5700G
-sudo emerge -uDvN --with-bdeps=y --keep-going --jobs="$THREADS" --load-average="$LOAD" @world
+# IMPORTANTE: --jobs=1 para no saturar tmpfs con múltiples paquetes pesados simultáneos
+# Los hilos de compilación se manejan internamente con el -j de MAKEOPTS
+sudo emerge -uDvN --with-bdeps=y --keep-going --jobs=1 --load-average="$LOAD" @world
 
 # 5. Configuración
 echo "[5/9] Revisando cambios en /etc..."
 set_title "config"
-sudo etc-update
+sudo dispatch-conf # dispatch-conf es generalmente más seguro/rápido que etc-update
 
 # 6. Limpieza y Reconstrucción
 echo "[6/9] Depurando sistema..."
 set_title "limpieza"
 sudo emerge --depclean
 sudo emerge @preserved-rebuild
-sudo revdep-rebuild
+# revdep-rebuild es antiguo; emerge @preserved-rebuild suele ser suficiente en sistemas modernos
+command -v revdep-rebuild >/dev/null 2>&1 && sudo revdep-rebuild
 
 # 7. Mantenimiento
 echo "[7/9] Limpiando distfiles y kernels..."
 sudo eclean-dist --deep
+# Solo eliminar si no es el kernel activo (basado en tus preferencias previas)
 command -v eclean-kernel >/dev/null 2>&1 && sudo eclean-kernel -n 2
 
 # 8. Indexación

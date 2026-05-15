@@ -1,0 +1,27 @@
+#!/bin/bash
+# Script de control de audio y notificaciones para PipeWire y Mako
+
+ACTION=$1
+
+case $ACTION in
+    up)
+        wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+        VAL=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}')
+        notify-send -h string:x-canonical-private-synchronous:volume -h int:value:"$VAL" -i audio-volume-high "Volumen" "Subiendo: $VAL%"
+        ;;
+    down)
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+        VAL=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}')
+        notify-send -h string:x-canonical-private-synchronous:volume -h int:value:"$VAL" -i audio-volume-low "Volumen" "Bajando: $VAL%"
+        ;;
+    mute)
+        wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+        STATUS=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo "Silenciado" || echo "Activo")
+        notify-send -h string:x-canonical-private-synchronous:volume "Audio" "Estado: $STATUS"
+        ;;
+    mic)
+        wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+        STATUS=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q MUTED && echo "DESACTIVADO" || echo "ACTIVO")
+        notify-send -h string:x-canonical-private-synchronous:mic -i microphone-sensitivity-muted "Micrófono" "Estado: $STATUS"
+        ;;
+esac

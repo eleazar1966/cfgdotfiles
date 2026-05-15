@@ -157,7 +157,7 @@
   },
   "custom/TelegramDesktop": {
     "format": " ",
-    "on-click": "Telegram -startintray"
+    "on-click": "telegram-desktop -startintray"
   },
   "custom/mousepad": {
     "format": "󱞁 ",

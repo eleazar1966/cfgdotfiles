@@ -1,0 +1,12 @@
+#!/bin/bash
+# Forzar terminal limpia para eliminar los PARSE ERROR de MOC
+export TERM=xterm-256color
+
+# 1. Limpieza de instancias colgadas previas
+pkill -f "kitty.*--title Música"
+mocp -x
+sleep 0.4
+
+# 2. Desactivar D-Bus EXCLUSIVAMENTE dentro del proceso hijo de Kitty
+# Pasamos la variable vacía en línea para no romper el entorno de la shell padre
+exec env DBUS_SESSION_BUS_ADDRESS="" kitty -1 --title "Música" sh -c "mocp -S && mocp -c -a ~/Música -p && kitty @ launch --location=hsplit sh -c 'cava' && exec mocp"
