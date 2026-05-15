@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=LocalSend
+Exec=/opt/LocalSend-1.17.0-linux-x86-64/localsend_app
+Icon=/opt/LocalSend-1.17.0-linux-x86-64/data/flutter_assets/assets/img/logo-128.png
+Type=Application
+Categories=Network;FileTransfer;
+Terminal=false
+Comment=Transferencia de archivos local

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=MOC + CAVA Player
+Comment=Abrir MOC y CAVA en una sola terminal dividida
+Exec=bash -c "~/.local/bin/kitty-moc"
+Icon=multimedia-audio-player
+Terminal=false
+Categories=AudioVideo;Player;
