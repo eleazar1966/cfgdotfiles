@@ -5,7 +5,7 @@ autosens = 1
 
 [input]
 method = pipewire
-source = alsa_input.pci-0000_0b_00.6.analog-stereo
+source = auto
 
 [output]
 method = noncurses

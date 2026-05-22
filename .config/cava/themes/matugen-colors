@@ -3,11 +3,11 @@ gradient = 1
 # CAVA ignorará los colores si el conteo no coincide con los definidos abajo
 gradient_count = 8
 
-gradient_color_1 = '#ffb597'
-gradient_color_2 = '#e7beae'
-gradient_color_3 = '#d2c78f'
-gradient_color_4 = '#71361b'
-gradient_color_5 = '#5d4034'
-gradient_color_6 = '#4e471b'
-gradient_color_7 = '#8e4d2f'
-gradient_color_8 = '#ffdbcd'
+gradient_color_1 = '#83d2e5'
+gradient_color_2 = '#b2cbd2'
+gradient_color_3 = '#bdc5eb'
+gradient_color_4 = '#004e5b'
+gradient_color_5 = '#334a50'
+gradient_color_6 = '#3e4565'
+gradient_color_7 = '#006878'
+gradient_color_8 = '#a7eeff'
