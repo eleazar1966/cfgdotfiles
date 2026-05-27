@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Unreal Tournament 2004
-Keywords=UT2004;UT2K4;
-Exec="/home/eleazar/.local/share/OldUnreal/UT2004/System/UT2004" %u
-MimeType=x-scheme-handler/ut2004;
-Icon=/home/eleazar/.local/share/OldUnreal/UT2004/Help/Unreal2004.png
-Terminal=false
-Type=Application
-Categories=Game;

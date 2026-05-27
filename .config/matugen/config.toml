@@ -1,29 +1,30 @@
 [config]
 wallpaper_common = true
+mode = "dark"
 
 [templates.kitty]
-input_path = '~/.config/matugen/templates/kitty-colors.conf'
-output_path = '~/.config/kitty/colors.conf'
+input_path = '/home/eleazar/.config/matugen/templates/kitty-colors.conf'
+output_path = '/home/eleazar/.config/kitty/colors.conf'
 
 [templates.waybar]
-input_path = '~/.config/matugen/templates/waybar-colors.css'
-output_path = '~/.config/waybar/colors.css'
+input_path = '/home/eleazar/.config/matugen/templates/waybar-colors.css'
+output_path = '/home/eleazar/.config/waybar/colors.css'
+post_hook = 'pkill -x -USR2 waybar || true'
 
 [templates.niri]
-input_path = '~/.config/matugen/templates/niri_template.kdl'
-output_path = '~/.config/niri/colors.kdl'
+input_path = '/home/eleazar/.config/matugen/templates/niri_template.kdl'
+output_path = '/home/eleazar/.config/niri/colors.kdl'
 
 [templates.fuzzel]
-input_path = '~/.config/matugen/templates/fuzzel.ini'
-output_path = '~/.config/fuzzel/fuzzel.ini'
+input_path = '/home/eleazar/.config/matugen/templates/fuzzel.ini'
+output_path = '/home/eleazar/.config/fuzzel/fuzzel.ini'
 
 [templates.cava]
-input_path = '~/.config/matugen/templates/cava-colors.ini'
-output_path = '~/.config/cava/themes/matugen-colors'
-# Usar -USR2 es correcto, pero asegúrate de que Matugen tenga permisos de ejecución
-post_hook = 'sleep 0.1 && pkill -USR2 cava'
+input_path = '/home/eleazar/.config/matugen/templates/cava-colors.ini'
+output_path = '/home/eleazar/.config/cava/themes/matugen-colors'
+post_hook = 'pkill -x -USR2 cava || true'
 
 [templates.mako]
 input_path = '/home/eleazar/.config/matugen/templates/mako.conf'
 output_path = '/home/eleazar/.config/mako/colors.conf'
-post_hook = 'makoctl reload'
+post_hook = 'makoctl reload || true'

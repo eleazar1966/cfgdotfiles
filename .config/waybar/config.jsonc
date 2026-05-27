@@ -39,8 +39,7 @@
     "on-click-middle": "close",
     "on-scroll-up": "sh -c 'niri msg action focus-column-left'",
     "on-scroll-down": "sh -c 'niri msg action focus-column-right'",
-    "all-outputs": true,
-    "swap-icon-label": true
+    "all-outputs": true
   },
   "niri/workspaces": {
     "format": "{icon}",
@@ -58,7 +57,7 @@
   "wireplumber": {
     "format": "{volume}% {icon}",
     "format-muted": "",
-    "on-click": "helvum",
+    "on-click": "niri msg action spawn -- helvum",
     "format-icons": [
       "",
       "",
@@ -73,7 +72,7 @@
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-    "on-click": "blueman-manager"
+    "on-click": "niri msg action spawn -- blueman-manager"
   },
   "keyboard-state": {
     "numlock": false,
@@ -141,38 +140,38 @@
   },
   "custom/menu": {
     "format": " ",
-    "on-click": "fuzzel"
+    "on-click": "niri msg action spawn -- fuzzel"
   },
   "custom/thunar": {
     "format": " ",
-    "on-click": "thunar"
+    "on-click": "niri msg action spawn -- thunar"
   },
   "custom/firefox": {
     "format": " ",
-    "on-click": "firefox --private-window"
+    "on-click": "niri msg action spawn -- firefox --private-window"
   },
   "custom/thunderbird": {
     "format": " ",
-    "on-click": "thunderbird"
+    "on-click": "niri msg action spawn -- thunderbird"
   },
   "custom/TelegramDesktop": {
     "format": " ",
-    "on-click": "telegram-desktop -startintray"
+    "on-click": "niri msg action spawn -- telegram-desktop -startintray"
   },
   "custom/mousepad": {
     "format": "󱞁 ",
-    "on-click": "mousepad"
+    "on-click": "niri msg action spawn -- mousepad"
   },
   "custom/terminal": {
     "format": " ",
-    "on-click": "kitty"
+    "on-click": "niri msg action spawn -- kitty"
   },
   "custom/calculadora": {
     "format": "󱖦 ",
-    "on-click": "gnome-calculator"
+    "on-click": "niri msg action spawn -- gnome-calculator"
   },
   "custom/power": {
     "format": "⏻ ",
-    "on-click": "~/.config/waybar/power_menu.py"
+    "on-click": "niri msg action spawn -- /home/eleazar/.config/waybar/power_menu.py"
   }
 }
