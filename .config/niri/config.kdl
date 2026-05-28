@@ -69,6 +69,20 @@ window-rule {
 }
 
 window-rule {
+    match app-id="vlc"
+    
+    // Fuerza a VLC a abrir de forma flotante
+    open-floating true
+    
+    // Establece el ancho al 50% de la pantalla
+    default-column-width { proportion 0.5; }
+    
+    // Establece el alto al 50% de la pantalla
+    default-window-height { proportion 0.5; }
+}
+
+
+window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
 }
