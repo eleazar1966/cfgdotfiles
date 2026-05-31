@@ -57,6 +57,16 @@ hotkey-overlay {
     skip-at-startup
 }
 
+layer-rule {
+    match namespace="^launcher$"
+
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
+
 window-rule {
     match app-id="floating_terminal"
     open-floating true

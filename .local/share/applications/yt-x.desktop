@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=yt-x Player Youtube
+Comment=Navegar y reproducir YouTube desde la terminal
+#Exec=kitty yt-x
+Exec=yt-x
+Icon=youtube
+Terminal=true
+Categories=AudioVideo;Player;

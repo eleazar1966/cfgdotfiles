@@ -183,3 +183,6 @@ alias moc="~/.local/bin/kitty-moc"
 #fastfetch
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
+
+# opencode
+export PATH=/home/eleazar/.opencode/bin:$PATH
