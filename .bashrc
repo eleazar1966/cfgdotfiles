@@ -179,10 +179,5 @@ alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
 alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux/WinBox'
 alias moc="~/.local/bin/kitty-moc"
-#clear
-#fastfetch
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
-
-# opencode
-export PATH=/home/eleazar/.opencode/bin:$PATH

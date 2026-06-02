@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=RPCS3
+Exec=/home/eleazar/Documentos/Juegos/RPCS3/EMULATOR/rpcs3-v0.0.40-19248-7dce197e_linux64.AppImage
+Icon=/home/eleazar/Documentos/Juegos/RPCS3/EMULATOR/rpcs3.png
+Type=Application
+Categories=Games;
+Terminal=false
+Comment=Emulador de PlayStation 3

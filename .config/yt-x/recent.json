@@ -225,6 +225,108 @@
       "_type": "url",
       "url": "https://www.youtube.com/watch?v=ZdZ9lU8Gbro",
       "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "gRioPmEidAI",
+      "url": "https://www.youtube.com/watch?v=gRioPmEidAI",
+      "title": "MISTAKES WHEN MAKING A HOMEMADE WOOD LATHE",
+      "description": "In this video, I'm going to share my experience building a homemade wood lathe and the mistakes I made along the way. From ...",
+      "duration": 221.0,
+      "channel_id": "UCe2RrYXokQmXkKnV3BM2fiQ",
+      "channel": "Udaka",
+      "channel_url": "https://www.youtube.com/channel/UCe2RrYXokQmXkKnV3BM2fiQ",
+      "uploader": "Udaka",
+      "uploader_id": "@udakadelsur",
+      "uploader_url": "https://www.youtube.com/@udakadelsur",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/gRioPmEidAI/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB51xhIyFkEHkPNsfswEbLwjm_Rwg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/gRioPmEidAI/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCnHdO0QRaeMyVSBIDzNamSDHj_ow",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 6720,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "ajLNIQCgeHo",
+      "url": "https://www.youtube.com/watch?v=ajLNIQCgeHo",
+      "title": "Pocas personas conocen este torno sencillo | Carpintería japonesa",
+      "description": "Un Torno Asequible Que No Requiere Taladros o Ubicaciones Específicas\n\nTaladro Atornillador\nMarca: Makita\nNúmero de Modelo: T ...",
+      "duration": 489.0,
+      "channel_id": "UCxrOgEVrJ9RxjQgdi-dYltg",
+      "channel": "YASUHIRO TV",
+      "channel_url": "https://www.youtube.com/channel/UCxrOgEVrJ9RxjQgdi-dYltg",
+      "uploader": "YASUHIRO TV",
+      "uploader_id": "@YASUHIROTV",
+      "uploader_url": "https://www.youtube.com/@YASUHIROTV",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/ajLNIQCgeHo/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDBzypi16EVkdyaRC3SoJn6JVvgXg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/ajLNIQCgeHo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAqP3u7ufrb5edaMiZGj9Sm6Xn5bg",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 5167206,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "f1ZB_4pQR2g",
+      "url": "https://www.youtube.com/watch?v=f1ZB_4pQR2g",
+      "title": "Esto es NIRI - Tutorial Completo",
+      "description": "En este vídeo vamos a repasar y configurar un compositor/gestor de ventanas para Wayland llamado niri ...",
+      "duration": 1788.0,
+      "channel_id": "UCloby5ylDhGwxEHDvk4ezpg",
+      "channel": "LinuxD0",
+      "channel_url": "https://www.youtube.com/channel/UCloby5ylDhGwxEHDvk4ezpg",
+      "uploader": "LinuxD0",
+      "uploader_id": "@linuxD0",
+      "uploader_url": "https://www.youtube.com/@linuxD0",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/f1ZB_4pQR2g/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDQ8zem54kQRZSP5nXX5oB0_xaonw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/f1ZB_4pQR2g/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD-y6L8Mu2Bv85nMQ70sU0zxusFKQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 14084,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
     }
   ]
 }
