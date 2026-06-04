@@ -47,6 +47,7 @@ spawn-at-startup "pipewire-pulse"
 spawn-at-startup "udiskie" "-s"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "sh" "-c" "openrgb --startminimized" 
+spawn-at-startup "sh" "-c" "telegram-desktop -startintray" 
 spawn-at-startup "nm-applet" "--indicator"
 // Scripts de gestión (Rutas absolutas usando expansión de shell)
 spawn-at-startup "sh" "-c" "~/.local/bin/wallpapers.sh"
