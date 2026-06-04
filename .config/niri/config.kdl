@@ -37,7 +37,7 @@ layout {
 
 // --- SERVICIOS Y APLICACIONES AL ARRANQUE ---
 spawn-at-startup "mako"
-spawn-at-startup "dbus-update-activation-environment --all"
+spawn-at-startup "dbus-update-activation-environment" "--all"
 spawn-at-startup "dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
 spawn-at-startup "/usr/libexec/xdg-desktop-portal" "-r"
 spawn-at-startup "/usr/libexec/xdg-desktop-portal-gtk" "-r"
@@ -123,6 +123,7 @@ binds {
     Mod+X { quit; }
     Mod+V { toggle-window-floating; }
     Mod+M { spawn "~/.local/bin/kitty-moc"; }
+    Mod+Y { spawn "kitty" "--class" "-e" "sh" "-c" "~/.local/bin/yt-x"; }
     // Teclado y Notificaciones
     Mod+Space { switch-layout "next"; }
     Mod+Shift+Space { spawn "makoctl" "dismiss"; }
@@ -133,7 +134,7 @@ binds {
     Mod+Shift+W { spawn "~/.local/bin/wallpapers.sh" "once"; }
     Mod+W { spawn "sh" "-c" "killall waybar && ~/.local/bin/launch-waybar.sh"; }
     Mod+D { spawn "fuzzel"; }
-    Mod+Alt+R { spawn "kitty" "--class" "floating_terminal" "-e" "~/.local/bin/graba_video.sh"; }
+    Mod+Alt+G { spawn "kitty" "--class" "floating_terminal" "-e" "sh" "-c" "~/.local/bin/graba_video.sh"; }
 
     // --- CAPTURAS DE PANTALLA (CORREGIDAS) ---
     // Captura de pantalla completa
