@@ -13,9 +13,9 @@ echo "Iniciando sincronización de dotfiles..."
 
 # 1. Definición de rutas (Targets)
 TARGETS=(
-  "$HOME/.nanorc" "$HOME/.bashrc" "$HOME/.config/waybar" "$HOME/.config/wallpaper" 
-  "$HOME/.config/fuzzel" "$HOME/.config/nwg-look" "$HOME/.config/nvim" 
-  "$HOME/.config/matugen" "$HOME/.config/niri" "$HOME/.config/kitty" 
+  "$HOME/.nanorc" "$HOME/.bashrc" "$HOME/.config/waybar" "$HOME/.config/wallpaper"
+  "$HOME/.config/fuzzel" "$HOME/.config/nwg-look" "$HOME/.config/nvim"
+  "$HOME/.config/matugen" "$HOME/.config/niri" "$HOME/.config/kitty"
   "$HOME/.config/pipewire" "$HOME/.config/cava" "$HOME/.local/bin"
   "$HOME/.config/mako" "$HOME/.config/ranger" "$HOME/.moc" "$HOME/.config/yt-dlp"
   "$HOME/.config/yt-x" "$HOME/.config/fuzzel"
@@ -38,7 +38,7 @@ done
 # 3. Sincronizar el índice
 # --all maneja adiciones, cambios y eliminaciones en las rutas existentes
 if [ ${#EXISTING_TARGETS[@]} -gt 0 ]; then
-    config add --all "${EXISTING_TARGETS[@]}"
+  config add --all "${EXISTING_TARGETS[@]}"
 fi
 
 # Elimina del índice cualquier archivo que ya no esté en el árbol de trabajo (limpieza global)
@@ -47,7 +47,7 @@ config add -u
 # 4. Verificación y Commit
 if ! config diff-index --quiet HEAD; then
   echo "Cambios detectados. Realizando commit..."
-  
+
   COMMIT_MSG="Sync configs: $(date +'%Y-%m-%d %H:%M:%S')"
   config commit -m "$COMMIT_MSG"
 
