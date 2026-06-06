@@ -1,210 +1,6 @@
 {
   "entries": [
     {
-      "_type": "url",
-      "ie_key": "Youtube",
-      "id": "GVtros8B50U",
-      "url": "https://www.youtube.com/watch?v=GVtros8B50U",
-      "title": "Windows 11 VS Linux Mint 22 | ¿Es Linux una Alternativa? 2025",
-      "description": "Descargue aquí la completa herramienta de gestión de discos iBoysoft DiskGeeker: https://bit.ly/3ZQQovw para clonar y cifrar su ...",
-      "duration": 1064.0,
-      "channel_id": "UC6Q9iIsR7IRWU_5aR6zxHbA",
-      "channel": "Tutos PC",
-      "channel_url": "https://www.youtube.com/channel/UC6Q9iIsR7IRWU_5aR6zxHbA",
-      "uploader": "Tutos PC",
-      "uploader_id": "@TutosPCyoutube",
-      "uploader_url": "https://www.youtube.com/@TutosPCyoutube",
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/GVtros8B50U/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBR1p5EWwmFoXQOhXBtPQazEulmCQ",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/GVtros8B50U/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD3zC2s90tjNNmpJXV_095-gm4l0A",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1748736000,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 667730,
-      "live_status": null,
-      "channel_is_verified": null,
-      "__x_forwarded_for_ip": null
-    },
-    {
-      "_type": "url",
-      "ie_key": "Youtube",
-      "id": "6C5tk6UKEro",
-      "url": "https://www.youtube.com/watch?v=6C5tk6UKEro",
-      "title": "Como instalar Gentoo Linux EFI paso a paso - Parte 1 de",
-      "description": "Vídeo continuación: https://youtube.com/live/d8xWc1NW8d4 Haz parte de mi membresia: http://bit.ly/372nDBo Hardware de ...",
-      "duration": 5011.0,
-      "channel_id": "UC1h0yDawct42gLAeAckeDTg",
-      "channel": "Manuel Cabrera Caballero",
-      "channel_url": "https://www.youtube.com/channel/UC1h0yDawct42gLAeAckeDTg",
-      "uploader": "Manuel Cabrera Caballero",
-      "uploader_id": "@DriveMeca",
-      "uploader_url": "https://www.youtube.com/@DriveMeca",
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/6C5tk6UKEro/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBZCMZbuJmJi_zMP5yXIsU78I6vjw",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/6C5tk6UKEro/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDVSzF9kpJJoRabu5fPWLGHpzk7Yg",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1622505600,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 14705,
-      "live_status": null,
-      "channel_is_verified": null,
-      "__x_forwarded_for_ip": null
-    },
-    {
-      "_type": "url",
-      "ie_key": "Youtube",
-      "id": "eIu_oGeNQ1I",
-      "url": "https://www.youtube.com/watch?v=eIu_oGeNQ1I",
-      "title": "Mocaccinos Review: Gentoo for Humans",
-      "description": "Moccasin Review: Gentoo for Humans\n\nWant to support the channel?\n\nBecome a member here:\n\nhttps://www.youtube.com/channel ...",
-      "duration": 761.0,
-      "channel_id": "UCSknGgqIUlfkYzSVzKIC_AQ",
-      "channel": "Máquinas Linuxeras",
-      "channel_url": "https://www.youtube.com/channel/UCSknGgqIUlfkYzSVzKIC_AQ",
-      "uploader": "Máquinas Linuxeras",
-      "uploader_id": "@MaquinasLinux",
-      "uploader_url": "https://www.youtube.com/@MaquinasLinux",
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/eIu_oGeNQ1I/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAqS0pnmS0GylyGOdpFmk53Ocs6Lg",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/eIu_oGeNQ1I/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDpltxGNm5f_ANfXAOsSpZwj8Q1lw",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1775001600,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 240,
-      "live_status": null,
-      "channel_is_verified": null,
-      "__x_forwarded_for_ip": null
-    },
-    {
-      "_type": "url",
-      "ie_key": "Youtube",
-      "id": "NmJidwh1xyM",
-      "url": "https://www.youtube.com/watch?v=NmJidwh1xyM",
-      "title": "Calculate Linux, an incredible Gentoo-based distro",
-      "description": "Start your KVM SERVER or WEB HOSTING with Hostinger 👉 https://hostinger.com/locosporlinux\n💥 Use the discount coupon ...",
-      "duration": 1054.0,
-      "channel_id": "UCl8XUDjAOLc7GNKcDp9Nepg",
-      "channel": "Locos por Linux",
-      "channel_url": "https://www.youtube.com/channel/UCl8XUDjAOLc7GNKcDp9Nepg",
-      "uploader": "Locos por Linux",
-      "uploader_id": "@LocosporLinux",
-      "uploader_url": "https://www.youtube.com/@LocosporLinux",
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/NmJidwh1xyM/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCJBySqEB4KjOxktZVPoHTerkPiqw",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/NmJidwh1xyM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA-Vl5-toiVDMCFow_HrgA5EI9rMw",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1748736000,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 7476,
-      "live_status": null,
-      "channel_is_verified": null,
-      "__x_forwarded_for_ip": null
-    },
-    {
-      "_type": "url",
-      "ie_key": "Youtube",
-      "id": "66SyllypqFM",
-      "url": "https://www.youtube.com/watch?v=66SyllypqFM",
-      "title": "Yoyo con respuesta vs. Yoyo sin respuesta (¿Cuál es la diferencia?)",
-      "description": "Decidí simplificarlo. Disculpen que no mirara a la cámara en muchas tomas. Soy nuevo en esto de YouTube, jaja.\n\nYoyos ...",
-      "duration": 141.0,
-      "channel_id": "UCTw1-IIbFv7AeUSLc4LYHcg",
-      "channel": "Evan Nagao",
-      "channel_url": "https://www.youtube.com/channel/UCTw1-IIbFv7AeUSLc4LYHcg",
-      "uploader": "Evan Nagao",
-      "uploader_id": "@EvanNagao",
-      "uploader_url": "https://www.youtube.com/@EvanNagao",
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/66SyllypqFM/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBR1sjS8Z7QYrnNkUlWSxymI6fS0g",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/66SyllypqFM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCcGdPA57Iy_ReVR8391d9YKxGDjg",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1654041600,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 287137,
-      "live_status": null,
-      "channel_is_verified": true,
-      "__x_forwarded_for_ip": null
-    },
-    {
-      "_type": "url",
-      "ie_key": "Youtube",
-      "id": "6bGQXSy_v2U",
-      "url": "https://www.youtube.com/watch?v=6bGQXSy_v2U",
-      "title": "Como aprender a jugar con el YoYo|YoYo con respuesta versus YoYo sin respuesta|by Infinite Tutorials",
-      "description": "Responsive vs Unresponsive YoYo Tutorial YoYo con respuesta versus YoYo sin respuesta diferencia Como jugar yoyo para ...",
-      "duration": 72.0,
-      "channel_id": "UC7G0qB5zXws4i10wRlsHZEw",
-      "channel": "Infinite Tutorials",
-      "channel_url": "https://www.youtube.com/channel/UC7G0qB5zXws4i10wRlsHZEw",
-      "uploader": "Infinite Tutorials",
-      "uploader_id": "@infinitetutorials373",
-      "uploader_url": "https://www.youtube.com/@infinitetutorials373",
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/6bGQXSy_v2U/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA4A-EMpbgxubIb0b_3tpt-x41jkQ",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/6bGQXSy_v2U/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAa_FukcP56zR0XcXVpJUDbZxsARA",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1654041600,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 10181,
-      "live_status": null,
-      "channel_is_verified": null,
-      "__x_forwarded_for_ip": null
-    },
-    {
       "title": "Hedwing´s Themme (Harry Potter)",
       "thumbnails": [
         {
@@ -324,6 +120,210 @@
       "release_timestamp": null,
       "availability": null,
       "view_count": 14084,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "Vd8oV1U-9cU",
+      "url": "https://www.youtube.com/watch?v=Vd8oV1U-9cU",
+      "title": "ZK-HT21 DC15-36V 160WX2+220W Amplifier Board Module",
+      "description": "ZK-HT21 Digital Power Amplifier Board Module with Subwoofer TDA7498E Stereo Power Amplifier Module DC15-36V ...",
+      "duration": 46.0,
+      "channel_id": "UCScBW89-lSGVOegcroWdvvA",
+      "channel": "Creatall",
+      "channel_url": "https://www.youtube.com/channel/UCScBW89-lSGVOegcroWdvvA",
+      "uploader": "Creatall",
+      "uploader_id": "@Creatall-fu1sy",
+      "uploader_url": "https://www.youtube.com/@Creatall-fu1sy",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/Vd8oV1U-9cU/hq720.jpg?sqp=-oaymwE2COgCEMoBSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIGUoZTAP&rs=AOn4CLAaBqaeln1MRYMYfdTToKKWFccEAg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/Vd8oV1U-9cU/hq720.jpg?sqp=-oaymwE2CNAFEJQDSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIGUoZTAP&rs=AOn4CLD8Np6j3roiVMpSK7b3blg389Zmng",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 5755,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "9Po5iOu8pQw",
+      "url": "https://www.youtube.com/watch?v=9Po5iOu8pQw",
+      "title": "Masterclass que no es masterclass, análisis de amplificador ZK-MT21 ORIGINAL VS FALSO CUÁL ES MEJOR?",
+      "description": "Analizaremos a fondo este amplificador zk mt21 que NO ES replica es decir el ORIGINAL el modelo de la marca wuzhi y lo ...",
+      "duration": 1470.0,
+      "channel_id": "UCm25-RGMznV4enzXspcD2Nw",
+      "channel": "Bocinas y amplificadores ",
+      "channel_url": "https://www.youtube.com/channel/UCm25-RGMznV4enzXspcD2Nw",
+      "uploader": "Bocinas y amplificadores ",
+      "uploader_id": "@Bocinasyamplificadores",
+      "uploader_url": "https://www.youtube.com/@Bocinasyamplificadores",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/9Po5iOu8pQw/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCQK0fCgEVTunLlwKIAqwU3xpCHSw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/9Po5iOu8pQw/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDw2PPOdgdbz1gTNOWayiAF5AgWvg",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 161242,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "34AQQOAHkVU",
+      "url": "https://www.youtube.com/watch?v=34AQQOAHkVU",
+      "title": "Masterclass que no es masterclass, análisis del amplificador ZK-MT21 NO WUZHI NO 200RMS ¡EL ENGAÑO!",
+      "description": "Analizaremos a fondo este amplificador zk mt21 que es replica de un modelo de la marca wuzhi, evaluando su potencia RMS, ...",
+      "duration": 698.0,
+      "channel_id": "UCm25-RGMznV4enzXspcD2Nw",
+      "channel": "Bocinas y amplificadores ",
+      "channel_url": "https://www.youtube.com/channel/UCm25-RGMznV4enzXspcD2Nw",
+      "uploader": "Bocinas y amplificadores ",
+      "uploader_id": "@Bocinasyamplificadores",
+      "uploader_url": "https://www.youtube.com/@Bocinasyamplificadores",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/34AQQOAHkVU/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCSJFMYoSXrd-nOwHA7YYO4qFrcnw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/34AQQOAHkVU/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBNDX-EgDO_QqPnojRIx6tMDDb-UA",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 73263,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "cFmYiMj98YY",
+      "url": "https://www.youtube.com/watch?v=cFmYiMj98YY",
+      "title": "Prueba de sonido del amplificador HT21",
+      "description": "Enlace de Shopee: Cómpralo aquí:\nZK-HT21👇\nhttps://invl.io/clk5yt8",
+      "duration": 67.0,
+      "channel_id": "UCwcnNQv5bB6ETbhthc6SQ3Q",
+      "channel": "Nek ALvatronics",
+      "channel_url": "https://www.youtube.com/channel/UCwcnNQv5bB6ETbhthc6SQ3Q",
+      "uploader": "Nek ALvatronics",
+      "uploader_id": "@Nek-ALvatronics",
+      "uploader_url": "https://www.youtube.com/@Nek-ALvatronics",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/cFmYiMj98YY/hq720.jpg?sqp=-oaymwE2COgCEMoBSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIGAoSTAP&rs=AOn4CLC7o9xZ0Vp5Y1RjdL3EpokyBLEK9Q",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/cFmYiMj98YY/hq720.jpg?sqp=-oaymwE2CNAFEJQDSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIGAoSTAP&rs=AOn4CLDTVGNwnL-Isv3pIkBU8ypofz-CAg",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 33340,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "2wvYAUmEDjY",
+      "url": "https://www.youtube.com/watch?v=2wvYAUmEDjY",
+      "title": "ZK-HT21 Amplificador, tutorial.",
+      "description": "ZK-HT21 amplificador, tutorial.",
+      "duration": 356.0,
+      "channel_id": "UCLh0T6TwemfQe-LrqNQ3c0w",
+      "channel": "RUBEN CAJACHAGUA",
+      "channel_url": "https://www.youtube.com/channel/UCLh0T6TwemfQe-LrqNQ3c0w",
+      "uploader": "RUBEN CAJACHAGUA",
+      "uploader_id": "@rubencajachagua1477",
+      "uploader_url": "https://www.youtube.com/@rubencajachagua1477",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/2wvYAUmEDjY/hq720.jpg?sqp=-oaymwE2COgCEMoBSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIFIoRjAP&rs=AOn4CLAI-TFQateD-SaSzSXG05txlN7akw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/2wvYAUmEDjY/hq720.jpg?sqp=-oaymwE2CNAFEJQDSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIFIoRjAP&rs=AOn4CLBzatJroHWRpYwHfn-T72393C1DIQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 1621,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "JvjptR0Ag3Y",
+      "url": "https://www.youtube.com/watch?v=JvjptR0Ag3Y",
+      "title": "Which power supply works best with the ZK-MT21 amplifier?",
+      "description": "In this video, I show you which power supply is best for getting the most power out of this ZK-MT21 amplifier, with ...",
+      "duration": 338.0,
+      "channel_id": "UClhd4bQEowgLMh91r0wZnsw",
+      "channel": "simple mind",
+      "channel_url": "https://www.youtube.com/channel/UClhd4bQEowgLMh91r0wZnsw",
+      "uploader": "simple mind",
+      "uploader_id": "@spmind",
+      "uploader_url": "https://www.youtube.com/@spmind",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/JvjptR0Ag3Y/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAjoOZVILwxkvW8Hniu1L4YpGwAjw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/JvjptR0Ag3Y/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD1M4oscI9W3TbtgSBVA5gq-qqTNQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 69166,
       "live_status": null,
       "channel_is_verified": null,
       "__x_forwarded_for_ip": null

@@ -37,17 +37,23 @@ layout {
 
 // --- SERVICIOS Y APLICACIONES AL ARRANQUE ---
 spawn-at-startup "mako"
-spawn-at-startup "dbus-update-activation-environment" "--all"
-spawn-at-startup "dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
-spawn-at-startup "/usr/libexec/xdg-desktop-portal" "-r"
-spawn-at-startup "/usr/libexec/xdg-desktop-portal-gtk" "-r"
+
+// 1. Exportamos de forma limpia el entorno a D-Bus (Una sola línea combinada y limpia)
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
+
+// 2. Forzamos a D-Bus a reiniciar los portales para que hereden el entorno de Niri
+spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-portal &"
+
 spawn-at-startup "pipewire"
 spawn-at-startup "wireplumber"
 spawn-at-startup "pipewire-pulse"
 spawn-at-startup "udiskie" "-s"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "sh" "-c" "openrgb --startminimized" 
-spawn-at-startup "sh" "-c" "telegram-desktop -startintray" 
+
+// 3. Forzamos a Telegram a usar el backend estable de Xwayland para erradicar el error de EGL/QPainter
+spawn-at-startup "sh" "-c" "QT_QPA_PLATFORM=xcb telegram-desktop -startintray" 
+
 spawn-at-startup "nm-applet" "--indicator"
 // Scripts de gestión (Rutas absolutas usando expansión de shell)
 spawn-at-startup "sh" "-c" "~/.local/bin/wallpapers.sh"
@@ -66,7 +72,6 @@ layer-rule {
         xray false
     }
 }
-
 
 window-rule {
     match app-id="floating_terminal"
@@ -105,7 +110,6 @@ window-rule {
     default-window-height { proportion 0.5; }
 }
 
-
 window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
@@ -119,7 +123,7 @@ binds {
     Mod+E { spawn "thunar"; }
     Mod+G { spawn "gimp" "-s"; }
     Mod+Q { close-window; }
-    Mod+T { spawn "telegram-desktop" "-startintray"; }
+    Mod+T { spawn "sh" "-c" "QT_QPA_PLATFORM=xcb telegram-desktop -startintray"; }
     Mod+X { quit; }
     Mod+V { toggle-window-floating; }
     Mod+M { spawn "~/.local/bin/kitty-moc"; }
@@ -208,15 +212,9 @@ binds {
     // Atajo personalizado para el Micrófono (Super + N)
     Mod+N                { spawn "~/.local/bin/volume-notify" "mic"; }
 
-    //XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
-    //XF86AudioLowerVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
-    //XF86AudioMute { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
-    // Silenciar / Activar el micrófono global en PipeWire
-    //Mod+N { spawn "sh" "-c" "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-send -h string:x-canonical-private-synchronous:mic -i microphone-sensitivity-muted 'Micrófono' '$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q MUTED && echo DESACTIVADO || echo ACTIVO)'"; }
     // Teclas multimedia dedicadas para el control de pistas
     XF86AudioPlay  { spawn "mocp" "-G"; } // Alterna entre Reproducir y Pausar (Toggle)
     XF86AudioNext  { spawn "mocp" "-f"; } // Siguiente canción (Forward)
     XF86AudioPrev  { spawn "mocp" "-r"; } // Canción anterior (Reverse)
     XF86AudioStop  { spawn "mocp" "-s"; } // Detener música por completo (Stop)
-
 }
