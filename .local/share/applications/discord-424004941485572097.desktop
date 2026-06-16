@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Game 424004941485572097
-Exec=/tmp/.mount_2i5wHEFZ/usr/bin/rpcs3 %u
+Exec=/tmp/.mount_2XwiGCuM/usr/bin/rpcs3 %u
 Type=Application
 NoDisplay=true
 Categories=Discord;Games;

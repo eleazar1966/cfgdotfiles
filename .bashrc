@@ -178,6 +178,8 @@ alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
 alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux/WinBox'
+alias ventoy='xhost +SI:localuser:root > /dev/null 2>&1; QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Linux/Gentoo/ventoy-1.1.12/VentoyGUI.x86_64'
+alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
