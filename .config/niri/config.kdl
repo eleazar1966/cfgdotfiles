@@ -43,7 +43,7 @@ spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPL
 
 // 2. Forzamos a D-Bus a reiniciar los portales para que hereden el entorno de Niri
 spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-portal &"
-
+spawn-at-startup "/usr/libexec/lxqt-policykit-agent"
 spawn-at-startup "pipewire"
 spawn-at-startup "wireplumber"
 spawn-at-startup "pipewire-pulse"
