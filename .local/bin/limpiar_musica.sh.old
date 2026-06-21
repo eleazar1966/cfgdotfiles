@@ -1,9 +1,10 @@
 #!/bin/bash
 # ==============================================================================
-# SCRIPT DE OPTIMIZACIÓN DE MÚSICA EN GENTOO - VERSIÓN FINAL CON METADATOS LIMPIOS
-# Ruta actualizada a ~/Música, conversión M4A, deduplicación de términos e ID3.
+# SCRIPT DE OPTIMIZACIÓN DE MÚSICA EN GENTOO - VERSIÓN FINAL CON DIRECTORIO ESTÁNDAR
+# Ruta actualizada a ~/Música, conversión M4A, purgado de imágenes y géneros.
 # ==============================================================================
 
+# NUEVA RUTA CONFIGURADA:
 CARPETA_MUSICA="$HOME/Música"
 LISTA_PLAYLIST="$CARPETA_MUSICA/lista_limpia.m3u"
 
@@ -43,28 +44,41 @@ done
 
 # Paso 4: Saneamiento de nombres y clasificación inteligente de GÉNEROS
 echo "✨ Paso 3/5: Normalizando nombres de archivos y ordenando carpetas de género..."
-
-# Se genera una lista temporal para evitar que find entre en bucle al mover archivos en caliente
-LISTA_TEMPORAL=$(mktemp)
-find "$CARPETA_MUSICA" -type f -name "*.mp3" > "$LISTA_TEMPORAL"
-
-while read -r archivo; do
+find "$CARPETA_MUSICA" -type f -name "*.mp3" | while read -r archivo; do
     [ -f "$archivo" ] || continue
 
     dir=$(dirname "$archivo")
     base=$(basename "$archivo")
     
-    # Extraer metadatos para la clasificación híbrida
+    # Mapeo de género inteligente basado en palabras clave internas
     genero_raw=$(exiftool -p '$Genre' "$archivo" 2>/dev/null | tr '[:upper:]' '[:lower:]')
     
-    # Sanitizar el nombre del archivo primero para usarlo en la clasificación
+    if [[ -z "$genero_raw" || "$genero_raw" == "unknown" || "$genero_raw" == "none" ]]; then
+        genero_carpeta="clasificar_manualmente"
+    elif [[ "$genero_raw" == *"cumbia"* ]]; then
+        genero_carpeta="cumbia"
+    elif [[ "$genero_raw" == *"salsa"* ]]; then
+        genero_carpeta="salsa"
+    elif [[ "$genero_raw" == *"guaracha"* || "$genero_raw" == *"dembow"* ]]; then
+        genero_carpeta="urbano_latino"
+    elif [[ "$genero_raw" == *"hip-hop"* || "$genero_raw" == *"rap"* || "$genero_raw" == *"hiphop"* ]]; then
+        genero_carpeta="rap_hiphop"
+    elif [[ "$genero_raw" == *"house"* || "$genero_raw" == *"electronic"* || "$genero_raw" == *"dance"* || "$genero_raw" == *"techno"* || "$genero_raw" == *"funk"* || "$genero_raw" == *"soul"* ]]; then
+        genero_carpeta="electronica_dance"
+    elif [[ "$genero_raw" == *"pop"* ]]; then
+        genero_carpeta="pop"
+    elif [[ "$genero_raw" == *"corrido"* || "$genero_raw" == *"norteno"* || "$genero_raw" == *"quebradita"* ]]; then
+        genero_carpeta="regional_mexicano"
+    else
+        genero_carpeta=$(echo "$genero_raw" | tr -s ' ' '_' | sed -E 's/[^a-z0-9_-]/_/g')
+    fi
+
+    SUBCARPETA_DESTINO="$CARPETA_MUSICA/$genero_carpeta"
+    mkdir -p "$SUBCARPETA_DESTINO"
+
+    # Sanitizar el nombre del archivo
     nuevo_nombre="${base,,}"
     nuevo_nombre=$(echo "$nuevo_nombre" | tr -s ' ' '_')
-    
-    # Corrección de sustituciones de caracteres (ej. b0ler0 -> bolero, 1 -> i)
-    nuevo_nombre=$(echo "$nuevo_nombre" | sed 's/0/o/g; s/3/e/g; s/1/i/g')
-    
-    # Remoción de hashes de YouTube y caracteres sobrantes
     nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/-[a-z0-9_-]{11}\.mp3$/\.mp3/')
     nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/_[a-z0-9_-]{11}\.mp3$/\.mp3/')
     nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/\.[a-z0-9_-]{11}\.mp3$/\.mp3/')
@@ -74,26 +88,12 @@ while read -r archivo; do
     nombre_sin_ext="${nuevo_nombre%.mp3}"
     nombre_limpio=$(echo "$nombre_sin_ext" | sed -E 's/[^a-z0-9_-]/_/g')
     
-    # === MEJORA: DEDUPLICACIÓN DINÁMICA DE TÉRMINOS REPETIDOS ===
-    # Divide el nombre por guiones bajos y remueve palabras idénticas duplicadas (ej: salsa, house, mix)
-    palabras_unicas=""
-    IFS='_' read -r -a tokens <<< "$nombre_limpio"
-    for token in "${tokens[@]}"; do
-        if [[ -z "$token" ]]; then continue; fi
-        if [[ " $palabras_unicas " != *" $token "* ]]; then
-            palabras_unicas="$palabras_unicas $token"
-        fi
-    done
-    nombre_limpio=$(echo $palabras_unicas | tr ' ' '_')
-    # ============================================================
-
     nuevo_nombre="${nombre_limpio}.mp3"
     nuevo_nombre=$(echo "$nuevo_nombre" | tr -s '_-' '_')
     
     nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/^[[:space:]_.-]+//')
     nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/_\.mp3$/\.mp3/')
 
-    # Control de nombres vacíos o corruptos mediante Tags
     if [ ${#nombre_limpio} -le 2 ] || [ "$nuevo_nombre" = "mp3.mp3" ]; then
         tag_artist=$(exiftool -p '$Artist' "$archivo" 2>/dev/null | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_-]/_/g')
         tag_title=$(exiftool -p '$Title' "$archivo" 2>/dev/null | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_-]/_/g')
@@ -107,25 +107,6 @@ while read -r archivo; do
         nuevo_nombre=$(echo "$nuevo_nombre" | tr -s '_')
     fi
 
-    # Clasificación híbrida (Nombre del archivo + Metadatos)
-    match_str="${nuevo_nombre} ${genero_raw}"
-    
-    if [[ "$match_str" =~ (cardenales|gaita|alitasia|maracaibo|astolfo|barrio_obrero|ali_primera|simon_diaz|gualberto|carota|nema|taja|un_solo_pueblo|aguinaldo|curarigueno|pajarillo|bandola|llano|llanera|eneas) ]]; then
-        genero_carpeta="Tradicional_Y_Gaitas"
-    elif [[ "$match_str" =~ (afro_criollo|house|remix|bpm|dj|caplay|starter|break_aca|mix_2024) ]]; then
-        genero_carpeta="Afro_Criollo_Y_House_Mix"
-    elif [[ "$match_str" =~ (adolescent|carruyo|mosaico|celia|puerto_rican|lavoe|arroyo|billo|antaños|pastor_lopez|cumbia|vallenato|barros|aniceto|binomio|salsa|merengue) ]]; then
-        genero_carpeta="Tropical_Salsa_Merengue"
-    elif [[ "$match_str" =~ (illapu|savia_andina|arak_pacha|querevalu|warthon|ortuño|chabuca|cavero|aviles|quena|charango|zampoña) ]]; then
-        genero_carpeta="Andina_Y_Folklore_Latino"
-    elif [[ "$match_str" =~ (canon|pachelbel|beethoven|mozart|chopin|debussy|badinerie|piazzolla|bossa|jazz|saxofon|sanso|mangore) ]]; then
-        genero_carpeta="Clasica_Instrumental_Jazz"
-    else
-        genero_carpeta="Otros_Y_Pop"
-    fi
-
-    SUBCARPETA_DESTINO="$CARPETA_MUSICA/$genero_carpeta"
-    mkdir -p "$SUBCARPETA_DESTINO"
     destino_final="$SUBCARPETA_DESTINO/$nuevo_nombre"
 
     # Mover y resolver colisiones por tamaño de audio
@@ -137,26 +118,11 @@ while read -r archivo; do
         
         if [ "$peso_actual" -le "$peso_destino" ]; then
             rm -f "$archivo"
-            continue
         else
             mv -f "$archivo" "$destino_final"
         fi
     fi
-
-    # === MEJORA: AJUSTE LIMPIO DE METADATOS ID3 ===
-    # Se ejecuta sobre el archivo ya posicionado en su destino final
-    if [ -f "$destino_final" ]; then
-        # Crear un título formateado estéticamente (ej: "alma_llanera" -> "Alma Llanera")
-        titulo_estetico=$(basename "$destino_final" .mp3 | tr '_' ' ' | sed -e 's/\b\(.\)/\u\1/g')
-        
-        # Limpieza absoluta de tags e inyección limpia de los nuevos valores corregidos
-        exiftool -overwrite_original -all= \
-            -Genre="$genero_carpeta" \
-            -Title="$titulo_estetico" \
-            -Encoding="LAME3.100" "$destino_final" &>/dev/null
-    fi
-done < "$LISTA_TEMPORAL"
-rm -f "$LISTA_TEMPORAL"
+done
 
 # Paso 5: Limpieza profunda de duplicados y directorios vacíos
 echo "🧹 Paso 4/5: Ejecutando detox y barriendo duplicados exactos (rdfind)..."
@@ -167,7 +133,7 @@ rdfind -deleteduplicates true "$CARPETA_MUSICA" &>/dev/null
 find "$CARPETA_MUSICA" -type d -empty -delete 2>/dev/null
 
 echo "📋 Paso 5/5: Generando lista de reproducción unificada (.m3u)..."
-find "$CARPETA_MUSICA" -type f -name "*.mp3" | sort -V > "$LISTA_PLAYLIST"
+find "$CARPETA_MUSICA" -type f -name "*.mp3" | sort > "$LISTA_PLAYLIST"
 
 echo "----------------------------------------------------------------"
 echo "🎉 ¡PROCESO COMPLETADO CON ÉXITO!"

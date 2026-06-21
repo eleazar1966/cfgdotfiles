@@ -1,17 +1,17 @@
 #!/bin/bash
 # ==============================================================================
-# SCRIPT DE OPTIMIZACIÓN DE MÚSICA EN GENTOO - VERSIÓN FINAL CON METADATOS LIMPIOS
-# Ruta actualizada a ~/Música, conversión M4A, deduplicación de términos e ID3.
+# SCRIPT DE OPTIMIZACIÓN DE MÚSICA - VERSIÓN ULTRA (HÍBRIDA + BEETS)
+# Categorías personalizadas + Fallback a géneros por defecto sin duplicación.
 # ==============================================================================
 
 CARPETA_MUSICA="$HOME/Música"
 LISTA_PLAYLIST="$CARPETA_MUSICA/lista_limpia.m3u"
 
-echo "🎵 Iniciando optimización RECURSIVA y CONVERSIÓN TOTAL en: $CARPETA_MUSICA"
+echo "🎵 Iniciando optimización HÍBRIDA y CONVERSIÓN TOTAL en: $CARPETA_MUSICA"
 echo "----------------------------------------------------------------"
 
 # Paso 1: Verificar herramientas esenciales
-for cmd in detox rdfind exiftool ffmpeg; do
+for cmd in detox rdfind exiftool ffmpeg beet; do
     if ! command -v $cmd &> /dev/null; then
         echo "❌ Error: El comando '$cmd' no está instalado."
         exit 1
@@ -22,11 +22,11 @@ done
 mkdir -p "$CARPETA_MUSICA"
 
 # Paso 2: PURGADO DE IMÁGENES, TEXTOS Y SCRIPTS VIEJOS
-echo "🗑️  Paso 1/5: Eliminando imágenes, reportes y scripts obsoletos..."
+echo "🗑️  Paso 1/6: Eliminando imágenes, reportes y scripts obsoletos..."
 find "$CARPETA_MUSICA" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.txt" -o -name "convert*.sh" \) -delete
 
 # Paso 3: CONVERSIÓN RECURSIVA DE M4A A MP3
-echo "🔄 Paso 2/5: Buscando y convirtiendo todos los archivos .m4a a .mp3..."
+echo "🔄 Paso 2/6: Buscando y convirtiendo todos los archivos .m4a a .mp3..."
 find "$CARPETA_MUSICA" -type f -name "*.m4a" | while read -r archivo_m4a; do
     [ -f "$archivo_m4a" ] || continue
     dir_m4a=$(dirname "$archivo_m4a")
@@ -42,7 +42,7 @@ find "$CARPETA_MUSICA" -type f -name "*.m4a" | while read -r archivo_m4a; do
 done
 
 # Paso 4: Saneamiento de nombres y clasificación inteligente de GÉNEROS
-echo "✨ Paso 3/5: Normalizando nombres de archivos y ordenando carpetas de género..."
+echo "✨ Paso 3/6: Normalizando nombres de archivos y ordenando carpetas de género..."
 
 # Se genera una lista temporal para evitar que find entre en bucle al mover archivos en caliente
 LISTA_TEMPORAL=$(mktemp)
@@ -55,7 +55,7 @@ while read -r archivo; do
     base=$(basename "$archivo")
     
     # Extraer metadatos para la clasificación híbrida
-    genero_raw=$(exiftool -p '$Genre' "$archivo" 2>/dev/null | tr '[:upper:]' '[:lower:]')
+    genero_raw=$(exiftool -p '$Genre' "$archivo" 2>/dev/null | tr '[:upper:]' '[:lower:]' | sed -E 's/^[[:space:]_.-]+//;s/[[:space:]_.-]+$//')
     
     # Sanitizar el nombre del archivo primero para usarlo en la clasificación
     nuevo_nombre="${base,,}"
@@ -74,8 +74,7 @@ while read -r archivo; do
     nombre_sin_ext="${nuevo_nombre%.mp3}"
     nombre_limpio=$(echo "$nombre_sin_ext" | sed -E 's/[^a-z0-9_-]/_/g')
     
-    # === MEJORA: DEDUPLICACIÓN DINÁMICA DE TÉRMINOS REPETIDOS ===
-    # Divide el nombre por guiones bajos y remueve palabras idénticas duplicadas (ej: salsa, house, mix)
+    # DEDUPLICACIÓN DINÁMICA DE TÉRMINOS REPETIDOS
     palabras_unicas=""
     IFS='_' read -r -a tokens <<< "$nombre_limpio"
     for token in "${tokens[@]}"; do
@@ -85,13 +84,10 @@ while read -r archivo; do
         fi
     done
     nombre_limpio=$(echo $palabras_unicas | tr ' ' '_')
-    # ============================================================
 
     nuevo_nombre="${nombre_limpio}.mp3"
     nuevo_nombre=$(echo "$nuevo_nombre" | tr -s '_-' '_')
-    
-    nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/^[[:space:]_.-]+//')
-    nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/_\.mp3$/\.mp3/')
+    nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/^[[:space:]_.-]+//; s/_\.mp3$/\.mp3/')
 
     # Control de nombres vacíos o corruptos mediante Tags
     if [ ${#nombre_limpio} -le 2 ] || [ "$nuevo_nombre" = "mp3.mp3" ]; then
@@ -110,6 +106,7 @@ while read -r archivo; do
     # Clasificación híbrida (Nombre del archivo + Metadatos)
     match_str="${nuevo_nombre} ${genero_raw}"
     
+    # 1. Validación contra categorías críticas predefinidas
     if [[ "$match_str" =~ (cardenales|gaita|alitasia|maracaibo|astolfo|barrio_obrero|ali_primera|simon_diaz|gualberto|carota|nema|taja|un_solo_pueblo|aguinaldo|curarigueno|pajarillo|bandola|llano|llanera|eneas) ]]; then
         genero_carpeta="Tradicional_Y_Gaitas"
     elif [[ "$match_str" =~ (afro_criollo|house|remix|bpm|dj|caplay|starter|break_aca|mix_2024) ]]; then
@@ -121,7 +118,13 @@ while read -r archivo; do
     elif [[ "$match_str" =~ (canon|pachelbel|beethoven|mozart|chopin|debussy|badinerie|piazzolla|bossa|jazz|saxofon|sanso|mangore) ]]; then
         genero_carpeta="Clasica_Instrumental_Jazz"
     else
-        genero_carpeta="Otros_Y_Pop"
+        # 2. FALLBACK: Si no entra en las anteriores, usar el género tradicional del tag sin duplicar
+        if [[ -n "$genero_raw" && "$genero_raw" != "unknown" && "$genero_raw" != "none" ]]; then
+            genero_carpeta=$(echo "$genero_raw" | sed -E 's/[^a-z0-9_-]/_/g' | tr -s '_')
+            genero_carpeta=$(echo "$genero_carpeta" | sed -e 's/\b\(.\)/\u\1/g') # Capitalización inicial elegante
+        else
+            genero_carpeta="Otros_Y_Pop"
+        fi
     fi
 
     SUBCARPETA_DESTINO="$CARPETA_MUSICA/$genero_carpeta"
@@ -143,13 +146,9 @@ while read -r archivo; do
         fi
     fi
 
-    # === MEJORA: AJUSTE LIMPIO DE METADATOS ID3 ===
-    # Se ejecuta sobre el archivo ya posicionado en su destino final
+    # AJUSTE INICIAL DE METADATOS ID3 (Formateo básico previo a Beets)
     if [ -f "$destino_final" ]; then
-        # Crear un título formateado estéticamente (ej: "alma_llanera" -> "Alma Llanera")
         titulo_estetico=$(basename "$destino_final" .mp3 | tr '_' ' ' | sed -e 's/\b\(.\)/\u\1/g')
-        
-        # Limpieza absoluta de tags e inyección limpia de los nuevos valores corregidos
         exiftool -overwrite_original -all= \
             -Genre="$genero_carpeta" \
             -Title="$titulo_estetico" \
@@ -158,15 +157,19 @@ while read -r archivo; do
 done < "$LISTA_TEMPORAL"
 rm -f "$LISTA_TEMPORAL"
 
-# Paso 5: Limpieza profunda de duplicados y directorios vacíos
-echo "🧹 Paso 4/5: Ejecutando detox y barriendo duplicados exactos (rdfind)..."
+# Paso 5: IMPORTACIÓN INTELIGENTE EN EL SITIO CON BEETS
+echo "🤖 Paso 4/6: Invocando a Beets para el enriquecimiento y corrección ID3 masiva..."
+beet import -q "$CARPETA_MUSICA"
+
+# Paso 6: Limpieza profunda de duplicados y directorios vacíos
+echo "🧹 Paso 5/6: Ejecutando detox y barriendo duplicados exactos (rdfind)..."
 detox -r "$CARPETA_MUSICA" &>/dev/null
 rdfind -deleteduplicates true "$CARPETA_MUSICA" &>/dev/null
 
 # Eliminar carpetas vacías residuales
 find "$CARPETA_MUSICA" -type d -empty -delete 2>/dev/null
 
-echo "📋 Paso 5/5: Generando lista de reproducción unificada (.m3u)..."
+echo "📋 Paso 6/6: Generando lista de reproducción unificada (.m3u)..."
 find "$CARPETA_MUSICA" -type f -name "*.mp3" | sort -V > "$LISTA_PLAYLIST"
 
 echo "----------------------------------------------------------------"
