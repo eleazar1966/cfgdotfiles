@@ -1,23 +1,25 @@
 #!/bin/bash
 # ==============================================================================
-# SCRIPT DE OPTIMIZACIÓN DE MÚSICA - VERSIÓN ULTRA (HÍBRIDA + BEETS + MUSICBRAINZ)
-# Categorías personalizadas + Integración con API MusicBrainz (Protección Anti-Ban).
+# SCRIPT DE OPTIMIZACIÓN DE MÚSICA - VERSIÓN ULTRA EN RENDIMIENTO (REFINADA)
+# Nombres limpios, etiquetas en minúsculas, sin duplicados ni caracteres extraños
 # ==============================================================================
 
 CARPETA_MUSICA="$HOME/Música"
-LISTA_PLAYLIST="$CARPETA_MUSICA/lista_limpia.m3u"
 ULTIMA_CONSULTA=0
 
-# --- AJUSTES DE ENTORNO Y RECURSOS DEL SISTEMA ---
+# --- AJUSTES DE ENTORNO Y RECURSOS CRÍTICOS ---
 export NO_AT_SPI=1
 export GST_DEBUG=0
-ulimit -n 8192
+export PYTHONWARNINGS="ignore::UserWarning"
 
-echo "🎵 Iniciando optimización HÍBRIDA y CONVERSIÓN TOTAL en: $CARPETA_MUSICA"
+# Utilizar el techo absoluto de archivos abiertos permitido por el kernel
+ulimit -n $(ulimit -Hn 2>/dev/null || echo 4096)
+
+echo "🎵 Iniciando optimización ESTRICTA y CONVERSIÓN TOTAL en: $CARPETA_MUSICA"
 echo "----------------------------------------------------------------"
 
 # Paso 1: Verificar herramientas esenciales
-for cmd in detox rdfind exiftool ffmpeg beet python3; do
+for cmd in rdfind exiftool ffmpeg beet python3; do
     if ! command -v $cmd &> /dev/null; then
         echo "❌ Error: El comando '$cmd' no está instalado."
         exit 1
@@ -25,15 +27,15 @@ for cmd in detox rdfind exiftool ffmpeg beet python3; do
 done
 
 if ! python3 -c "import musicbrainzngs" &> /dev/null; then
-    echo "❌ Error: El paquete dev-python/musicbrainzngs no está instalado en el sistema."
+    echo "❌ Error: El paquete dev-python/musicbrainzngs no está instalado."
     exit 1
 fi
 
 mkdir -p "$CARPETA_MUSICA"
 
-# Paso 2: PURGADO DE IMÁGENES, TEXTOS Y SCRIPTS VIEJOS
+# Paso 2: PURGADO DE ARCHIVOS BASURA O INNECESARIOS
 echo "🗑️  Paso 1/6: Eliminando imágenes, reportes y scripts obsoletos..."
-find "$CARPETA_MUSICA" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.txt" -o -name "convert*.sh" \) -delete
+find "$CARPETA_MUSICA" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.txt" -o -name "*.log" -o -name "convert*.sh" \) -delete
 
 # Paso 3: CONVERSIÓN RECURSIVA DE M4A A MP3
 echo "🔄 Paso 2/6: Buscando y convirtiendo todos los archivos .m4a a .mp3..."
@@ -43,16 +45,14 @@ find "$CARPETA_MUSICA" -type f -name "*.m4a" | while read -r archivo_m4a; do
     base_m4a=$(basename "$archivo_m4a" .m4a)
     destino_mp3="$dir_m4a/${base_m4a}.mp3"
     
-    echo "   ↳ Convertiendo: $base_m4a.m4a -> .mp3"
     ffmpeg -y -i "$archivo_m4a" -b:a 320k "$destino_mp3" &>/dev/null
-    
     if [ -f "$destino_mp3" ]; then
         rm -f "$archivo_m4a"
     fi
 done
 
 # Paso 4: Saneamiento de nombres y clasificación inteligente de GÉNEROS
-echo "✨ Paso 3/6: Normalizando nombres de archivos y ordenando carpetas de género..."
+echo "✨ Paso 3/6: Normalizando nombres de archivos y ordenando carpetas..."
 
 LISTA_TEMPORAL=$(mktemp)
 find "$CARPETA_MUSICA" -type f -name "*.mp3" > "$LISTA_TEMPORAL"
@@ -67,7 +67,7 @@ while read -r archivo; do
     dir=$(dirname "$archivo")
     base=$(basename "$archivo")
     
-    # Barra de progreso en tiempo real[cite: 2]
+    # Barra de progreso en tiempo real
     if [ "$TOTAL_ARCHIVOS" -gt 0 ]; then
         PORCENTAJE=$((CONTADOR * 100 / TOTAL_ARCHIVOS))
         BARRA_LLENA=$((PORCENTAJE / 4))
@@ -77,7 +77,7 @@ while read -r archivo; do
         printf "\r⚡ [%s%s] %d%% (%d/%d) | %-35.35s" "$BARRA" "$ESPACIOS" "$PORCENTAJE" "$CONTADOR" "$TOTAL_ARCHIVOS" "$base"
     fi
 
-    # Extracción de metadatos locales base[cite: 2]
+    # Extracción de metadatos locales base
     metadata=$(exiftool -f -p '$Artist|||$Title|||$Genre' "$archivo" 2>/dev/null)
     IFS='|||' read -r tag_artist_raw tag_title_raw tag_genre_fallback <<< "$metadata"
     
@@ -85,43 +85,35 @@ while read -r archivo; do
     [ "$tag_title_raw" = "-" ] && tag_title_raw=""
     [ "$tag_genre_fallback" = "-" ] && tag_genre_fallback=""
     
-    # Sanitización primaria del nombre del archivo[cite: 2]
+    # Sanitización estricta del nombre base (Fuerza minúsculas y elimina caracteres especiales/emojis)
     nuevo_nombre="${base,,}"
-    nuevo_nombre=$(echo "$nuevo_nombre" | tr -s ' ' '_')
-    nuevo_nombre=$(echo "$nuevo_nombre" | sed 's/0/o/g; s/3/e/g; s/1/i/g')
-    nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/-[a-z0-9_-]{11}\.mp3$/\.mp3/; s/_[a-z0-9_-]{11}\.mp3$/\.mp3/; s/\.[a-z0-9_-]{11}\.mp3$/\.mp3/; s/_audio-[a-z0-9_-]{11}\.mp3$/\.mp3/; s/^[0-9]+[[:space:]_.-]+//')
+    nuevo_nombre="${nuevo_nombre// /_}"
+    nuevo_nombre="${nuevo_nombre//-/_}"
+    
+    # Remover hashes de YouTube (11 caracteres alfanuméricos al final) y números de track iniciales
+    nuevo_nombre=$(echo "$nuevo_nombre" | sed -E \
+        -e 's/[_\.][a-z0-9_-]{11}\.mp3$/\.mp3/' \
+        -e 's/_audio-[a-z0-9_-]{11}\.mp3$/\.mp3/' \
+        -e 's/^[0-9]+[[:space:]_.-]+//')
 
     nombre_sin_ext="${nuevo_nombre%.mp3}"
+    # Eliminar CUALQUIER cosa que no sea letras, números o guiones bajos (Limpia Emojis y símbolos raros)
     nombre_limpio=$(echo "$nombre_sin_ext" | sed -E 's/[^a-z0-9_-]/_/g')
     
-    # Deduplicación de términos en el nombre[cite: 2]
+    # Deduplicación eficiente de términos repetidos en el nombre en memoria
     palabras_unicas=""
     IFS='_' read -r -a tokens <<< "$nombre_limpio"
     for token in "${tokens[@]}"; do
         if [[ -z "$token" ]]; then continue; fi
         if [[ " $palabras_unicas " != *" $token "* ]]; then
-            palabras_unicas="$palabras_unicas $token"
+            palabras_unicas+="$token "
         fi
     done
-    nombre_limpio=$(echo $palabras_unicas | tr ' ' '_')
+    
+    nombre_limpio=$(echo "$palabras_unicas" | sed -E 's/[[:space:]]+/_/g; s/_+$//')
     nuevo_nombre="${nombre_limpio}.mp3"
-    nuevo_nombre=$(echo "$nuevo_nombre" | tr -s '_-' '_')
-    nuevo_nombre=$(echo "$nuevo_nombre" | sed -E 's/^[[:space:]_.-]+//; s/_\.mp3$/\.mp3/')
 
-    # Asegurar valores mínimos de búsqueda[cite: 2]
-    if [ ${#nombre_limpio} -le 2 ] || [ "$nuevo_nombre" = "mp3.mp3" ]; then
-        tag_artist=$(echo "$tag_artist_raw" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_-]/_/g')
-        tag_title=$(echo "$tag_title_raw" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_-]/_/g')
-        if [ -n "$tag_artist" ] && [ -n "$tag_title" ]; then
-            nuevo_nombre="${tag_artist}_${tag_title}.mp3"
-        else
-            hash_id=$(echo "$base" | md5sum | cut -c1-5)
-            nuevo_nombre="pista_desconocida_${hash_id}.mp3"
-        fi
-        nuevo_nombre=$(echo "$nuevo_nombre" | tr -s '_')
-    fi
-
-    # Rate Limiter para la API de MusicBrainz[cite: 2]
+    # Control de la tasa de consultas de red para MusicBrainz (Evitar bloqueos)
     AHORA=$(date +%s)
     DIFERENCIA=$((AHORA - ULTIMA_CONSULTA))
     if [ "$DIFERENCIA" -lt 1 ]; then
@@ -129,18 +121,20 @@ while read -r archivo; do
     fi
     ULTIMA_CONSULTA=$(date +%s)
 
-    # NUEVO FLUJO: CONSULTA PREVIA A MUSICBRAINZ Y EXTRACCIÓN MULTI-VARIABLE
+    # Transferencia segura de variables de Bash a Python mediante Entorno (Evita caídas por comillas)
+    export ENV_ARTIST="$tag_artist_raw"
+    export ENV_TITLE="$tag_title_raw"
+    export ENV_QUERY="$nombre_limpio"
+
     mb_data=$(python3 -c "
 import musicbrainzngs
-import sys
-import time
+import os
 
-musicbrainzngs.set_rate_limit(limit_or_interval=1.0, new_requests=1)
 musicbrainzngs.set_useragent('ScriptOptimizadoMusica', '2.0', 'anzola@gmail.com')
 
-artist = \"\"\"$tag_artist_raw\"\"\".strip()
-title = \"\"\"$tag_title_raw\"\"\".strip()
-filename_query = \"\"\"$nombre_limpio\"\"\".replace('_', ' ').strip()
+artist = os.environ.get('ENV_ARTIST', '').strip()
+title = os.environ.get('ENV_TITLE', '').strip()
+filename_query = os.environ.get('ENV_QUERY', '').replace('_', ' ').strip()
 
 mb_artist, mb_title, mb_genre = '', '', ''
 
@@ -159,56 +153,62 @@ try:
             if isinstance(credit, dict) and 'artist' in credit:
                 mb_artist = credit['artist'].get('name', '')
         
-        rec_id = first_match['id']
-        time.sleep(1.0)
-        datos = musicbrainzngs.get_recording_by_id(rec_id, includes=['tags'])
-        tags = datos.get('recording', {}).get('tag-list', [])
-        
+        tags = first_match.get('tag-list', [])
         if tags:
             mejor_tag = max(tags, key=lambda x: int(x['count']))
-            mb_genre = mejor_tag['name']
+            mb_genre = mejor_tag.get('name', '')
 except Exception:
     pass
 
 print(f'{mb_artist}|||{mb_title}|||{mb_genre}')
 " 2>/dev/null)
 
-    # Desempaquetar los datos devueltos por MusicBrainz
     IFS='|||' read -r mb_artist mb_title mb_genre <<< "$mb_data"
 
-    # Si MusicBrainz aportó datos correctos, actualizamos las variables locales antes de clasificar
+    # Priorizar datos de MusicBrainz, si no, mantener los locales
     [ -n "$mb_artist" ] && tag_artist_raw="$mb_artist"
     [ -n "$mb_title" ] && tag_title_raw="$mb_title"
-    
-    if [ -n "$mb_genre" ]; then
-        genero_raw=$(echo "$mb_genre" | tr '[:upper:]' '[:lower:]' | sed -E 's/^[[:space:]_.-]+//;s/[[:space:]_.-]+$//')
-    else
-        # FALLBACK LOCAL: Si MusicBrainz no tenía género, recurrir al tag original del archivo[cite: 2]
-        genero_raw=$(echo "$tag_genre_fallback" | tr '[:upper:]' '[:lower:]' | sed -E 's/^[[:space:]_.-]+//;s/[[:space:]_.-]+$//')
-    fi
+    [ -n "$mb_genre" ] && tag_genre_fallback="$mb_genre"
 
-    # NUEVO ENFOQUE: Construcción robusta de match_str con metadatos oficiales corregidos
-    match_str="${nuevo_nombre} ${tag_artist_raw} ${tag_title_raw} ${genero_raw}"
-    match_str=$(echo "$match_str" | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
-    
-    # Clasificación basada en expresiones de categorías críticas[cite: 2]
-    if [[ "$match_str" =~ (cardenales|gaita|alitasia|maracaibo|astolfo|barrio_obrero|ali_primera|simon_diaz|gualberto|carota|nema|taja|un_solo_pueblo|aguinaldo|curarigueno|pajarillo|bandola|llano|llanera|eneas) ]]; then
-        genero_carpeta="Tradicional_Y_Gaitas"
-    elif [[ "$match_str" =~ (afro_criollo|house|remix|bpm|dj|caplay|starter|break_aca|mix_2024) ]]; then
-        genero_carpeta="Afro_Criollo_Y_House_Mix"
-    elif [[ "$match_str" =~ (adolescent|carruyo|mosaico|celia|puerto_rican|lavoe|arroyo|billo|antaños|pastor_lopez|cumbia|vallenato|barros|aniceto|binomio|salsa|merengue) ]]; then
-        genero_carpeta="Tropical_Salsa_Merengue"
-    elif [[ "$match_str" =~ (illapu|savia_andina|arak_pacha|querevalu|warthon|ortuño|chabuca|cavero|aviles|quena|charango|zampoña) ]]; then
-        genero_carpeta="Andina_Y_Folklore_Latino"
-    elif [[ "$match_str" =~ (canon|pachelbel|beethoven|mozart|chopin|debussy|badinerie|piazzolla|bossa|jazz|saxofon|sanso|mangore) ]]; then
-        genero_carpeta="Clasica_Instrumental_Jazz"
-    else
-        # FALLBACK DE CATEGORÍA GENERADO POR NOMBRE DE GÉNERO OFICIAL[cite: 2]
-        if [[ -n "$genero_raw" && "$genero_raw" != "unknown" && "$genero_raw" != "none" ]]; then
-            genero_carpeta=$(echo "$genero_raw" | sed -E 's/[^a-z0-9_-]/_/g' | tr -s '_')
-            genero_carpeta=$(echo "$genero_carpeta" | sed -e 's/\b\(.\)/\u\1/g') 
+    # Procesar etiquetas finales estrictamente en minúsculas y limpias
+    tag_artist=$(echo "$tag_artist_raw" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9 ]//g' | sed -E 's/[[:space:]]+/_/g')
+    tag_title=$(echo "$tag_title_raw" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9 ]//g' | sed -E 's/[[:space:]]+/_/g')
+    genero_raw=$(echo "$tag_genre_fallback" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9 ]//g' | sed -E 's/[[:space:]]+/_/g')
+
+    # Re-verificar nombre si quedó vacío tras la limpieza drástica
+    if [ ${#nombre_limpio} -le 2 ] || [ "$nuevo_nombre" = ".mp3" ]; then
+        if [ -n "$tag_artist" ] && [ -n "$tag_title" ]; then
+            nuevo_nombre="${tag_artist}__${tag_title}.mp3"
         else
-            genero_carpeta="Otros_Y_Pop"
+            hash_id=$(echo "$base" | md5sum | cut -c1-5)
+            nuevo_nombre="pista_desconocida_${hash_id}.mp3"
+        fi
+    fi
+    nuevo_nombre=$(echo "$nuevo_nombre" | tr -s '_')
+
+    # Clasificación Consolidada Macro en minúsculas (Menos carpetas, más limpias)
+    match_str="${nuevo_nombre}_${tag_artist}_${tag_title}_${genero_raw}"
+    
+    if [[ "$match_str" =~ (cardenales|gaita|alitasia|maracaibo|astolfo|barrio_obrero|ali_primera|simon_diaz|gualberto|carota|un_solo_pueblo|aguinaldo|llanera|llano) ]]; then
+        genero_carpeta="tradicional_y_gaitas"
+    elif [[ "$match_str" =~ (afro_criollo|house|remix|bpm|dj|mix|electro|dance) ]]; then
+        genero_carpeta="afro_criollo_y_house_mix"
+    elif [[ "$match_str" =~ (adolescent|salsa|merengue|bachata|cumbia|vallenato|billo|pastor_lopez|celia|lavoe) ]]; then
+        genero_carpeta="tropical_salsa_merengue"
+    elif [[ "$match_str" =~ (andina|folklore|latino|quena|charango|zampoña|illapu) ]]; then
+        genero_carpeta="andina_y_folklore"
+    elif [[ "$match_str" =~ (beethoven|mozart|chopin|bach|clasica|jazz|sax|instrumental|bossa) ]]; then
+        genero_carpeta="clasica_instrumental_jazz"
+    else
+        if [[ -n "$genero_raw" && "$genero_raw" != "unknown" && "$genero_raw" != "none" ]]; then
+            # Si el género es muy largo, mandarlo a una carpeta general para evitar directorios raros
+            if [ ${#genero_raw} -gt 15 ]; then
+                genero_carpeta="otros_y_pop"
+            else
+                genero_carpeta="$genero_raw"
+            fi
+        else
+            genero_carpeta="otros_y_pop"
         fi
     fi
 
@@ -216,7 +216,7 @@ print(f'{mb_artist}|||{mb_title}|||{mb_genre}')
     mkdir -p "$SUBCARPETA_DESTINO"
     destino_final="$SUBCARPETA_DESTINO/$nuevo_nombre"
 
-    # Resolución de colisiones físicas en disco[cite: 2]
+    # Reubicación inteligente y resolución de colisiones por tamaño (Mantiene el de mejor calidad)
     if [ ! -f "$destino_final" ] && [ "$archivo" != "$destino_final" ]; then
         mv "$archivo" "$destino_final"
     elif [ -f "$destino_final" ] && [ "$archivo" != "$destino_final" ]; then
@@ -230,29 +230,40 @@ print(f'{mb_artist}|||{mb_title}|||{mb_genre}')
         fi
     fi
 
-    # ESCRITURA ESTÉTICA FINAL CON METADATOS ENRIQUECIDOS
+    # Escritura limpia de metadatos ID3 en absoluto minúsculas
     if [ -f "$destino_final" ]; then
-        if [ -n "$tag_title_raw" ]; then
-            titulo_estetico="$tag_title_raw"
-        else
-            titulo_estetico=$(basename "$destino_final" .mp3 | tr '_' ' ' | sed -e 's/\b\(.\)/\u\1/g')
-        fi
+        tag_artist_id3=$(echo "$tag_artist" | tr '_' ' ')
+        tag_title_id3=$(echo "$tag_title" | tr '_' ' ')
         
+        # Si las etiquetas quedaron vacías, usar el nombre del archivo limpio como título
+        [ -z "$tag_title_id3" ] && tag_title_id3=$(basename "$destino_final" .mp3 | tr '_' ' ')
+        [ -z "$tag_artist_id3" ] && tag_artist_id3="desconocido"
+
         exiftool -overwrite_original -all= \
-            -Artist="$tag_artist_raw" \
-            -Title="$titulo_estetico" \
+            -Artist="$tag_artist_id3" \
+            -Title="$tag_title_id3" \
             -Genre="$genero_carpeta" \
-            -Encoding="LAME3.100" "$destino_final" &>/dev/null
+            -Encoding="lame3.100" "$destino_final" &>/dev/null
     fi
 done < "$LISTA_TEMPORAL"
 echo "" 
 rm -f "$LISTA_TEMPORAL"
 
-# Paso 5: IMPORTACIÓN INTELIGENTE EN EL SITIO CON BEETS[cite: 2]
-echo "🤖 Paso 4/6: Invocando a Beets para el enriquecimiento y corrección ID3 masiva..."
-beet import -q "$CARPETA_MUSICA"
+# Paso 5: PURGA DE SUBDIRECTORIOS VACÍOS
+echo "🧹 Paso 4/6: Eliminando árboles de directorios vacíos..."
+find "$CARPETA_MUSICA" -type d -empty -delete
 
-# Paso 6: Limpieza profunda de duplicados y directorios vacíos[cite: 2]
-echo "🧹 Paso 5/6: Ejecutando detox y barriendo duplicados exactos (rdfind)..."
-detox -r "$CARPETA_MUSICA" &>/dev/null
+# Paso 6: IMPORTACIÓN SILENCIOSA CON BEETS
+echo "🤖 Paso 5/6: Ejecutando importación en bloque con Beets..."
+find "$CARPETA_MUSICA" -mindepth 1 -maxdepth 1 -type d | while read -r subcarpeta; do
+    # -q (quiet) e -s (sketch/as-is) para evitar peticiones interactivas que congelen el script
+    beet import -q -s "$subcarpeta" &>/dev/null
+done
+
+# Paso 7: DETECCIÓN PROFUNDA DE DUPLICADOS EXACTOS (CONTENIDO)
+echo "🧹 Paso 6/6: Barriendo duplicados reales mediante hash (rdfind)..."
 rdfind -deleteduplicates true "$CARPETA_MUSICA" &>/dev/null
+
+# Limpieza final de estructura vacía residual
+find "$CARPETA_MUSICA" -type d -empty -delete
+echo "✨ ¡Optimización completada! Archivos y etiquetas totalmente limpios en minúsculas."

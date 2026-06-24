@@ -1,12 +1,26 @@
 #!/bin/bash
-# Forzar terminal limpia para eliminar los PARSE ERROR de MOC
 export TERM=xterm-256color
 
-# 1. Limpieza de instancias colgadas previas
-pkill -f "kitty.*--title Música"
-mocp -x
-sleep 0.4
+# 1. Limpieza ultra rápida de instancias previas
+pkill -f "kitty.*--title Música" 2>/dev/null
 
-# 2. Desactivar D-Bus EXCLUSIVAMENTE dentro del proceso hijo de Kitty
-# Pasamos la variable vacía en línea para no romper el entorno de la shell padre
-exec env DBUS_SESSION_BUS_ADDRESS="" kitty -1 --title "Música" sh -c "mocp -S && mocp -c -a ~/Música -p && kitty @ launch --location=hsplit sh -c 'cava' && exec mocp"
+# 2. Asegurar el servidor MOC levantado en background
+if ! mocp -Q "%state" &>/dev/null; then
+    mocp -S &>/dev/null
+    for i in {1..5}; do
+        mocp -Q "%state" &>/dev/null && break
+        sleep 0.02
+    done
+fi
+
+# 3. Lanzar Kitty de inmediato
+# La carga de música se mueve al comando secuencial interno de MOC para evitar el bloqueo.
+exec kitty -1 --title "Música" \
+    -o "map ctrl+shift+q launch --type=background sh -c 'mocp -x; pkill -f cava; kitty @ close-window --match=title:Música'" \
+    -o "enabled_layouts horizontal,vertical" \
+    sh -c "
+        kitty @ launch --location=hsplit sh -c 'cava'
+        mocp -c &>/dev/null
+        (sleep 0.2 && mocp -a ~/Música && mocp -p) &>/dev/null &
+        exec mocp
+    "
