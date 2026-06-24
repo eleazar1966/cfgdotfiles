@@ -13,11 +13,10 @@ if ! mocp -Q "%state" &>/dev/null; then
     done
 fi
 
-# 3. Lanzar Kitty de inmediato
-# La carga de música se mueve al comando secuencial interno de MOC para evitar el bloqueo.
+# 3. Lanzar Kitty forzando el layout vertical (una ventana arriba y otra abajo)
 exec kitty -1 --title "Música" \
     -o "map ctrl+shift+q launch --type=background sh -c 'mocp -x; pkill -f cava; kitty @ close-window --match=title:Música'" \
-    -o "enabled_layouts horizontal,vertical" \
+    -o "enabled_layouts vertical,horizontal" \
     sh -c "
         kitty @ launch --location=hsplit sh -c 'cava'
         mocp -c &>/dev/null

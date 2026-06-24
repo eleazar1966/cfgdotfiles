@@ -1,14 +1,14 @@
 /* Archivo generado por Matugen - Sin bucles propensos a errores */
-@define-color primary #8dd5b2;
-@define-color on_primary #003825;
-@define-color primary_container #005138;
+@define-color primary #f9b1db;
+@define-color on_primary #501e40;
+@define-color primary_container #6a3457;
 
-@define-color secondary #b4ccbd;
-@define-color on_secondary #1f352a;
+@define-color secondary #debece;
+@define-color on_secondary #3f2a36;
 
-@define-color background #0f1511;
-@define-color on_surface #dee4de;
-@define-color surface_variant #404943;
+@define-color background #181115;
+@define-color on_surface #eddfe4;
+@define-color surface_variant #4f4449;
 
 @define-color error #ffb4ab;
-@define-color outline #8a938c;
+@define-color outline #9c8d93;
