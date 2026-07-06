@@ -85,28 +85,14 @@ window-rule {
 }
 
 window-rule {
-    match app-id="vlc"
-    
-    // Fuerza a VLC a abrir de forma flotante
-    open-floating true
-    
-    // Establece el ancho al 50% de la pantalla
-    default-column-width { proportion 0.5; }
-    
-    // Establece el alto al 50% de la pantalla
-    default-window-height { proportion 0.5; }
-}
+    match app-id="^mpv$"
+    match app-id="^vlc$"
 
-window-rule {
-    match app-id="mpv"
-    
-    // Fuerza a VLC a abrir de forma flotante
-    open-floating true
-    
-    // Establece el ancho al 50% de la pantalla
+    // Forzamos a que abran en modo flotante si así lo deseas
+    open-floating false
+
+    // Definimos el tamaño al 25% de la pantalla (0.25)
     default-column-width { proportion 0.5; }
-    
-    // Establece el alto al 50% de la pantalla
     default-window-height { proportion 0.5; }
 }
 

@@ -38,12 +38,49 @@ echo "[3/9] Verificando y reparando integridad..."
 set_title "emaint"
 sudo emaint --check all || sudo emaint --fix all
 
+# =====================================================================
+# DETECCIÓN DE NUEVO KERNEL (PRE-ACTUALIZACIÓN)
+# =====================================================================
+echo "🔍 Analizando si hay una nueva versión de gentoo-sources en camino..."
+DETECTAR_NUEVO_KERNEL=0
+
+# Simulamos la actualización para buscar específicamente 'sys-kernel/gentoo-sources'
+if sudo emerge -pDuNv --with-bdeps=y @world | grep -E "sys-kernel/gentoo-sources"; then
+  echo "✨ ¡Se detectó una nueva versión de gentoo-sources! Se programará kernel-do.sh al finalizar la compilación."
+  DETECTAR_NUEVO_KERNEL=1
+else
+  echo "✅ No hay actualizaciones pendientes para las fuentes del kernel."
+fi
+# =====================================================================
+
 # 4. Actualización @world
 echo "[4/9] Aplicando actualizaciones (Optimización Zen 3)..."
 set_title "emerge: @world"
 # IMPORTANTE: --jobs=1 para no saturar tmpfs con múltiples paquetes pesados simultáneos
 # Los hilos de compilación se manejan internamente con el -j de MAKEOPTS
 sudo emerge -uDvN --with-bdeps=y --keep-going --jobs=1 --load-average="$LOAD" @world
+
+# =====================================================================
+# EJECUCIÓN AUTOMÁTICA DE KERNEL-DO
+# =====================================================================
+if [ "$DETECTAR_NUEVO_KERNEL" -eq 1 ]; then
+  echo -e "\n=========================================================="
+  echo "🚀 EJECUTANDO ACTUALIZACIÓN Y CONSOLIDACIÓN DEL KERNEL"
+  echo "=========================================================="
+
+  # Asegúrate de que esta ruta coincida con la ubicación real de tu script
+  RUTA_KERNEL_DO="/home/eleazar/kernel-do.sh"
+
+  if [ -f "$RUTA_KERNEL_DO" ]; then
+    chmod +x "$RUTA_KERNEL_DO"
+    bash "$RUTA_KERNEL_DO"
+  else
+    echo "❌ ERROR: No se encontró el script kernel-do.sh en la ruta: $RUTA_KERNEL_DO"
+    echo "Por favor, verifica la ubicación del archivo para automatizar el proceso."
+  fi
+  echo -e "==========================================================\n"
+fi
+# =====================================================================
 
 # 5. Configuración
 echo "[5/9] Revisando cambios en /etc..."
@@ -71,11 +108,11 @@ sudo updatedb
 # 9. Desmontaje
 echo "[9/9] Finalizando..."
 if [ "$BOOT_WAS_MOUNTED" -eq 0 ]; then
-  sudo umount /boot && echo "/boot desmontado."
+  echo "Desmontando /boot de manera segura..."
+  sudo umount /boot || echo "⚠️ No se pudo desmontar /boot automáticamente."
+else
+  echo "/boot se mantendrá montado tal como estaba al inicio."
 fi
 
 set_title "$ORIGINAL_TITLE"
-
-echo "=========================================================="
-echo "   ¡SISTEMA ACTUALIZADO Y OPTIMIZADO CON ÉXITO!           "
-echo "=========================================================="
+echo "🎉 ¡Sistema completamente actualizado y optimizado!"
