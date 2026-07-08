@@ -1,5 +1,4 @@
 // --- INTEGRACIÓN CROMÁTICA AUTOMATIZADA ---
-// Importación del bloque layout generado por Matugen (Colores y Gradiente)
 include "colors.kdl"
 
 prefer-no-csd
@@ -10,7 +9,6 @@ prefer-no-csd
 input {
     keyboard {
         xkb {
-            // Configuración bilingüe integrada (US/ES) con conmutación nativa Alt+Shift
             layout "us,es"
             options "grp:alt_shift_toggle"
         }
@@ -37,7 +35,6 @@ layout {
     gaps 2
     center-focused-column "on-overflow"
     
-    // Proporciones para el escalado dinámico optimizado (Mod+R)
     preset-column-widths {
         proportion 0.333
         proportion 0.5
@@ -50,28 +47,36 @@ layout {
         inactive-color "#505050"
         urgent-color "#9b0000"
     }
+    
+    shadow {
+        softness 30
+        spread 5
+        offset x=0 y=5
+        color "#0007"
+    }
 }
 
+hotkey-overlay {                                                                
+    skip-at-startup                                                             
+}    
+
 // =============================================================================
-// 3. SERVICIOS Y APLICACIONES AL ARRANQUE
+// 3. CAPTURAS DE PANTALLA NATIVAS (DIRECTORIO PERSONALIZADO)
+// =============================================================================
+screenshot-path "~/Imágenes/Screenshot/Screenshot desde %Y-%m-%d %H-%M-%S.png"
+
+// =============================================================================
+// 4. SERVICIOS Y APLICACIONES AL ARRANQUE
 // =============================================================================
 spawn-at-startup "mako"
-
-// Sincronización limpia del entorno con D-Bus para Wayland
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
-
-// Inicialización segura de portales XDG y agentes de autenticación
 spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-portal &"
 spawn-at-startup "/usr/libexec/lxqt-policykit-agent"
-
-// Inicialización automatizada de wallpapers.sh en modo demonio (bucle infinito)
 spawn-at-startup "/home/eleazar/.local/bin/wallpapers.sh"
-
-// [NUEVO] Inicialización del supervisor y vigilante dinámico de Waybar
 spawn-at-startup "/home/eleazar/.local/bin/launch-waybar.sh"
 
 // =============================================================================
-// 4. DESPACHADOR DE ATAJOS DE TECLADO (BINDS BLOCK)
+// 5. DESPACHADOR DE ATAJOS DE TECLADO (BINDS BLOCK)
 // =============================================================================
 binds {
     // --- LANZADORES DEL ENTORNO ---
@@ -79,15 +84,8 @@ binds {
     Mod+D            { spawn "fuzzel"; }
     Mod+E            { spawn "thunar"; }
     Mod+T            { spawn "env" "QT_QPA_PLATFORM=xcb" "telegram-desktop"; }
-    Mod+F1           { spawn "kitty" "--class" "niri_help" "-e" "/home/eleazar/.local/bin/niri-help.sh"; }
-    Mod+Shift+Slash  { show-hotkey-overlay; }
-
-    // [NUEVO] Lanzador del entorno integrado de Música (MOCP + CAVA en Kitty)
     Mod+M            { spawn "/home/eleazar/.local/bin/kitty-moc"; }
-    // Matar por completo el ecosistema musical (MOC, CAVA y Ventana de Kitty)
-    Mod+Shift+M { spawn "sh" "-c" "mocp -x; pkill -f cava; pkill -f 'kitty.*--title Música'"; }
-
-    // [NUEVO] Lanzador multimedia yt-x heredando la regla flotante de terminal
+    Mod+Shift+M      { spawn "sh" "-c" "mocp -x; pkill -f cava; pkill -f 'kitty.*--title Música'"; }
     Mod+Y            { spawn "kitty" "--class" "floating_terminal" "-e" "yt-x"; }
 
     // --- GESTIÓN DINÁMICA DE IDIOMAS (TECLADO) ---
@@ -103,8 +101,11 @@ binds {
     Mod+K            { focus-window-up; }
     Mod+Up           { focus-window-up; }
     
+    Mod+V            { toggle-window-floating; }
+    Mod+Shift+V      { switch-focus-between-floating-and-tiling; }
     Mod+Home         { focus-column-first; }
     Mod+End          { focus-column-last; }
+    Mod+O            { toggle-overview; }
 
     // --- REORGANIZACIÓN DE CONTENEDORES ---
     Mod+Shift+H      { move-column-left; }
@@ -115,7 +116,6 @@ binds {
     Mod+Shift+Down   { move-window-down; }
     Mod+Shift+K      { move-window-up; }
     Mod+Shift+Up     { move-window-up; }
-
     Mod+Shift+Home   { move-column-to-first; }
     Mod+Shift+End    { move-column-to-last; }
 
@@ -124,7 +124,6 @@ binds {
     Mod+U            { focus-workspace-down; }
     Mod+Page_Up      { focus-workspace-up; }
     Mod+I            { focus-workspace-up; }
-    
     Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
     Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
 
@@ -148,15 +147,22 @@ binds {
     Mod+Shift+8 { move-column-to-workspace 8; }
     Mod+Shift+9 { move-column-to-workspace 9; }
 
+    // --- NAVEGACIÓN CON RUEDA DEL RATÓN (CONVENIENTES POR DEFECTO) ---
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+
     // --- CONTROL DE VENTANAS Y LAYOUT ---
-    Mod+BracketLeft  { consume-window-into-column; }
-    Mod+BracketRight { expel-window-from-column; }
-    Mod+Comma        { consume-or-expel-window-left; }
-    Mod+Period       { consume-or-expel-window-right; }
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+Comma        { consume-window-into-column; }
+    Mod+Period       { expel-window-from-column; }
     Mod+W            { toggle-column-tabbed-display; }
 
     // --- DIMENSIONAMIENTO Y ESCALADO ---
     Mod+R            { switch-preset-column-width; }
+    Mod+Shift+R      { switch-preset-column-width-back; }
     Mod+F            { maximize-column; }
     Mod+Shift+F      { fullscreen-window; }
     Mod+C            { center-column; }
@@ -171,16 +177,20 @@ binds {
     Ctrl+Print       { screenshot-screen; }
     Alt+Print        { screenshot-window; }
 
-    // --- MULTIMEDIA Y SCRIPTS DE AUTOMATIZACIÓN ---
-    XF86AudioRaiseVolume { spawn "~/.local/bin/volume-notify" "up"; }
-    XF86AudioLowerVolume { spawn "~/.local/bin/volume-notify" "down"; }
-    XF86AudioMute        { spawn "~/.local/bin/volume-notify" "mute"; }
-    Mod+N                { spawn "~/.local/bin/volume-notify" "mic"; }
+    // --- MULTIMEDIA Y CONTROLES DE AUDIO ---
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "~/.local/bin/volume-notify" "up"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "~/.local/bin/volume-notify" "down"; }
+    XF86AudioMute        allow-when-locked=true { spawn "~/.local/bin/volume-notify" "mute"; }
+    Mod+N                allow-when-locked=true { spawn "~/.local/bin/volume-notify" "mic"; }
 
-    // Ejecución asíncrona de grabación de video (gpu-screen-recorder)
+    // Controles de reproducción adicionales por defecto (Playerctl)
+    XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioStop        allow-when-locked=true { spawn "playerctl" "stop"; }
+    XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
+
+    // --- SCRIPTS DE AUTOMATIZACIÓN ---
     Mod+G                { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
-
-    // Invocación manual con paso de argumento para forzar cambio aleatorio instantáneo
     Mod+Shift+W          { spawn "/home/eleazar/.local/bin/wallpapers.sh" "next"; }
 
     // --- SEGURIDAD Y CONTROL DE SESIÓN ---
@@ -189,11 +199,21 @@ binds {
     Mod+Shift+P      { power-off-monitors; }
     Mod+Shift+E      { quit; }
     Ctrl+Alt+Delete  { quit; }
+
+    // --- INTEGRACIÓN DE AYUDA PERSONALIZADA EN ESPAÑOL ---
+    Mod+Slash        { spawn "/home/eleazar/.local/bin/ayuda-niri.sh"; }
+    Mod+Shift+Slash  { spawn "/home/eleazar/.local/bin/ayuda-niri.sh"; }
 }
 
 // =============================================================================
-// 5. REGLAS DE VENTANAS (WINDOW RULES)
+// 6. REGLAS DE VENTANAS Y REDONDEO MÍNIMO (WINDOW RULES)
 // =============================================================================
+// Redondeo sutil de esquinas para todas las ventanas del sistema
+window-rule {
+    geometry-corner-radius 6
+    clip-to-geometry true
+}
+
 window-rule {
     match app-id="niri_help"
     open-floating true
