@@ -79,7 +79,7 @@ binds {
     Mod+D            { spawn "fuzzel"; }
     Mod+E            { spawn "thunar"; }
     Mod+T            { spawn "env" "QT_QPA_PLATFORM=xcb" "telegram-desktop"; }
-    Mod+F1           { spawn "kitty" "--class" "niri_help" "-e" "/home/eleazar/.local/bin/niri-help"; }
+    Mod+F1           { spawn "kitty" "--class" "niri_help" "-e" "/home/eleazar/.local/bin/niri-help.sh"; }
     Mod+Shift+Slash  { show-hotkey-overlay; }
 
     // [NUEVO] Lanzador del entorno integrado de Música (MOCP + CAVA en Kitty)
