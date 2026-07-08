@@ -181,5 +181,6 @@ alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux
 alias ventoy='xhost +SI:localuser:root > /dev/null 2>&1; QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Linux/Gentoo/ventoy-1.1.12/VentoyGUI.x86_64'
 alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
+alias niri-help="~/.local/bin/niri-help"
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh

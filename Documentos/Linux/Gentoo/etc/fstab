@@ -4,9 +4,15 @@
 PARTUUID=b106f3ff-1436-4c00-9847-b3aba82ae7ba   /boot   vfat   umask=0077,noauto,noatime 0 2
 
 # Raíz y Home sobre BTRFS con compresión zstd para maximizar espacio y vida del NVMe.
-PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /        btrfs   subvol=@,noatime,discard=async,compress=zstd:3,space_cache=v2,autodefrag 0 0
-PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /home    btrfs   subvol=@home,noatime,discard=async,compress=zstd:3,space_cache=v2,autodefrag 0 0
+#PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /        btrfs   subvol=@,noatime,discard=async,compress=zstd:3,space_cache=v2,autodefrag 0 0
+#PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /home    btrfs   subvol=@home,noatime,discard=async,compress=zstd:3,space_cache=v2,autodefrag 0 0
+# Raíz y Home sobre BTRFS con compresión zstd para maximizar espacio y vida del NVMe.
+PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /        btrfs   subvol=@,noatime,ssd,compress=zstd:3,space_cache=v2 0 0
+PARTUUID=83074ddd-69cd-41fd-986a-9cb95b6a16f2   /home    btrfs   subvol=@home,noatime,ssd,compress=zstd:3,space_cache=v2 0 0
 
-# COMPILACIÓN EN RAM (tmpfs) - Reducido a 24G para dejar 8GB físicos libres para el sistema y compiladores.
-# Esto evita el "ahogo" al balancear los archivos temporales con el consumo de RAM de GCC/Rust.
-tmpfs   /var/tmp/portage   tmpfs   rw,nosuid,nodev,noatime,size=24G,mode=775,uid=portage,gid=portage,x-mount.mkdir=775 0 0
+
+
+# COMPILACIÓN EN RAM (tmpfs) - Reducido a 31G para dejar 1GB físicos libres para el sistema y compiladores.
+tmpfs   /var/tmp/portage   tmpfs   rw,nosuid,nodev,noatime,size=31G,mode=775,uid=portage,gid=portage,x-mount.mkdir=775 0 0
+
+UUID=7d9d91e4-fe59-4513-9e0b-76a8ff1d5126 /mnt/ssd btrfs defaults,ssd,discard=async,compress=zstd,nofail 0 2

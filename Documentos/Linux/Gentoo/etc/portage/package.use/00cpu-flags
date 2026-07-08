@@ -1,10 +1,84 @@
 */* CPU_FLAGS_X86: aes avx avx2 bmi1 bmi2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3 vpclmulqdq
-*/* VIDEO_CARDS: -* amdgpu radeonsi radeon
+*/* VIDEO_CARDS: -* amdgpu radeonsi
 */* mtp
-#*/* PYTHON_TARGETS: -* python3_14
-#*/* PYTHON_SINGLE_TARGET: -* python3_14
-
+*/* PYTHON_TARGETS: -* python3_14
+*/* PYTHON_SINGLE_TARGET: -* python3_14
+media-libs/chromaprint tools
+media-sound/beets chroma
 media-gfx/xsane -gimp
 dev-lua/lgi lua_targets_luajit
->=net-libs/ngtcp2-1.22.1 gnutls
->=net-dns/avahi-0.9_rc3 python
+net-libs/ngtcp2 gnutls
+x11-libs/libdrm video_cards_radeon
+net-dns/avahi python
+sys-kernel/linux-firmware compress-zstd redistributable  dist-kernel
+app-misc/fastfetch  lua -lua_single_target_lua5-3 lua_single_target_lua5-4
+media-tv/kodi -gbm
+app-text/doxygen dot
+app-text/texlive-core xetex
+app-text/docbook-sgml-utils jadetex
+dev-libs/gobject-introspection doctool
+dev-python/myst-parser python_targets_python3_13
+dev-python/sphinx python_targets_python3_13
+dev-python/alabaster python_targets_python3_13
+dev-python/babel python_targets_python3_13
+dev-python/docutils python_targets_python3_13
+dev-python/imagesize python_targets_python3_13
+dev-python/jinja2 python_targets_python3_13
+dev-python/packaging python_targets_python3_13
+dev-python/pygments python_targets_python3_13
+dev-python/requests python_targets_python3_13
+dev-python/roman-numerals python_targets_python3_13
+dev-python/snowballstemmer python_targets_python3_13
+dev-python/sphinxcontrib-applehelp python_targets_python3_13
+dev-python/sphinxcontrib-devhelp python_targets_python3_13
+dev-python/sphinxcontrib-htmlhelp python_targets_python3_13
+dev-python/sphinxcontrib-jsmath python_targets_python3_13
+dev-python/sphinxcontrib-qthelp python_targets_python3_13
+dev-python/sphinxcontrib-serializinghtml python_targets_python3_13
+dev-python/sphinxcontrib-websupport python_targets_python3_13
+dev-python/gpep517 python_targets_python3_13
+dev-python/flit-core python_targets_python3_13
+dev-python/installer python_targets_python3_13
+dev-python/setuptools python_targets_python3_13
+dev-python/jaraco-functools python_targets_python3_13
+dev-python/jaraco-text python_targets_python3_13
+dev-python/more-itertools python_targets_python3_13
+dev-python/platformdirs python_targets_python3_13
+dev-python/wheel python_targets_python3_13
+dev-python/setuptools-scm python_targets_python3_13
+dev-python/trove-classifiers python_targets_python3_13
+dev-python/vcs-versioning python_targets_python3_13
+dev-python/jaraco-context python_targets_python3_13
+dev-python/certifi python_targets_python3_13
+dev-python/charset-normalizer python_targets_python3_13
+dev-python/idna python_targets_python3_13
+dev-python/urllib3 python_targets_python3_13
+dev-python/pysocks python_targets_python3_13
+dev-python/backports-zstd python_targets_python3_13
+dev-python/hatch-vcs python_targets_python3_13
+dev-python/hatchling python_targets_python3_13
+dev-python/editables python_targets_python3_13
+dev-python/pathspec python_targets_python3_13
+dev-python/pluggy python_targets_python3_13
+dev-python/mypy python_targets_python3_13
+dev-python/ast-serialize python_targets_python3_13
+dev-python/librt python_targets_python3_13
+dev-python/mypy-extensions python_targets_python3_13
+dev-python/typing-extensions python_targets_python3_13
+dev-util/maturin python_targets_python3_13
+dev-python/markupsafe python_targets_python3_13
+dev-python/pillow python_targets_python3_13
+dev-python/olefile python_targets_python3_13
+dev-python/pybind11 python_targets_python3_13
+dev-python/scikit-build-core python_targets_python3_13
+dev-python/pyproject-metadata python_targets_python3_13
+dev-python/markdown-it-py python_targets_python3_13
+dev-python/mdit-py-plugins python_targets_python3_13
+dev-python/pyyaml python_targets_python3_13
+dev-python/cython python_targets_python3_13
+dev-python/linkify-it-py python_targets_python3_13
+dev-python/mdurl python_targets_python3_13
+dev-python/uc-micro-py python_targets_python3_13
+# required by sys-fs/dmraid-1.0.0_rc16-r7::gentoo
+# required by sys-fs/dmraid (argument)
+>=sys-fs/lvm2-2.03.39 lvm

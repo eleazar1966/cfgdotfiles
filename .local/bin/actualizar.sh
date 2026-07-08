@@ -85,7 +85,8 @@ fi
 # 5. Configuración
 echo "[5/9] Revisando cambios en /etc..."
 set_title "config"
-sudo dispatch-conf # dispatch-conf es generalmente más seguro/rápido que etc-update
+# sudo dispatch-conf # dispatch-conf es generalmente más seguro/rápido que etc-update
+sudo etc-update # revisando cambios en configuraciones con etc-update
 
 # 6. Limpieza y Reconstrucción
 echo "[6/9] Depurando sistema..."

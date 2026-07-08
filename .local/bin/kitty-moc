@@ -6,18 +6,18 @@ pkill -f "kitty.*--title Música" 2>/dev/null
 
 # 2. Asegurar el servidor MOC levantado en background
 if ! mocp -Q "%state" &>/dev/null; then
-    mocp -S &>/dev/null
-    for i in {1..5}; do
-        mocp -Q "%state" &>/dev/null && break
-        sleep 0.02
-    done
+  mocp -S &>/dev/null
+  for i in {1..5}; do
+    mocp -Q "%state" &>/dev/null && break
+    sleep 0.02
+  done
 fi
 
-# 3. Lanzar Kitty forzando el layout vertical (una ventana arriba y otra abajo)
+# 3. Lanzar Kitty con el mapeo de cierre interno
 exec kitty -1 --title "Música" \
-    -o "map ctrl+shift+q launch --type=background sh -c 'mocp -x; pkill -f cava; kitty @ close-window --match=title:Música'" \
-    -o "enabled_layouts vertical,horizontal" \
-    sh -c "
+  -o "map ctrl+shift+m launch --type=background sh -c 'mocp -x && pkill -f cava && kitty @ close-window --match=title:Música'" \
+  -o "enabled_layouts vertical,horizontal" \
+  sh -c "
         kitty @ launch --location=hsplit sh -c 'cava'
         mocp -c &>/dev/null
         (sleep 0.2 && mocp -a ~/Música && mocp -p) &>/dev/null &
