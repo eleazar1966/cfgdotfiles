@@ -1,0 +1,215 @@
+// --- INTEGRACIÓN CROMÁTICA AUTOMATIZADA ---
+// Importación del bloque layout generado por Matugen (Colores y Gradiente)
+include "colors.kdl"
+
+prefer-no-csd
+
+// =============================================================================
+// 1. CONFIGURACIÓN DE DISPOSITIVOS DE ENTRADA (INPUT BLOCK)
+// =============================================================================
+input {
+    keyboard {
+        xkb {
+            // Configuración bilingüe integrada (US/ES) con conmutación nativa Alt+Shift
+            layout "us,es"
+            options "grp:alt_shift_toggle"
+        }
+        numlock
+    }
+    touchpad {
+        tap
+        dwt
+        natural-scroll
+    }
+    warp-mouse-to-focus
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+cursor {
+    xcursor-theme "Dracula-cursors"
+    xcursor-size 24
+}
+
+// =============================================================================
+// 2. GEOMETRÍA Y REGLAS DE DISEÑO (LAYOUT BLOCK)
+// =============================================================================
+layout {
+    gaps 2
+    center-focused-column "on-overflow"
+    
+    // Proporciones para el escalado dinámico optimizado (Mod+R)
+    preset-column-widths {
+        proportion 0.333
+        proportion 0.5
+        proportion 0.667
+    }
+    default-column-width { proportion 0.5; }
+
+    border {
+        width 2
+        inactive-color "#505050"
+        urgent-color "#9b0000"
+    }
+}
+
+// =============================================================================
+// 3. SERVICIOS Y APLICACIONES AL ARRANQUE
+// =============================================================================
+spawn-at-startup "mako"
+
+// Sincronización limpia del entorno con D-Bus para Wayland
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
+
+// Inicialización segura de portales XDG y agentes de autenticación
+spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-portal &"
+spawn-at-startup "/usr/libexec/lxqt-policykit-agent"
+
+// Inicialización automatizada de wallpapers.sh en modo demonio (bucle infinito)
+spawn-at-startup "/home/eleazar/.local/bin/wallpapers.sh"
+
+// [NUEVO] Inicialización del supervisor y vigilante dinámico de Waybar
+spawn-at-startup "/home/eleazar/.local/bin/launch-waybar.sh"
+
+// =============================================================================
+// 4. DESPACHADOR DE ATAJOS DE TECLADO (BINDS BLOCK)
+// =============================================================================
+binds {
+    // --- LANZADORES DEL ENTORNO ---
+    Mod+Return       { spawn "kitty"; }
+    Mod+D            { spawn "fuzzel"; }
+    Mod+E            { spawn "thunar"; }
+    Mod+T            { spawn "env" "QT_QPA_PLATFORM=xcb" "telegram-desktop"; }
+    Mod+F1           { spawn "kitty" "--class" "niri_help" "-e" "/home/eleazar/.local/bin/niri-help"; }
+    Mod+Shift+Slash  { show-hotkey-overlay; }
+
+    // [NUEVO] Lanzador del entorno integrado de Música (MOCP + CAVA en Kitty)
+    Mod+M            { spawn "/home/eleazar/.local/bin/kitty-moc"; }
+    // Matar por completo el ecosistema musical (MOC, CAVA y Ventana de Kitty)
+    Mod+Shift+M { spawn "sh" "-c" "mocp -x; pkill -f cava; pkill -f 'kitty.*--title Música'"; }
+
+    // [NUEVO] Lanzador multimedia yt-x heredando la regla flotante de terminal
+    Mod+Y            { spawn "kitty" "--class" "floating_terminal" "-e" "yt-x"; }
+
+    // --- GESTIÓN DINÁMICA DE IDIOMAS (TECLADO) ---
+    Mod+Space        { switch-layout "next"; }
+
+    // --- FLUJO DE ENFOQUE DE VENTANAS ---
+    Mod+H            { focus-column-left; }
+    Mod+Left         { focus-column-left; }
+    Mod+L            { focus-column-right; }
+    Mod+Right        { focus-column-right; }
+    Mod+J            { focus-window-down; }
+    Mod+Down         { focus-window-down; }
+    Mod+K            { focus-window-up; }
+    Mod+Up           { focus-window-up; }
+    
+    Mod+Home         { focus-column-first; }
+    Mod+End          { focus-column-last; }
+
+    // --- REORGANIZACIÓN DE CONTENEDORES ---
+    Mod+Shift+H      { move-column-left; }
+    Mod+Shift+Left   { move-column-left; }
+    Mod+Shift+L      { move-column-right; }
+    Mod+Shift+Right  { move-column-right; }
+    Mod+Shift+J      { move-window-down; }
+    Mod+Shift+Down   { move-window-down; }
+    Mod+Shift+K      { move-window-up; }
+    Mod+Shift+Up     { move-window-up; }
+
+    Mod+Shift+Home   { move-column-to-first; }
+    Mod+Shift+End    { move-column-to-last; }
+
+    // --- ESPACIOS DE TRABAJO (WORKSPACES) ---
+    Mod+Page_Down    { focus-workspace-down; }
+    Mod+U            { focus-workspace-down; }
+    Mod+Page_Up      { focus-workspace-up; }
+    Mod+I            { focus-workspace-up; }
+    
+    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
+
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+
+    // --- CONTROL DE VENTANAS Y LAYOUT ---
+    Mod+BracketLeft  { consume-window-into-column; }
+    Mod+BracketRight { expel-window-from-column; }
+    Mod+Comma        { consume-or-expel-window-left; }
+    Mod+Period       { consume-or-expel-window-right; }
+    Mod+W            { toggle-column-tabbed-display; }
+
+    // --- DIMENSIONAMIENTO Y ESCALADO ---
+    Mod+R            { switch-preset-column-width; }
+    Mod+F            { maximize-column; }
+    Mod+Shift+F      { fullscreen-window; }
+    Mod+C            { center-column; }
+
+    Mod+Minus        { set-column-width "-10%"; }
+    Mod+Equal        { set-column-width "+10%"; }
+    Mod+Shift+Minus  { set-window-height "-10%"; }
+    Mod+Shift+Equal  { set-window-height "+10%"; }
+
+    // --- CAPTURA DE PANTALLA NATIVA ---
+    Print            { screenshot; }
+    Ctrl+Print       { screenshot-screen; }
+    Alt+Print        { screenshot-window; }
+
+    // --- MULTIMEDIA Y SCRIPTS DE AUTOMATIZACIÓN ---
+    XF86AudioRaiseVolume { spawn "~/.local/bin/volume-notify" "up"; }
+    XF86AudioLowerVolume { spawn "~/.local/bin/volume-notify" "down"; }
+    XF86AudioMute        { spawn "~/.local/bin/volume-notify" "mute"; }
+    Mod+N                { spawn "~/.local/bin/volume-notify" "mic"; }
+
+    // Ejecución asíncrona de grabación de video (gpu-screen-recorder)
+    Mod+G                { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
+
+    // Invocación manual con paso de argumento para forzar cambio aleatorio instantáneo
+    Mod+Shift+W          { spawn "/home/eleazar/.local/bin/wallpapers.sh" "next"; }
+
+    // --- SEGURIDAD Y CONTROL DE SESIÓN ---
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Mod+Q            { close-window; }
+    Mod+Shift+P      { power-off-monitors; }
+    Mod+Shift+E      { quit; }
+    Ctrl+Alt+Delete  { quit; }
+}
+
+// =============================================================================
+// 5. REGLAS DE VENTANAS (WINDOW RULES)
+// =============================================================================
+window-rule {
+    match app-id="niri_help"
+    open-floating true
+    default-column-width { proportion 0.5; }
+    default-window-height { proportion 0.7; }
+}
+
+window-rule {
+    match is-active=false
+    match is-floating=true
+    opacity 0.95
+}
+
+window-rule {
+    match app-id="floating_terminal"
+    open-floating true
+    default-column-width { proportion 0.3; }
+    default-window-height { proportion 0.4; }
+}
