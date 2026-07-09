@@ -61,7 +61,7 @@ hotkey-overlay {
 }    
 
 // =============================================================================
-// 3. CAPTURAS DE PANTALLA NATIVAS (DIRECTORIO PERSONALIZADO)
+// 3. CAPTURAS DE PANTALLA NATIVAS
 // =============================================================================
 screenshot-path "~/Imágenes/Screenshot/Screenshot desde %Y-%m-%d %H-%M-%S.png"
 
@@ -74,151 +74,260 @@ spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-p
 spawn-at-startup "/usr/libexec/lxqt-policykit-agent"
 spawn-at-startup "/home/eleazar/.local/bin/wallpapers.sh"
 spawn-at-startup "/home/eleazar/.local/bin/launch-waybar.sh"
+spawn-at-startup "openrgb" "--startminimized"
+spawn-at-startup "telegram-desktop" "-starttray"
+spawn-at-startup "blueman-applet"
+spawn-at-startup "udiskie"
+spawn-at-startup "nm-applet"
 
 // =============================================================================
 // 5. DESPACHADOR DE ATAJOS DE TECLADO (BINDS BLOCK)
 // =============================================================================
 binds {
-    // --- LANZADORES DEL ENTORNO ---
+    /// Lanzar terminal Kitty
     Mod+Return       { spawn "kitty"; }
+    /// Lanzar menu Fuzzel
     Mod+D            { spawn "fuzzel"; }
+    /// Lanzar gestor de archivos Thunar
     Mod+E            { spawn "thunar"; }
+    /// Lanzar Telegram Desktop
     Mod+T            { spawn "env" "QT_QPA_PLATFORM=xcb" "telegram-desktop"; }
+    /// Lanzar reproductor MOC
     Mod+M            { spawn "/home/eleazar/.local/bin/kitty-moc"; }
+    /// Cerrar MOC y procesos de audio
     Mod+Shift+M      { spawn "sh" "-c" "mocp -x; pkill -f cava; pkill -f 'kitty.*--title Música'"; }
+    /// Lanzar terminal flotante yt-x
     Mod+Y            { spawn "kitty" "--class" "floating_terminal" "-e" "yt-x"; }
 
-    // --- GESTIÓN DINÁMICA DE IDIOMAS (TECLADO) ---
+    /// Cambiar distribucion de teclado (Idioma)
     Mod+Space        { switch-layout "next"; }
 
-    // --- FLUJO DE ENFOQUE DE VENTANAS ---
+    /// Enfocar columna a la izquierda
     Mod+H            { focus-column-left; }
+    /// Enfocar columna a la izquierda
     Mod+Left         { focus-column-left; }
+    /// Enfocar columna a la derecha
     Mod+L            { focus-column-right; }
+    /// Enfocar columna a la derecha
     Mod+Right        { focus-column-right; }
+    /// Enfocar ventana de abajo
     Mod+J            { focus-window-down; }
+    /// Enfocar ventana de abajo
     Mod+Down         { focus-window-down; }
+    /// Enfocar ventana de arriba
     Mod+K            { focus-window-up; }
+    /// Enfocar ventana de arriba
     Mod+Up           { focus-window-up; }
-    
-    Mod+V            { toggle-window-floating; }
-    Mod+Shift+V      { switch-focus-between-floating-and-tiling; }
-    Mod+Home         { focus-column-first; }
-    Mod+End          { focus-column-last; }
-    Mod+O            { toggle-overview; }
 
-    // --- REORGANIZACIÓN DE CONTENEDORES ---
+    /// Ir a la primera columna
+    Mod+Home         { focus-column-first; }
+    /// Ir a la ultima columna
+    Mod+End          { focus-column-last; }
+    /// Alternar foco entre flotante y mosaico
+    Mod+Shift+V      { switch-focus-between-floating-and-tiling; }
+
+    /// Mover columna a la izquierda
     Mod+Shift+H      { move-column-left; }
+    /// Mover columna a la izquierda
     Mod+Shift+Left   { move-column-left; }
+    /// Mover columna a la derecha
     Mod+Shift+L      { move-column-right; }
+    /// Mover columna a la derecha
     Mod+Shift+Right  { move-column-right; }
+    /// Mover ventana hacia abajo
     Mod+Shift+J      { move-window-down; }
+    /// Mover ventana hacia abajo
     Mod+Shift+Down   { move-window-down; }
+    /// Mover ventana hacia arriba
     Mod+Shift+K      { move-window-up; }
+    /// Mover ventana hacia arriba
     Mod+Shift+Up     { move-window-up; }
+    
+    /// Mover columna al principio del espacio
     Mod+Shift+Home   { move-column-to-first; }
+    /// Mover columna al final del espacio
     Mod+Shift+End    { move-column-to-last; }
 
-    // --- ESPACIOS DE TRABAJO (WORKSPACES) ---
-    Mod+Page_Down    { focus-workspace-down; }
-    Mod+U            { focus-workspace-down; }
-    Mod+Page_Up      { focus-workspace-up; }
-    Mod+I            { focus-workspace-up; }
-    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
-    Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
+    /// Ir al espacio de trabajo inferior
+    Mod+Page_Down       { focus-workspace-down; }
+    /// Ir al espacio de trabajo superior
+    Mod+Page_Up         { focus-workspace-up; }
+    /// Mover columna al espacio inferior
+    Mod+Ctrl+Page_Down  { move-column-to-workspace-down; }
+    /// Mover columna al espacio superior
+    Mod+Ctrl+Page_Up    { move-column-to-workspace-up; }
 
+    /// Ir al espacio de trabajo inferior (U)
+    Mod+U               { focus-workspace-down; }
+    /// Ir al espacio de trabajo superior (I)
+    Mod+I               { focus-workspace-up; }
+    /// Mover columna al espacio inferior (U)
+    Mod+Ctrl+U          { move-column-to-workspace-down; }
+    /// Mover columna al espacio superior (I)
+    Mod+Ctrl+I          { move-column-to-workspace-up; }
+
+    /// Ir al espacio de trabajo 1
     Mod+1 { focus-workspace 1; }
+    /// Ir al espacio de trabajo 2
     Mod+2 { focus-workspace 2; }
+    /// Ir al espacio de trabajo 3
     Mod+3 { focus-workspace 3; }
+    /// Ir al espacio de trabajo 4
     Mod+4 { focus-workspace 4; }
+    /// Ir al espacio de trabajo 5
     Mod+5 { focus-workspace 5; }
+    /// Ir al espacio de trabajo 6
     Mod+6 { focus-workspace 6; }
+    /// Ir al espacio de trabajo 7
     Mod+7 { focus-workspace 7; }
+    /// Ir al espacio de trabajo 8
     Mod+8 { focus-workspace 8; }
+    /// Ir al espacio de trabajo 9
     Mod+9 { focus-workspace 9; }
 
+    /// Mover columna al espacio 1
     Mod+Shift+1 { move-column-to-workspace 1; }
+    /// Mover columna al espacio 2
     Mod+Shift+2 { move-column-to-workspace 2; }
+    /// Mover columna al espacio 3
     Mod+Shift+3 { move-column-to-workspace 3; }
+    /// Mover columna al espacio 4
     Mod+Shift+4 { move-column-to-workspace 4; }
+    /// Mover columna al espacio 5
     Mod+Shift+5 { move-column-to-workspace 5; }
+    /// Mover columna al espacio 6
     Mod+Shift+6 { move-column-to-workspace 6; }
+    /// Mover columna al espacio 7
     Mod+Shift+7 { move-column-to-workspace 7; }
+    /// Mover columna al espacio 8
     Mod+Shift+8 { move-column-to-workspace 8; }
+    /// Mover columna al espacio 9
     Mod+Shift+9 { move-column-to-workspace 9; }
 
-    // --- NAVEGACIÓN CON RUEDA DEL RATÓN (CONVENIENTES POR DEFECTO) ---
+    /// Mouse: Ir al espacio inferior
     Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    /// Mouse: Ir al espacio superior
     Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    /// Mouse: Mover columna al espacio inferior
     Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    /// Mouse: Mover columna al espacio superior
     Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
 
-    // --- CONTROL DE VENTANAS Y LAYOUT ---
-    Mod+BracketLeft  { consume-or-expel-window-left; }
-    Mod+BracketRight { consume-or-expel-window-right; }
-    Mod+Comma        { consume-window-into-column; }
-    Mod+Period       { expel-window-from-column; }
-    Mod+W            { toggle-column-tabbed-display; }
+    /// Monitor: Enfocar monitor izquierdo
+    Mod+Alt+Left  { focus-monitor-left; }
+    /// Monitor: Enfocar monitor de abajo
+    Mod+Alt+Down  { focus-monitor-down; }
+    /// Monitor: Enfocar monitor de arriba
+    Mod+Alt+Up    { focus-monitor-up; }
+    /// Monitor: Enfocar monitor derecho
+    Mod+Alt+Right { focus-monitor-right; }
 
-    // --- DIMENSIONAMIENTO Y ESCALADO ---
+    /// Monitor: Mover columna al monitor izquierdo
+    Mod+Shift+Alt+Left  { move-column-to-monitor-left; }
+    /// Monitor: Mover columna al monitor de abajo
+    Mod+Shift+Alt+Down  { move-column-to-monitor-down; }
+    /// Monitor: Mover columna al monitor de arriba
+    Mod+Shift+Alt+Up    { move-column-to-monitor-up; }
+    /// Monitor: Mover columna al monitor derecho
+    Mod+Shift+Alt+Right { move-column-to-monitor-right; }
+
+    /// Contenedor: Incorporar o expulsar ventana izquierda
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    /// Contenedor: Incorporar o expulsar ventana derecha
+    Mod+BracketRight { consume-or-expel-window-right; }
+    /// Contenedor: Incorporar ventana a la columna
+    Mod+Comma        { consume-window-into-column; }
+    /// Contenedor: Expulsar ventana de la columna
+    Mod+Period       { expel-window-from-column; }
+    
+    /// Alternar visualizacion de pestañas en columna
+    Mod+W            { toggle-column-tabbed-display; }
+    /// Alternar ventana entre flotante y mosaico
+    Mod+V            { toggle-window-floating; }
+    /// Alternar vista general (Overview)
+    Mod+O            { toggle-overview; }
+
+    /// Cambiar ancho de columna predefinido (Adelante)
     Mod+R            { switch-preset-column-width; }
+    /// Cambiar ancho de columna predefinido (Atras)
     Mod+Shift+R      { switch-preset-column-width-back; }
+    /// Alternar maximizar columna
     Mod+F            { maximize-column; }
+    /// Alternar pantalla completa
     Mod+Shift+F      { fullscreen-window; }
+    /// Centrar columna en pantalla
     Mod+C            { center-column; }
 
+    /// Reducir ancho de columna
     Mod+Minus        { set-column-width "-10%"; }
+    /// Aumentar ancho de columna
     Mod+Equal        { set-column-width "+10%"; }
+    /// Reducir altura de ventana
     Mod+Shift+Minus  { set-window-height "-10%"; }
+    /// Aumentar altura de ventana
     Mod+Shift+Equal  { set-window-height "+10%"; }
 
-    // --- CAPTURA DE PANTALLA NATIVA ---
+    /// Captura de pantalla de region
     Print            { screenshot; }
+    /// Captura de pantalla completa
     Ctrl+Print       { screenshot-screen; }
+    /// Captura de ventana activa
     Alt+Print        { screenshot-window; }
 
-    // --- MULTIMEDIA Y CONTROLES DE AUDIO ---
+    /// Audio: Subir volumen
     XF86AudioRaiseVolume allow-when-locked=true { spawn "~/.local/bin/volume-notify" "up"; }
+    /// Audio: Bajar volumen
     XF86AudioLowerVolume allow-when-locked=true { spawn "~/.local/bin/volume-notify" "down"; }
+    /// Audio: Silenciar salida
     XF86AudioMute        allow-when-locked=true { spawn "~/.local/bin/volume-notify" "mute"; }
+    /// Audio: Silenciar microfono
     Mod+N                allow-when-locked=true { spawn "~/.local/bin/volume-notify" "mic"; }
 
-    // Controles de reproducción adicionales por defecto (Playerctl)
+    /// Multimedia: Reproducir o Pausar
     XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    /// Multimedia: Detener reproduccion
     XF86AudioStop        allow-when-locked=true { spawn "playerctl" "stop"; }
+    /// Multimedia: Pista anterior
     XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
+    /// Multimedia: Pista siguiente
     XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
 
-    // --- SCRIPTS DE AUTOMATIZACIÓN ---
+    /// Script: Grabar video de pantalla
     Mod+G                { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
+    /// Script: Cambiar al siguiente fondo de pantalla
     Mod+Shift+W          { spawn "/home/eleazar/.local/bin/wallpapers.sh" "next"; }
 
-    // --- SEGURIDAD Y CONTROL DE SESIÓN ---
+    /// Alternar bloqueo de atajos de teclado
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    /// Cerrar ventana activa
     Mod+Q            { close-window; }
+    /// Apagar monitores
     Mod+Shift+P      { power-off-monitors; }
+    /// Salir de Niri
     Mod+Shift+E      { quit; }
+    /// Salir de Niri (Seguridad)
     Ctrl+Alt+Delete  { quit; }
 
-    // --- INTEGRACIÓN DE AYUDA PERSONALIZADA EN ESPAÑOL ---
-    Mod+Slash        { spawn "/home/eleazar/.local/bin/ayuda-niri.sh"; }
-    Mod+Shift+Slash  { spawn "/home/eleazar/.local/bin/ayuda-niri.sh"; }
+    /// Mostrar menu nativo de ayuda con atajos
+    Mod+Slash        { show-hotkey-overlay; }
+    /// Mostrar menu nativo de ayuda con atajos
+    Mod+Shift+Slash  { show-hotkey-overlay; }
 }
 
 // =============================================================================
 // 6. REGLAS DE VENTANAS Y REDONDEO MÍNIMO (WINDOW RULES)
 // =============================================================================
-// Redondeo sutil de esquinas para todas las ventanas del sistema
 window-rule {
     geometry-corner-radius 6
     clip-to-geometry true
 }
 
+// Forzar dimensiones correctas para el overlay y ayuda de niri
 window-rule {
     match app-id="niri_help"
     open-floating true
-    default-column-width { proportion 0.5; }
-    default-window-height { proportion 0.7; }
+    default-column-width { proportion 0.6; }
+    default-window-height { proportion 0.8; }
 }
 
 window-rule {
