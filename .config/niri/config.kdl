@@ -77,7 +77,7 @@ spawn-at-startup "/home/eleazar/.local/bin/launch-waybar.sh"
 spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "telegram-desktop" "-startintray"
-spawn-at-startup "udiskie"
+spawn-at-startup "udiskie" "--smart-tray"
 spawn-at-startup "nm-applet"
 
 // =============================================================================
