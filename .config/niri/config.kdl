@@ -75,8 +75,8 @@ spawn-at-startup "/usr/libexec/lxqt-policykit-agent"
 spawn-at-startup "/home/eleazar/.local/bin/wallpapers.sh"
 spawn-at-startup "/home/eleazar/.local/bin/launch-waybar.sh"
 spawn-at-startup "openrgb" "--startminimized"
-spawn-at-startup "telegram-desktop" "-starttray"
 spawn-at-startup "blueman-applet"
+spawn-at-startup "telegram-desktop" "-startintray"
 spawn-at-startup "udiskie"
 spawn-at-startup "nm-applet"
 
@@ -342,3 +342,10 @@ window-rule {
     default-column-width { proportion 0.3; }
     default-window-height { proportion 0.4; }
 }
+
+window-rule {
+    match app-id="^org\\.telegram\\.desktop$"
+    open-on-workspace "background-apps"
+    open-focused false
+}
+
