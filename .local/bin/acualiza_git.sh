@@ -30,26 +30,35 @@ for target in "${TARGETS[@]}"; do
   if [ -e "$target" ]; then
     EXISTING_TARGETS+=("$target")
   else
-    # Si el archivo fue borrado, Git add -u lo detectará globalmente después
     echo "Aviso: $target no encontrado, se omitirá el agregado directo."
   fi
 done
 
 # 3. Sincronizar el índice
-# --all maneja adiciones, cambios y eliminaciones en las rutas existentes
 if [ ${#EXISTING_TARGETS[@]} -gt 0 ]; then
   config add --all "${EXISTING_TARGETS[@]}"
 fi
 
-# Elimina del índice cualquier archivo que ya no esté en el árbol de trabajo (limpieza global)
+# Elimina del índice cualquier archivo que ya no esté en el árbol de trabajo
 config add -u
 
-# 4. Verificación y Commit
+# 4. Verificación, Registro y Commit
 if ! config diff-index --quiet HEAD; then
-  echo "Cambios detectados. Realizando commit..."
+  echo -e "\n--- Archivos modificados detectados ---"
+  # Muestra los cambios en tiempo real en la terminal (M = Modificado, A = Añadido, D = Eliminado)
+  config status --short
+  echo -e "---------------------------------------\n"
 
-  COMMIT_MSG="Sync configs: $(date +'%Y-%m-%d %H:%M:%S')"
-  config commit -m "$COMMIT_MSG"
+  echo "Realizando commit con registro detallado..."
+
+  # Creamos el título del commit
+  COMMIT_TITLE="Sync configs: $(date +'%Y-%m-%d %H:%M:%S')"
+
+  # Generamos el cuerpo del commit con la lista de archivos modificados
+  COMMIT_BODY=$(config status --short)
+
+  # Hacemos el commit combinando título y cuerpo
+  config commit -m "$COMMIT_TITLE" -m "$COMMIT_BODY"
 
   echo "Subiendo a GitHub..."
   if config push origin main; then
