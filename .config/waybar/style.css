@@ -30,6 +30,7 @@ window#waybar {
 /* 2. Estilo base circular */
 #custom-menu,
 #custom-power,
+#custom-weather,
 #custom-opera,
 #custom-thunar,
 #custom-firefox,
@@ -54,7 +55,7 @@ window#waybar {
 }
 
 /* Módulos de información (Píldoras) */
-#bluetooth, #clock, #cpu, #memory, #temperature, #wireplumber, #custom-language, #tray {
+#bluetooth, #clock, #cpu, #memory, #temperature, #wireplumber, #custom-language, #tray,#custom-weather {
   margin: 1px 1px;
   background-color: @background;
   color: @on_surface;
@@ -118,7 +119,7 @@ window#waybar {
 }
 
 /* 8. Efecto HOVER global */
-#clock:hover, #cpu:hover, #memory:hover, #temperature:hover, #wireplumber:hover, #tray:hover, #bluetooth:hover, #custom-language:hover, #custom-menu:hover, #custom-power:hover, #custom-opera:hover, #custom-pcmanfm:hover, #custom-thunar:hover, #custom-firefox:hover, #custom-thunderbird:hover, #custom-TelegramDesktop:hover, #custom-mousepad:hover, #custom-terminal:hover, #custom-calculadora:hover, #custom-localsend:hover, #workspaces button:hover, #taskbar button:hover, #keyboard-state label.locked:hover {
+#clock:hover, #cpu:hover, #memory:hover, #temperature:hover, #wireplumber:hover, #tray:hover, #bluetooth:hover, #custom-language:hover, #custom-menu:hover, #custom-power:hover, #custom-opera:hover, #custom-pcmanfm:hover, #custom-thunar:hover, #custom-firefox:hover, #custom-thunderbird:hover, #custom-TelegramDesktop:hover, #custom-mousepad:hover, #custom-terminal:hover, #custom-calculadora:hover, #custom-localsend:hover, #workspaces button:hover, #taskbar button:hover, #keyboard-state label.locked:hover, #custom-weather:hover {
   background-color: @primary;
   color: @background;
   box-shadow: 0 0 6px @primary;

@@ -69,7 +69,7 @@ if [ "$DETECTAR_NUEVO_KERNEL" -eq 1 ]; then
   echo "=========================================================="
 
   # Asegúrate de que esta ruta coincida con la ubicación real de tu script
-  RUTA_KERNEL_DO="~/.local/bin/kernel-do.sh"
+  RUTA_KERNEL_DO="/home/eleazar/kernel-do.sh"
 
   if [ -f "$RUTA_KERNEL_DO" ]; then
     chmod +x "$RUTA_KERNEL_DO"

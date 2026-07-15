@@ -182,7 +182,6 @@ alias ventoy='xhost +SI:localuser:root > /dev/null 2>&1; QT_QPA_PLATFORM=xcb /ho
 alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
 alias niri-help="~/.local/bin/niri-help"
-alias iaollama="~/.local/bin/openwebui-manage.sh"
 alias cfg_git='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME' 
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
