@@ -117,7 +117,7 @@
     "format": "{}",
     "tooltip": true,
     "return-type": "json",
-    "exec": "curl -s 'https://wttr.in/Caracas?format=4' | jq -R --unbuffered -c '{text: .}'",
+    "exec": "curl -s 'https://wttr.in/Caracas?format=3' | jq -R --unbuffered -c '{text: .}'",
     "on-click": "niri msg action spawn -- kitty --class=weather-popup --title='Pronóstico del Clima' -o background=#131318 -o foreground=#e4e1e9 -o color4=#bcc2ff -o color12=#bcc2ff sh -c 'curl -s \"https://wttr.in/Caracas?2\"; echo; echo \"Presiona cualquier tecla para cerrar...\"; read -n 1'",
     "interval": 900
   },
