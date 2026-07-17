@@ -183,5 +183,7 @@ alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
 alias niri-help="~/.local/bin/niri-help"
 alias cfg_git='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME' 
+alias qemuvm='~/.local/bin/qemu-creator.sh'
+
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
