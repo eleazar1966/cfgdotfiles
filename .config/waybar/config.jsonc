@@ -31,7 +31,8 @@
   ],
   "tray": {
     "icon-size": 15,
-    "spacing": 5
+    "spacing": 5,
+    "icon-theme": "Vivid-Dark-Icons"
   },
   "wlr/taskbar": {
     "format": "{icon}",
