@@ -24,10 +24,16 @@ input {
 }
 
 cursor {
-    xcursor-theme "Dracula-cursors"
-    xcursor-size 24
+    xcursor-size 5
+    // xcursor-theme "Dracula-cursors"
+    xcursor-theme "Nordzy-cursors"
 }
 
+environment {
+    // Forzar el tamaño y tema del cursor para aplicaciones GTK, Qt y XWayland
+    XCURSOR_SIZE "5" 
+    XCURSOR_THEME "Nordzy-cursors" 
+}
 // =============================================================================
 // 2. GEOMETRÍA Y REGLAS DE DISEÑO (LAYOUT BLOCK)
 // =============================================================================
@@ -333,7 +339,7 @@ window-rule {
 window-rule {
     match is-active=false
     match is-floating=true
-    opacity 0.95
+    opacity 0.85
 }
 
 window-rule {

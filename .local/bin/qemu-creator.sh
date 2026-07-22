@@ -25,7 +25,7 @@ OVMF_VARS_PATHS=("/usr/share/OVMF/OVMF_VARS.fd" "/usr/share/OVMF/OVMF_VARS_4M.fd
 for p in "${OVMF_CODE_PATHS[@]}"; do [[ -f "$p" ]] && UEFI_CODE="$p" && break; done
 for p in "${OVMF_VARS_PATHS[@]}"; do [[ -f "$p" ]] && UEFI_VARS="$p" && break; done
 
-# 1. Configuración del Directorio ISO
+# 1. Selección ISO
 read -rp "Directorio ISO [1: ~/Downloads, 2: /mnt/ssd/ISOS, 3: Personalizada] [1]: " ISO_DIR_OPT
 ISO_DIR_OPT="${ISO_DIR_OPT:-1}"
 case "$ISO_DIR_OPT" in
@@ -44,12 +44,14 @@ else
   ISO_PATH="${ISO_LIST[$((ISO_OPT - 1))]}"
 fi
 
-# 2. Configuración VM
+# 2. Configuración VM (Recuperada lógica de nombre sugerido)
+ISO_FILENAME=$(basename "$ISO_PATH" .iso)
+SUGGESTED_NAME=$(echo "$ISO_FILENAME" | sed -E 's/-(x86_64|amd64|desktop|live|minimal|netinst|dvd).*//i' | sed 's/[^a-zA-Z0-9_-]//g')
+
 read -rp "Modo [1: Live, 2: Instalación] [1]: " EXEC_MODE
 EXEC_MODE="${EXEC_MODE:-1}"
-DEFAULT_NAME=$(basename "$ISO_PATH" .iso | sed -E 's/-(x86_64|amd64|desktop|live|minimal|netinst|dvd).*//i' | sed 's/[^a-zA-Z0-9_-]//g')
-read -rp "Nombre VM [$DEFAULT_NAME]: " VM_NAME
-VM_NAME="${VM_NAME:-$DEFAULT_NAME}"
+read -rp "Nombre VM [$SUGGESTED_NAME]: " VM_NAME
+VM_NAME="${VM_NAME:-$SUGGESTED_NAME}"
 read -rp "RAM [4G]: " VM_RAM
 VM_RAM="${VM_RAM:-4G}"
 read -rp "Núcleos CPU [2]: " VM_CORES
@@ -88,33 +90,25 @@ BOOT_TYPE="VAR_BOOT_TYPE"
 MODE="VAR_MODE"
 
 ARGS=(
-    $KVM_ENABLED
-    -name "$VM_NAME" -m "$VM_RAM" -smp "$VM_CORES"
+    $KVM_ENABLED -name "$VM_NAME" -m "$VM_RAM" -smp "$VM_CORES"
     -vga virtio -display default,show-cursor=on
-    -device virtio-balloon-pci,id=balloon0
-    -device virtio-rng-pci
-    -device qemu-xhci -device usb-tablet
-    -device intel-hda -device hda-duplex
+    -device virtio-balloon-pci,id=balloon0 -device virtio-rng-pci
+    -device qemu-xhci -device usb-tablet -device intel-hda -device hda-duplex
     -netdev user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-pci,netdev=net0,romfile=
-    -device virtio-serial-pci
-    -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0
+    -device virtio-serial-pci -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0
     -chardev socket,path=/tmp/qga-${VM_NAME}.sock,server=on,wait=off,id=qga0
     -drive "file=$DISK_PATH,format=qcow2,if=none,id=hd0"
     -device "virtio-blk-pci,drive=hd0,bootindex=$([[ "$MODE" == "install" ]] && echo 2 || echo 1)"
 )
 
-# Añadir no-reboot solo en modo instalación para forzar la salida al terminar
-[ "$MODE" == "install" ] && ARGS+=(-no-reboot)
-
-[ "$MODE" == "install" ] && ARGS+=(-drive "file=$ISO_PATH,media=cdrom,readonly=on,if=none,id=cd0" -device "ide-cd,drive=cd0,bootindex=1")
+[ "$MODE" == "install" ] && ARGS+=(-drive "file=$ISO_PATH,media=cdrom,readonly=on,if=none,id=cd0" -device "ide-cd,drive=cd0,bootindex=1" -no-reboot)
 [ "$BOOT_TYPE" == "uefi" ] && ARGS+=(-drive "if=pflash,format=raw,readonly=on,file=$UEFI_CODE" -drive "if=pflash,format=raw,file=$VARS_PATH")
 
 qemu-system-x86_64 "${ARGS[@]}"
 
 if [ "$MODE" == "install" ]; then
-    echo -e "\n${GREEN}[*] Instalación detectada como terminada (apagado/reinicio).${NC}"
-    echo -e "${YELLOW}[!] Para iniciar el sistema instalado, ejecuta:${NC}"
-    echo -e "${BOLD}    $VM_DIR/boot_${VM_NAME}.sh${NC}"
+    echo -e "${GREEN}[*] Instalación finalizada. Transicionando a modo arranque...${NC}"
+    exec "${VM_DIR}/boot_${VM_NAME}.sh"
 fi
 EOF
   sed -i "s|VAR_VM_NAME|$VM_NAME|g" "$SCRIPT_PATH"
@@ -132,9 +126,9 @@ EOF
 done
 
 # 5. Ejecución
-echo -e "\n${BOLD}${BLUE}Scripts generados correctamente:${NC}"
-echo -e "  * Instalador: ${VM_DIR}/install_${VM_NAME}.sh"
-echo -e "  * Arranque:   ${VM_DIR}/boot_${VM_NAME}.sh${NC}\n"
+echo -e "\n${BOLD}${BLUE}Configuración completada.${NC}"
+echo -e "Instalador: ${VM_DIR}/install_${VM_NAME}.sh"
+echo -e "Arranque:   ${VM_DIR}/boot_${VM_NAME}.sh${NC}\n"
 
 if [ "$EXEC_MODE" = "1" ]; then
   echo -e "${BLUE}[*] Iniciando modo LIVE...${NC}"

@@ -148,7 +148,7 @@ else
 fi
 
 export XCURSOR_THEME="Dracula-cursors"
-export XCURSOR_SIZE=10
+export XCURSOR_SIZE=5
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -164,16 +164,14 @@ export XCURSOR_SIZE=10
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
-alias actualizar="~/.local/bin/actualizar.sh | lolcat"
+alias actualizar="~/.local/bin/actualizar.sh"
 alias kernel=~/.local/bin/kernel-do.sh
 alias respaldo=~/.local/bin/respaldo.sh
-alias fastfetch="fastfetch | lolcat"
 export VDPAU_DRIVER=radeonsi
 LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias grabavideo="~/.local/bin/graba_video.sh"
-alias update-git="~/.local/bin/acualiza_git.sh | lolcat"
-alias git-update="~/.local/bin/acualiza_git.sh | lolcat"
+alias update-git="~/.local/bin/acualiza_git.sh"
 alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
@@ -181,9 +179,17 @@ alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux
 alias ventoy='xhost +SI:localuser:root > /dev/null 2>&1; QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Linux/Gentoo/ventoy-1.1.12/VentoyGUI.x86_64'
 alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
-alias niri-help="~/.local/bin/niri-help"
-alias cfg_git='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME' 
+alias niri-help="~/.local/bin/ayuda-niri.sh"
 alias qemuvm='~/.local/bin/qemu-creator.sh'
-
+alias iniollama='~/.local/bin/manage-ai.sh'
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
+
+# Added by LM Studio CLI tool (lms)
+export PATH="$PATH:/home/eleazar/.lmstudio/bin"
+
+# opencode (local wrapper tiene prioridad para lifecycle de ollama)
+export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
+
+alias gentle-ai='/home/eleazar/.local/bin/gentle-ai'
+export PATH="$HOME/.npm-global/bin:$PATH"

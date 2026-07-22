@@ -1,8 +1,8 @@
-ls /var/db/repos/tryton/acct-group/ >>tryton.txt
-ls /var/db/repos/tryton/app-office/ >>tryton.txt
-ls /var/db/repos/tryton/app-tryton/ >>tryton.txt
-ls /var/db/repos/tryton/acct-user/ >>tryton.txt
-#ls /var/db/repos/tryton/dev-javascript >> tryton.txt
-#ls /var/db/repos/tryton/dev-python >> tryton.txt
-sort -u tryton.txt >tryton_sort.txt
-rm tryton.txt
+#!/bin/bash
+OUT="$HOME/tryton.txt"
+ls /var/db/repos/tryton/acct-group/ >> "$OUT"
+ls /var/db/repos/tryton/app-office/ >> "$OUT"
+ls /var/db/repos/tryton/app-tryton/ >> "$OUT"
+ls /var/db/repos/tryton/acct-user/ >> "$OUT"
+sort -u "$OUT" > "$HOME/tryton_sort.txt"
+rm "$OUT"

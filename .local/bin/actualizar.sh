@@ -9,8 +9,6 @@ ORIGINAL_TITLE="Terminal"
 BOOT_WAS_MOUNTED=0
 
 # Configuración balanceada para Zen 3 con 32GB RAM + tmpfs
-# Bajamos de 16 a 9 para evitar desbordamiento de RAM/tmpfs
-THREADS=9
 LOAD=8.0
 
 echo "=========================================================="
@@ -39,17 +37,27 @@ set_title "emaint"
 sudo emaint --check all || sudo emaint --fix all
 
 # =====================================================================
-# DETECCIÓN DE NUEVO KERNEL (PRE-ACTUALIZACIÓN)
+# DETECCIÓN DE NUEVO KERNEL (comparando fuentes instaladas vs activas)
 # =====================================================================
-echo "🔍 Analizando si hay una nueva versión de gentoo-sources en camino..."
+echo "🔍 Verificando si hay fuentes de kernel más recientes sin compilar..."
 DETECTAR_NUEVO_KERNEL=0
 
-# Simulamos la actualización para buscar específicamente 'sys-kernel/gentoo-sources'
-if sudo emerge -pDuNv --with-bdeps=y @world | grep -E "sys-kernel/gentoo-sources"; then
-  echo "✨ ¡Se detectó una nueva versión de gentoo-sources! Se programará kernel-do.sh al finalizar la compilación."
+LATEST_SRC_DIR=$(ls -1d /usr/src/linux-*-gentoo 2>/dev/null | sort -V | tail -1)
+CURRENT_SRC_LINK=$(readlink /usr/src/linux 2>/dev/null)
+
+if [ -n "$LATEST_SRC_DIR" ] && [ -n "$CURRENT_SRC_LINK" ]; then
+  LATEST_BASENAME=$(basename "$LATEST_SRC_DIR")
+  if [ "$LATEST_BASENAME" != "$CURRENT_SRC_LINK" ]; then
+    echo "✨ ¡Se detectó $LATEST_BASENAME sin compilar! Se ejecutará kernel-do.sh..."
+    DETECTAR_NUEVO_KERNEL=1
+  else
+    echo "✅ El kernel activo ya es la última versión instalada ($CURRENT_SRC_LINK)."
+  fi
+elif [ -z "$CURRENT_SRC_LINK" ]; then
+  echo "⚠️  No hay un kernel seleccionado. Se ejecutará kernel-do.sh..."
   DETECTAR_NUEVO_KERNEL=1
 else
-  echo "✅ No hay actualizaciones pendientes para las fuentes del kernel."
+  echo "⚠️  No se encontraron fuentes en /usr/src/."
 fi
 # =====================================================================
 
@@ -69,7 +77,7 @@ if [ "$DETECTAR_NUEVO_KERNEL" -eq 1 ]; then
   echo "=========================================================="
 
   # Asegúrate de que esta ruta coincida con la ubicación real de tu script
-  RUTA_KERNEL_DO="~/.local/bin/kernel-do.sh"
+  RUTA_KERNEL_DO="$HOME/.local/bin/kernel-do.sh"
 
   if [ -f "$RUTA_KERNEL_DO" ]; then
     chmod +x "$RUTA_KERNEL_DO"
@@ -93,8 +101,7 @@ echo "[6/9] Depurando sistema..."
 set_title "limpieza"
 sudo emerge --depclean
 sudo emerge @preserved-rebuild
-# revdep-rebuild es antiguo; emerge @preserved-rebuild suele ser suficiente en sistemas modernos
-command -v revdep-rebuild >/dev/null 2>&1 && sudo revdep-rebuild
+
 
 # 7. Mantenimiento
 echo "[7/9] Limpiando distfiles y kernels..."
