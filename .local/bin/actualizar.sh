@@ -102,7 +102,6 @@ set_title "limpieza"
 sudo emerge --depclean
 sudo emerge @preserved-rebuild
 
-
 # 7. Mantenimiento
 echo "[7/9] Limpiando distfiles y kernels..."
 sudo eclean-dist --deep

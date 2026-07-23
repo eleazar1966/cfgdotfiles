@@ -298,6 +298,16 @@ binds {
     /// Multimedia: Pista siguiente
     XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
 
+    /// === Teclas FN+F del GK-979 Gaming Keyboard ===
+    /// Correo electronico (FN+F9)
+    XF86Mail             { spawn "thunderbird"; }
+    /// Navegador web (FN+F10) — KEY_HOMEPAGE, modo incógnito
+    XF86HomePage         { spawn "firefox" "--private-window"; }
+    /// Gestor de archivos (FN+F11) — KEY_FILE / XF86Explorer
+    XF86Explorer         { spawn "thunar"; }
+    /// Calculadora (FN+F12)
+    XF86Calculator       { spawn "gnome-calculator"; }
+
     /// Script: Grabar video de pantalla
     Mod+G                { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
     /// Script: Cambiar al siguiente fondo de pantalla

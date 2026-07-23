@@ -9,26 +9,26 @@ OLLAMA_HOST="${OLLAMA_HOST:-http://localhost:11434}"
 
 # 1. Ensure Ollama is running (Gentoo OpenRC)
 if ! rc-service ollama status >/dev/null 2>&1; then
-    echo "-> Starting Ollama..."
-    sudo rc-service ollama start
+  echo "-> Starting Ollama..."
+  sudo rc-service ollama start
 fi
 
 # 2. Wait for Ollama API
 echo -n "-> Waiting for Ollama API"
 for i in $(seq 1 15); do
-    if curl -sf "$OLLAMA_HOST/api/tags" >/dev/null 2>&1; then
-        echo " ready"
-        break
-    fi
-    echo -n "."
-    sleep 1
+  if curl -sf "$OLLAMA_HOST/api/tags" >/dev/null 2>&1; then
+    echo " ready"
+    break
+  fi
+  echo -n "."
+  sleep 1
 done
 echo ""
 
 # 3. Ensure auth placeholder exists (required by opencode for local providers)
 mkdir -p "$AUTH_DIR"
 if [ ! -f "$AUTH_DIR/auth.json" ]; then
-    echo '{"ollama":{"type":"api","key":"ollama"}}' > "$AUTH_DIR/auth.json"
+  echo '{"ollama":{"type":"api","key":"ollama"}}' > "$AUTH_DIR/auth.json"
 fi
 
 # 4. Ensure global config dir exists with plugin reference
@@ -37,15 +37,15 @@ mkdir -p "$CONFIG_DIR"
 # 5. Show available models
 echo "-> Models instalados en Ollama:"
 curl -sf "$OLLAMA_HOST/api/tags" 2>/dev/null | \
-    python3 -c "import json,sys; data=json.load(sys.stdin); [print(f'   {m[\"name\"]:30s} {m[\"size\"]/1e9:.1f}GB') for m in data.get('models',[])]" \
-    2>/dev/null || echo "   (no se pudo listar modelos)"
+  python3 -c "import json,sys; data=json.load(sys.stdin); [print(f'   {m[\"name\"]:30s} {m[\"size\"]/1e9:.1f}GB') for m in data.get('models',[])]" \
+  2>/dev/null || echo "   (no se pudo listar modelos)"
 
 # 6. Capturar interrupción para apagar Ollama
 cleanup() {
-    echo ""
-    echo "-> Deteniendo Ollama para liberar recursos..."
-    sudo rc-service ollama stop 2>/dev/null || true
-    exit 0
+  echo ""
+  echo "-> Deteniendo Ollama para liberar recursos..."
+  sudo rc-service ollama stop 2>/dev/null || true
+  exit 0
 }
 trap cleanup SIGINT SIGTERM SIGHUP
 

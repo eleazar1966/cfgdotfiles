@@ -1,8 +1,8 @@
 [Desktop Entry]
 Name=RPCS3
-Exec=/home/eleazar/Documentos/Juegos/RPCS3/EMULATOR/rpcs3-v0.0.41-19558-dc06cac0_linux64.AppImage
+Comment=Emulador de PlayStation 3 (optimizado Ryzen 5700G)
+Exec=/home/eleazar/Documentos/Juegos/RPCS3/run_rpcs3.sh %F
 Icon=/home/eleazar/Documentos/Juegos/RPCS3/EMULATOR/rpcs3.png
 Type=Application
 Categories=Games;
 Terminal=false
-Comment=Emulador de PlayStation 3

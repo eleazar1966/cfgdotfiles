@@ -60,7 +60,7 @@ if [ -f "$CONFIG_MAESTRA" ]; then
   sudo cp "$CONFIG_MAESTRA" .config
 elif [ -f /proc/config.gz ]; then
   echo "🔹 Extrayendo configuración del kernel en ejecución (/proc/config.gz)..."
-  zcat /proc/config.gz | sudo tee .config > /dev/null
+  zcat /proc/config.gz | sudo tee .config >/dev/null
 else
   echo "❌ Error: No se encontró configuración en $CONFIG_MAESTRA ni en /proc/config.gz."
   exit 1

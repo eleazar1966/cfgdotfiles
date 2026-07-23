@@ -171,7 +171,7 @@ export VDPAU_DRIVER=radeonsi
 LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias grabavideo="~/.local/bin/graba_video.sh"
-alias update-git="~/.local/bin/acualiza_git.sh"
+alias update-git="~/.local/bin/actualiza_git.sh"
 alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
@@ -192,4 +192,5 @@ export PATH="$PATH:/home/eleazar/.lmstudio/bin"
 export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
 
 alias gentle-ai='/home/eleazar/.local/bin/gentle-ai'
+alias mikrotik='~/.local/bin/conectar.sh'
 export PATH="$HOME/.npm-global/bin:$PATH"
