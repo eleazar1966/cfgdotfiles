@@ -60,6 +60,76 @@ else
   echo "⚠️  No se encontraron fuentes en /usr/src/."
 fi
 # =====================================================================
+# DETECCIÓN DE NUEVO GCC
+#   - Revisa si hay un slot diferente instalado pero no activo (gcc-config)
+#   - Revisa si Portage tiene una actualización de slot (ej. gcc:16 → gcc:17)
+#   - Revisa si Portage tiene un parche menor (mismo slot, emerge @world lo maneja)
+# =====================================================================
+echo "🔍 Verificando si hay una versión más reciente de GCC..."
+DETECTAR_NUEVO_GCC=0
+
+CURRENT_GCC_VER=$(gcc --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+\.\d+[^\s]*' | head -1 || echo "desconocido")
+CURRENT_GCC_SLOT=$(gcc --version 2>/dev/null | head -1 | grep -oP 'Gentoo\s+\K\d+' || echo "")
+
+# ── Check 1: ¿Slot instalado pero no activo (gcc-config)? ──
+if command -v gcc-config &>/dev/null; then
+  CURRENT_GCC_PROFILE=$(gcc-config -c 2>/dev/null || true)
+  LATEST_INSTALLED_PROFILE=$(gcc-config --list-profiles 2>/dev/null | grep -oP '\[\d+\]\s+\K\S+' | sort -V | tail -1)
+
+  if [ -n "$LATEST_INSTALLED_PROFILE" ] && [ -n "$CURRENT_GCC_PROFILE" ] \
+     && [ "$LATEST_INSTALLED_PROFILE" != "$CURRENT_GCC_PROFILE" ]; then
+    echo "✨ Nuevo slot GCC instalado sin activar: $LATEST_INSTALLED_PROFILE"
+    DETECTAR_NUEVO_GCC=1
+  fi
+fi
+
+# ── Check 2: ¿Portage tiene un GCC más nuevo disponible? ──
+# Esto captura tanto cambios de slot como parches menores que emerge @world
+# actualizaría de todas formas.
+EMERGE_PREVIEW=$(emerge -p sys-devel/gcc 2>/dev/null | grep '^\[ebuild' | grep 'sys-devel/gcc' | head -1 || true)
+
+if [ -n "$EMERGE_PREVIEW" ]; then
+  # Extraer versión disponible: "gcc-16.1.1_p20260718"
+  AVAILABLE_GCC=$(echo "$EMERGE_PREVIEW" | grep -oP 'gcc-\S+' | head -1)
+  # Extraer slot (primer número de versión, ej: 16 de gcc-16.1.1_p20260718)
+  AVAILABLE_SLOT=$(echo "$AVAILABLE_GCC" | grep -oP 'gcc-\K\d+')
+
+  if [ "$DETECTAR_NUEVO_GCC" -eq 0 ]; then
+    if [ -n "$AVAILABLE_SLOT" ] && [ "$AVAILABLE_SLOT" != "$CURRENT_GCC_SLOT" ]; then
+      echo "✨ Nuevo slot GCC disponible en Portage: $AVAILABLE_GCC — requiere toolchain upgrade"
+      DETECTAR_NUEVO_GCC=1
+    elif [ -n "$AVAILABLE_GCC" ]; then
+      echo "ℹ️  Parche menor GCC disponible en Portage: $AVAILABLE_GCC (lo maneja emerge @world)"
+    fi
+  fi
+elif [ "$DETECTAR_NUEVO_GCC" -eq 0 ]; then
+  echo "✅ GCC ya está en la última versión ($CURRENT_GCC_VER)."
+fi
+# =====================================================================
+
+# ─── Ejecutar actualización de GCC si se detectó cambio de slot ───
+if [ "$DETECTAR_NUEVO_GCC" -eq 1 ]; then
+  echo -e "\n=========================================================="
+  echo "🚀 EJECUTANDO ACTUALIZACIÓN DE GCC (toolchain)"
+  echo "=========================================================="
+
+  RUTA_GCC="$HOME/.local/bin/actualiza_gcc.sh"
+
+  if [ -f "$RUTA_GCC" ]; then
+    chmod +x "$RUTA_GCC"
+    # --skip-world: omitimos el @world interno porque actualizar.sh lo hará
+    # tras la activación del nuevo compilador
+    bash "$RUTA_GCC" --skip-world
+  else
+    echo "❌ ERROR: No se encontró el script actualiza_gcc.sh en: $RUTA_GCC"
+    echo "   La actualización de GCC se omitirá."
+  fi
+
+  # Recargar entorno para que el resto del script vea el nuevo GCC
+  source /etc/profile 2>/dev/null || true
+  echo -e "==========================================================\n"
+fi
+# =====================================================================
 
 # 4. Actualización @world
 echo "[4/9] Aplicando actualizaciones (Optimización Zen 3)..."
