@@ -140,7 +140,26 @@ stop_svc_ollama() {
     warn "Ollama ya está detenido"; return
   fi
   info "Deteniendo Ollama..."
-  sudo rc-service ollama stop 2>/dev/null || true
+  sudo rc-service ollama stop || true
+
+  # Esperar hasta 30s a que realmente termine (los modelos en GPU tardan en descargarse)
+  for i in $(seq 1 30); do
+    if ! ollama_running && ! ollama_online; then
+      ok "Ollama detenido"; return
+    fi
+    if [ "$i" -eq 15 ]; then
+      warn "Ollama no termina — forzando llama-server..."
+      sudo pkill -f "llama-server" 2>/dev/null || true
+    fi
+    sleep 1
+  done
+
+  if ollama_running || ollama_online; then
+    err "Ollama no se detuvo después de 30s"
+    info "Podés verificar con: sudo rc-service ollama status"
+    info "Y forzar con: sudo pkill -9 -f ollama"
+    return 1
+  fi
   ok "Ollama detenido"
 }
 
@@ -210,6 +229,10 @@ start_svc_opencode() {
 
   # limpiar clipboard sync al cerrar opencode
   [ -n "$CLIP_SYNC_PID" ] && kill "$CLIP_SYNC_PID" 2>/dev/null || true
+
+  # Resetear terminal por si opencode dejó raw mode activo
+  stty sane 2>/dev/null || true
+
   return $OPENCODE_EXIT
 }
 
@@ -245,7 +268,7 @@ do_restart() {
 # ── Menú interactivo ───────────────────────────────────────────────────────
 interactive_menu() {
   # cleanup al salir con Ctrl+C
-  trap 'echo; warn "Interrupción"; exit 0' SIGINT SIGTERM
+  trap 'stty sane 2>/dev/null; echo; warn "Interrupción"; exit 0' SIGINT SIGTERM
 
   while true; do
     clear

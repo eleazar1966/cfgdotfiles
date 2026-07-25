@@ -310,6 +310,10 @@ binds {
 
     /// Script: Grabar video de pantalla
     Mod+G                { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
+    /// Tecla \| con cámara del GK-979 (envía XF86WebCam/KEY_CAMERA): grabar video
+    XF86WebCam           { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
+    /// Respaldo por si algún otro dispositivo envía AudioRecord
+    XF86AudioRecord      { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
     /// Script: Cambiar al siguiente fondo de pantalla
     Mod+Shift+W          { spawn "/home/eleazar/.local/bin/wallpapers.sh" "next"; }
 

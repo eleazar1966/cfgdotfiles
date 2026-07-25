@@ -68,4 +68,8 @@ echo "-> Limpiando servicios..."
 [ -n "$CLIP_SYNC_PID" ] && kill "$CLIP_SYNC_PID" 2>/dev/null
 sudo rc-service ollama stop 2>/dev/null || true
 
+# 10. Reset terminal en caso de que opencode haya dejado raw mode activo
+#     (Ctrl+D no funciona en raw mode porque no se procesa como EOF)
+stty sane 2>/dev/null || true
+
 exit $OPENCODE_EXIT

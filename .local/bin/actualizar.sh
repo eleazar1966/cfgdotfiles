@@ -86,7 +86,7 @@ fi
 # ── Check 2: ¿Portage tiene un GCC más nuevo disponible? ──
 # Esto captura tanto cambios de slot como parches menores que emerge @world
 # actualizaría de todas formas.
-EMERGE_PREVIEW=$(emerge -p sys-devel/gcc 2>/dev/null | grep '^\[ebuild' | grep 'sys-devel/gcc' | head -1 || true)
+EMERGE_PREVIEW=$(emerge -p sys-devel/gcc 2>/dev/null | grep '^\[ebuild' | grep 'sys-devel/gcc' | grep -v '\[ebuild[[:space:]]*R' | head -1 || true)
 
 if [ -n "$EMERGE_PREVIEW" ]; then
   # Extraer versión disponible: "gcc-16.1.1_p20260718"
