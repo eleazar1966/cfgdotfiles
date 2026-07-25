@@ -1,3 +1,4 @@
+export PATH="/usr/bin:$PATH"
 # Iniciar automáticamente tmux
 #if [ -z "$TMUX" ]; then
 # Verificar si existe una sesión llamada 'default', si no, crearla
@@ -168,7 +169,7 @@ alias actualizar="~/.local/bin/actualizar.sh"
 alias kernel=~/.local/bin/kernel-do.sh
 alias respaldo=~/.local/bin/respaldo.sh
 export VDPAU_DRIVER=radeonsi
-LANG=es_VE.UTF-8
+export LANG=es_VE.UTF-8
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfgdotfiles/ --work-tree=$HOME'
 alias grabavideo="~/.local/bin/graba_video.sh"
 alias update-git="~/.local/bin/actualiza_git.sh"
@@ -181,7 +182,9 @@ alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
 alias niri-help="~/.local/bin/ayuda-niri.sh"
 alias qemuvm='~/.local/bin/qemu-creator.sh'
-alias iniollama='~/.local/bin/manage-ai.sh'
+# ai-stack — stack completo de servicios AI (reemplaza manage-ai.sh)
+alias iniollama='ai-stack'
+alias ai='ai-stack'
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
 
@@ -194,3 +197,7 @@ export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
 alias gentle-ai='/home/eleazar/.local/bin/gentle-ai'
 alias mikrotik='~/.local/bin/conectar.sh'
 export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
+
+# OpenClaw Completion
+[ -f "/home/eleazar/.openclaw/completions/openclaw.bash" ] && source "/home/eleazar/.openclaw/completions/openclaw.bash"

@@ -40,22 +40,32 @@ curl -sf "$OLLAMA_HOST/api/tags" 2>/dev/null | \
   python3 -c "import json,sys; data=json.load(sys.stdin); [print(f'   {m[\"name\"]:30s} {m[\"size\"]/1e9:.1f}GB') for m in data.get('models',[])]" \
   2>/dev/null || echo "   (no se pudo listar modelos)"
 
-# 6. Capturar interrupción para apagar Ollama
+# 6. Clipboard → primary selection sync (para clic central con copy_on_select)
+CLIP_SYNC_PID=""
+if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste >/dev/null 2>&1; then
+  echo "-> Iniciando sync clipboard → primary selection..."
+  wl-paste --watch wl-copy --primary &
+  CLIP_SYNC_PID=$!
+fi
+
+# 7. Capturar interrupción para apagar servicios
 cleanup() {
   echo ""
-  echo "-> Deteniendo Ollama para liberar recursos..."
+  echo "-> Limpiando servicios..."
+  [ -n "$CLIP_SYNC_PID" ] && kill "$CLIP_SYNC_PID" 2>/dev/null
   sudo rc-service ollama stop 2>/dev/null || true
   exit 0
 }
 trap cleanup SIGINT SIGTERM SIGHUP
 
-# 7. Launch opencode
+# 8. Launch opencode
 echo "-> Iniciando opencode..."
 "$OPENCODE_BIN"
 OPENCODE_EXIT=$?
 
-# 8. Stop Ollama when opencode exits
-echo "-> Deteniendo Ollama para liberar recursos..."
+# 9. Stop services when opencode exits
+echo "-> Limpiando servicios..."
+[ -n "$CLIP_SYNC_PID" ] && kill "$CLIP_SYNC_PID" 2>/dev/null
 sudo rc-service ollama stop 2>/dev/null || true
 
 exit $OPENCODE_EXIT
