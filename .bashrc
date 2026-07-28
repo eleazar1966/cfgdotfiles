@@ -182,8 +182,7 @@ alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
 alias niri-help="~/.local/bin/ayuda-niri.sh"
 alias qemuvm='~/.local/bin/qemu-creator.sh'
-# ai-stack — stack completo de servicios AI (reemplaza manage-ai.sh)
-alias iniollama='ai-stack'
+# ai-stack — gestiona servicios AI
 alias ai='ai-stack'
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
@@ -193,6 +192,11 @@ export PATH="$PATH:/home/eleazar/.lmstudio/bin"
 
 # opencode (local wrapper tiene prioridad para lifecycle de ollama)
 export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
+
+# Opencode — TMPDIR propio porque /tmp tiene noexec y necesita mmap con PROT_EXEC
+export OPENCODE_TMPDIR="$HOME/.cache/opencode/tmp"
+mkdir -p "$OPENCODE_TMPDIR"
+alias opencode='TMPDIR="$OPENCODE_TMPDIR" opencode'
 
 alias gentle-ai='/home/eleazar/.local/bin/gentle-ai'
 alias mikrotik='~/.local/bin/conectar.sh'

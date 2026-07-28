@@ -1,75 +1,52 @@
 #!/bin/bash
-# opencode + Ollama auto-detect launcher for Gentoo Linux
-# Detects all installed Ollama models via plugin and launches opencode
+# opencode — Launcher wrapper
+# Arranca Ollama si no está corriendo, espera a que la API responda,
+# crea auth.json placeholder si no existe, luego lanza opencode TUI.
+set -e
 
-OPENCODE_BIN="${OPENCODE_BIN:-$HOME/.opencode/bin/opencode}"
-CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
-AUTH_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/opencode"
-OLLAMA_HOST="${OLLAMA_HOST:-http://localhost:11434}"
+OPCODE_BIN="/home/eleazar/.opencode/bin/opencode"
+OLLAMA_SERVICE="ollama"
+OLLAMA_API="http://localhost:11434"
+AUTH_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/opencode/auth.json"
+MAX_WAIT=15
 
-# 1. Ensure Ollama is running (Gentoo OpenRC)
-if ! rc-service ollama status >/dev/null 2>&1; then
-  echo "-> Starting Ollama..."
-  sudo rc-service ollama start
+# ── 0. TMPDIR: evitar noexec en /tmp (OpenCode extrae .so para la TUI) ──
+export TMPDIR="${XDG_CACHE_HOME:-$HOME/.cache}/opencode-tmp"
+mkdir -p "$TMPDIR"
+
+# ── 1. Asegurar que Ollama esté corriendo ──
+if ! rc-service "$OLLAMA_SERVICE" status >/dev/null 2>&1; then
+    echo "🔄 Arrancando Ollama..."
+    rc-service "$OLLAMA_SERVICE" start
 fi
 
-# 2. Wait for Ollama API
-echo -n "-> Waiting for Ollama API"
-for i in $(seq 1 15); do
-  if curl -sf "$OLLAMA_HOST/api/tags" >/dev/null 2>&1; then
-    echo " ready"
-    break
-  fi
-  echo -n "."
-  sleep 1
+# ── 2. Esperar a que la API responda ──
+echo -n "⏳ Esperando a Ollama..."
+for i in $(seq 1 "$MAX_WAIT"); do
+    if curl -sf "$OLLAMA_API/api/tags" >/dev/null 2>&1; then
+        echo " listo."
+        break
+    fi
+    if [ "$i" -eq "$MAX_WAIT" ]; then
+        echo " ERROR: Ollama no respondió después de ${MAX_WAIT}s."
+        echo "   Verifica con: rc-service ollama status"
+        exit 1
+    fi
+    echo -n "."
+    sleep 1
 done
-echo ""
 
-# 3. Ensure auth placeholder exists (required by opencode for local providers)
-mkdir -p "$AUTH_DIR"
-if [ ! -f "$AUTH_DIR/auth.json" ]; then
-  echo '{"ollama":{"type":"api","key":"ollama"}}' > "$AUTH_DIR/auth.json"
-fi
-
-# 4. Ensure global config dir exists with plugin reference
-mkdir -p "$CONFIG_DIR"
-
-# 5. Show available models
-echo "-> Models instalados en Ollama:"
-curl -sf "$OLLAMA_HOST/api/tags" 2>/dev/null | \
-  python3 -c "import json,sys; data=json.load(sys.stdin); [print(f'   {m[\"name\"]:30s} {m[\"size\"]/1e9:.1f}GB') for m in data.get('models',[])]" \
-  2>/dev/null || echo "   (no se pudo listar modelos)"
-
-# 6. Clipboard → primary selection sync (para clic central con copy_on_select)
-CLIP_SYNC_PID=""
-if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste >/dev/null 2>&1; then
-  echo "-> Iniciando sync clipboard → primary selection..."
-  wl-paste --watch wl-copy --primary &
-  CLIP_SYNC_PID=$!
-fi
-
-# 7. Capturar interrupción para apagar servicios
-cleanup() {
-  echo ""
-  echo "-> Limpiando servicios..."
-  [ -n "$CLIP_SYNC_PID" ] && kill "$CLIP_SYNC_PID" 2>/dev/null
-  sudo rc-service ollama stop 2>/dev/null || true
-  exit 0
+# ── 3. Crear auth.json placeholder si no existe ──
+if [ ! -f "$AUTH_FILE" ]; then
+    AUTH_DIR="$(dirname "$AUTH_FILE")"
+    mkdir -p "$AUTH_DIR"
+    cat > "$AUTH_FILE" <<- 'EOF'
+{
+  "provider": "ollama",
+  "note": "Placeholder — opencode lo gestiona automáticamente"
 }
-trap cleanup SIGINT SIGTERM SIGHUP
+EOF
+fi
 
-# 8. Launch opencode
-echo "-> Iniciando opencode..."
-"$OPENCODE_BIN"
-OPENCODE_EXIT=$?
-
-# 9. Stop services when opencode exits
-echo "-> Limpiando servicios..."
-[ -n "$CLIP_SYNC_PID" ] && kill "$CLIP_SYNC_PID" 2>/dev/null
-sudo rc-service ollama stop 2>/dev/null || true
-
-# 10. Reset terminal en caso de que opencode haya dejado raw mode activo
-#     (Ctrl+D no funciona en raw mode porque no se procesa como EOF)
-stty sane 2>/dev/null || true
-
-exit $OPENCODE_EXIT
+# ── 4. Lanzar opencode TUI ──
+exec "$OPCODE_BIN" "$@"

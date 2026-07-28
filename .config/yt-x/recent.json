@@ -1,0 +1,106 @@
+{
+  "entries": [
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "_O6x4ktK6JA",
+      "url": "https://www.youtube.com/watch?v=_O6x4ktK6JA",
+      "title": "He Built the World's #1 Open-Source Coding Agent",
+      "description": "Jay V is the founder and CEO of Opencode, an open-source alternative to Claude Code that works with any model you want.",
+      "duration": 2667,
+      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
+      "channel": "Y Combinator",
+      "channel_url": "https://www.youtube.com/channel/UCcefcZRL2oaA_uBNeo5UOWg",
+      "uploader": "Y Combinator",
+      "uploader_id": "@ycombinator",
+      "uploader_url": "https://www.youtube.com/@ycombinator",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/_O6x4ktK6JA/hq720_custom_2.jpg?sqp=CNSDlNMG-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC_nYvtXGd1gzZxu3VjD955g2O5eg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/_O6x4ktK6JA/hq720_custom_2.jpg?sqp=CNSDlNMG-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC3uIzhXN9bDBlrozsNpZ8aEoDkwQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1784937600,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 14608,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "2gO8WyctqMk",
+      "url": "https://www.youtube.com/watch?v=2gO8WyctqMk",
+      "title": "OpenCode: Probablemente la mejor herramienta Open Source para programar",
+      "description": "Haz Testing con IA con TestSprite https://www.testsprite.com/?via=fazt En este video te muestro OpenCode, una herramienta ...",
+      "duration": 4087,
+      "channel_id": "UCX9NJ471o7Wie1DQe94RVIg",
+      "channel": "Fazt",
+      "channel_url": "https://www.youtube.com/channel/UCX9NJ471o7Wie1DQe94RVIg",
+      "uploader": "Fazt",
+      "uploader_id": "@FaztTech",
+      "uploader_url": "https://www.youtube.com/@FaztTech",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/2gO8WyctqMk/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCJw8MMUQqm0P_7dCrrTJ7awmsiQg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/2gO8WyctqMk/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCFaGRudFRbD1FCWwzbG3zYh4xZOQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1774569600,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 151942,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "ZZq4TpNgnvg",
+      "url": "https://www.youtube.com/watch?v=ZZq4TpNgnvg",
+      "title": "OpenCode course from scratch: Commands, Agents, Saving tokens and more",
+      "description": "Learn to use OpenCode from scratch to pro level 🚀 In this video, I'll show you how to install it, master its TUI, optimize ...",
+      "duration": 6721,
+      "channel_id": "UC8LeXCWOalN8SxlrPcG-PaQ",
+      "channel": "midudev",
+      "channel_url": "https://www.youtube.com/channel/UC8LeXCWOalN8SxlrPcG-PaQ",
+      "uploader": "midudev",
+      "uploader_id": "@midudev",
+      "uploader_url": "https://www.youtube.com/@midudev",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/ZZq4TpNgnvg/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDW1dKq1G402j9ie9u7Pli6uKtO5w",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/ZZq4TpNgnvg/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD8X9z609fyvv-JrttQkO1Bo5XURg",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1779840000,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 582885,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    }
+  ]
+}

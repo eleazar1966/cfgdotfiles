@@ -34,7 +34,14 @@ eselect news list | grep -q "read" && echo "(!) Hay noticias de Gentoo sin leer.
 # 3. Integridad de Portage
 echo "[3/9] Verificando y reparando integridad..."
 set_title "emaint"
-sudo emaint --check all || sudo emaint --fix all
+# --check all funciona bien (solo lectura), --fix all incluye binhost/movebin
+# que requieren PKGDIR — los excluimos explícitamente.
+sudo emaint --check all || true
+# logs usa --clean (no --fix), y ya tienes clean-logs en FEATURES — lo omitimos.
+SAFE_FIX_CMDS=("cleanconfmem" "cleanresume" "merges" "moveinst" "world")
+for cmd in "${SAFE_FIX_CMDS[@]}"; do
+    sudo emaint --fix "$cmd" || true
+done
 
 # =====================================================================
 # DETECCIÓN DE NUEVO KERNEL (comparando fuentes instaladas vs activas)

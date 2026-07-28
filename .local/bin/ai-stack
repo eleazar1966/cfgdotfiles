@@ -9,6 +9,7 @@ OPENCODE_BIN="${OPENCODE_BIN:-$HOME/.opencode/bin/opencode}"
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
 AUTH_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/opencode"
 OLLAMA_HOST="${OLLAMA_HOST:-http://localhost:11434}"
+OLLAMA_READY_TIMEOUT="${OLLAMA_READY_TIMEOUT:-60}"
 CLIP_SYNC_PID=""
 
 # ── Colores ────────────────────────────────────────────────────────────────
@@ -30,6 +31,8 @@ usage() {
   echo "  start  <servicio>    Inicia un servicio (ollama|openclaw|webui|opencode)"
   echo "  stop   <servicio>    Detiene un servicio"
   echo "  restart <servicio>   Reinicia un servicio"
+  echo "  legacy               Menú simplificado (3 opciones)"
+  echo "  renew                Renovar token MCP de OpenClaw en opencode.json"
   echo "  code                 Ollama + OpenCode (combinación rápida)"
   echo "  mcp                  Ollama + OpenClaw"
   echo "  webui                Ollama + Open WebUI"
@@ -127,11 +130,11 @@ start_svc_ollama() {
   if ollama_running; then ok "Ollama ya iniciado (service)"; return; fi
   info "Iniciando Ollama..."
   sudo rc-service ollama start
-  for i in $(seq 1 15); do
+  for i in $(seq 1 "$OLLAMA_READY_TIMEOUT"); do
     ollama_online && { ok "Ollama listo"; return; }
     sleep 1
   done
-  err "Ollama no respondió tras 15s"
+  err "Ollama no respondió tras ${OLLAMA_READY_TIMEOUT}s"
   return 1
 }
 
@@ -172,6 +175,7 @@ start_svc_openclaw() {
   fi
 
   info "Iniciando OpenClaw gateway (puerto 19000)..."
+  mkdir -p "$HOME/.local/state"
   nohup openclaw gateway run --port 19000 >/dev/null 2>"$HOME/.local/state/ai-stack-openclaw.log" &
   disown
   for i in $(seq 1 15); do
@@ -215,7 +219,7 @@ start_svc_opencode() {
 
   # Clipboard sync: evitar duplicados
   if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste >/dev/null 2>&1; then
-    if pgrep -x "wl-paste" >/dev/null 2>&1; then
+    if pgrep -f "wl-paste.*watch" >/dev/null 2>&1; then
       info "Clipboard sync ya activo"
     else
       wl-paste --watch wl-copy --primary &
@@ -234,6 +238,42 @@ start_svc_opencode() {
   stty sane 2>/dev/null || true
 
   return $OPENCODE_EXIT
+}
+
+# ── Renovar token MCP de OpenClaw ───────────────────────────────────────────
+do_renew() {
+  info "Renovando grant MCP de OpenClaw..."
+  if ! command -v openclaw >/dev/null 2>&1; then
+    err "openclaw no encontrado en PATH"
+    return 1
+  fi
+
+  local grant token config
+  grant=$(openclaw attach --print-config --ttl 86400000 2>&1)
+  token=$(echo "$grant" | python3 -c "import json,sys; print(json.load(sys.stdin)['env']['OPENCLAW_MCP_TOKEN'])" 2>/dev/null) || {
+    err "No se pudo obtener el token MCP — ¿openclaw está corriendo y autenticado?"
+    return 1
+  }
+
+  config="$HOME/.config/opencode/opencode.json"
+  if [ -f "$config" ]; then
+    cp "$config" "$config.bak"
+    python3 -c "
+import json
+with open('$config') as f:
+    d = json.load(f)
+d.setdefault('mcp', {})['openclaw'] = {
+    'enabled': True,
+    'type': 'http',
+    'url': 'http://127.0.0.1:39051/mcp',
+    'headers': {'Authorization': 'Bearer $token'}
+}
+with open('$config', 'w') as f:
+    json.dump(d, f, indent=2)
+" && ok "openclaw.json actualizado con nuevo token"
+  fi
+
+  ok "MCP grant renovado (token: ${token:0:16}...)"
 }
 
 # ── Router start/stop/restart ──────────────────────────────────────────────
@@ -263,6 +303,43 @@ do_restart() {
   info "Reiniciando $1..."
   do_stop "$1" 2>/dev/null; sleep 1
   do_start "$1"
+}
+
+# ── Menú simplificado (legacy manage-ai.sh) ───────────────────────────────────
+legacy_menu() {
+  # Menú con select al estilo del manage-ai.sh original, usando funciones de ai-stack
+  while true; do
+    clear
+    echo "--- Estatus actual ---"
+    for svc in ollama open-webui; do
+      if sudo rc-service "$svc" status >/dev/null 2>&1; then
+        echo "  [RUNNING] $svc"
+      else
+        echo "  [STOPPED] $svc"
+      fi
+    done
+    echo "----------------------"
+    echo "Seleccione una accion:"
+    options=("Iniciar servicios" "Detener servicios y salir" "Salir")
+    select opt in "${options[@]}"; do
+      case $opt in
+        "Iniciar servicios")
+          start_svc_ollama
+          start_svc_webui
+          break
+          ;;
+        "Detener servicios y salir")
+          stop_svc_webui 2>/dev/null
+          stop_svc_ollama
+          exit 0
+          ;;
+        "Salir")
+          exit 0
+          ;;
+        *) echo "Opcion invalida" ;;
+      esac
+    done
+  done
 }
 
 # ── Menú interactivo ───────────────────────────────────────────────────────
@@ -403,6 +480,12 @@ case "$1" in
     echo "   Web UI:   http://localhost:8080"
     echo
     info "Para OpenCode: ai-stack code"
+    ;;
+  legacy|simple)
+    legacy_menu
+    ;;
+  renew|mcp-renew)
+    do_renew
     ;;
   help|--help|-h)
     usage

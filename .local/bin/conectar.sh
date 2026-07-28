@@ -11,10 +11,11 @@ set -euo pipefail
 MIKROTIK_LAN="192.168.250.1"
 MIKROTIK_WAN="192.168.200.28"  # Fallback por si el scan no encuentra nada
 
-# Credenciales: priorizar variables de entorno, luego este default
+# Credenciales: SOLO variables de entorno (nunca hardcodear)
 # Configurá MIKROTIK_USER y MIKROTIK_PASS en ~/.bashrc o ~/.profile
 ADMIN_USER="${MIKROTIK_USER:-eleazar}"
-ADMIN_PASS="${MIKROTIK_PASS:-Eleazar-1966}"
+ADMIN_PASS="${MIKROTIK_PASS:-}"
+[ -z "$ADMIN_PASS" ] && { echo -e "${ROJO}[✗]${NORMAL} MIKROTIK_PASS no configurada. Ponla en ~/.bashrc: export MIKROTIK_PASS='tu-clave'" >&2; exit 1; }
 
 # ─── Colores ───────────────────────────────────
 ROJO='\033[0;31m'
@@ -220,10 +221,10 @@ mostrar_menu() {
     while IFS=$'\t' read -r hostname ip mac; do
         i=$((i + 1))
         opciones+=("$i" "$hostname ($ip)")
-        # Guardar para referencia
-        eval "host_$i='$hostname'"
-        eval "ip_$i='$ip'"
-        eval "mac_$i='$mac'"
+        # Guardar para referencia (printf -v es seguro, no interpreta el contenido)
+        printf -v "host_%d" "$i" "%s" "$hostname"
+        printf -v "ip_%d" "$i" "%s" "$ip"
+        printf -v "mac_%d" "$i" "%s" "$mac"
     done < /tmp/mikrotik_ping.txt
     
     if [ $i -eq 0 ]; then

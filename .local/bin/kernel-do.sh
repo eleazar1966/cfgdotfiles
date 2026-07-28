@@ -25,7 +25,7 @@ else
 fi
 
 echo "🔹 Liberando espacio preventivo en /boot..."
-sudo rm -f /boot/*.old /boot/initramfs*.old
+sudo find /boot -maxdepth 1 \( -name '*.old' -o -name 'initramfs*.old' \) -delete 2>/dev/null || true
 
 # 2. Identificar la última versión de gentoo-sources ya instalada
 echo "🔹 Identificando última versión de gentoo-sources instalada..."
@@ -82,16 +82,16 @@ sudo cp .config "$CONFIG_MAESTRA"
 echo "✅ Configuración respaldada en $CONFIG_MAESTRA"
 
 # 6. Compilación optimizada para Zen 3 (Cezanne)
-echo "🚀 Compilando para Ryzen 7 5700G con $(nproc) hilos..."
+echo "🚀 Compilando para Ryzen 7 5700G con $(( $(nproc) - 2 )) hilos (dejando 2 libres)..."
 echo "   Flags: -march=znver3 -O3 -pipe"
-sudo make KCFLAGS="-march=znver3 -O3 -pipe" -j$(nproc)
+sudo make KCFLAGS="-march=znver3 -O3 -pipe" -j$(( $(nproc) - 2 ))
 
 # 7. Instalación de módulos y binarios del kernel
 echo "🔹 Instalando módulos del kernel..."
 sudo make modules_install
 echo "🔹 Instalando binarios del kernel..."
 sudo make install
-sudo rm -f /boot/*.old /boot/initramfs*.old
+sudo find /boot -maxdepth 1 \( -name '*.old' -o -name 'initramfs*.old' \) -delete 2>/dev/null || true
 
 # 8. Limpiar kernels antiguos (mantener solo los 2 más recientes)
 if command -v eclean-kernel &>/dev/null; then
@@ -104,9 +104,9 @@ echo "🔹 Eliminando fuentes de kernels anteriores..."
 for dir in /usr/src/linux-*-gentoo; do
   if [ -d "$dir" ] && [ "$(basename "$dir")" != "$NEW_SRC_BASENAME" ]; then
     echo "   🗑  Eliminando: $(basename "$dir")"
-    sudo rm -rf "$dir"
+    sudo rm -rf "$dir" || true
   fi
-done
+done 2>/dev/null
 
 # 10. Initramfs y GRUB
 echo "🔹 Generando Initramfs..."

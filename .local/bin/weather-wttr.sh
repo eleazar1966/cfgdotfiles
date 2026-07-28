@@ -16,6 +16,10 @@ for ((i = 1; i <= MAX_RETRIES; i++)); do
   sleep "$RETRY_DELAY"
 done
 
-# Último intento aunque falle — waybar muestra vacío
+# Último intento aunque falle — waybar muestra estado de desconexión
 result=$(curl -s --max-time "$CURL_TIMEOUT" "https://wttr.in/${LOCATION}?format=3" 2>/dev/null)
-echo "$result" | jq -R --unbuffered -c '{text: .}'
+if [[ -n "$result" ]]; then
+  echo "$result" | jq -R --unbuffered -c '{text: .}'
+else
+  echo '{"text": "🌤 sin conexión"}'
+fi
