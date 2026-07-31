@@ -182,26 +182,22 @@ alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
 alias niri-help="~/.local/bin/ayuda-niri.sh"
 alias qemuvm='~/.local/bin/qemu-creator.sh'
-# ai-stack — gestiona servicios AI
-alias ai='ai-stack'
 export RUSTICL_ENABLE=amdgpu
 source -- ~/.local/share/blesh/ble.sh
-
-# Added by LM Studio CLI tool (lms)
-export PATH="$PATH:/home/eleazar/.lmstudio/bin"
-
-# opencode (local wrapper tiene prioridad para lifecycle de ollama)
-export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
-
-# Opencode — TMPDIR propio porque /tmp tiene noexec y necesita mmap con PROT_EXEC
-export OPENCODE_TMPDIR="$HOME/.cache/opencode/tmp"
-mkdir -p "$OPENCODE_TMPDIR"
-alias opencode='TMPDIR="$OPENCODE_TMPDIR" opencode'
-
 alias gentle-ai='/home/eleazar/.local/bin/gentle-ai'
 alias mikrotik='~/.local/bin/conectar.sh'
 export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
 
-# OpenClaw Completion
-[ -f "/home/eleazar/.openclaw/completions/openclaw.bash" ] && source "/home/eleazar/.openclaw/completions/openclaw.bash"
+
+# opencode
+export PATH=/home/eleazar/.opencode/bin:$PATH
+export PATH="${HOME}/.npm-global/bin:${PATH}"
+export TMPDIR=/var/tmp/tmpfs
+
+# OpenCode Free Models - API Keys (set these with your keys)
+export OPENROUTER_API_KEY="key_CdWoao6yuYdikPeiNqReX"
+# export GEMINI_API_KEY="AIza..."
+# # export GROQ_API_KEY="gsk_..." (blocked in your region)
+
+export TOGETHER_API_KEY="tgp_..."  # https://api.together.xyz/settings/api-keys

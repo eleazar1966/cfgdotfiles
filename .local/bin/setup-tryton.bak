@@ -1,0 +1,899 @@
+#!/bin/bash
+# ============================================================
+# setup-tryton — Configuración inicial interactiva de Tryton
+# con PostgreSQL. Crea usuario, base de datos, configura
+# archivos, inicializa servicios y carga el sistema.
+#
+# Permite crear la primera empresa al finalizar el setup,
+# o agregar empresas adicionales en instalaciones existentes.
+#
+# Usa sudo para todas las operaciones privilegiadas.
+# ============================================================
+set -euo pipefail
+
+VERDE='\033[1;32m'
+AZUL='\033[1;34m'
+AMARILLO='\033[1;33m'
+ROJO='\033[1;31m'
+CYAN='\033[1;36m'
+RESET='\033[0m'
+
+log_info() { echo -e "${VERDE}[INFO]${RESET} $1"; }
+log_step() { echo -e "${AZUL}[STEP]${RESET} $1"; }
+log_warn() { echo -e "${AMARILLO}[WARN]${RESET} $1"; }
+log_error() { echo -e "${ROJO}[ERROR]${RESET} $1"; }
+log_input() { echo -e "${CYAN}[?]${RESET} $1"; }
+
+# --- RUTAS ---
+
+PG_SERVICE="postgresql-18"
+PG_USER_DEF="trytond"
+PG_PASS_DEF="tryton"
+DB_NAME_DEF="tryton"
+TRYTON_ADMIN_PASS_DEF="tryton"
+TRYTON_CONF="/etc/tryton/trytond.conf"
+TRYTON_LOGCONF="/etc/tryton/logging.conf"
+TRYTON_CONFD="/etc/conf.d/trytond"
+TRYTON_LOG="/var/log/trytond"
+TRYTON_DATA="/var/lib/trytond"
+PYTHON=$(command -v python3)
+# ─── MÓDULOS MÍNIMOS REQUERIDOS ────────────────────────────
+# Estos son los módulos necesarios para operación básica:
+# empresa, clientes/proveedores, contabilidad, facturación,
+# monedas, países, productos, compras, ventas e inventarios.
+MINIMUM_MODULES=(
+  "app-tryton/company"         # Empresa / compañía
+  "app-tryton/party"           # Clientes y proveedores
+  "app-tryton/account"         # Contabilidad base
+  "app-tryton/account_invoice" # Facturación (compras/ventas)
+  "app-tryton/currency"        # Monedas
+  "app-tryton/country"         # Países y subdivisiones
+  "app-tryton/product"         # Productos / servicios
+  "app-tryton/purchase"        # Compras / órdenes de compra
+  "app-tryton/sale"            # Ventas / presupuestos
+  "app-tryton/stock"           # Inventarios / almacenes
+)
+# Módulos adicionales recomendados (post-instalación base)
+EXTRA_MODULES=(
+  "app-tryton/account_es"                # Plan contable español
+  "app-tryton/account_ve"                # Plan contable venezolano (PUC)
+  "app-tryton/account_be"                # Plan contable belga
+  "app-tryton/account_fr"                # Plan contable francés
+  "app-tryton/account_ch"                # Plan contable suizo
+  "app-tryton/analytic_account"          # Contabilidad analítica
+  "app-tryton/account_stock_continental" # Costo de inventario
+  "app-tryton/account_invoice_stock"     # Integración factura-stock
+  "app-tryton/account_invoice_history"   # Historial de facturas
+  "app-tryton/account_payment"           # Medios de pago
+  "app-tryton/sale_price_list"           # Listas de precios
+  "app-tryton/purchase_price_list"       # Listas de precios compra
+  "app-tryton/sale_discount"             # Descuentos en ventas
+  "app-tryton/commission"                # Comisiones
+  "app-tryton/account_dunning"           # Gestión de cobros
+)
+
+# --- FUNCIONES AUXILIARES ---
+
+sudorun() {
+  if [[ $EUID -eq 0 ]]; then
+    "$@"
+  else
+    sudo "$@"
+  fi
+}
+
+run_psql() {
+  sudorun -u postgres psql "$@"
+}
+
+run_as_postgres() {
+  # Siempre sudo -u postgres, incluso si EUID=0
+  # (sudorun no usa sudo cuando es root y -u se interpreta como comando)
+  sudo -u postgres "$@"
+}
+
+check_sudo() {
+  if [[ $EUID -ne 0 ]]; then
+    if ! command -v sudo &>/dev/null; then
+      log_error "sudo no está instalado."
+      exit 1
+    fi
+  fi
+}
+
+check_prerequisites() {
+  local missing=0
+  log_step "Verificando prerequisitos..."
+
+  for cmd in psql trytond trytond-admin python3; do
+    if ! command -v $cmd &>/dev/null; then
+      log_error "$cmd no encontrado."
+      missing=1
+    fi
+  done
+
+  if ! id trytond &>/dev/null; then
+    log_input "Usuario trytond no existe. ¿Crearlo? [S/n]:"
+    read -r resp
+    if [[ ! "$resp" =~ ^[nN] ]]; then
+      sudorun useradd -r -m -d /var/lib/trytond trytond
+      log_info "Usuario trytond creado."
+    else
+      log_error "Usuario trytond necesario."
+      exit 1
+    fi
+  fi
+
+  # Configs por defecto
+  if [[ ! -f $TRYTON_CONF ]]; then
+    log_warn "No existe $TRYTON_CONF"
+    log_input "¿Crear configuración por defecto? [S/n]:"
+    read -r resp
+    if [[ ! "$resp" =~ ^[nN] ]]; then
+      sudorun mkdir -p /etc/tryton
+      create_default_trytond_conf
+      create_default_logging_conf
+    else
+      exit 1
+    fi
+  fi
+  if [[ ! -f $TRYTON_LOGCONF ]]; then
+    sudorun mkdir -p /etc/tryton
+    create_default_logging_conf
+  fi
+
+  sudo mkdir -p "$TRYTON_LOG" 2>/dev/null || true
+  sudorun chown trytond:trytond "$TRYTON_LOG" 2>/dev/null || true
+
+  if [[ $missing -ne 0 ]]; then
+    exit 1
+  fi
+  log_info "Prerequisitos OK."
+}
+
+create_default_logging_conf() {
+  sudorun tee "$TRYTON_LOGCONF" >/dev/null <<-'EOF'
+############# /etc/tryton/logging.conf #############
+[formatters]
+keys=simple
+[handlers]
+keys=rotate,console
+[loggers]
+keys=root
+[formatter_simple]
+format=%(asctime)s] %(levelname)s:%(name)s:%(message)s
+datefmt=%a %b %d %H:%M:%S %Y
+[handler_rotate]
+class=handlers.TimedRotatingFileHandler
+args=('/var/log/trytond/trytond.log', 'D', 1, 120)
+formatter=simple
+[handler_console]
+class=StreamHandler
+formatter=simple
+args=(sys.stdout,)
+[logger_root]
+level=INFO
+handlers=rotate,console
+EOF
+}
+
+create_default_trytond_conf() {
+  sudorun tee "$TRYTON_CONF" >/dev/null <<-'EOF'
+################ /etc/tryton/trytond.conf ################
+# Documentación oficial: https://docs.tryton.org/en/latest/topics/configuration.html
+# Fuente: trytond/config.py (TrytonConfigParser)
+
+[database]
+# URI de conexión PostgreSQL (RFC 3986)
+# Formato: postgresql://usuario:password@host:puerto/
+# El :5432 es opcional (default de PostgreSQL)
+uri = postgresql://trytond:tryton@localhost/
+# Directorio para archivos adjuntos (default oficial: ~/db)
+path = /var/lib/trytond
+# Idioma ISO 639-1 (default oficial: en)
+language = es
+
+[session]
+# Tiempo máximo de inactividad antes de cerrar sesión (segundos)
+# Default oficial: 300 (5 min) — acá 3600 para sesiones más largas
+timeout = 3600
+# Tiempo máximo de vida de una sesión (default oficial: 30 días)
+#max_age = 2592000
+# Contraseña de administración de BD (crear/borrar bases desde el cliente).
+# NO es la contraseña del usuario 'admin' — eso se define en trytond-admin.
+# Generar con: python -c "import crypt; print(crypt.crypt('contraseña'))"
+super_pwd = tryton
+
+[email]
+uri = smtp://localhost:25
+from = tryton@localhost
+
+[web]
+# Default oficial: localhost:8000 (solo local)
+# Usar 0.0.0.0:8000 para exponer en todas las interfaces
+listen = localhost:8000
+root = /usr/share/sao
+
+[report]
+# Configuración de informes (default oficial = vacío)
+
+[ssl]
+# Configuración SSL (default oficial = vacío)
+
+[password]
+# Política de contraseñas (default oficial = length=8, reset=24h)
+
+[bus]
+# Sistema de notificaciones (default oficial = sin subscripciones)
+EOF
+}
+
+check_pg_initialized() {
+  local pg_data
+  # Intentar con PGDATA de postgres (corre como postgres, no hay problema de permisos)
+  pg_data=$(run_as_postgres sh -c 'echo "${PGDATA}"' 2>/dev/null || true)
+  if [[ -n "$pg_data" ]] && run_as_postgres test -f "${pg_data}/PG_VERSION"; then
+    echo "$pg_data"
+    return 0
+  fi
+
+  # Fallback: buscar PG_VERSION en el filesystem
+  pg_data=$(run_as_postgres find /var/lib/postgresql -name "PG_VERSION" -maxdepth 3 2>/dev/null | head -1)
+  if [[ -n "$pg_data" ]]; then
+    pg_data=$(dirname "$pg_data")
+    echo "$pg_data"
+    return 0
+  fi
+
+  echo ""
+}
+
+init_pg_if_needed() {
+  local pg_data
+  pg_data=$(check_pg_initialized)
+  if [[ -z "$pg_data" ]]; then
+    log_warn "PostgreSQL no está inicializado."
+    log_input "¿Inicializar ahora? [S/n]:"
+    read -r respuesta
+    if [[ "$respuesta" =~ ^[nN] ]]; then
+      log_error "PostgreSQL debe estar inicializado."
+      exit 1
+    fi
+    log_step "Inicializando PostgreSQL..."
+
+    # Detectar versión de PostgreSQL instalada
+    local pg_version
+    pg_version=$(psql --version 2>/dev/null | grep -oP '\d{2,}' | head -1)
+    [[ -z "$pg_version" ]] && pg_version=18
+    local pg_data_dir="/var/lib/postgresql/${pg_version}/data"
+
+    # Limpiar el directorio data COMPLETAMENTE antes de initdb
+    # (rm -rf sobre un path que no existe es no-op)
+    log_info "Preparando directorio $pg_data_dir..."
+    sudorun rm -rf "$pg_data_dir"
+    # Re-crear como root y darle ownership a postgres para que initdb pueda escribir
+    sudorun mkdir -p "$pg_data_dir"
+    sudorun chown postgres:postgres "$pg_data_dir"
+    sudorun chmod 700 "$pg_data_dir"
+
+    # initdb sin auth flags → deja peer (local) y scram-sha-256 (host)
+    # configure_pg_auth se encarga después de cambiar host a md5
+    log_info "Ejecutando initdb..."
+    if run_as_postgres initdb \
+      -D "$pg_data_dir" \
+      --encoding=UTF8 2>&1; then
+      log_info "initdb completado."
+    else
+      log_error "initdb falló."
+      log_error "Ejecutá manualmente: sudo -u postgres initdb -D $pg_data_dir"
+      exit 1
+    fi
+
+    # Verificar que el init realmente funcionó
+    # El directorio es 700 postgres:postgres, así que hay que checkear como postgres
+    if run_as_postgres test -f "${pg_data_dir}/PG_VERSION"; then
+      pg_data="$pg_data_dir"
+      log_info "PostgreSQL inicializado: $pg_data"
+    else
+      log_error "No se encuentra PG_VERSION en $pg_data_dir."
+      log_error "Buscá con: sudo find /var/lib/postgresql -name PG_VERSION"
+      exit 1
+    fi
+  else
+    log_info "PostgreSQL OK: $pg_data"
+  fi
+}
+
+configure_pg_auth() {
+  local pg_data
+  pg_data=$(check_pg_initialized)
+  if [[ -z "$pg_data" ]]; then
+    log_warn "PostgreSQL no inicializado — saltando configuración de pg_hba.conf."
+    return 0
+  fi
+
+  local pg_hba="${pg_data}/pg_hba.conf"
+  # El directorio es 700 postgres:postgres, todo check debe ser como root/postgres
+  if ! sudorun test -f "$pg_hba"; then
+    log_warn "No se encuentra pg_hba.conf en $pg_data."
+    return 0
+  fi
+
+  log_step "Verificando pg_hba.conf..."
+  local changed=false
+
+  # Cambiar host IPv4 de ident/scram a md5
+  if sudorun grep -qE "^host\s+all\s+all\s+127\.0\.0\.1\/32\s+(ident|scram-sha-256)" "$pg_hba" 2>/dev/null; then
+    sudorun sed -i \
+      's/^host\s\+all\s\+all\s\+127\.0\.0\.1\/32\s\+ident/host    all             all             127.0.0.1\/32            md5/' \
+      "$pg_hba"
+    changed=true
+  fi
+
+  # Cambiar host IPv6 de ident/scram a md5
+  if sudorun grep -qE "^host\s+all\s+all\s+::1\/128\s+(ident|scram-sha-256)" "$pg_hba" 2>/dev/null; then
+    sudorun sed -i \
+      's/^host\s\+all\s\+all\s\+::1\/128\s\+ident/host    all             all             ::1\/128                 md5/' \
+      "$pg_hba"
+    changed=true
+  fi
+
+  if [[ "$changed" == true ]]; then
+    log_info "pg_hba.conf: conexiones TCP ahora usan md5."
+    run_as_postgres psql -c "SELECT pg_reload_conf();" &>/dev/null || true
+  else
+    log_info "pg_hba.conf ya está configurado para TCP/md5."
+  fi
+}
+
+ensure_pg_running() {
+  log_step "Verificando PostgreSQL..."
+  if run_as_postgres psql -c "SELECT 1" &>/dev/null; then
+    log_info "PostgreSQL corriendo."
+    return 0
+  fi
+
+  run_as_postgres pg_ctl stop -D "$(check_pg_initialized)" -m fast &>/dev/null || true
+  sudorun rc-service "$PG_SERVICE" start || sudorun rc-service "$PG_SERVICE" restart || true
+
+  for i in {1..15}; do
+    if run_as_postgres psql -c "SELECT 1" &>/dev/null; then
+      log_info "PostgreSQL listo (${i}s)."
+      return 0
+    fi
+    sleep 1
+  done
+  log_error "PostgreSQL no arrancó después de 15s."
+  log_error "Arrancalo manualmente: sudo rc-service ${PG_SERVICE} start"
+  exit 1
+}
+
+# ─── VERIFICACIÓN E INSTALACIÓN DE MÓDULOS TRYTON ─────────
+
+# Auto-merge config files tras emerge
+auto_merge_configs() {
+  log_step "Fusionando cambios de configuración..."
+  if command -v etc-update &>/dev/null; then
+    # -5 = auto-merge all, sin mv -i
+    sudorun etc-update --automode -5 2>/dev/null || true
+    log_info "etc-update completado."
+  elif command -v dispatch-conf &>/dev/null; then
+    # 'm' = merge. Pipe infinito se corta cuando dispatch-conf termina
+    yes m | sudorun dispatch-conf 2>/dev/null || true
+    log_info "dispatch-conf completado."
+  else
+    log_warn "No se encuentra dispatch-conf ni etc-update — configs pueden quedar pendientes."
+  fi
+}
+
+check_module_installed() {
+  local pkg="$1"
+  qlist -IC "$pkg" &>/dev/null
+}
+
+# Loop de instalación: emerge → si falla → merge config → reintentar
+emerge_with_retry() {
+  local max_attempts=5
+  local attempt=1
+  local pkg_list=("$@")
+
+  while [[ $attempt -le $max_attempts ]]; do
+    log_info "Intento $attempt de $max_attempts..."
+    set +e
+    sudorun emerge -v --autounmask-write --autounmask-backtrack=y "${pkg_list[@]}" 2>&1
+    local ec=$?
+    set -e
+
+    if [[ $ec -eq 0 ]]; then
+      log_info "emerge completado exitosamente."
+      return 0
+    fi
+
+    log_warn "emerge salió con código $ec — fusionando configs y reintentando..."
+    auto_merge_configs
+    attempt=$((attempt + 1))
+  done
+
+  log_error "Se agotaron los reintentos ($max_attempts)."
+  log_error "Ejecutá manualmente: sudo emerge -v ${pkg_list[*]}"
+  return 1
+}
+
+install_missing_modules() {
+  local -n modules_ref="$1"
+  local missing=()
+
+  for m in "${modules_ref[@]}"; do
+    if check_module_installed "$m"; then
+      log_info "  ✓ $m"
+    else
+      log_warn "  ✗ $m — no instalado"
+      missing+=("$m")
+    fi
+  done
+
+  if [[ ${#missing[@]} -eq 0 ]]; then
+    return 0
+  fi
+
+  echo ""
+  log_warn "${#missing[@]} módulo(s) faltante(s). Instalando..."
+  log_warn "La compilación puede tomar varios minutos."
+  echo ""
+
+  # Loop de instalación con merge automático en cada ciclo
+  if ! emerge_with_retry "${missing[@]}"; then
+    exit 1
+  fi
+
+  # ─── VERIFICACIÓN POST-INSTALACIÓN ──────────────────────
+  log_info "Verificando instalación..."
+  local failed=()
+  for m in "${missing[@]}"; do
+    if check_module_installed "$m"; then
+      log_info "  ✓ $m"
+    else
+      log_error "  ✗ $m — falló la instalación"
+      failed+=("$m")
+    fi
+  done
+  if [[ ${#failed[@]} -gt 0 ]]; then
+    log_error "No se pudieron instalar: ${failed[*]}"
+    log_error "Ejecutá manualmente: sudo emerge -v ${failed[*]}"
+    exit 1
+  fi
+  log_info "Todos los módulos instalados correctamente."
+}
+
+verify_minimum_modules() {
+  log_step "Verificando módulos Tryton mínimos requeridos..."
+  echo ""
+  echo "  Mínimos para operación (compras, ventas, inventarios,"
+  echo "  contabilidad, monedas, clientes, proveedores):"
+  echo ""
+
+  install_missing_modules MINIMUM_MODULES
+
+  echo ""
+  log_info "Todos los módulos mínimos están instalados."
+  echo ""
+}
+
+install_extra_modules() {
+  log_input "¿Instalar módulos adicionales? (contabilidad analítica, medios de pago,\n  listas de precios, descuentos, etc.) [s/N]:"
+  read -r resp
+  if [[ ! "$resp" =~ ^[sS] ]]; then
+    return 0
+  fi
+
+  echo ""
+  echo "  Módulos adicionales disponibles:"
+  local i=1
+  for m in "${EXTRA_MODULES[@]}"; do
+    local marca=" "
+    if check_module_installed "$m"; then
+      marca="✓"
+    fi
+    printf "  [%2d] %s %s\n" "$i" "$marca" "$m"
+    i=$((i + 1))
+  done
+  echo ""
+  echo "  Opciones:"
+  echo "    all  - Instalar todos"
+  echo "    1 2 5 - Instalar por número (separados por espacio)"
+  echo "    Enter - Saltear"
+  echo ""
+  log_input "Selección: "
+  read -r selection
+
+  if [[ -z "$selection" ]]; then
+    return 0
+  fi
+
+  local selected=()
+  if [[ "$selection" == "all" ]]; then
+    for m in "${EXTRA_MODULES[@]}"; do
+      if ! check_module_installed "$m"; then
+        selected+=("$m")
+      fi
+    done
+  else
+    for num in $selection; do
+      local idx=$((num - 1))
+      if [[ $idx -ge 0 && $idx -lt ${#EXTRA_MODULES[@]} ]]; then
+        local m="${EXTRA_MODULES[$idx]}"
+        if ! check_module_installed "$m"; then
+          selected+=("$m")
+        else
+          log_info "  $m ya está instalado."
+        fi
+      fi
+    done
+  fi
+
+  if [[ ${#selected[@]} -gt 0 ]]; then
+    echo ""
+    emerge_with_retry "${selected[@]}" || true
+  fi
+}
+
+# ─── CREACIÓN DE USUARIO/DB POSTGRESQL ─────────────────────
+
+create_pg_user_and_db() {
+  local pg_user="$1"
+  local pg_pass="$2"
+  local db_name="$3"
+
+  log_step "Usuario PostgreSQL '$pg_user'..."
+  if run_as_postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='${pg_user}'" 2>/dev/null | grep -q 1; then
+    log_info "Usuario '$pg_user' ya existe."
+    log_input "¿Actualizar contraseña? [s/N]:"
+    read -r resp
+    if [[ "$resp" =~ ^[sS] ]]; then
+      run_as_postgres psql -c "ALTER USER ${pg_user} WITH PASSWORD '${pg_pass}';"
+    fi
+  else
+    run_as_postgres psql -c "CREATE USER ${pg_user} WITH PASSWORD '${pg_pass}';"
+    log_info "Usuario '$pg_user' creado."
+  fi
+
+  log_step "Base de datos '$db_name'..."
+  while true; do
+    if run_as_postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='${db_name}'" 2>/dev/null | grep -q 1; then
+      log_warn "La base de datos '$db_name' ya existe."
+      echo ""
+      log_input "Ya existe una base de datos '${db_name}' en PostgreSQL."
+      echo "  ¿Qué deseas hacer?"
+      echo "    [1] Reiniciar todo desde cero (Borrar '${db_name}' y reinstalar limpia)"
+      echo "    [2] Especificar un nombre de base de datos diferente (crear nueva DB)"
+      echo ""
+      log_input "Seleccioná una opción [1/2]: "
+      read -r db_choice
+
+      if [[ "$db_choice" == "1" ]]; then
+        echo ""
+        log_error "¡ADVERTENCIA! Se eliminará por completo la base de datos '${db_name}' y TODA su data asociada."
+        log_input "Escribí 'BORRAR' para confirmar la eliminación definitiva: "
+        read -r confirm
+        if [[ "$confirm" == "BORRAR" ]]; then
+          log_warn "Eliminando base de datos '$db_name'..."
+          sudorun rc-service trytond stop &>/dev/null || true
+          run_as_postgres psql -c "DROP DATABASE ${db_name};"
+          run_as_postgres psql -c "CREATE DATABASE ${db_name} WITH OWNER ${pg_user};"
+          log_info "Base de datos recreada desde cero."
+          return 0
+        else
+          log_info "Operación cancelada. Seleccioná otra opción."
+          continue
+        fi
+      else
+        log_input "Ingresá el nuevo nombre para la base de datos de Tryton: "
+        read -r new_db_name
+        if [[ -n "$new_db_name" ]]; then
+          db_name="$new_db_name"
+          DB_NAME="$new_db_name"
+          continue
+        else
+          log_error "El nombre de la base de datos no puede estar vacío."
+          continue
+        fi
+      fi
+    else
+      run_as_postgres psql -c "CREATE DATABASE ${db_name} WITH OWNER ${pg_user};"
+      log_info "DB '$db_name' creada con owner '${pg_user}'."
+      DB_NAME="$db_name"
+      return 0
+    fi
+  done
+}
+
+# ─── CONFIGURACIÓN TRYTON ───────────────────────────────────
+
+configure_trytond_conf() {
+  local pg_user="$1"
+  local pg_pass="$2"
+  local super_pwd="$3"
+
+  log_step "Configurando $TRYTON_CONF..."
+  # URI oficial sin :5432 (PostgreSQL usa 5432 por defecto)
+  local uri="postgresql://${pg_user}:${pg_pass}@localhost/"
+
+  if grep -q "^uri" "$TRYTON_CONF" 2>/dev/null; then
+    sudorun sed -i "s|^uri = postgresql://.*|uri = ${uri}|" "$TRYTON_CONF"
+  else
+    sudorun sed -i "/^\[database\]/a uri = ${uri}" "$TRYTON_CONF"
+  fi
+
+  if grep -q "^super_pwd" "$TRYTON_CONF" 2>/dev/null; then
+    sudorun sed -i "s|^super_pwd = .*|super_pwd = ${super_pwd}|" "$TRYTON_CONF"
+  else
+    if grep -q "^\[session\]" "$TRYTON_CONF" 2>/dev/null; then
+      sudorun sed -i "/^\[session\]/a super_pwd = ${super_pwd}" "$TRYTON_CONF"
+    else
+      sudorun bash -c "echo -e '\n[session]\nsuper_pwd = ${super_pwd}' >> $TRYTON_CONF"
+    fi
+  fi
+
+  if ! grep -q "^path" "$TRYTON_CONF" 2>/dev/null; then
+    sudorun sed -i "/^\[database\]/a path = ${TRYTON_DATA}" "$TRYTON_CONF"
+  fi
+  sudorun mkdir -p "$TRYTON_DATA"
+  sudorun chown trytond:trytond "$TRYTON_DATA"
+  log_info "URI, super_pwd y path configurados."
+}
+
+configure_trytond_confd() {
+  local db_name="$1"
+  log_step "Configurando /etc/conf.d/trytond..."
+  sudorun tee "$TRYTON_CONFD" >/dev/null <<-EOF
+# /etc/conf.d/trytond — Configurado por setup-tryton
+CONFIG=${TRYTON_CONF}
+LOGCONF=${TRYTON_LOGCONF}
+DATABASES=${db_name}
+EOF
+  log_info "conf.d configurado."
+}
+
+# ─── SERVICIOS ──────────────────────────────────────────────
+
+start_trytond() {
+  log_step "Iniciando trytond..."
+  if sudorun rc-service trytond status &>/dev/null; then
+    sudorun rc-service trytond restart
+  else
+    sudorun rc-service trytond start
+  fi
+  sleep 2
+  if sudorun rc-service trytond status &>/dev/null; then
+    log_info "trytond OK."
+  else
+    log_warn "trytond no arrancó. Revisá: $TRYTON_LOG/trytond.log"
+  fi
+}
+
+# ─── RESUMEN ────────────────────────────────────────────────
+
+show_summary() {
+  local pg_user="$1"
+  local pg_pass="$2"
+  local db_name="$3"
+  local super_pwd="$4"
+
+  local pg_status="$(sudorun rc-service "$PG_SERVICE" status &>/dev/null && echo "${VERDE}corriendo${RESET}" || echo "${ROJO}detenido${RESET}")"
+  local td_status="$(sudorun rc-service trytond status &>/dev/null && echo "${VERDE}corriendo${RESET}" || echo "${ROJO}detenido${RESET}")"
+
+  echo ""
+  echo -e "${AZUL}========================================${RESET}"
+  echo -e "${VERDE}   TRYTON — CONFIGURACIÓN COMPLETA${RESET}"
+  echo -e "${AZUL}========================================${RESET}"
+  echo ""
+  echo -e "  ${CYAN}Servicios:${RESET}"
+  echo -e "    PostgreSQL:  ${pg_status} (${PG_SERVICE})"
+  echo -e "    Tryton:      ${td_status} (trytond)"
+  echo ""
+  echo -e "  ${CYAN}Base de datos:${RESET}"
+  echo -e "    Usuario:     ${AZUL}${pg_user}${RESET}"
+  echo -e "    Contraseña:  ${AMARILLO}${pg_pass}${RESET}"
+  echo -e "    Base datos:  ${AZUL}${db_name}${RESET}"
+  echo -e "    URI:         postgresql://${pg_user}:****@localhost:5432/"
+  echo ""
+  echo -e "  ${CYAN}Tryton:${RESET}"
+  echo -e "    DB admin pwd:   ${AMARILLO}${super_pwd}${RESET}  (para crear/borrar DBs desde el cliente)"
+  echo -e "    Admin usuario:   Se define en trytond-admin (correo + contraseña)"
+  echo -e "    Web UI:      ${AZUL}http://localhost:8000${RESET}"
+  echo -e "    Config:      ${TRYTON_CONF}"
+  echo ""
+  echo -e "  ${CYAN}Wizard inicial (crear empresa + activar módulos):${RESET}"
+  echo -e "    Abrí ${AZUL}http://localhost:8000${RESET} en el navegador."
+  echo ""
+}
+
+# ════════════════════════════════════════════════════════════
+#   MAIN
+# ════════════════════════════════════════════════════════════
+
+# Banner
+echo ""
+echo -e "${AZUL}╔═══════════════════════════════════════════╗${RESET}"
+echo -e "${AZUL}║${RESET}   ${VERDE}Setup Tryton — Configuración Inicial${RESET}    ${AZUL}║${RESET}"
+echo -e "${AZUL}║${RESET}   Tryton 8 + PostgreSQL 18 + SAO Web     ${AZUL}║${RESET}"
+echo -e "${AZUL}╚═══════════════════════════════════════════╝${RESET}"
+echo ""
+
+# --- PARSE DE ARGUMENTOS ---
+DB_ARG=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -d | --database)
+      DB_ARG="$2"
+      shift 2
+      ;;
+    -h | --help)
+      echo "Uso: setup-tryton [opciones]"
+      echo ""
+      echo "Configura PostgreSQL, trytond.conf y arranca servicios."
+      echo "La creación de empresa y activación de módulos se hace"
+      echo "desde el cliente web SAO (wizard inicial)."
+      echo ""
+      echo "Opciones:"
+      echo "  -d, --database <db>  Nombre de base de datos"
+      exit 0
+      ;;
+    *)
+      log_error "Opción desconocida: $1"
+      echo "Usá --help para ayuda."
+      exit 1
+      ;;
+  esac
+done
+
+# ════════════════════════════════════════════════════════════
+#   SETUP COMPLETO INTERACTIVO
+# ════════════════════════════════════════════════════════════
+
+check_sudo
+check_prerequisites
+
+echo -e "${AZUL}╔═══════════════════════════════════════════╗${RESET}"
+echo -e "${AZUL}║${RESET}   ${CYAN}CONFIGURACIÓN DE PARÁMETROS${RESET}              ${AZUL}║${RESET}"
+echo -e "${AZUL}╚═══════════════════════════════════════════╝${RESET}"
+echo ""
+log_input "Presioná Enter para valor por defecto [entre corchetes]."
+echo ""
+
+read -r -p "$(log_input "Usuario PostgreSQL [${PG_USER_DEF}]: ")" input
+PG_USER="${input:-$PG_USER_DEF}"
+
+read -r -s -p "$(log_input "Contraseña PostgreSQL: [${PG_PASS_DEF}]")" input
+echo ""
+PG_PASS="${input:-$PG_PASS_DEF}"
+
+read -r -p "$(log_input "Base de datos Tryton [${DB_NAME_DEF}]: ")" input
+DB_NAME="${input:-$DB_NAME_DEF}"
+
+read -r -s -p "$(log_input "Admin password Tryton [${TRYTON_ADMIN_PASS_DEF}]: ")" input
+echo ""
+SUPER_PWD="${input:-$TRYTON_ADMIN_PASS_DEF}"
+
+log_input "¿Iniciar servicios automáticamente? [S/n]:"
+read -r input
+START_SERVICES=true
+[[ "$input" =~ ^[nN] ]] && START_SERVICES=false
+
+# ════════════════════════════════════════════════════════════
+#   EJECUCIÓN
+# ════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${AZUL}╔═══════════════════════════════════════════╗${RESET}"
+echo -e "${AZUL}║${RESET}   ${CYAN}EJECUTANDO CONFIGURACIÓN${RESET}                 ${AZUL}║${RESET}"
+echo -e "${AZUL}╚═══════════════════════════════════════════╝${RESET}"
+echo ""
+
+# 1. VERIFICAR E INSTALAR MÓDULOS MÍNIMOS (HARD GATE)
+#    Esto debe hacerse ANTES de cualquier config para asegurar
+#    que los paquetes de Tryton con sus dependencias están presentes.
+echo ""
+verify_minimum_modules
+
+# 2. Módulos adicionales
+install_extra_modules
+
+# 3. Inicializar PostgreSQL
+init_pg_if_needed
+
+# 4. Configurar autenticación
+configure_pg_auth
+
+# 5. Arrancar PostgreSQL
+if [[ "$START_SERVICES" == true ]]; then
+  ensure_pg_running
+fi
+
+# 6. Crear usuario y base de datos
+db_action=0
+create_pg_user_and_db "$PG_USER" "$PG_PASS" "$DB_NAME" || db_action=$?
+
+# 7. Configurar trytond.conf
+configure_trytond_conf "$PG_USER" "$PG_PASS" "$SUPER_PWD"
+
+# 8. Configurar /etc/conf.d/trytond
+configure_trytond_confd "$DB_NAME"
+
+# 9. Inicializar base de datos y configurar admin
+if [[ "$START_SERVICES" == true ]]; then
+  echo ""
+  log_step "Inicializando base de datos y configurando admin..."
+
+  # Detener trytond si está corriendo (necesita acceso directo a PG)
+  sudorun rc-service trytond stop &>/dev/null || true
+
+  passfile=$(mktemp)
+  echo "$SUPER_PWD" >"$passfile"
+
+  # Activar módulos base y configurar contraseña admin
+  if echo "" | sudo TRYTONPASSFILE="$passfile" trytond-admin -c "$TRYTON_CONF" -d "$DB_NAME" -u country currency company party account --activate-dependencies -p 2>&1; then
+    log_info "Módulos base activados."
+    echo "" | sudo TRYTONPASSFILE="$passfile" trytond-admin -c "$TRYTON_CONF" -d "$DB_NAME" --all --activate-dependencies -p 2>&1 || true
+  else
+    log_warn "Error al ejecutar trytond-admin. Verifique los logs."
+    log_warn "Si la base ya fue inicializada previamente, puede ignorarse."
+  fi
+  rm -f "$passfile"
+
+  # 10. Importar países y monedas (siempre: DB nueva o existente)
+  log_step "Importando países y monedas..."
+  if sudorun python3 -m trytond.modules.country.scripts.import_countries -c "$TRYTON_CONF" -d "$DB_NAME" 2>&1; then
+    log_info "Países importados correctamente."
+  else
+    log_warn "Error al importar países (puede ignorarse si ya están importados)."
+  fi
+  if sudorun python3 -m trytond.modules.currency.scripts.import_currencies -c "$TRYTON_CONF" -d "$DB_NAME" 2>&1; then
+    log_info "Monedas importadas correctamente."
+  else
+    log_warn "Error al importar monedas (puede ignorarse si ya están importadas)."
+  fi
+fi
+
+# 11. Arrancar trytond
+if [[ "$START_SERVICES" == true ]]; then
+  echo ""
+  start_trytond
+fi
+
+# 12. Resumen
+echo ""
+if [[ "$START_SERVICES" == true ]]; then
+  show_summary "$PG_USER" "$PG_PASS" "$DB_NAME" "$SUPER_PWD"
+else
+  log_info "Configuración completada. Iniciá servicios:"
+  echo "  sudo rc-service ${PG_SERVICE} start"
+  echo "  sudo rc-service trytond start"
+  echo ""
+  log_info "Resumen:"
+  echo "  Usuario PostgreSQL:   ${PG_USER}"
+  echo "  Base de datos:        ${DB_NAME}"
+  echo "  DB mgmt pwd (client): ${SUPER_PWD}  (NO es el admin user)"
+  echo "  Admin user:           Se define en el wizard web"
+  echo "  Web UI:               http://localhost:8000"
+fi
+
+# 13. Próximos pasos
+echo ""
+echo -e "${AZUL}══════════════════════════════════════════${RESET}"
+echo -e "${CYAN}   PRÓXIMOS PASOS${RESET}"
+echo -e "${AZUL}══════════════════════════════════════════${RESET}"
+echo ""
+echo -e "  1. Abrí ${AZUL}http://localhost:8000${RESET} en el navegador."
+echo "     El wizard te guiará para:"
+echo "       - Activar módulos (company, party, account, etc.)"
+echo "       - Crear la empresa"
+echo "       - Configurar el admin user"
+echo ""
+echo "     El plan de cuentas Venezuela (PUC) ya está disponible"
+echo "     en el wizard como plantilla contable."
+echo ""
+echo "  NOTA: super_pwd (DB mgmt pwd) es distinto del usuario admin."
+echo "  El admin se configura en el wizard."
+echo ""

@@ -1,15 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "engram": {
-      "command": [
-        "/home/eleazar/.local/bin/engram",
-        "mcp",
-        "--tools=agent"
-      ],
-      "enabled": true,
-      "type": "local"
-    },
     "codegraph": {
       "type": "local",
       "command": [
@@ -19,13 +10,14 @@
       ],
       "enabled": true
     },
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "ctx7sk-1cbb5d7e-6c71-40d4-9a4a-06922989c8f1"
-      },
-      "enabled": true
+    "engram": {
+      "command": [
+        "/home/eleazar/.local/bin/engram",
+        "mcp",
+        "--tools=agent"
+      ],
+      "enabled": true,
+      "type": "local"
     }
   }
 }

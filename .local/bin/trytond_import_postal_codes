@@ -1,0 +1,6 @@
+#!/usr/bin/python3.14
+import sys
+from trytond.modules.country.scripts.import_postal_codes import run
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(run())
