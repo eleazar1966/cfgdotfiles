@@ -101,6 +101,40 @@
       "live_status": null,
       "channel_is_verified": true,
       "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "t9xwx6qf-P0",
+      "url": "https://www.youtube.com/watch?v=t9xwx6qf-P0",
+      "title": "795 - OpenCode, the AI ​​agent that PROGRAMS for you",
+      "description": "Can you imagine programming a complete tool in Rust without hardly touching the keyboard? Hi! I'm Lorenzo, and today I welcome ...",
+      "duration": 1688,
+      "channel_id": "UCP8dTCaLNJFxfklb_GNqe6A",
+      "channel": "atareao",
+      "channel_url": "https://www.youtube.com/channel/UCP8dTCaLNJFxfklb_GNqe6A",
+      "uploader": "atareao",
+      "uploader_id": "@atareao",
+      "uploader_url": "https://www.youtube.com/@atareao",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/t9xwx6qf-P0/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC7ijVzkIzLO42pTrPXXeNDpHTsQQ",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/t9xwx6qf-P0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC_1Y_G7zMGC4tL03_Gz1LliPybAw",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1780272000,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 3692,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
     }
   ]
 }

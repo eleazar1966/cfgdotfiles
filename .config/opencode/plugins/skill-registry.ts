@@ -13,13 +13,15 @@ import { promisify } from "util"
 
 const execFileAsync = promisify(execFile)
 
+const GENTLE_AI_PATH = "/home/eleazar/.local/bin/gentle-ai"
+
 export const SkillRegistryPlugin: Plugin = async (input) => {
   async function refreshSkillRegistry() {
     const cwd = input.directory || input.worktree || process.cwd()
 
     try {
       await execFileAsync(
-        "gentle-ai",
+        GENTLE_AI_PATH,
         ["skill-registry", "refresh", "--quiet", "--no-gitignore", "--cwd", cwd],
         { timeout: 30_000 },
       )

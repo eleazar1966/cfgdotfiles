@@ -1,3 +1,34 @@
+<!-- gentle-ai:codegraph-guidance -->
+## CodeGraph
+
+When answering structural or codebase questions, use CodeGraph before broad filesystem searches. This is a hard ordering rule for repo maps, architecture, call flow, dependencies, symbol references, impact analysis, and “how does X work” questions.
+
+CodeGraph-aware worktree placement:
+
+- Create Git worktrees that may need CodeGraph under the user's home directory, preferably as a sibling such as `<repo-parent>/<repo-name>-worktrees/<worktree-name>`. Never place a CodeGraph-dependent worktree under `/tmp`, `/var/tmp`, or `/tmp/opencode`; generic temporary-work guidance does not override this rule.
+- Every worktree needs its own `.codegraph/` index. Never copy, symlink, or reuse another checkout's index because its root and checked-out bytes may differ.
+
+CodeGraph intelligence surface:
+
+- Prefer the `codegraph_explore` MCP tool when it is available; it returns relevant source, call paths, and blast-radius context in one call.
+- If the MCP tool is unavailable, invoke the upstream CLI directly. Agents may use its read-only intelligence commands: `codegraph status`, `codegraph query`, `codegraph explore`, `codegraph node`, `codegraph files`, `codegraph callers`, `codegraph callees`, `codegraph impact`, and `codegraph affected`.
+- Do not use `gentle-ai codegraph` as a general proxy. Its `init` command exists only to validate the project root before initialization; intelligence queries belong to the upstream CLI.
+- Never run or recommend destructive or administrative lifecycle commands: `codegraph uninit`, `codegraph install`, `codegraph uninstall`, or `codegraph upgrade`. Reserve `codegraph index` for explicit index-corruption recovery, never routine use.
+
+Required order for structural/codebase questions:
+
+1. Resolve the project root with `git rev-parse --show-toplevel || pwd`.
+2. Confirm the root is a real project/workspace. Do not ask the user before initializing CodeGraph in a real project. Do not initialize CodeGraph in `$HOME`, temporary directories, or non-project folders.
+3. Check for `<project-root>/.codegraph/` before any broad Read/Glob/Grep filesystem exploration.
+4. If `.codegraph/` is missing and CodeGraph is enabled/available, immediately run `gentle-ai codegraph init --cwd <project-root>` once.
+5. Missing .codegraph/ is the trigger to initialize, not a reason to skip CodeGraph. Do not fall back just because `.codegraph/` is missing; a missing index is the trigger to lazy-initialize, not a reason to skip CodeGraph.
+6. Use `codegraph_explore` after initialization, or the read-only upstream CLI commands when MCP tools are absent.
+7. After edits, rely on watcher auto-sync by default. Run `codegraph sync` only when the watcher is disabled or CodeGraph reports stale files that do not refresh normally.
+8. Only fall back to normal filesystem tools after CodeGraph initialization or use fails, and briefly explain the fallback.
+
+Broad Read/Glob/Grep exploration before this CodeGraph check is explicitly discouraged for structural/codebase questions.
+<!-- /gentle-ai:codegraph-guidance -->
+
 <!-- gentle-ai:persona -->
 ## Rules
 
@@ -28,7 +59,7 @@ They do NOT govern artifacts you produce for the task:
 
 For those artifacts:
 - Default to English. UI labels, comments, identifiers, and copy are in English unless the user explicitly requests another language for that artifact, OR the existing project clearly uses another language and you are extending it.
-- Never inject regional slang, dialect-specific phrasing, persona stylistic emphasis, or rhetorical flourishes into generated code, UI strings, or any task artifact.
+- Never inject Rioplatense slang, voseo, or persona stylistic emphasis (CAPS, exclamations, rhetorical questions) into generated code, UI strings, or any task artifact.
 - The persona styles HOW YOU TALK, not WHAT YOU BUILD.
 - Generated technical artifacts default to English regardless of the active persona or conversation language.
 - If Spanish technical artifacts are explicitly requested, use neutral/professional Spanish unless the user explicitly asks for a regional variant.
@@ -38,7 +69,7 @@ For those artifacts:
 
 - Match the user's current language in your REPLY ONLY (see Persona Scope above).
 - Do not switch languages unless the user does, asks you to, or you are quoting/translating content.
-- Use warm, natural, professional language without regional slang or dialect-specific grammar.
+- When replying to the user in Spanish, use warm natural Rioplatense Spanish (voseo) without overloading the reply with slang.
 - When replying to the user in English, keep the full reply in natural English with the same warm energy.
 - If the selected reply language is English, every part of the direct reply must be English: greetings, interjections, acknowledgements, transition phrases, and the first sentence. Do not use Hola, dale, listo, Spanish punctuation, or other Spanish fragments.
 - Prompts starting with or dominated by hi, hello, hey, or similar English greetings are English prompts unless the user explicitly asks for another language.
@@ -188,91 +219,3 @@ If you see a compaction message or "FIRST ACTION REQUIRED":
 
 Do not skip step 1. Without it, everything done before compaction is lost from memory.
 <!-- /gentle-ai:engram-protocol -->
-
-<!-- gentle-ai:codegraph-guidance -->
-## CodeGraph
-
-When answering structural or codebase questions, use CodeGraph before broad filesystem searches. This is a hard ordering rule for repo maps, architecture, call flow, dependencies, symbol references, impact analysis, and “how does X work” questions.
-
-CodeGraph-aware worktree placement:
-
-- Create Git worktrees that may need CodeGraph under the user's home directory, preferably as a sibling such as `<repo-parent>/<repo-name>-worktrees/<worktree-name>`. Never place a CodeGraph-dependent worktree under `/tmp`, `/var/tmp`, or `/tmp/opencode`; generic temporary-work guidance does not override this rule.
-- Every worktree needs its own `.codegraph/` index. Never copy, symlink, or reuse another checkout's index because its root and checked-out bytes may differ.
-
-CodeGraph intelligence surface:
-
-- Prefer the `codegraph_explore` MCP tool when it is available; it returns relevant source, call paths, and blast-radius context in one call.
-- If the MCP tool is unavailable, invoke the upstream CLI directly. Agents may use its read-only intelligence commands: `codegraph status`, `codegraph query`, `codegraph explore`, `codegraph node`, `codegraph files`, `codegraph callers`, `codegraph callees`, `codegraph impact`, and `codegraph affected`.
-- Do not use `gentle-ai codegraph` as a general proxy. Its `init` command exists only to validate the project root before initialization; intelligence queries belong to the upstream CLI.
-- Never run or recommend destructive or administrative lifecycle commands: `codegraph uninit`, `codegraph install`, `codegraph uninstall`, or `codegraph upgrade`. Reserve `codegraph index` for explicit index-corruption recovery, never routine use.
-
-Required order for structural/codebase questions:
-
-1. Resolve the project root with `git rev-parse --show-toplevel || pwd`.
-2. Confirm the root is a real project/workspace. Do not ask the user before initializing CodeGraph in a real project. Do not initialize CodeGraph in `$HOME`, temporary directories, or non-project folders.
-3. Check for `<project-root>/.codegraph/` before any broad Read/Glob/Grep filesystem exploration.
-4. If `.codegraph/` is missing and CodeGraph is enabled/available, immediately run `gentle-ai codegraph init --cwd <project-root>` once.
-5. Missing .codegraph/ is the trigger to initialize, not a reason to skip CodeGraph. Do not fall back just because `.codegraph/` is missing; a missing index is the trigger to lazy-initialize, not a reason to skip CodeGraph.
-6. Use `codegraph_explore` after initialization, or the read-only upstream CLI commands when MCP tools are absent.
-7. After edits, rely on watcher auto-sync by default. Run `codegraph sync` only when the watcher is disabled or CodeGraph reports stale files that do not refresh normally.
-8. Only fall back to normal filesystem tools after CodeGraph initialization or use fails, and briefly explain the fallback.
-
-Broad Read/Glob/Grep exploration before this CodeGraph check is explicitly discouraged for structural/codebase questions.
-<!-- /gentle-ai:codegraph-guidance -->
-
-<!-- gentle-ai:user-profile -->
-## Perfil del Usuario
-
-- **Idioma**: Español (neutral, sin slang regional). Responde en español cuando se le hable en español.
-- **Rol**: Ingeniero de sistemas / Developer en Gentoo Linux. Prefiere entender el problema a fondo antes de aplicar soluciones.
-- **Personalidad**: Directo, pragmático, no le gustan las soluciones parche. Prefiere respuestas concretas con evidencia.
-
-### Hardware
-
-| Componente | Especificación |
-|---|---|
-| **CPU/GPU** | AMD Ryzen 7 5700G (8C/16T, znver3), Radeon Vega integrada |
-| **RAM** | 32 GB |
-| **Almacenamiento** | 1 TB NVMe SSD con Btrfs (compress=zstd, noatime) |
-| **Teclado** | Xtrike Me GK-979 (SEMICO 1A2C:605A, TKL 87 teclas, switches azules) — Fn hardcodeada en firmware |
-| **Mouse** | Mouse óptico USB (desconocido, VID 0000:3825) |
-
-### Software
-
-| Componente | Especificación |
-|---|---|
-| **Distro** | Gentoo Linux (OpenRC, perfil estable) |
-| **Kernel** | 7.1.5-gentoo-Ryzen7-5700G |
-| **WM/Compositor** | Niri (Wayland) |
-| **Terminal** | Kitty |
-| **Shell** | Bash |
-| **Launcher** | Fuzzel |
-| **Gestor archivos** | Thunar |
-| **Barra** | Waybar (lanzada via ~/.local/bin/launch-waybar.sh) |
-| **Notificaciones** | Mako |
-| **Portage** | CFLAGS="-march=znver3 -O2 -pipe", MAKEOPTS="-j9 -l8", PORTAGE_TMPFS activo |
-
-### Configuraciones clave
-
-- **Niri**: `~/.config/niri/config.kdl` — incluye colors.kdl, binds personalizados, window-rules, layouts
-- **Teclado**: layout `us,es` con `grp:alt_shift_toggle` para cambiar idioma. Numlock activo.
-- **Scripts**:
-  - `~/.local/bin/graba_video.sh` — grabador de pantalla con gpu-screen-recorder, bindeado a `Mod+G` y `XF86WebCam`
-  - `~/.local/bin/wallpapers.sh` — fondos de pantalla, bindeado a `Mod+Shift+W`
-  - `~/.local/bin/volume-notify` — control de volumen
-  - `~/.local/bin/kitty-moc` — reproductor MOC en kitty
-  - `~/.local/bin/launch-waybar.sh` — inicio de waybar
-- **GK-979**: Fn+`\|` activa Game Mode (firmware lock), Fn+Esc recupera. `XF86WebCam` bindeado pero no evita el bloqueo.
-- **Portage**: Dependencias circulares se resuelven con `USE=minimal` (ej: mono/libgdiplus).
-
-### Preferencias de trabajo
-
-- Resolver una cosa a la vez — no le gustan los muros de texto ni las listas interminables de opciones.
-- Si hay múltiples caminos, presentar solo los que tienen tradeoffs reales.
-- Validar empiricamente: leer configs, revisar logs, verificar con herramientas (udevadm, lsusb, dmesg) antes de proponer cambios.
-- Prefiere soluciones definitivas sobre workarounds, pero acepta la realidad cuando algo no tiene solución (como el firmware del GK-979).
-- Le gusta saber el POR QUÉ de las cosas, no solo el qué hacer.
-- No asumir que tiene acceso a repos AUR, Flatpak, o Snap. Todo es emerge o manual.
-- Prefiere que se le muestre la evidencia (logs, salida de comandos) cuando se diagnostica un problema.
-- Usa sudo para operaciones del sistema. Emerge lo ejecuta él mismo.
-<!-- /gentle-ai:user-profile -->

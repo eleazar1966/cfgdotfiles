@@ -1,4 +1,0 @@
-FROM qwen2.5-coder:14b
-
-# Configurar la ventana de contexto a 16k tokens
-PARAMETER num_ctx 16384
