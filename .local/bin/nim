@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+#
+# nim — Cliente de NVIDIA NIM (build.nvidia.com) para modelos gratis.
+#
+# Uso:
+#   nim                      chat interactivo con el modelo por defecto
+#   nim "pregunta"           consulta directa (una sola respuesta)
+#   nim -m <modelo> ...      usa otro modelo (ver `nim list`)
+#   nim list                 lista los modelos gratis disponibles
+#   nim -s                   muestra el estado de la key / límites
+#
+# Requiere la variable de entorno NVIDIA_API_KEY (o un archivo de key).
+# Conseguí la key gratis en: https://build.nvidia.com/
+
+set -euo pipefail
+
+API_URL="https://integrate.api.nvidia.com/v1"
+DEFAULT_MODEL="z-ai/glm-5.2"
+KEY_FILE="${NVIDIA_KEY_FILE:-$HOME/.config/nvidia_nim_key}"
+
+die() { echo "Error: $*" >&2; exit 1; }
+
+# --- Resolución de la API key -----------------------------------------
+# Orden de precedencia: variable de entorno -> archivo de key.
+get_key() {
+  if [[ -n "${NVIDIA_API_KEY:-}" ]]; then
+    echo "$NVIDIA_API_KEY"
+  elif [[ -f "$KEY_FILE" ]]; then
+    cat "$KEY_FILE"
+  else
+    die "No hay key. Exportá NVIDIA_API_KEY o guardala en $KEY_FILE (sin salto de línea).\n  Key gratis: https://build.nvidia.com/"
+  fi
+}
+
+key_warn() {
+  local key="$1"
+  if [[ -z "$key" || "$key" == "nvapi-"* && ${#key} -lt 10 ]]; then
+    echo "(!) Ojo: la key parece inválida (debería empezar con nvapi- y ser larga)." >&2
+  fi
+}
+
+# --- Comandos -----------------------------------------------------------
+cmd_list() {
+  curl -sS --max-time 20 "$API_URL/models" \
+    | jq -r '.data[].id' \
+    | grep -vE "embed|/rerank" | sort
+}
+
+cmd_status() {
+  local key
+  key="$(get_key)"
+  curl -sS --max-time 20 "$API_URL/models" \
+    -H "Authorization: Bearer $key" \
+    | jq -r '.data | length | "Modelos visibles con tu key: \(.)"' 2>/dev/null \
+    || echo "No se pudo validar la key (puede que no haya red o la key esté mal)."
+}
+
+# --- Chat ---------------------------------------------------------------
+chat_once() {
+  local model="$1" prompt="$2"
+  local key
+  key="$(get_key)"
+  key_warn "$key"
+
+  local data
+  data="$(jq -nc --arg m "$model" --arg p "$prompt" \
+    '{model:$m, messages:[{role:"user",content:$p}], temperature:0.6, max_tokens:4096}')"
+
+  curl -sS --max-time 300 "$API_URL/chat/completions" \
+    -H "Authorization: Bearer $key" \
+    -H "Content-Type: application/json" \
+    -d "$data" \
+    | jq -r '.choices[0].message.content // .error.message // "Respuesta vacía."'
+}
+
+chat_interactive() {
+  local model="$1"
+  echo "NIM · $model — Ctrl+D para salir"
+  echo "--------------------------------------------------"
+  while true; do
+    echo -n "❯ "
+    local prompt
+    IFS= read -r prompt || { echo; break; }
+    [[ -z "$prompt" ]] && continue
+    echo
+    chat_once "$model" "$prompt"
+    echo
+    echo "--------------------------------------------------"
+  done
+}
+
+# --- Main ---------------------------------------------------------------
+model="$DEFAULT_MODEL"
+args=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -m|--model)
+      [[ $# -ge 2 ]] || die "Falta el nombre del modelo."
+      model="$2"; shift 2 ;;
+    list) cmd_list; exit 0 ;;
+    -s|--status) cmd_status; exit 0 ;;
+    -h|--help)
+      grep '^#' "$0" | sed 's/^# \{0,1\}//' | head -12; exit 0 ;;
+    *) args+=("$1"); shift ;;
+  esac
+done
+
+if [[ ${#args[@]} -eq 0 ]]; then
+  chat_interactive "$model"
+else
+  chat_once "$model" "${args[*]}"
+fi
