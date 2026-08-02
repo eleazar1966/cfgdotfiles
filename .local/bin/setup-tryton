@@ -609,11 +609,70 @@ ensure_ofxparse_py314() {
   log_info "ofxparse parcheado para python3.14."
 }
 
-# ─── MÓDULOS LOCALES DEL PROYECTO ────────────────────────
-# Módulos custom (account_ve, sale_fiscal_hka80) que no
-# están en portage/PyPI. Se despliegan desde el repositorio
-# del proyecto al directorio de addons de trytond y se
-# activan con trytond-admin al final del setup.
+# ─── VERIFICACIÓN DE CAMBIOS EN MÓDULOS LOCALES ──────────────
+# Verifica si sale_fiscal_hka80 ya tiene los cambios de integridad,
+# trazabilidad, notas de crédito/débito y RIF. Si no, requiere deploy.
+
+verify_sale_fiscal_hka80_changes() {
+  local modules_dir="$1"
+  local mod_dir="${modules_dir}/sale_fiscal_hka80"
+
+  if [[ ! -d "$mod_dir" ]]; then
+    log_warn "Módulo sale_fiscal_hka80 NO encontrado en $mod_dir"
+    return 1
+  fi
+
+  local checks=0
+  local passed=0
+
+  # 1. fiscal.py: FISCAL_TYPES, _es_nota_credito, _es_nota_debito, _rif con ve_vat
+  if grep -q "FISCAL_TYPES = ('out',)" "$mod_dir/fiscal.py" && \
+     grep -q "_es_nota_credito" "$mod_dir/fiscal.py" && \
+     grep -q "_es_nota_debito" "$mod_dir/fiscal.py" && \
+     grep -q "ve_vat" "$mod_dir/fiscal.py"; then
+    ((passed++))
+  fi
+  ((checks++))
+
+  # 2. fiscal.py: build_documento con nota_credito y nota_debito
+  if grep -q "nota_credito" "$mod_dir/fiscal.py" && \
+     grep -q "nota_debito" "$mod_dir/fiscal.py"; then
+    ((passed++))
+  fi
+  ((checks++))
+
+  # 3. invoice.py: campos fiscal_printed, fiscal_print_date, fiscal_spool, is_debit_note
+  if grep -q "fiscal_printed" "$mod_dir/invoice.py" && \
+     grep -q "fiscal_print_date" "$mod_dir/invoice.py" && \
+     grep -q "fiscal_spool" "$mod_dir/invoice.py" && \
+     grep -q "is_debit_note" "$mod_dir/invoice.py"; then
+    ((passed++))
+  fi
+  ((checks++))
+
+  # 4. invoice.py: _check_modify_exclude con campos fiscales
+  if grep -q "_check_modify_exclude" "$mod_dir/invoice.py" && \
+     grep -q "fiscal_printed" "$mod_dir/invoice.py" && \
+     grep -q "is_debit_note" "$mod_dir/invoice.py"; then
+    ((passed++))
+  fi
+  ((checks++))
+
+  # 5. invoice.py: _sale_fiscal_check con mixed_selection y single_document
+  if grep -q "msg_mixed_selection" "$mod_dir/invoice.py" && \
+     grep -q "msg_single_document" "$mod_dir/invoice.py"; then
+    ((passed++))
+  fi
+  ((checks++))
+
+  if [[ $passed -eq $checks ]]; then
+    log_info "sale_fiscal_hka80: TODOS los cambios ($checks/$checks) ya están aplicados."
+    return 0
+  else
+    log_warn "sale_fiscal_hka80: CAMBIOS INCOMPLETOS ($passed/$checks). Se requiere deploy."
+    return 1
+  fi
+}
 
 deploy_local_modules() {
   local modules_dir="$1"
@@ -632,7 +691,19 @@ deploy_local_modules() {
       log_warn "Módulo local '$mod' no encontrado en $src_dir/$mod — se omite."
       continue
     fi
-    log_step "Desplegando $mod..."
+
+    # Verificar si sale_fiscal_hka80 ya tiene los cambios
+    if [[ "$mod" == "sale_fiscal_hka80" ]]; then
+      if verify_sale_fiscal_hka80_changes "$modules_dir"; then
+        log_info "sale_fiscal_hka80 ya está actualizado — saltando deploy."
+        continue
+      else
+        log_step "Desplegando $mod (cambios detectados)..."
+      fi
+    else
+      log_step "Desplegando $mod..."
+    fi
+
     sudorun mkdir -p "$modules_dir"
     sudorun cp -a "$src_dir/$mod/." "$modules_dir/$mod/"
     sudorun find "$modules_dir/$mod" -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true
