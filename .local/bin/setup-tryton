@@ -55,10 +55,10 @@ MINIMUM_MODULES=(
 )
 # Módulos adicionales recomendados (post-instalación base)
 EXTRA_MODULES=(
-  "app-tryton/account_es"                # Plan contable español
-  "app-tryton/account_be"                # Plan contable belga
-  "app-tryton/account_fr"                # Plan contable francés
-  "app-tryton/account_ch"                # Plan contable suizo
+  # account_es, account_ch, account_fr y account_be son planes contables
+  # europeos no aplicables al PUC venezolano (account_ve). account_es no
+  # está disponible para Tryton 8 (overlay solo hasta 7.8.1, PYTHON_COMPAT
+  # python3_9..13, exige trytond 7.8) y account_ch no existe en el overlay.
   "app-tryton/analytic_account"          # Contabilidad analítica
   "app-tryton/account_stock_continental" # Costo de inventario
   "app-tryton/account_invoice_stock"     # Integración factura-stock
