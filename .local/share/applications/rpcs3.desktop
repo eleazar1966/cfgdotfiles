@@ -1,8 +1,8 @@
 [Desktop Entry]
 Name=RPCS3
-Comment=Emulador de PlayStation 3 (optimizado Ryzen 5700G)
-Exec=/home/eleazar/Documentos/Juegos/RPCS3/run_rpcs3.sh %F
+Comment=Emulador de PlayStation 3
+GenericName=Internet Messenger
+Exec=/home/eleazar/Documentos/Juegos/RPCS3/EMULATOR/rpcs3-v0.0.41-19558-dc06cac0_linux64.AppImage
 Icon=/home/eleazar/Documentos/Juegos/RPCS3/EMULATOR/rpcs3.png
 Type=Application
 Categories=Games;
-Terminal=false

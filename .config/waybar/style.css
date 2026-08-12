@@ -72,6 +72,28 @@ window#waybar {
   font-size: 16px;
 }
 
+/* 3b. Iconos como imágenes reales (Vivid-Dark-Icons) */
+#custom-menu,
+#custom-thunar,
+#custom-firefox,
+#custom-thunderbird,
+#custom-TelegramDesktop,
+#custom-mousepad,
+#custom-terminal,
+#custom-calculadora {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 18px;
+}
+#custom-menu { background-image: url("/usr/share/icons/Vivid-Dark-Icons/apps/48/distributor-logo-gentoo.svg"); }
+#custom-thunar { background-image: url("/usr/share/icons/Vivid-Dark-Icons/apps/48/thunar.svg"); }
+#custom-firefox { background-image: url("/usr/share/icons/Vivid-Dark-Icons/apps/48/firefox.svg"); }
+#custom-thunderbird { background-image: url("/usr/share/icons/Vivid-Dark-Icons/apps/48/thunderbird.svg"); }
+#custom-TelegramDesktop { background-image: url("/usr/share/icons/Vivid-Dark-Icons/apps/48/telegram-desktop.svg"); }
+#custom-mousepad { background-image: url("/usr/share/icons/candy-icons/apps/scalable/mousepad.svg"); }
+#custom-terminal { background-image: url("/usr/share/icons/Vivid-Dark-Icons/apps/48/kitty.svg"); }
+#custom-calculadora { background-image: url("/usr/share/icons/Vivid-Dark-Icons/apps/48/accessories-calculator.svg"); }
+
 /* 4. Animaciones Sincronizadas */
 #workspaces button,
 #taskbar button {

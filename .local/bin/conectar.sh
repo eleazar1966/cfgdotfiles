@@ -9,13 +9,12 @@ set -euo pipefail
 # ─── Configuración ─────────────────────────────
 # Las IPs se detectan dinámicamente, estos son fallbacks
 MIKROTIK_LAN="192.168.250.1"
-MIKROTIK_WAN="192.168.200.28"  # Fallback por si el scan no encuentra nada
+MIKROTIK_WAN="192.168.200.11"  # Fallback por si el scan no encuentra nada
 
 # Credenciales: SOLO variables de entorno (nunca hardcodear)
-# Configurá MIKROTIK_USER y MIKROTIK_PASS en ~/.bashrc o ~/.profile
+# Usuario y password se leen luego de definir colores/logging
 ADMIN_USER="${MIKROTIK_USER:-eleazar}"
 ADMIN_PASS="${MIKROTIK_PASS:-}"
-[ -z "$ADMIN_PASS" ] && { echo -e "${ROJO}[✗]${NORMAL} MIKROTIK_PASS no configurada. Ponla en ~/.bashrc: export MIKROTIK_PASS='tu-clave'" >&2; exit 1; }
 
 # ─── Colores ───────────────────────────────────
 ROJO='\033[0;31m'
@@ -31,6 +30,12 @@ info()  { echo -e "${CIAN}[*]${NORMAL} $1" >&2; }
 ok()    { echo -e "${VERDE}[✓]${NORMAL} $1" >&2; }
 error() { echo -e "${ROJO}[✗]${NORMAL} $1" >&2; }
 warn()  { echo -e "${AMARILLO}[!]${NORMAL} $1" >&2; }
+
+# Validar credenciales una vez que colores y logging ya existen
+if [ -z "$ADMIN_PASS" ]; then
+    error "MIKROTIK_PASS no configurada. Ponla en ~/.bashrc: export MIKROTIK_PASS='Eleazar-1966'"
+    exit 1
+fi
 
 # ─── Funciones ─────────────────────────────────
 

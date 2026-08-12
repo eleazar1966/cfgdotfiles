@@ -66,6 +66,19 @@ elif [ -z "$CURRENT_SRC_LINK" ]; then
 else
   echo "⚠️  No se encontraron fuentes en /usr/src/."
 fi
+
+# ── Check adicional: ¿Portage ofrece fuentes de kernel NUEVAS aún no instaladas? ──
+# El check de /usr/src/ solo ve lo ya instalado. Como @world descarga las fuentes
+# en ESTA pasada, si Portage tiene una versión más reciente que la activa debemos
+# marcarlo AHORA (tras sync) para que kernel-do.sh corra al final de esta misma
+# actualización. Un "[ebuild   R ]" = misma versión (sin novedad); cualquier otro
+# estado (U, N, NS) = hay fuente más reciente disponible.
+EMERGE_KERNEL=$(emerge -p sys-kernel/gentoo-sources 2>/dev/null | grep '^\[ebuild' | grep 'sys-kernel/gentoo-sources' | grep -vP '\[ebuild\s+R' | head -1 || true)
+if [ -n "$EMERGE_KERNEL" ] && [ "$DETECTAR_NUEVO_KERNEL" -eq 0 ]; then
+  KERNEL_NUEVA=$(echo "$EMERGE_KERNEL" | grep -oP 'gentoo-sources-\K\S+' | head -1 || echo "desconocida")
+  echo "✨ Portage ofrece fuentes de kernel más recientes: gentoo-sources-$KERNEL_NUEVA — se generan al final de esta actualización."
+  DETECTAR_NUEVO_KERNEL=1
+fi
 # =====================================================================
 # DETECCIÓN DE NUEVO GCC
 #   - Revisa si hay un slot diferente instalado pero no activo (gcc-config)
