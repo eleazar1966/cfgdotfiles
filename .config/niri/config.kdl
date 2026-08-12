@@ -3,6 +3,12 @@ include "colors.kdl"
 
 prefer-no-csd
 
+// Honrar tokens de activación con serial inválido (apps abiertas desde el
+// tray, como Telegram/Discord): así la ventana nueva toma el foco al abrir.
+debug {
+    honor-xdg-activation-with-invalid-serial true
+}
+
 // =============================================================================
 // 1. CONFIGURACIÓN DE DISPOSITIVOS DE ENTRADA (INPUT BLOCK)
 // =============================================================================
@@ -82,7 +88,7 @@ spawn-at-startup "/home/eleazar/.local/bin/wallpapers.sh"
 spawn-at-startup "/home/eleazar/.local/bin/launch-waybar.sh"
 spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "blueman-applet"
-spawn-at-startup "telegram-desktop" "-startintray"
+spawn-at-startup "Telegram" "-startintray"
 spawn-at-startup "udiskie" "--smart-tray"
 spawn-at-startup "nm-applet"
 
@@ -100,7 +106,7 @@ binds {
     /// Lanzar gestor de archivos Thunar
     Mod+E            { spawn "thunar"; }
     /// Lanzar Telegram Desktop
-    Mod+T            { spawn "env" "QT_QPA_PLATFORM=xcb" "telegram-desktop"; }
+    Mod+T            { spawn "env" "QT_QPA_PLATFORM=xcb" "Telegram"; }
     /// Lanzar reproductor MOC
     Mod+M            { spawn "/home/eleazar/.local/bin/kitty-moc"; }
     /// Cerrar MOC y procesos de audio
@@ -369,6 +375,5 @@ window-rule {
 window-rule {
     match app-id="^org\\.telegram\\.desktop$"
     open-on-workspace "background-apps"
-    open-focused false
 }
 

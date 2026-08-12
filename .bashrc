@@ -177,7 +177,7 @@ alias crrcsim='SDL_VIDEODRIVER=x11 crrcsim'
 alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
 alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux/WinBox'
-alias ventoy='xhost +SI:localuser:root > /dev/null 2>&1; QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Linux/Gentoo/ventoy-1.1.12/VentoyGUI.x86_64'
+alias ventoy='xhost +SI:localuser:root > /dev/null 2>&1; QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Linux/Gentoo/ventoy-1.1.17/VentoyGUI.x86_64'
 alias gparted='pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
 alias niri-help="~/.local/bin/ayuda-niri.sh"
@@ -201,3 +201,10 @@ export OPENROUTER_API_KEY="key_CdWoao6yuYdikPeiNqReX"
 # # export GROQ_API_KEY="gsk_..." (blocked in your region)
 
 export TOGETHER_API_KEY="tgp_..."  # https://api.together.xyz/settings/api-keys
+
+# MikroTik (conectar.sh)
+export MIKROTIK_USER='eleazar'
+export MIKROTIK_PASS='Eleazar-1966'
+
+# Podman rootless: socket Docker-compatible (compose/tools)
+export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock

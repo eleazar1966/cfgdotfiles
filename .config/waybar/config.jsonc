@@ -1,119 +1,119 @@
 {
-  "height": 28,
-  "spacing": 0,
-  "modules-left": [
-    "custom/menu",
-    "custom/thunar",
-    "custom/firefox",
-    "custom/thunderbird",
-    "custom/TelegramDesktop",
-    "custom/mousepad",
-    "custom/terminal",
-    "custom/calculadora",
-    "wlr/taskbar"
-  ],
-  "modules-center": [
-    "niri/workspaces",
-    "niri/window"
-  ],
-  "modules-right": [
-    "custom/weather",
-    "bluetooth",
-    "keyboard-state",
-    "wireplumber",
-    "cpu",
-    "memory",
-    "temperature",
-    "custom/language",
-    "clock",
-    "tray",
-    "custom/power"
-  ],
-  "tray": {
-    "icon-size": 15,
-    "spacing": 5,
-    "icon-theme": "Vivid-Dark-Icons"
-  },
-  "wlr/taskbar": {
-    "format": "{icon}",
-    "on-click": "activate",
-    "on-click-right": "minimize",
-    "on-click-middle": "close",
-    "on-scroll-up": "sh -c 'niri msg action focus-column-left'",
-    "on-scroll-down": "sh -c 'niri msg action focus-column-right'",
-    "all-outputs": true
-  },
-  "niri/workspaces": {
-    "format": "{icon}",
-    "all-outputs": true,
-    "format-icons": {
-      "active": "󰮯",
-      "default": "󰊠",
-      "empty": "󰑊"
-    }
-  },
-  "niri/window": {
-    "format": "{title}",
-    "separate-outputs": true
-  },
-  "wireplumber": {
-    "format": "{volume}% {icon}",
-    "format-muted": "",
-    "on-click": "niri msg action spawn -- helvum",
-    "format-icons": [
-      "",
-      "",
-      ""
-    ]
-  },
-  "bluetooth": {
-    "format": " {status}",
-    "format-connected": " {device_alias}",
-    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
-    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-    "on-click": "niri msg action spawn -- blueman-manager"
-  },
-  "keyboard-state": {
-    "numlock": false,
-    "capslock": true,
-    "scrolllock": true,
-    "format": {
-      "numlock": "N {icon}",
-      "capslock": "C {icon}",
-      "scrolllock": "S {icon}"
+    "height": 28,
+    "spacing": 0,
+    "modules-left": [
+        "custom/menu",
+        "custom/thunar",
+        "custom/firefox",
+        "custom/thunderbird",
+        "custom/TelegramDesktop",
+        "custom/mousepad",
+        "custom/terminal",
+        "custom/calculadora",
+        "wlr/taskbar"
+    ],
+    "modules-center": [
+        "niri/workspaces",
+        "niri/window"
+    ],
+    "modules-right": [
+        "custom/weather",
+        "bluetooth",
+        "keyboard-state",
+        "wireplumber",
+        "cpu",
+        "memory",
+        "temperature",
+        "custom/language",
+        "clock",
+        "tray",
+        "custom/power"
+    ],
+    "tray": {
+        "icon-size": 15,
+        "spacing": 5
     },
-    "format-icons": {
-      "locked": "󰌾",
-      "unlocked": ""
-    }
-  },
-  "cpu": {
-    "interval": 10,
-    "format": "{}% ",
-    "max-length": 10
-  },
-  "memory": {
-    "interval": 30,
-    "format": "{}% ",
-    "max-length": 10
-  },
-  "temperature": {
-    "thermal-zone": 2,
-    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-    "critical-threshold": 80,
-    "format-critical": "{temperatureC}°C ",
-    "format": "{temperatureC}°C "
-  },
-  "custom/language": {
-    "exec": "niri msg -j keyboard-layouts | jq -r '.names[.current_idx]' | sed 's/English (US)/EN/;s/Spanish/ES/'",
-    "interval": 1,
-    "format": "    {}",
-    "on-click": "niri msg action switch-layout next",
-    "tooltip": false
-  },
+    "wlr/taskbar": {
+        "icon-theme": "Vivid-Dark-Icons",
+        "format": "{icon}",
+        "on-click": "activate",
+        "on-click-right": "minimize",
+        "on-click-middle": "close",
+        "on-scroll-up": "sh -c 'niri msg action focus-column-left'",
+        "on-scroll-down": "sh -c 'niri msg action focus-column-right'",
+        "all-outputs": true
+    },
+    "niri/workspaces": {
+        "format": "{icon}",
+        "all-outputs": true,
+        "format-icons": {
+            "active": "󰮯",
+            "default": "󰊠",
+            "empty": "󰑊"
+        }
+    },
+    "niri/window": {
+        "format": "{title}",
+        "separate-outputs": true
+    },
+    "wireplumber": {
+        "format": "{volume}% {icon}",
+        "format-muted": "",
+        "on-click": "niri msg action spawn -- helvum",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ]
+    },
+    "bluetooth": {
+        "format": " {status}",
+        "format-connected": " {device_alias}",
+        "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "niri msg action spawn -- blueman-manager"
+    },
+    "keyboard-state": {
+        "numlock": false,
+        "capslock": true,
+        "scrolllock": true,
+        "format": {
+            "numlock": "N {icon}",
+            "capslock": "C {icon}",
+            "scrolllock": "S {icon}"
+        },
+        "format-icons": {
+            "locked": "󰌾",
+            "unlocked": ""
+        }
+    },
+    "cpu": {
+        "interval": 10,
+        "format": "{}% ",
+        "max-length": 10
+    },
+    "memory": {
+        "interval": 30,
+        "format": "{}% ",
+        "max-length": 10
+    },
+    "temperature": {
+        "thermal-zone": 2,
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        "format-critical": "{temperatureC}°C ",
+        "format": "{temperatureC}°C "
+    },
+    "custom/language": {
+        "exec": "niri msg -j keyboard-layouts | jq -r '.names[.current_idx]' | sed 's/English (US)/EN/;s/Spanish/ES/'",
+        "interval": 1,
+        "format": "    {}",
+        "on-click": "niri msg action switch-layout next",
+        "tooltip": false
+    },
     "custom/weather": {
         "format": "{}",
         "tooltip": true,
@@ -122,66 +122,66 @@
         "on-click": "niri msg action spawn -- kitty --class=weather-popup --title='Pronóstico del Clima' -o background=#131318 -o foreground=#e4e1e9 -o color4=#bcc2ff -o color12=#bcc2ff sh -c 'curl -s \"https://wttr.in/Caracas?2\"; echo; echo \"Presiona cualquier tecla para cerrar...\"; read -n 1'",
         "interval": 900
     },
-  "clock": {
-    "locale": "es_ES.UTF-8",
-    "timezone": "America/Caracas",
-    "format": "{:%I:%M %p %d/%m/%Y}  ",
-    "format-alt": "{:%A, %B %d, %Y (%R)}  ",
-    "tooltip-format": "<tt><small>{calendar}</small></tt>",
-    "calendar": {
-      "mode": "month",
-      "mode-mon-col": 3,
-      "weeks-pos": "right",
-      "on-scroll": 1,
-      "format": {
-        "months": "<span color='#ffead3'><b>{}</b></span>",
-        "days": "<span color='#ecc6d9'><b>{}</b></span>",
-        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
-        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
-        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
-      }
+    "clock": {
+        "locale": "es_ES.UTF-8",
+        "timezone": "America/Caracas",
+        "format": "{:%I:%M %p %d/%m/%Y}  ",
+        "format-alt": "{:%A, %B %d, %Y (%R)}  ",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "days": "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click": "mode",
+            "on-click-right": "mode",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
     },
-    "actions": {
-      "on-click": "mode",
-      "on-click-right": "mode",
-      "on-scroll-up": "shift_up",
-      "on-scroll-down": "shift_down"
+    "custom/menu": {
+        "format": " ",
+        "on-click": "niri msg action spawn -- fuzzel"
+    },
+    "custom/thunar": {
+        "format": " ",
+        "on-click": "niri msg action spawn -- thunar"
+    },
+    "custom/firefox": {
+        "format": " ",
+        "on-click": "niri msg action spawn -- firefox --private-window"
+    },
+    "custom/thunderbird": {
+        "format": " ",
+        "on-click": "niri msg action spawn -- thunderbird"
+    },
+    "custom/TelegramDesktop": {
+        "format": " ",
+        "on-click": "niri msg action spawn -- Telegram -startintray"
+    },
+    "custom/mousepad": {
+        "format": " ",
+        "on-click": "niri msg action spawn -- mousepad"
+    },
+    "custom/terminal": {
+        "format": " ",
+        "on-click": "niri msg action spawn -- kitty"
+    },
+    "custom/calculadora": {
+        "format": " ",
+        "on-click": "niri msg action spawn -- gnome-calculator"
+    },
+    "custom/power": {
+        "format": "⏻ ",
+        "on-click": "niri msg action spawn -- /home/eleazar/.config/waybar/power_menu.py"
     }
-  },
-  "custom/menu": {
-    "format": " ",
-    "on-click": "niri msg action spawn -- fuzzel"
-  },
-  "custom/thunar": {
-    "format": " ",
-    "on-click": "niri msg action spawn -- thunar"
-  },
-  "custom/firefox": {
-    "format": " ",
-    "on-click": "niri msg action spawn -- firefox --private-window"
-  },
-  "custom/thunderbird": {
-    "format": " ",
-    "on-click": "niri msg action spawn -- thunderbird"
-  },
-  "custom/TelegramDesktop": {
-    "format": " ",
-    "on-click": "niri msg action spawn -- telegram-desktop -startintray"
-  },
-  "custom/mousepad": {
-    "format": "󱞁 ",
-    "on-click": "niri msg action spawn -- mousepad"
-  },
-  "custom/terminal": {
-    "format": " ",
-    "on-click": "niri msg action spawn -- kitty"
-  },
-  "custom/calculadora": {
-    "format": "󱖦 ",
-    "on-click": "niri msg action spawn -- gnome-calculator"
-  },
-  "custom/power": {
-    "format": "⏻ ",
-    "on-click": "niri msg action spawn -- /home/eleazar/.config/waybar/power_menu.py"
-  }
 }
