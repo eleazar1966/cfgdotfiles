@@ -21,7 +21,6 @@ ROJO='\033[0;31m'
 VERDE='\033[0;32m'
 AMARILLO='\033[1;33m'
 AZUL='\033[0;34m'
-MAGENTA='\033[0;35m'
 CIAN='\033[0;36m'
 NORMAL='\033[0m'
 
@@ -66,22 +65,26 @@ detectar_red() {
 
 configurar_firewall_mikrotik() {
     local ip="$1"
+    local first_id body
     # Verificar si la regla ya existe
     if ! curl -s -u "$ADMIN_USER:$ADMIN_PASS" "http://$ip/rest/ip/firewall/filter" 2>/dev/null | \
          jq -e '.[] | select(.comment == "SSH WAN->LAN (conectar.sh)")' >/dev/null 2>&1; then
         info "Configurando regla de firewall en MikroTik..."
-        curl -s -u "$ADMIN_USER:$ADMIN_PASS" -X PUT "http://$ip/rest/ip/firewall/filter" \
-            -H "Content-Type: application/json" \
-            -d '{
-                "chain":"forward",
-                "src-address":"192.168.200.0/24",
-                "dst-address":"192.168.250.0/24",
-                "protocol":"tcp",
-                "dst-port":"22",
-                "action":"accept",
-                "comment":"SSH WAN->LAN (conectar.sh)",
-                "place-before":"0"
-            }' >/dev/null 2>&1 && ok "Regla de firewall agregada en MikroTik"
+        # En la API REST de MikroTik, place-before espera el .id de una regla
+        # existente (p. ej. "*1"), NO un índice numérico. Tomamos la primera
+        # regla para insertar la nueva al inicio de la cadena.
+        first_id=$(curl -s -u "$ADMIN_USER:$ADMIN_PASS" "http://$ip/rest/ip/firewall/filter" 2>/dev/null \
+            | jq -r '.[0] | (."id" // .".id" // empty)' 2>/dev/null)
+        body='{"chain":"forward","src-address":"192.168.200.0/24","dst-address":"192.168.250.0/24","protocol":"tcp","dst-port":"22","action":"accept","comment":"SSH WAN->LAN (conectar.sh)"}'
+        if [ -n "$first_id" ]; then
+            body=$(printf '%s' "$body" | jq -c --arg pb "$first_id" '. + {"place-before": $pb}')
+        fi
+        if curl -s -u "$ADMIN_USER:$ADMIN_PASS" -X PUT "http://$ip/rest/ip/firewall/filter" \
+            -H "Content-Type: application/json" -d "$body" >/dev/null 2>&1; then
+            ok "Regla de firewall agregada en MikroTik"
+        else
+            warn "No se pudo agregar la regla de firewall en MikroTik"
+        fi
     fi
 }
 
@@ -199,7 +202,7 @@ obtener_equipos() {
 ping_equipos() {
     info "Verificando equipos disponibles en la red..."
     
-    > /tmp/mikrotik_ping.txt
+    : > /tmp/mikrotik_ping.txt
     local total=0
     local disponibles=0
     
@@ -278,15 +281,9 @@ conectar_equipo() {
     fi
     
     echo
-    if [ "$MIKROTIK_IP" = "$MIKROTIK_LAN" ]; then
-        info "Conectando directamente a $ip ..."
-        echo
-        ssh "$user@$ip"
-    else
-        info "Conectando directamente a $user@$ip ..."
-        echo
-        ssh "$user@$ip"
-    fi
+    info "Conectando a $user@$ip ..."
+    echo
+    ssh "$user@$ip"
 }
 
 # ─── Banner ────────────────────────────────────

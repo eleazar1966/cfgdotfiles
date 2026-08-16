@@ -317,7 +317,10 @@ instalar_podman() {
     info "Lanzando contenedor Tryton (puerto ${PODMAN_PORT})"
     # La imagen oficial tryton/tryton arranca trytond + PostgreSQL embebidos.
     # Los volúmenes preservan datos y filestore entre reinicios.
+    # --restart=unless-stopped: necesario para que el servicio OpenRC
+    # podman-restart lo arranque al boot.
     run podman run -d --name "${PODMAN_NAME}" \
+        --restart=unless-stopped \
         -p "${PODMAN_PORT}" \
         -v "${PODMAN_VOL_DATA}:/var/lib/trytond" \
         -v "${PODMAN_VOL_PG}:/var/lib/postgresql" \
@@ -325,7 +328,7 @@ instalar_podman() {
 
     info "Esperando a que el contenedor esté listo"
     if [ "$DRY_RUN" -eq 0 ]; then
-        for i in $(seq 1 30); do
+        for ((i = 1; i <= 30; i++)); do
             if podman exec "${PODMAN_NAME}" true 2>/dev/null; then
                 break
             fi
@@ -352,12 +355,13 @@ instalar_podman() {
                 -u ${TRYTOND_MODULES} --activate-dependencies
         fi
 
-        info "Activando inicio automático del contenedor"
-        systemctl --user enable podman-restart.service 2>/dev/null || true
-        run podman generate systemd --new --name "${PODMAN_NAME}" \
-            > "/etc/systemd/user/${PODMAN_NAME}.service" 2>/dev/null || true
-        systemctl --user daemon-reload 2>/dev/null || true
-        systemctl --user enable "${PODMAN_NAME}.service" 2>/dev/null || true
+        info "Activando inicio automático del contenedor (OpenRC)"
+        # El servicio OpenRC podman-restart (provisto por el ebuild de podman)
+        # arranca al boot todos los contenedores con restart-policy=always o
+        # unless-stopped. El contenedor se creó con --restart=unless-stopped
+        # para quedar cubierto por él.
+        rc-update add podman-restart default
+        rc-service podman-restart start || true
     fi
 
     ok "Instalación Podman completada."

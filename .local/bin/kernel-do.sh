@@ -82,9 +82,11 @@ sudo cp .config "$CONFIG_MAESTRA"
 echo "✅ Configuración respaldada en $CONFIG_MAESTRA"
 
 # 6. Compilación optimizada para Zen 3 (Cezanne)
-echo "🚀 Compilando para Ryzen 7 5700G con $(( $(nproc) - 2 )) hilos (dejando 2 libres)..."
+MAKE_JOBS=$(( $(nproc) - 2 ))
+[ "$MAKE_JOBS" -lt 1 ] && MAKE_JOBS=1
+echo "🚀 Compilando para Ryzen 7 5700G con $MAKE_JOBS hilos (dejando 2 libres)..."
 echo "   Flags: -march=znver3 -O3 -pipe"
-sudo make KCFLAGS="-march=znver3 -O3 -pipe" -j$(( $(nproc) - 2 ))
+sudo make KCFLAGS="-march=znver3 -O3 -pipe" -j"$MAKE_JOBS"
 
 # 7. Instalación de módulos y binarios del kernel
 echo "🔹 Instalando módulos del kernel..."
@@ -110,7 +112,16 @@ done 2>/dev/null
 
 # 10. Initramfs y GRUB
 echo "🔹 Generando Initramfs..."
-sudo dracut --force
+# dracut sin argumentos genera el initramfs del kernel EN EJECUCIÓN (el viejo).
+# Apuntamos explícitamente al kernel recién instalado para que arranque.
+KVER=$(make -s kernelrelease 2>/dev/null | tail -1 || true)
+[ -n "$KVER" ] || KVER=$(ls -1t /lib/modules/ 2>/dev/null | head -1 || true)
+if [ -n "$KVER" ]; then
+  sudo dracut --force "/boot/initramfs-$KVER.img" "$KVER"
+else
+  echo "⚠️  No se pudo determinar la versión del kernel — dracut usará el kernel en ejecución."
+  sudo dracut --force
+fi
 echo "🔹 Actualizando GRUB..."
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 

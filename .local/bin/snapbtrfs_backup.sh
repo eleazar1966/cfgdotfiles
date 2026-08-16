@@ -6,7 +6,6 @@ set -euo pipefail
 DIR1="/mnt/snaps/"
 MAX_SNAPS=5           # Número máximo de snapshots a mantener
 SUBVOL="/"            # Subvolumen raíz a snapshotear
-EXCLUDE="tmp|proc|sys|dev|run|mnt/snaps|var/tmp/portage|var/tmp/tmpfs"
 
 nomsnap="snap_$(date +%Y-%m-%d_%H%M%S)"
 ARCH="$DIR1$nomsnap"
@@ -27,7 +26,10 @@ echo "   ✅ Creado: $ARCH"
 
 # Rotación: eliminar snapshots viejos (mantener solo MAX_SNAPS)
 echo "🔄 Rotando snapshots (máximo $MAX_SNAPS)..."
-SNAPS=($(ls -1d "$DIR1"/snap_* 2>/dev/null | sort))
+SNAPS=()
+while IFS= read -r s; do
+  SNAPS+=("$s")
+done < <(ls -1d "$DIR1"/snap_* 2>/dev/null | sort)
 while [ ${#SNAPS[@]} -gt $MAX_SNAPS ]; do
   old="${SNAPS[0]}"
   echo "   🗑 Eliminando snapshot viejo: $(basename "$old")"
