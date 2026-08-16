@@ -4,8 +4,6 @@
 # QEMU CREATOR - GENERADOR DE MÁQUINAS VIRTUALES
 # ==============================================================================
 
-GREEN='\e[32m'
-YELLOW='\e[33m'
 BLUE='\e[34m'
 RED='\e[31m'
 BOLD='\e[1m'

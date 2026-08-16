@@ -46,8 +46,7 @@ echo "  ➜  Nuevo:   $LATEST_GCC"
 
 # ─── 2. Actualizar herramientas base y cabeceras ───
 echo -e "\n[1/4] Instalando linux-headers y gcc..."
-sudo emerge -v1 sys-kernel/linux-headers
-sudo emerge -v1 sys-devel/gcc
+sudo emerge -v1 sys-kernel/linux-headers sys-devel/gcc
 
 # ─── 3. Seleccionar nuevo compilador con gcc-config ───
 echo -e "\n[2/4] Activando $LATEST_GCC con gcc-config..."
@@ -70,9 +69,7 @@ echo "  ✅ Activado perfil $LATEST_NUM: $LATEST_GCC"
 
 # ─── 4. Reconstruir toolchain con el nuevo compilador ───
 echo -e "\n[3/4] Reconstruyendo toolchain (glibc + binutils + libtool)..."
-sudo emerge -v1 sys-libs/glibc
-sudo emerge -v1 sys-devel/binutils
-sudo emerge -v1 dev-build/libtool
+sudo emerge -v1 sys-libs/glibc sys-devel/binutils dev-build/libtool
 
 # ─── 5. Reconstruir @world (solo si NO se pasó --skip-world) ───
 if [ "$SKIP_WORLD" = false ]; then

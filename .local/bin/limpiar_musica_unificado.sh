@@ -5,7 +5,6 @@
 # ==============================================================================
 
 CARPETA_MUSICA="$HOME/Música"
-ULTIMA_CONSULTA=0
 
 # --- AJUSTES DE ENTORNO Y RECURSOS CRÍTICOS ---
 export NO_AT_SPI=1
@@ -13,7 +12,8 @@ export GST_DEBUG=0
 export PYTHONWARNINGS="ignore::UserWarning"
 
 # Utilizar el techo absoluto de archivos abiertos permitido por el kernel
-ulimit -n $(ulimit -Hn 2>/dev/null || echo 4096)
+HARD_FD=$(ulimit -Hn 2>/dev/null || echo 4096)
+[[ "$HARD_FD" =~ ^[0-9]+$ ]] && ulimit -n "$HARD_FD" 2>/dev/null || true
 
 echo "🎵 Iniciando optimización ESTRICTA y CONVERSIÓN TOTAL en: $CARPETA_MUSICA"
 echo "----------------------------------------------------------------"
@@ -45,7 +45,7 @@ find "$CARPETA_MUSICA" -type f -name "*.m4a" | while read -r archivo_m4a; do
   base_m4a=$(basename "$archivo_m4a" .m4a)
   destino_mp3="$dir_m4a/${base_m4a}.mp3"
 
-  ffmpeg -y -i "$archivo_m4a" -b:a 320k "$destino_mp3" &>/dev/null
+  ffmpeg -nostdin -y -i "$archivo_m4a" -b:a 320k "$destino_mp3" &>/dev/null
   if [ -f "$destino_mp3" ]; then
     rm -f "$archivo_m4a"
   fi
@@ -60,11 +60,70 @@ find "$CARPETA_MUSICA" -type f -name "*.mp3" >"$LISTA_TEMPORAL"
 TOTAL_ARCHIVOS=$(wc -l <"$LISTA_TEMPORAL")
 CONTADOR=0
 
+# ── Worker persistente de MusicBrainz ────────────────────────────────────────
+# Antes se lanzaba un `python3 -c` POR ARCHIVO: cada uno arrancaba el intérprete
+# y re-importaba musicbrainzngs/requests (~0.3-0.5s de arranque). Con un único
+# proceso Python leyendo consultas por FIFO el ahorro es significativo en
+# bibliotecas grandes. El rate-limit de ~1 consulta/seg se mantiene en el worker.
+MB_WORKER=$(mktemp)
+MB_QUEUE=$(mktemp -u)
+MB_RESULT=$(mktemp -u)
+cat > "$MB_WORKER" <<'PYEOF'
+import sys, time
+import musicbrainzngs
+
+musicbrainzngs.set_useragent('ScriptOptimizadoMusica', '2.0', 'anzola@gmail.com')
+last = 0.0
+
+for raw in sys.stdin:
+    raw = raw.rstrip('\n')
+    if not raw:
+        continue
+    parts = raw.split('|||', 2) + ['', '', '']
+    artist = parts[0].strip()
+    title = parts[1].strip()
+    query = parts[2].replace('_', ' ').strip()
+
+    mb_artist, mb_title, mb_genre = '', '', ''
+
+    # Respetar el límite de ~1 consulta/seg de MusicBrainz (evita baneos)
+    delta = time.time() - last
+    if delta < 1.0:
+        time.sleep(1.0 - delta)
+    last = time.time()
+
+    try:
+        if artist and title and len(artist) > 2 and len(title) > 2:
+            resultado = musicbrainzngs.search_recordings(artist=artist, recording=title, limit=1)
+        else:
+            resultado = musicbrainzngs.search_recordings(recording=query, limit=1)
+
+        if resultado and resultado.get('recording-list'):
+            first_match = resultado['recording-list'][0]
+            mb_title = first_match.get('title', '')
+            credit = first_match.get('artist-credit') or []
+            if credit and isinstance(credit[0], dict) and 'artist' in credit[0]:
+                mb_artist = credit[0]['artist'].get('name', '')
+            tags = first_match.get('tag-list', [])
+            if tags:
+                mb_genre = max(tags, key=lambda x: int(x['count'])).get('name', '')
+    except Exception:
+        pass
+
+    print(f'{mb_artist}|||{mb_title}|||{mb_genre}', flush=True)
+PYEOF
+
+mkfifo "$MB_QUEUE" "$MB_RESULT"
+python3 "$MB_WORKER" <"$MB_QUEUE" >"$MB_RESULT" &
+MB_PID=$!
+# fd 7 = peticiones al worker; fd 8 = respuestas del worker
+exec 7>"$MB_QUEUE"
+exec 8<"$MB_RESULT"
+
 while read -r archivo; do
   [ -f "$archivo" ] || continue
 
   ((CONTADOR++))
-  dir=$(dirname "$archivo")
   base=$(basename "$archivo")
 
   # Barra de progreso en tiempo real
@@ -113,57 +172,15 @@ while read -r archivo; do
   nombre_limpio=$(echo "$palabras_unicas" | sed -E 's/[[:space:]]+/_/g; s/_+$//')
   nuevo_nombre="${nombre_limpio}.mp3"
 
-  # Control de la tasa de consultas de red para MusicBrainz (Evitar bloqueos)
-  AHORA=$(date +%s)
-  DIFERENCIA=$((AHORA - ULTIMA_CONSULTA))
-  if [ "$DIFERENCIA" -lt 1 ]; then
-    sleep 1
+  # Consulta a MusicBrainz vía worker persistente (rate-limit ~1/s dentro del worker)
+  if [ -n "$MB_PID" ] && kill -0 "$MB_PID" 2>/dev/null; then
+    printf '%s|||%s|||%s\n' "$tag_artist_raw" "$tag_title_raw" "$nombre_limpio" >&7
+    IFS='|||' read -r mb_artist mb_title mb_genre <&8
+  else
+    mb_artist=""
+    mb_title=""
+    mb_genre=""
   fi
-  ULTIMA_CONSULTA=$(date +%s)
-
-  # Transferencia segura de variables de Bash a Python mediante Entorno (Evita caídas por comillas)
-  export ENV_ARTIST="$tag_artist_raw"
-  export ENV_TITLE="$tag_title_raw"
-  export ENV_QUERY="$nombre_limpio"
-
-  mb_data=$(python3 -c "
-import musicbrainzngs
-import os
-
-musicbrainzngs.set_useragent('ScriptOptimizadoMusica', '2.0', 'anzola@gmail.com')
-
-artist = os.environ.get('ENV_ARTIST', '').strip()
-title = os.environ.get('ENV_TITLE', '').strip()
-filename_query = os.environ.get('ENV_QUERY', '').replace('_', ' ').strip()
-
-mb_artist, mb_title, mb_genre = '', '', ''
-
-try:
-    if artist and title and len(artist) > 2 and len(title) > 2:
-        resultado = musicbrainzngs.search_recordings(artist=artist, recording=title, limit=1)
-    else:
-        resultado = musicbrainzngs.search_recordings(recording=filename_query, limit=1)
-    
-    if resultado and resultado.get('recording-list'):
-        first_match = resultado['recording-list'][0]
-        mb_title = first_match.get('title', '')
-        
-        if 'artist-credit' in first_match and first_match['artist-credit']:
-            credit = first_match['artist-credit'][0]
-            if isinstance(credit, dict) and 'artist' in credit:
-                mb_artist = credit['artist'].get('name', '')
-        
-        tags = first_match.get('tag-list', [])
-        if tags:
-            mejor_tag = max(tags, key=lambda x: int(x['count']))
-            mb_genre = mejor_tag.get('name', '')
-except Exception:
-    pass
-
-print(f'{mb_artist}|||{mb_title}|||{mb_genre}')
-" 2>/dev/null)
-
-  IFS='|||' read -r mb_artist mb_title mb_genre <<<"$mb_data"
 
   # Priorizar datos de MusicBrainz, si no, mantener los locales
   [ -n "$mb_artist" ] && tag_artist_raw="$mb_artist"
@@ -247,7 +264,12 @@ print(f'{mb_artist}|||{mb_title}|||{mb_genre}')
   fi
 done <"$LISTA_TEMPORAL"
 echo ""
-rm -f "$LISTA_TEMPORAL"
+
+# Cerrar worker persistente y limpiar temporales
+exec 7>&- 2>/dev/null || true
+exec 8<&- 2>/dev/null || true
+[ -n "$MB_PID" ] && wait "$MB_PID" 2>/dev/null || true
+rm -f "$MB_WORKER" "$MB_QUEUE" "$MB_RESULT" "$LISTA_TEMPORAL"
 
 # Paso 5: PURGA DE SUBDIRECTORIOS VACÍOS
 echo "🧹 Paso 4/6: Eliminando árboles de directorios vacíos..."

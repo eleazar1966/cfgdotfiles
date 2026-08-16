@@ -565,8 +565,9 @@ step_stage3() {
   fi
 
   stage3_file="/tmp/$(basename "$stage3_url")"
-  local digest_file="/tmp/$(basename "$stage3_url").DIGESTS"
-  local asc_file="/tmp/$(basename "$stage3_url").asc"
+  local digest_file asc_file
+  digest_file="/tmp/$(basename "$stage3_url").DIGESTS"
+  asc_file="/tmp/$(basename "$stage3_url").asc"
 
   echo
   echo -e "  ${D}Descargando stage3...${RST}"
