@@ -178,7 +178,7 @@ alias zstat='watch -n 1 "zramctl && echo --- && df -h /var/tmp/portage"'
 alias eclean-dist='sudo eclean-dist --deep'
 alias winbox='QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux/WinBox'
 alias ventoy='xhost +SI:localuser:root > /dev/null 2>&1; QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Linux/Gentoo/ventoy-1.1.17/VentoyGUI.x86_64'
-alias gparted='pkexec --user root gparted'
+alias gparted='xhost +SI:localuser:root > /dev/null 2>&1; pkexec --user root gparted'
 alias moc="~/.local/bin/kitty-moc"
 alias niri-help="~/.local/bin/ayuda-niri.sh"
 alias qemuvm='~/.local/bin/qemu-creator.sh'
@@ -208,3 +208,4 @@ export MIKROTIK_PASS='Eleazar-1966'
 
 # Podman rootless: socket Docker-compatible (compose/tools)
 export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
+export PATH="$PATH:/home/eleazar/.local/bin"

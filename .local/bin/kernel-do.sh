@@ -85,8 +85,8 @@ echo "✅ Configuración respaldada en $CONFIG_MAESTRA"
 MAKE_JOBS=$(( $(nproc) - 2 ))
 [ "$MAKE_JOBS" -lt 1 ] && MAKE_JOBS=1
 echo "🚀 Compilando para Ryzen 7 5700G con $MAKE_JOBS hilos (dejando 2 libres)..."
-echo "   Flags: -march=znver3 -O3 -pipe"
-sudo make KCFLAGS="-march=znver3 -O3 -pipe" -j"$MAKE_JOBS"
+echo "   Flags: -march=znver3 -O2 -pipe"
+sudo make KCFLAGS="-march=znver3 -O2 -pipe" -j"$MAKE_JOBS"
 
 # 7. Instalación de módulos y binarios del kernel
 echo "🔹 Instalando módulos del kernel..."
