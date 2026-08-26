@@ -266,10 +266,12 @@ binds {
     Mod+R            { switch-preset-column-width; }
     /// Cambiar ancho de columna predefinido (Atras)
     Mod+Shift+R      { switch-preset-column-width-back; }
-    /// Alternar maximizar columna
+    /// Alternar maximizar columna (columna ocupa todo el espacio)
     Mod+F            { maximize-column; }
-    /// Alternar pantalla completa
+    /// Alternar ventana a pantalla completa (dentro de la columna)
     Mod+Shift+F      { fullscreen-window; }
+    /// Alternar pantalla completa "ventana" (fake fullscreen, sin decoraciones)
+    Mod+Ctrl+F       { toggle-windowed-fullscreen; }
     /// Centrar columna en pantalla
     Mod+C            { center-column; }
 
