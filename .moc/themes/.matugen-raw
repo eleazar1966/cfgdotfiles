@@ -1,0 +1,64 @@
+#
+# MOC theme generated from Material You colors (matugen).
+#
+# MOC's colordef only accepts the standard 8 terminal color names plus grey,
+# and values in the 0..1000 range. We remap those 9 slots to the Material You
+# roles pulled from matugen, so the theme follows the system palette.
+#
+# Slot mapping (MOC name -> Material You role):
+#   black   -> surface            (main dark background)
+#   grey    -> surface_dim        (secondary background / frame)
+#   white   -> on_surface         (primary text)
+#   cyan    -> primary            (accents, selection, title, bars)
+#   blue    -> secondary
+#   magenta -> tertiary
+#   red     -> error
+#   green   -> secondary_container (message background)
+#   yellow  -> on_primary         (selection foreground)
+#
+
+colordef black   = 26 17 17
+colordef grey    = 26 17 17
+colordef white   = 240 222 221
+colordef cyan    = 255 179 176
+colordef blue    = 231 189 186
+colordef magenta = 227 194 140
+colordef red     = 255 180 171
+colordef green   = 93 63 62
+colordef yellow  = 87 29 29
+
+background		= white	black
+frame			= grey	black
+window_title		= cyan	black	bold
+directory		= white	black
+selected_directory	= black	cyan	bold
+playlist		= white	black
+selected_playlist	= black	cyan	bold
+file			= white	black
+selected_file		= black	cyan
+marked_file		= cyan	black	bold
+marked_selected_file	= black	cyan	bold
+info			= white	black
+selected_info		= black	cyan	bold
+marked_info		= cyan	black	bold
+marked_selected_info	= black	cyan	bold
+status			= white	black	bold
+title			= cyan	black	bold
+state			= cyan	black	bold
+current_time		= white	black	bold
+time_left		= white	black
+total_time		= white	black
+time_total_frames	= white	black
+sound_parameters	= white	black
+legend			= white	black
+disabled		= white	black
+enabled			= black	cyan	bold
+empty_mixer_bar		= white	grey
+filled_mixer_bar	= black	cyan
+empty_time_bar		= white	grey
+filled_time_bar		= black	cyan
+entry			= white	black
+entry_title		= cyan	black	bold
+error			= red	black	bold
+message			= black	green	bold
+plist_time		= white	black

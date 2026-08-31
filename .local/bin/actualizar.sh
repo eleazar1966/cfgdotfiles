@@ -40,7 +40,7 @@ sudo emaint --check all || true
 # logs usa --clean (no --fix), y ya tienes clean-logs en FEATURES — lo omitimos.
 SAFE_FIX_CMDS=("cleanconfmem" "cleanresume" "merges" "moveinst" "world")
 for cmd in "${SAFE_FIX_CMDS[@]}"; do
-    sudo emaint --fix "$cmd" || true
+  sudo emaint --fix "$cmd" || true
 done
 
 # =====================================================================
@@ -96,8 +96,8 @@ if command -v gcc-config &>/dev/null; then
   CURRENT_GCC_PROFILE=$(gcc-config -c 2>/dev/null || true)
   LATEST_INSTALLED_PROFILE=$(gcc-config --list-profiles 2>/dev/null | grep -oP '\[\d+\]\s+\K\S+' | sort -V | tail -1)
 
-  if [ -n "$LATEST_INSTALLED_PROFILE" ] && [ -n "$CURRENT_GCC_PROFILE" ] \
-     && [ "$LATEST_INSTALLED_PROFILE" != "$CURRENT_GCC_PROFILE" ]; then
+  if [ -n "$LATEST_INSTALLED_PROFILE" ] && [ -n "$CURRENT_GCC_PROFILE" ] &&
+    [ "$LATEST_INSTALLED_PROFILE" != "$CURRENT_GCC_PROFILE" ]; then
     echo "✨ Nuevo slot GCC instalado sin activar: $LATEST_INSTALLED_PROFILE"
     DETECTAR_NUEVO_GCC=1
   fi

@@ -28,3 +28,8 @@ post_hook = 'pkill -x -USR2 cava || true'
 input_path = '/home/eleazar/.config/matugen/templates/mako.conf'
 output_path = '/home/eleazar/.config/mako/colors.conf'
 post_hook = 'makoctl reload || true'
+
+[templates.moc]
+input_path = '/home/eleazar/.config/matugen/templates/moc-theme.tpl'
+output_path = '/home/eleazar/.moc/themes/.matugen-raw'
+post_hook = '/home/eleazar/.local/bin/moc-theme-apply.sh || true'

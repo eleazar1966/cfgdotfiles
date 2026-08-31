@@ -1,0 +1,15 @@
+#!/bin/sh
+# niri-hide-scratch — Oculta la columna enfocada en el workspace "scratch"
+# (sigue trabajando/sonando) y vuelve el foco al workspace de origen.
+# Mostrar de nuevo: Mod+S (focus-workspace "scratch") o ejecutar
+#   niri msg action focus-workspace "scratch"
+set -e
+
+scratch_idx=$(niri msg workspaces | awk '/"scratch"/{gsub(/\*/, "", $1); print $1; exit}')
+cur=$(niri msg focused-window | awk '/Workspace/{print $NF; exit}')
+
+# Ya está en el scratchpad: no hacer nada (evita foco raro con ids internos).
+[ "$cur" = "$scratch_idx" ] && exit 0
+
+niri msg action move-column-to-workspace "scratch"
+niri msg action focus-workspace "$cur"

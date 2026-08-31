@@ -14,14 +14,17 @@ mkdir -p "$BACKUP_DIR"
 
 echo -e "\n=== Iniciando Actualización y Consolidación de Kernel (Optimizado para Zen 3) ===\n"
 
-# 1. Montaje de /boot (recordar estado original)
+# 1. Esquema de arranque actual:
+#    - La ESP (vfat) está montada en /boot (fstab, noauto):
+#      ahí viven vmlinuz, initramfs, System.map, grub.cfg y
+#      EFI/Gentoo/grubx64.efi. GRUB carga todo desde la ESP.
+#    - /boot NO es un directorio de la raíz (subvol @): no existe.
+#    - Como /boot es noauto, hay que montarla antes de tocar kernels o GRUB.
+echo "🔹 Montando /boot (ESP) si no está montada..."
 BOOT_WAS_MOUNTED=0
-if mountpoint -q /boot; then
-  echo "🔹 /boot ya está montado."
-  BOOT_WAS_MOUNTED=1
-else
-  echo "🔹 Montando /boot..."
+if ! mountpoint -q /boot; then
   sudo mount /boot
+  BOOT_WAS_MOUNTED=1
 fi
 
 echo "🔹 Liberando espacio preventivo en /boot..."
@@ -123,14 +126,15 @@ else
   sudo dracut --force
 fi
 echo "🔹 Actualizando GRUB..."
+# El grub.cfg generado va a /boot/grub/grub.cfg — que ahora está EN LA ESP
+# (montada en /boot). Por eso /boot tiene que estar montada: GRUB carga
+# kernel y configuración desde la ESP.
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-# 11. Desmontaje condicional de /boot
-if [ "$BOOT_WAS_MOUNTED" -eq 0 ]; then
+# 11. Desmontar /boot si lo montamos nosotros (fstab es noauto)
+if [ "$BOOT_WAS_MOUNTED" -eq 1 ]; then
   echo "🔹 Desmontando /boot..."
-  sudo umount /boot
-else
-  echo "🔹 /boot se mantiene montado (ya lo estaba al iniciar)."
+  sudo umount /boot || true
 fi
 
 cd ~

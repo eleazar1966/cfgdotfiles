@@ -2,7 +2,7 @@
 Type=Application
 Name=MOC + CAVA Player
 Comment=Abrir MOC y CAVA en una sola terminal dividida
-Exec=bash -c "~/.local/bin/kitty-moc"
+Exec=bash -c "/home/eleazar/.local/bin/kitty-moc"
 Icon=/usr/share/icons/Vivid-Dark-Icons/devices/24/audio-radio.svg
 Terminal=false
 Categories=AudioVideo;Player;

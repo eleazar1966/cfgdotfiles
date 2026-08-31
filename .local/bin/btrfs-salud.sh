@@ -19,9 +19,13 @@ log "Iniciando scrub en /"
 sudo btrfs scrub start -B / | tail -5
 log "Scrub / completado"
 
-log "Iniciando scrub en /mnt/ssd"
-sudo btrfs scrub start -B /mnt/ssd | tail -5 || true
-log "Scrub /mnt/ssd completado"
+if findmnt /mnt/ssd &>/dev/null; then
+  log "Iniciando scrub en /mnt/ssd"
+  sudo btrfs scrub start -B /mnt/ssd | tail -5 || true
+  log "Scrub /mnt/ssd completado"
+else
+  echo "   (/mnt/ssd no montado, se omite el scrub)"
+fi
 
 # --- 2. BALANCE de metadatos ---
 echo -e "\n--- 2. BALANCE (Metadatos musage=25) ---"
