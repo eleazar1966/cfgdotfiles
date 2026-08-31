@@ -9,6 +9,10 @@ debug {
     honor-xdg-activation-with-invalid-serial true
 }
 
+// Workspace nombrado "scratch": scratchpad para ocultar columnas
+// (p. ej. kitty-moc) sin matar sus procesos. Debe declararse para existir.
+workspace "scratch"
+
 // =============================================================================
 // 1. CONFIGURACIÓN DE DISPOSITIVOS DE ENTRADA (INPUT BLOCK)
 // =============================================================================
@@ -39,6 +43,9 @@ environment {
     // Forzar el tamaño y tema del cursor para aplicaciones GTK, Qt y XWayland
     XCURSOR_SIZE "5" 
     XCURSOR_THEME "Nordzy-cursors" 
+    // NOTA: NO setear PATH aquí. niri SOBRESCRIBE el PATH completo con el valor dado,
+    // así que `PATH "~/.local/bin"` eliminaba /usr/bin y rompía kitty/fuzzel por atajo.
+    // Los binarios de ~/.local/bin se resuelven con rutas absolutas en keybindings y .desktop.
 }
 // =============================================================================
 // 2. GEOMETRÍA Y REGLAS DE DISEÑO (LAYOUT BLOCK)
@@ -88,7 +95,7 @@ spawn-at-startup "/home/eleazar/.local/bin/wallpapers.sh"
 spawn-at-startup "/home/eleazar/.local/bin/launch-waybar.sh"
 spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "blueman-applet"
-spawn-at-startup "Telegram" "-startintray"
+spawn-at-startup "env" "QT_QPA_PLATFORMTHEME=gtk3" "GTK_THEME=Vivid-Dark-Icons" "Telegram" "-startintray"
 spawn-at-startup "udiskie" "--smart-tray"
 spawn-at-startup "nm-applet"
 
@@ -111,6 +118,10 @@ binds {
     Mod+M            { spawn "/home/eleazar/.local/bin/kitty-moc"; }
     /// Cerrar MOC y procesos de audio
     Mod+Shift+M      { spawn "sh" "-c" "mocp -x; pkill -f cava; pkill -f 'kitty.*--title Música'"; }
+    /// Ocultar la columna enfocada en el scratchpad (sigue trabajando/sonando)
+    Mod+Shift+S      { spawn "/home/eleazar/.local/bin/niri-hide-scratch"; }
+    /// Mostrar el scratchpad (volver a ver la ventana oculta)
+    Mod+S            { focus-workspace "scratch"; }
     /// Lanzar terminal flotante yt-x
     Mod+Y            { spawn "kitty" "--class" "floating_terminal" "-e" "yt-x"; }
 

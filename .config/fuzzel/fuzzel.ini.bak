@@ -12,7 +12,7 @@ prompt="Buscar > "
 icon-theme=Vivid-Dark-Icons
 icons-enabled=yes
 # Ratio alto para que los iconos luzcan grandes junto a la fuente 12
-image-size-ratio=1.5
+image-size-ratio=1.0
 
 # Desactivar acciones para mostrar solo aplicaciones
 show-actions=no

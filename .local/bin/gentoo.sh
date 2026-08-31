@@ -277,7 +277,7 @@ step_partition() {
 
   echo -e " ${D}Esquema de particiones:${RST}"
   echo
-  echo "    1) EFI System Partition  —  vfat  —  /efi"
+  echo "    1) EFI System Partition  —  vfat  —  /boot"
   echo "    2) swap                   —  opcional según RAM"
   echo "    3) root                   —  ext4/btrfs/xfs  —  resto"
   echo
@@ -408,11 +408,11 @@ step_mount() {
   echo -e "  ${D}Montando root ($root_part) en $CHROOT...${RST}"
   mount "$root_part" "$CHROOT"
 
-  # NOTA: La ESP se monta en /efi, no en /boot (Handbook v2025+)
-  # GRUB pone los kernels en /boot, la ESP va en /efi
-  echo -e "  ${D}Creando y montando /efi (ESP)...${RST}"
-  mkdir -p "$CHROOT/efi"
-  mount "$PART1" "$CHROOT/efi"
+  # Esquema unificado: la ESP (vfat) se monta en /boot y ahí viven
+  # kernels, initramfs, grub.cfg y EFI/Gentoo/grubx64.efi.
+  echo -e "  ${D}Creando y montando /boot (ESP)...${RST}"
+  mkdir -p "$CHROOT/boot"
+  mount "$PART1" "$CHROOT/boot"
 
   if [ "$SWAP_SIZE" -gt 0 ]; then
     echo -e "  ${D}Activando swap...${RST}"
@@ -425,7 +425,7 @@ step_mount() {
   echo
   echo -e "  ${D}Puntos de montaje:${RST}"
   echo "    $CHROOT/     → root ($ROOT_FS)"
-  echo "    $CHROOT/efi  → ESP (vfat)"
+  echo "    $CHROOT/boot  → ESP (vfat)"
   if [ "$SWAP_SIZE" -gt 0 ]; then
     echo "    swap         → activado"
   else
@@ -694,8 +694,8 @@ HOSTS
 # /etc/fstab — Generado por gentoo.sh
 # <file system>    <mount point>  <type>  <options>               <dump> <pass>
 
-# ESP (Handbook: montar en /efi, no /boot)
-UUID=$boot_uuid  /efi           vfat    umask=0077,tz=UTC        0      2
+# ESP montada en /boot (esquema unificado de arranque)
+UUID=$boot_uuid  /boot          vfat    umask=0077,tz=UTC        0      2
 UUID=$root_uuid  /              $ROOT_FS defaults,noatime       0      1
 FSTAB
 
@@ -929,23 +929,23 @@ echo
 echo ">>> Instalando GRUB..."
 echo
 
-# Montar ESP si no está montada (Handbook: mount /dev/sda1 /efi)
-if ! mountpoint -q /efi; then
+# Montar ESP si no está montada (se monta en /boot)
+if ! mountpoint -q /boot; then
   echo "  Montando EFI System Partition..."
   # Buscar partición EFI por tipo
   EFI_PART=\$(blkid | grep 'PARTUUID="c12a7328-f81f-11d2-ba4b-00a0c93ec93b"' | head -1 | cut -d: -f1)
   if [ -n "\$EFI_PART" ]; then
-    mkdir -p /efi
-    mount "\$EFI_PART" /efi
+    mkdir -p /boot
+    mount "\$EFI_PART" /boot
   else
     echo "  Usando /dev/sda1 como ESP (asumiendo primer partición)"
-    mkdir -p /efi
-    mount /dev/sda1 /efi 2>/dev/null || echo "  (ajusta la ruta manualmente si falla)"
+    mkdir -p /boot
+    mount /dev/sda1 /boot 2>/dev/null || echo "  (ajusta la ruta manualmente si falla)"
   fi
 fi
 
 echo "    emerge -v sys-boot/grub"
-echo "    grub-install --target=x86_64-efi --efi-directory=/efi"
+echo "    grub-install --target=x86_64-efi --efi-directory=/boot"
 echo "    grub-mkconfig -o /boot/grub/grub.cfg"
 echo
 INCHROOT
@@ -955,7 +955,7 @@ INCHROOT
 echo ">>> INSTALANDO GRUB AUTOMÁTICAMENTE..."
 echo
 emerge -v sys-boot/grub
-grub-install --target=x86_64-efi --efi-directory=/efi
+grub-install --target=x86_64-efi --efi-directory=/boot
 grub-mkconfig -o /boot/grub/grub.cfg
 echo "  GRUB instalado correctamente."
 echo
@@ -964,7 +964,7 @@ INCHROOT
     cat >> "$script" <<- 'INCHROOT'
 echo ">>> GRUB requiere instalación manual (kernel manual):"
 echo "    emerge -v sys-boot/grub"
-echo "    grub-install --target=x86_64-efi --efi-directory=/efi"
+echo "    grub-install --target=x86_64-efi --efi-directory=/boot"
 echo "    grub-mkconfig -o /boot/grub/grub.cfg"
 echo
 INCHROOT
@@ -1000,11 +1000,11 @@ echo "    rc-update add net.eth0 default"
 echo
 
 # ═══════════════════════════════════════════════════════
-# 11. SISTEMA DE ARCHIVOS /boot (separado de ESP)
+# 11. SISTEMA DE ARCHIVOS /boot (la ESP)
 # ═══════════════════════════════════════════════════════
-echo ">>> NOTA: Con ESP en /efi, los kernels se instalan en /boot"
-echo "  (que está en la partición root). Asegúrate de tener"
-echo "  suficiente espacio en /boot (200-500MB recomendado)."
+echo ">>> NOTA: Con ESP en /boot, kernels, initramfs y GRUB viven"
+echo "  en la ESP. Un solo punto de arranque."
+echo "  Asegúrate de tener suficiente espacio en /boot (1.5GB recomendado)."
 echo
 
 # ═══════════════════════════════════════════════════════

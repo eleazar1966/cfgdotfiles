@@ -1,25 +1,56 @@
 #!/bin/bash
+# kitty-moc: MOC en kitty con cava en un split horizontal.
+#
+# Requisitos:
+#   - kitty con allow_remote_control socket-only (config del usuario)
+#   - media-sound/moc
+#   - media-sound/cava
+#
+# Con allow_remote_control socket-only NO se exporta KITTY_LISTEN_ON a los
+# procesos hijos a menos que se pase --listen-on explícito. Por eso usamos un
+# socket dedicado para poder abrir el split de cava con "kitty @ launch".
+set -eu
+
 export TERM=xterm-256color
 
-# 1. Limpieza ultra rápida de instancias previas
-pkill -f "kitty.*--title Música" 2>/dev/null
+SOCK_PATH="${XDG_RUNTIME_DIR:-/tmp}/kitty-moc.sock"
+export KITTY_SOCK="unix:$SOCK_PATH"
 
-# 2. Asegurar el servidor MOC levantado en background
-if ! mocp -Q "%state" &>/dev/null; then
-  mocp -S &>/dev/null
-  for i in {1..5}; do
-    mocp -Q "%state" &>/dev/null && break
-    sleep 0.02
-  done
-fi
+MUSIC_DIR="$HOME/Música"
 
-# 3. Lanzar Kitty con el mapeo de cierre interno
+# 1. Limpiar instancias previas del kitty-moc (incluido el server de MOC,
+#    para forzar que relea la playlist regenerada).
+pkill -f "kitty.*--title Música" 2>/dev/null || true
+pkill -x mocp 2>/dev/null || true
+rm -f "$SOCK_PATH" 2>/dev/null || true
+
+# 2. Regenerar la lista de reproducción desde ~/Música cada vez que se inicia,
+#    para reflejar canciones nuevas o borradas. Se escribe ~/.moc/playlist.m3u
+#    directamente (sin pasar por el server, que escanearía los tags de los 5678
+#    archivos y tardaría) y el server la lee al arrancar. La barajamos con
+#    "shuf" para que la primera canción (la que reproduce -p) ya sea aleatoria.
+mkdir -p "$HOME/.moc"
+find "$MUSIC_DIR" -maxdepth 1 -type f \( -iname '*.mp3' -o -iname '*.flac' -o \
+  -iname '*.m4a' -o -iname '*.ogg' -o -iname '*.opus' -o -iname '*.wav' \) \
+  -print | shuf > "$HOME/.moc/playlist.m3u"
+
+# 3. Levantar el server de MOC (carga la playlist regenerada y barajada).
+mocp -S &>/dev/null
+sleep 0.5
+
+# 4. Reproducción automática aleatoria: activamos shuffle (sigue en aleatorio
+#    al pasar de pista) y reproducimos desde la primera pista (barajada).
+mocp -o shuffle &>/dev/null || true
+mocp -p &>/dev/null || true
+
+# 5. Lanzar Kitty con MOC y abrir un split horizontal con cava.
+#    Ctrl+Shift+M: para MOC, mata cava y cierra la ventana.
 exec kitty -1 --title "Música" \
-  -o "map ctrl+shift+m launch --type=background sh -c 'mocp -x && pkill -f cava && kitty @ close-window --match=title:Música'" \
+  --listen-on "$KITTY_SOCK" \
   -o "enabled_layouts vertical,horizontal" \
+  -o "allow_remote_control socket-only" \
+  -o "map ctrl+shift+m launch --type=background sh -c 'mocp -x && pkill -f cava && kitty @ --to $KITTY_SOCK close-window --match=title:Música'" \
   sh -c "
-        kitty @ launch --location=hsplit sh -c 'cava'
-        mocp -c &>/dev/null
-        (sleep 0.2 && mocp -a ~/Música && mocp -p) &>/dev/null &
+        kitty @ --to $KITTY_SOCK launch --location=hsplit sh -c 'cava' 2>/dev/null || true
         exec mocp
     "
