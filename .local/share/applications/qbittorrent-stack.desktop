@@ -1,0 +1,12 @@
+[Desktop Entry]
+Categories=Network;FileTransfer;P2P;Qt;
+Exec=/usr/local/bin/qbittorrent-stack %U
+GenericName=BitTorrent client (con Jackett + FlareSolverr)
+Comment=Download and share files over BitTorrent
+Icon=qbittorrent
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+Name=qBittorrent (stack completo)
+Terminal=false
+Type=Application
+StartupNotify=false
+StartupWMClass=qbittorrent

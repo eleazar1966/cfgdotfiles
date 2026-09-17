@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=WinBox
+GenericName=Configuration tool for RouterOS
+Comment=Configuration tool for MikroTik RouterOS
+Exec=env QT_QPA_PLATFORM=xcb /home/eleazar/Documentos/Mikrotik/Winbox_Linux/WinBox
+Icon=winbox
+Terminal=false
+StartupNotify=true
+StartupWMClass=WinBox
+Categories=Network;RemoteAccess;System;
+Keywords=winbox;mikrotik;routeros;router;

@@ -17,15 +17,15 @@
 #   yellow  -> on_primary         (selection foreground)
 #
 
-colordef black = 101 66 62
-colordef grey = 101 66 62
-colordef white = 945 870 862
-colordef cyan = 1000 701 678
-colordef blue = 905 741 725
-colordef magenta = 882 760 549
+colordef black = 58 78 90
+colordef grey = 58 78 90
+colordef white = 874 890 905
+colordef cyan = 556 811 949
+colordef blue = 709 788 843
+colordef magenta = 788 756 917
 colordef red = 1000 705 670
-colordef green = 364 247 235
-colordef yellow = 341 117 105
+colordef green = 211 286 329
+colordef yellow = 0 207 282
 
 background		= white	black
 frame			= grey	black

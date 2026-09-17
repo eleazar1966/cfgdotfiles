@@ -119,7 +119,7 @@
         "tooltip": true,
         "return-type": "json",
         "exec": "/home/eleazar/.local/bin/weather-wttr.sh",
-        "on-click": "niri msg action spawn -- kitty --class=weather-popup --title='Pronóstico del Clima' -o background=#131318 -o foreground=#e4e1e9 -o color4=#bcc2ff -o color12=#bcc2ff sh -c 'curl -s \"https://wttr.in/Caracas?2\"; echo; echo \"Presiona cualquier tecla para cerrar...\"; read -n 1'",
+        "on-click": "niri msg action spawn -- kitty --class=weather-popup --title='Pronóstico del Clima' -o background=#131318 -o foreground=#e4e1e9 -o color4=#bcc2ff -o color12=#bcc2ff sh -c 'curl -sk \"https://wttr.in/Antimano?2\" | sed \"s/Antimano/Caracas/g\"; echo; echo \"Presiona cualquier tecla para cerrar...\"; read -n 1'",
         "interval": 900
     },
     "clock": {
