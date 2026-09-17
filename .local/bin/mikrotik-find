@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Encuentra el MikroTik en la red del proveedor por su puerto WinBox (8291).
+# Útil porque la IP del WAN es por DHCP del ONT y puede cambiar.
+set -euo pipefail
+
+SUBNET="${1:-192.168.200.0/24}"
+
+echo "Buscando MikroTik (puerto WinBox 8291) en ${SUBNET}..."
+nmap -p 8291 --open -T4 "${SUBNET}" 2>/dev/null \
+  | awk '/Nmap scan report/{ip=$NF} /8291\/tcp *open/{print "MikroTik en:", ip}'
