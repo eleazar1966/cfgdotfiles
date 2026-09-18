@@ -18,6 +18,7 @@
     ],
     "modules-right": [
         "custom/weather",
+        "network",
         "bluetooth",
         "keyboard-state",
         "wireplumber",
@@ -60,12 +61,28 @@
     "wireplumber": {
         "format": "{volume}% {icon}",
         "format-muted": "",
-        "on-click": "niri msg action spawn -- helvum",
+        "on-click": "niri msg action spawn -- pavucontrol",
+        "on-click-right": "niri msg action spawn -- helvum",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
         "format-icons": [
             "",
             "",
             ""
         ]
+    },
+    "network": {
+        "interval": 5,
+        "format-wifi": "{icon} {essid} {signalStrength}% ",
+        "format-ethernet": "󰈀 ",
+        "format-disconnected": "󰤮 sin red ",
+        "format-disabled": "󰤮 wifi apagado ",
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ifname}  {ipaddr}/{cidr}\n{frequency} GHz",
+        "tooltip-format-ethernet": "{ifname}  {ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Sin conexión",
+        "on-click": "niri msg action spawn -- kitty --class=nm-popup --title=nmtui nmtui",
+        "on-click-right": "niri msg action spawn -- nm-connection-editor"
     },
     "bluetooth": {
         "format": " {status}",

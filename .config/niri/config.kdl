@@ -124,6 +124,10 @@ binds {
     Mod+S            { focus-workspace "scratch"; }
     /// Lanzar terminal flotante yt-x
     Mod+Y            { spawn "kitty" "--class" "floating_terminal" "-e" "yt-x"; }
+    /// Redes WiFi: abrir nmtui (lista completa con scroll, sin el corte del
+    /// menu del tray de waybar). Click izquierdo en el modulo "network" de la
+    /// barra hace lo mismo.
+    Mod+Shift+N      { spawn "kitty" "--class" "nm-popup" "-e" "nmtui"; }
 
     /// Cambiar distribucion de teclado (Idioma)
     Mod+Space        { switch-layout "next"; }
@@ -383,6 +387,14 @@ window-rule {
     open-floating true
     default-column-width { proportion 0.3; }
     default-window-height { proportion 0.4; }
+}
+
+// Ventana flotante para nmtui (redes WiFi), abierta desde waybar o Mod+Shift+N
+window-rule {
+    match app-id="nm-popup"
+    open-floating true
+    default-column-width { proportion 0.45; }
+    default-window-height { proportion 0.65; }
 }
 
 window-rule {
