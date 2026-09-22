@@ -24,6 +24,8 @@ TARGETS=(
   "$HOME/Documentos/Linux/Gentoo/etc/portage/make.conf"
   "$HOME/Documentos/Linux/Gentoo/etc/portage/package.use/00cpu-flags"
   "$HOME/Documentos/Linux/Gentoo/plymouth-backups"
+  "$HOME/Documentos/Tryton_lista.sh" "$HOME/Documentos/btrfs_snapshot.sh"
+  "$HOME/Documentos/led.sh" "$HOME/Documentos/noblanck.sh" "$HOME/Documentos/tmux.sh"
 )
 
 # 2. Filtrar solo rutas que existen físicamente
