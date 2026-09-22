@@ -47,9 +47,12 @@ echo -e "\n--- 5. COMPRESIÓN (zstd) ---"
 sync
 sudo compsize -x / 2>/dev/null | tail -10 || echo "compsize no disponible"
 
-# --- 6. CHECK de integridad rápido (solo checksums, sin reparación) ---
-echo -e "\n--- 6. VERIFICACIÓN RÁPIDA (checksums) ---"
-sudo btrfs check --check-data-csum / 2>/dev/null | tail -5 || echo "   (requiere desmontaje para check completo)"
+# --- 6. VERIFICACIÓN RÁPIDA (estructura de dispositivos, read-only segura) ---
+# NOTA: `btrfs check` NO puede ejecutarse sobre un filesystem montado (riesgo de
+# corrupción y siempre falla con / como argumento). `filesystem show` es la
+# verificación segura en línea: devices, UUIDs, total/used sin tocar el FS.
+echo -e "\n--- 6. ESTRUCTURA DE DISPOSITIVOS (read-only) ---"
+sudo btrfs filesystem show / 2>/dev/null || echo "   (btrfs-progs no disponible o / no es btrfs)"
 
 # --- 7. REPORTE SMART (si hay smartctl) ---
 echo -e "\n--- 7. SMART DATA (NVMe) ---"
