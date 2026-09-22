@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=tux_plymouth
+Description=Logo Tux rotante in metallo QHD
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/tux_plymouth
+ScriptFile=/usr/share/plymouth/themes/tux_plymouth/tux_plymouth.script

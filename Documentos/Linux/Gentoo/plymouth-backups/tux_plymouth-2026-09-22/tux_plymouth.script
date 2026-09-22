@@ -1,0 +1,106 @@
+# tux_plymouth.script — rotating Tux splash with boot progress bar + status text
+# Animation: 50 full-screen frames of the metallic Tux (opaque black background).
+# Overlay: progress bar (z=10/11) + boot status messages (z=20) on top.
+#
+# Progress arrives via Plymouth.SetBootProgressFunction(duration, progress)
+# and status text via SetDisplayMessageFunction(text) — messages come from
+# dracut ("Loading modules...", "Waiting for device...") and the OpenRC
+# plymouth plugin ("Starting ...", "Stopping ...").
+
+logo_image = Image("0001.png");
+logo_sprite = Sprite(logo_image);
+logo_sprite.SetPosition(Window.GetX(), Window.GetY(), 0);
+
+progress = 0;
+
+fun refresh_callback ()
+  {
+    progress++;
+    frame_index = (progress % 50) + 1;
+
+    if (frame_index < 10)
+      image_name = "000" + frame_index + ".png";
+    else
+      image_name = "00" + frame_index + ".png";
+
+    logo_sprite.SetImage(Image(image_name));
+  }
+
+Plymouth.SetRefreshFunction(refresh_callback);
+
+# ---------------- progress bar ----------------
+
+progress_box_image = Image("progress_box.png");
+progress_box_sprite = Sprite(progress_box_image);
+
+progress_box_x = Window.GetX() + Window.GetWidth() / 2 - progress_box_image.GetWidth() / 2;
+progress_box_y = Window.GetY() + Window.GetHeight() * 0.85 - progress_box_image.GetHeight() / 2;
+progress_box_sprite.SetPosition(progress_box_x, progress_box_y, 10);
+
+progress_fill_original = Image("progress_fill.png");
+progress_fill_sprite = Sprite();
+progress_fill_sprite.SetPosition(progress_box_x, progress_box_y, 11);
+
+filled_width = 0;
+
+fun progress_callback (duration, progress_ratio)
+  {
+    new_width = Math.Int(progress_fill_original.GetWidth() * progress_ratio);
+
+    if (new_width != filled_width)
+      {
+        filled_width = new_width;
+        progress_fill_sprite.SetImage(progress_fill_original.Scale(filled_width, progress_fill_original.GetHeight()));
+      }
+  }
+
+Plymouth.SetBootProgressFunction(progress_callback);
+
+# ---------------- status text ----------------
+
+status_sprite = Sprite();
+status_sprite.SetPosition(Window.GetX() + Window.GetWidth() / 2,
+                          Window.GetY() + Window.GetHeight() * 0.75, 20);
+
+fun display_message_callback (text)
+  {
+    if (text == "")
+      return;
+
+    text_image = Image.Text(text, 0.82, 0.87, 0.95, 1, "Ubuntu Condensed", "center");
+
+    if (text_image)
+      {
+        text_width = Math.Int(text_image.GetWidth() * 2);
+        text_height = Math.Int(text_image.GetHeight() * 2);
+
+        if (text_width > 0 && text_width <= Window.GetWidth() - 40)
+          text_image = text_image.Scale(text_width, text_height);
+
+        status_sprite.SetImage(text_image);
+        status_sprite.SetPosition(Window.GetX() + Window.GetWidth() / 2 - text_image.GetWidth() / 2,
+                                  Window.GetY() + Window.GetHeight() * 0.75, 20);
+      }
+  }
+
+fun hide_message_callback (text)
+  {
+    status_sprite = Sprite();
+    status_sprite.SetPosition(Window.GetX() + Window.GetWidth() / 2,
+                              Window.GetY() + Window.GetHeight() * 0.75, 20);
+  }
+
+Plymouth.SetDisplayMessageFunction(display_message_callback);
+Plymouth.SetHideMessageFunction(hide_message_callback);
+
+# ---------------- quit ----------------
+
+fun quit_callback ()
+  {
+    progress_fill_sprite.SetImage(progress_fill_original);
+    status_sprite = Sprite();
+    status_sprite.SetPosition(Window.GetX() + Window.GetWidth() / 2,
+                              Window.GetY() + Window.GetHeight() * 0.75, 20);
+  }
+
+Plymouth.SetQuitFunction(quit_callback);
