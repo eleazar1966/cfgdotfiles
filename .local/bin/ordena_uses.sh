@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Uso: ./procesar_palabras.sh archivo_entrada.txt
-INPUT_FILE=$1
+# Uso: ./ordena_uses.sh archivo_entrada.txt
+INPUT_FILE="${1:-}"
 OUTPUT_FILE="resultado.txt"
 
 if [ ! -f "$INPUT_FILE" ]; then

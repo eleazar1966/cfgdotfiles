@@ -27,7 +27,7 @@ echo "======================================================"
 echo ""
 
 # 3. Nombre del archivo
-read -p "📝 Introduce el nombre del vídeo (o ENTER para usar fecha/hora): " VIDEO_NAME
+read -r -p "📝 Introduce el nombre del vídeo (o ENTER para usar fecha/hora): " VIDEO_NAME
 if [ -z "$VIDEO_NAME" ]; then
   VIDEO_NAME="grabacion_$(date +%Y%m%d_%H%M%S)"
 fi
