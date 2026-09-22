@@ -23,6 +23,7 @@ TARGETS=(
   "$HOME/.local/share/applications/" "$HOME/Documentos/Linux/Gentoo/etc/fstab"
   "$HOME/Documentos/Linux/Gentoo/etc/portage/make.conf"
   "$HOME/Documentos/Linux/Gentoo/etc/portage/package.use/00cpu-flags"
+  "$HOME/Documentos/Linux/Gentoo/plymouth-backups"
 )
 
 # 2. Filtrar solo rutas que existen físicamente

@@ -119,6 +119,32 @@ echo "🔹 Generando Initramfs..."
 # Apuntamos explícitamente al kernel recién instalado para que arranque.
 KVER=$(make -s kernelrelease 2>/dev/null | tail -1 || true)
 [ -n "$KVER" ] || KVER=$(ls -1t /lib/modules/ 2>/dev/null | head -1 || true)
+
+# 10a. ZFS: el paquete sys-fs/zfs instala /usr/lib/dracut/dracut.conf.d/10-zfs.conf
+#      con add_drivers+=" zfs spl ". Si este kernel no trae los módulos zfs/spl,
+#      dracut falla ("Failed to find module 'zfs'") y arrastra a amdgpu en el mismo
+#      instmods. Sin módulos se desactiva; con módulos se restaura.
+ZFS_DRACUT_CONF=/usr/lib/dracut/dracut.conf.d/10-zfs.conf
+if ! modinfo zfs -k "$KVER" &>/dev/null; then
+  if [ -f "$ZFS_DRACUT_CONF" ]; then
+    echo "🔹 ZFS sin módulos para $KVER — desactivando conf dracut de zfs..."
+    sudo mv "$ZFS_DRACUT_CONF" "$ZFS_DRACUT_CONF.disabled" 2>/dev/null || true
+  fi
+else
+  if [ -f "$ZFS_DRACUT_CONF.disabled" ]; then
+    echo "🔹 Módulos zfs presentes para $KVER — restaurando conf dracut de zfs..."
+    sudo mv "$ZFS_DRACUT_CONF.disabled" "$ZFS_DRACUT_CONF" 2>/dev/null || true
+  fi
+fi
+
+# 10b. amdgpu: forzar driver + firmware en el initramfs (dracut hostonly lo omite
+#      porque la GPU no es visible al momento de generar). Asegurar el conf.
+AMDG_DRACUT_CONF=/etc/dracut.conf.d/amdgpu.conf
+if [ ! -f "$AMDG_DRACUT_CONF" ]; then
+  echo "🔹 Creando $AMDG_DRACUT_CONF (amdgpu en initramfs)..."
+  printf '# Force amdgpu + firmware into the initramfs.\n# dracut hostonly omits it because the GPU is not visible at generation time.\nadd_drivers+=" amdgpu "\n' | sudo tee "$AMDG_DRACUT_CONF" >/dev/null
+fi
+
 if [ -n "$KVER" ]; then
   sudo dracut --force "/boot/initramfs-$KVER.img" "$KVER"
 else

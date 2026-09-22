@@ -6,6 +6,7 @@
 
 BLUE='\e[34m'
 RED='\e[31m'
+GREEN='\e[32m'
 BOLD='\e[1m'
 NC='\e[0m'
 
@@ -46,19 +47,61 @@ fi
 ISO_FILENAME=$(basename "$ISO_PATH" .iso)
 SUGGESTED_NAME=$(echo "$ISO_FILENAME" | sed -E 's/-(x86_64|amd64|desktop|live|minimal|netinst|dvd).*//i' | sed 's/[^a-zA-Z0-9_-]//g')
 
-read -rp "Modo [1: Live, 2: Instalación] [1]: " EXEC_MODE
-EXEC_MODE="${EXEC_MODE:-1}"
+# Sistema invitado: Windows NO trae drivers virtio (disco/red/video), y Win11 exige TPM
+SUGGESTED_GUEST=1
+echo "$ISO_FILENAME" | grep -qiE 'win(11|10|7|8|server|xp|98)' && SUGGESTED_GUEST=2
+read -rp "Sistema invitado [1: Linux/Genérico, 2: Windows] [${SUGGESTED_GUEST}]: " GUEST_OS
+GUEST_OS="${GUEST_OS:-$SUGGESTED_GUEST}"
+
+DEFAULT_MODE=1
+DEFAULT_DISK="20G"
+DEFAULT_RAM="4G"
+if [ "$GUEST_OS" = "2" ]; then
+  DEFAULT_MODE=2
+  DEFAULT_DISK="64G"
+  DEFAULT_RAM="8G"
+fi
+
+read -rp "Modo [1: Live, 2: Instalación] [$DEFAULT_MODE]: " EXEC_MODE
+EXEC_MODE="${EXEC_MODE:-$DEFAULT_MODE}"
+if [ "$GUEST_OS" = "2" ] && [ "$EXEC_MODE" = "1" ]; then
+  EXEC_MODE=2
+  echo -e "${BLUE}[*] Windows no tiene modo Live: forzando modo Instalación.${NC}"
+fi
+
 read -rp "Nombre VM [$SUGGESTED_NAME]: " VM_NAME
 VM_NAME="${VM_NAME:-$SUGGESTED_NAME}"
-read -rp "RAM [4G]: " VM_RAM
-VM_RAM="${VM_RAM:-4G}"
+read -rp "RAM [$DEFAULT_RAM]: " VM_RAM
+VM_RAM="${VM_RAM:-$DEFAULT_RAM}"
 read -rp "Núcleos CPU [2]: " VM_CORES
 VM_CORES="${VM_CORES:-2}"
+read -rp "Tamaño disco [$DEFAULT_DISK]: " DISK_SIZE
+DISK_SIZE="${DISK_SIZE:-$DEFAULT_DISK}"
 
 BOOT_TYPE="bios"
 [[ -n "$UEFI_CODE" && -n "$UEFI_VARS" ]] && BOOT_TYPE="uefi"
 KVM_ENABLED="-machine q35,accel=kvm -cpu host"
 [[ ! -e /dev/kvm ]] && KVM_ENABLED="-machine q35 -cpu max"
+
+# Dispositivos según sistema invitado
+if [ "$GUEST_OS" = "2" ]; then
+  VGA_BOOT="std"                                   # Windows no tiene driver para virtio-gpu
+  NIC_DEV="e1000e,netdev=net0,romfile="            # virtio-net tampoco: e1000e es nativo
+  DISK_CTRL="-device ich9-ahci,id=sata"            # AHCI: Windows ve el disco sin drivers extra
+  HD_BOOTDEV="ide-hd,drive=hd0,bus=sata.0"
+  CD_BOOTDEV="ide-cd,drive=cd0,bus=sata.1"
+  TPM_ARGS=()
+  if [ -e /dev/tpm0 ] && [ -r /dev/tpm0 ]; then
+    TPM_ARGS=(-tpmdev passthrough,id=tpm0,path=/dev/tpm0 -device tpm-tis,tpmdev=tpm0)
+  fi
+else
+  VGA_BOOT="virtio"
+  NIC_DEV="virtio-net-pci,netdev=net0,romfile="
+  DISK_CTRL=""
+  HD_BOOTDEV="virtio-blk-pci,drive=hd0"
+  CD_BOOTDEV="ide-cd,drive=cd0"
+  TPM_ARGS=()
+fi
 
 # 3. Preparación
 VM_DIR="$HOME/qemu_vms/$VM_NAME"
@@ -66,7 +109,7 @@ mkdir -p "$VM_DIR"
 DISK_PATH="$VM_DIR/${VM_NAME}.qcow2"
 
 if [ "$EXEC_MODE" = "2" ]; then
-  qemu-img create -f qcow2 "$DISK_PATH" 20G
+  qemu-img create -f qcow2 "$DISK_PATH" "$DISK_SIZE"
   [[ "$BOOT_TYPE" == "uefi" ]] && cp "$UEFI_VARS" "$VM_DIR/${VM_NAME}_VARS.fd"
 fi
 
@@ -89,17 +132,19 @@ MODE="VAR_MODE"
 
 ARGS=(
     $KVM_ENABLED -name "$VM_NAME" -m "$VM_RAM" -smp "$VM_CORES"
-    -vga virtio -display default,show-cursor=on
+    -vga VAR_VGA_DEV -display default,show-cursor=on
     -device virtio-balloon-pci,id=balloon0 -device virtio-rng-pci
     -device qemu-xhci -device usb-tablet -device intel-hda -device hda-duplex
-    -netdev user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-pci,netdev=net0,romfile=
+    -netdev user,id=net0,hostfwd=tcp::2222-:22 -device VAR_NIC_DEV
+    VAR_TPM_ARGS
     -device virtio-serial-pci -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0
     -chardev socket,path=/tmp/qga-${VM_NAME}.sock,server=on,wait=off,id=qga0
+    VAR_CTRL_ARGS
     -drive "file=$DISK_PATH,format=qcow2,if=none,id=hd0"
-    -device "virtio-blk-pci,drive=hd0,bootindex=$([[ "$MODE" == "install" ]] && echo 2 || echo 1)"
+    -device "VAR_HD_DEV,bootindex=$([[ "$MODE" == "install" ]] && echo 2 || echo 1)"
 )
 
-[ "$MODE" == "install" ] && ARGS+=(-drive "file=$ISO_PATH,media=cdrom,readonly=on,if=none,id=cd0" -device "ide-cd,drive=cd0,bootindex=1" -no-reboot)
+[ "$MODE" == "install" ] && ARGS+=(-drive "file=$ISO_PATH,media=cdrom,readonly=on,if=none,id=cd0" -device "VAR_CD_DEV,bootindex=1" -no-reboot)
 [ "$BOOT_TYPE" == "uefi" ] && ARGS+=(-drive "if=pflash,format=raw,readonly=on,file=$UEFI_CODE" -drive "if=pflash,format=raw,file=$VARS_PATH")
 
 qemu-system-x86_64 "${ARGS[@]}"
@@ -120,6 +165,12 @@ EOF
   sed -i "s|VAR_KVM_ENABLED|$KVM_ENABLED|g" "$SCRIPT_PATH"
   sed -i "s|VAR_BOOT_TYPE|$BOOT_TYPE|g" "$SCRIPT_PATH"
   sed -i "s|VAR_MODE|$mode|g" "$SCRIPT_PATH"
+  sed -i "s|VAR_VGA_DEV|$VGA_BOOT|g" "$SCRIPT_PATH"
+  sed -i "s|VAR_NIC_DEV|$NIC_DEV|g" "$SCRIPT_PATH"
+  sed -i "s|VAR_TPM_ARGS|${TPM_ARGS[*]}|g" "$SCRIPT_PATH"
+  sed -i "s|VAR_CTRL_ARGS|$DISK_CTRL|g" "$SCRIPT_PATH"
+  sed -i "s|VAR_HD_DEV|$HD_BOOTDEV|g" "$SCRIPT_PATH"
+  sed -i "s|VAR_CD_DEV|$CD_BOOTDEV|g" "$SCRIPT_PATH"
   chmod +x "$SCRIPT_PATH"
 done
 
@@ -128,13 +179,22 @@ echo -e "\n${BOLD}${BLUE}Configuración completada.${NC}"
 echo -e "Instalador: ${VM_DIR}/install_${VM_NAME}.sh"
 echo -e "Arranque:   ${VM_DIR}/boot_${VM_NAME}.sh${NC}\n"
 
+if [ "$GUEST_OS" = "2" ] && [ ${#TPM_ARGS[@]} -eq 0 ]; then
+  echo -e "${RED}[!] Sin TPM disponible (no hay /dev/tpm0). Windows 11 exige TPM 2.0.${NC}"
+  echo -e "    Opciones: instala swtpm para un TPM virtual, o en el instalador"
+  echo -e "    (pantalla de requisitos) pulsa Shift+F10 y ejecuta:"
+  echo -e "    reg add HKLM\\SYSTEM\\Setup\\LabConfig /v BypassTPMCheck /t REG_DWORD /d 1"
+  echo -e "    (repite con BypassSecureBootCheck si también pide Secure Boot)${NC}"
+fi
+
 if [ "$EXEC_MODE" = "1" ]; then
   echo -e "${BLUE}[*] Iniciando modo LIVE...${NC}"
   qemu-system-x86_64 $KVM_ENABLED -name "live_${VM_NAME}" -m "$VM_RAM" -smp "$VM_CORES" \
-    -vga virtio -display default,show-cursor=on -device virtio-balloon-pci,id=balloon0 -device virtio-rng-pci \
+    -vga "$VGA_BOOT" -display default,show-cursor=on -device virtio-balloon-pci,id=balloon0 -device virtio-rng-pci \
     -device qemu-xhci -device usb-tablet -device intel-hda -device hda-duplex \
-    -netdev user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-pci,netdev=net0,romfile= \
-    -drive "file=$ISO_PATH,media=cdrom,readonly=on,if=none,id=cd0" -device "ide-cd,drive=cd0,bootindex=1"
+    -netdev user,id=net0,hostfwd=tcp::2222-:22 -device "$NIC_DEV" \
+    $DISK_CTRL \
+    -drive "file=$ISO_PATH,media=cdrom,readonly=on,if=none,id=cd0" -device "$CD_BOOTDEV,bootindex=1"
 else
   echo -e "${BLUE}[*] Iniciando modo INSTALACIÓN...${NC}"
   "$VM_DIR/install_${VM_NAME}.sh"
