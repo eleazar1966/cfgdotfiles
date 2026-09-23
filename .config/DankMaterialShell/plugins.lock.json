@@ -1,0 +1,149 @@
+{
+  "lockfileVersion": 1,
+  "plugins": {
+    "audioInhibit": {
+      "repo": "https://github.com/insecure/dms-audio-inhibit",
+      "commit": "eefccb20299d8d79089d3d976ca1505ae16d3e27"
+    },
+    "calculator": {
+      "repo": "https://github.com/rochacbruno/DankCalculator",
+      "commit": "1db5865419a40a33171a475855a59e0b8bf7187f"
+    },
+    "commandRunner": {
+      "repo": "https://github.com/devnullvoid/dms-command-runner",
+      "commit": "5c2cab404335ceb96c60cf9e97a9682994209cd4"
+    },
+    "converter": {
+      "repo": "https://github.com/viewerofall-labs/weather-viewer",
+      "path": "converter",
+      "commit": "45ab60d67079d23b5c1fbac506aec825e9d3178c"
+    },
+    "cpuCoreLoad": {
+      "repo": "https://github.com/rabits/dms-plugin-cpucoreload",
+      "commit": "c0b1399eaf452abc04060c734fece535f8e08320"
+    },
+    "dankPomodoroTimer": {
+      "repo": "https://github.com/AvengeMedia/dms-plugins",
+      "path": "DankPomodoroTimer",
+      "commit": "e774a9756f2a50499c37a5513f28bee4ebe81d73"
+    },
+    "dankTodo": {
+      "repo": "https://github.com/deepu105/dms-dank-todo",
+      "commit": "ff1b82c3061fce3c32c8f65792fa81b928ab35d1"
+    },
+    "desktopWidgetToggle": {
+      "repo": "https://github.com/hthienloc/dms-plugins",
+      "path": "desktopWidgetToggle",
+      "commit": "b2e10cb8e28072b906317a83f1fd37a3fc52f5fc"
+    },
+    "displayProfileManager": {
+      "repo": "https://github.com/jankelemen/dank-display-profile-manager",
+      "commit": "e59fd5babc4e99b0c2fb224180fe5b0f8e18b8ca"
+    },
+    "dmsScreenshot": {
+      "repo": "https://github.com/JDKamalakar/DMS-Screenshot",
+      "commit": "d31161eaa4420ba3f54631956bf13bc35e3d46d5"
+    },
+    "emojiLauncher": {
+      "repo": "https://github.com/devnullvoid/dms-emoji-launcher",
+      "commit": "8ff394e3ddfcb2fd755ed2e7b4c6f01f3e26e596"
+    },
+    "fullscreenPowerMenu": {
+      "repo": "https://github.com/JDKamalakar/DMS-Fullscreen_Power_Menu",
+      "commit": "d6a184c979696ad6ae24e98579d7ca9ba7c9268b"
+    },
+    "hiddenBar": {
+      "repo": "https://github.com/hthienloc/dms-plugins",
+      "path": "hiddenBar",
+      "commit": "b2e10cb8e28072b906317a83f1fd37a3fc52f5fc"
+    },
+    "hostnameWidget": {
+      "repo": "https://github.com/irunatbullets/hostname-widget",
+      "commit": "a3b633de3d13d0d58ab34250bfc3e8fe527c896c"
+    },
+    "ipIndicator": {
+      "repo": "https://github.com/hthienloc/dms-plugins",
+      "path": "ipIndicator",
+      "commit": "b2e10cb8e28072b906317a83f1fd37a3fc52f5fc"
+    },
+    "mediaControlPlus": {
+      "repo": "https://github.com/Dadangdut33/dms-plugins",
+      "path": "MediaControlPlus",
+      "commit": "63fe6b87c497f1f7c2ea61432716817db1c5c3a4"
+    },
+    "networkIndicator": {
+      "repo": "https://github.com/gemb0-0/Network-Indicator.git",
+      "commit": "81d948dbabceba0f446a0441f3901a4d6b6b2f3a"
+    },
+    "niriWindows": {
+      "repo": "https://github.com/rochacbruno/DankNiriWindows",
+      "commit": "411d5ee9f7707029f4c12c824ec3b24ca6756a0d"
+    },
+    "niriWorkspaces": {
+      "repo": "https://github.com/Embers-of-the-Fire/dank-niri-workspaces",
+      "commit": "c6699c6a2cfc8f6a3f22f6ea6b3bee9e2d43d582"
+    },
+    "recentFiles": {
+      "repo": "https://github.com/gouwazi/dms-recent-files",
+      "commit": "15010449df58ffec4f85acd48f8ee1145de31a1a"
+    },
+    "resourceMonitor": {
+      "repo": "https://github.com/smithyyang/dms-resource-monitor",
+      "commit": "5e5f9d60f00a0f6fe2b9b515d729c27edeb510c5"
+    },
+    "sessionPower": {
+      "repo": "https://github.com/ronmurphy/dms-contrib",
+      "path": "SessionPowerMenu",
+      "commit": "ca7d321538cd83915ee0c8256b5f8a3b908f938e"
+    },
+    "simpleAudioControl": {
+      "repo": "https://github.com/Dadangdut33/dms-plugins",
+      "path": "SimpleAudioControl",
+      "commit": "63fe6b87c497f1f7c2ea61432716817db1c5c3a4"
+    },
+    "sshConnections": {
+      "repo": "https://github.com/merdely/dms-plugins",
+      "path": "sshConnections",
+      "commit": "b45d16f30f56c16371d93ecf54c3d0b4c23a24a5"
+    },
+    "systemMonitorPlus": {
+      "repo": "https://github.com/Dadangdut33/dms-plugins",
+      "path": "SystemMonitorPlus",
+      "commit": "63fe6b87c497f1f7c2ea61432716817db1c5c3a4"
+    },
+    "trashBin": {
+      "repo": "https://github.com/kerojiang/dms-transBin",
+      "commit": "95ee2a137eddca5c847ce983efe3478ec1be88c9"
+    },
+    "unifiedTaskbar": {
+      "repo": "https://github.com/jslandau/dms-unified-taskbar",
+      "commit": "eba5b385cfbbda85587fa0a4feefe293563617ff"
+    },
+    "uptimeBar": {
+      "repo": "https://github.com/viewerofall-labs/weather-viewer",
+      "path": "uptimeBar",
+      "commit": "45ab60d67079d23b5c1fbac506aec825e9d3178c"
+    },
+    "volumeMixer": {
+      "repo": "https://github.com/cwelsys/dms-volume-mixer",
+      "commit": "353e00b659a16df07105b16c8790e6b526743471"
+    },
+    "wallpaperBing": {
+      "repo": "https://github.com/max72bra/DankPluginBingWallpaper",
+      "commit": "2958f72c9469c2cc2d8624036f348d4c1df4c0f2"
+    },
+    "wallpaperCarousel": {
+      "repo": "https://github.com/motor-dev/wallpaperCarousel",
+      "commit": "761ecd1b7f347beee9f17909f8334d987c935a1a"
+    },
+    "wallpaperDiscovery": {
+      "repo": "https://github.com/lucyfire/dms-plugins",
+      "path": "wallpaperDiscovery",
+      "commit": "c99ba77c848721fbb8b8c3307638ea10d5dccdd9"
+    },
+    "webSearch": {
+      "repo": "https://github.com/devnullvoid/dms-web-search",
+      "commit": "821f5b437ea96739ce1cbc85ce324fb55e8884bb"
+    }
+  }
+}
