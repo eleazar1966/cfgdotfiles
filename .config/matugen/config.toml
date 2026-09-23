@@ -6,11 +6,6 @@ mode = "dark"
 input_path = '/home/eleazar/.config/matugen/templates/kitty-colors.conf'
 output_path = '/home/eleazar/.config/kitty/colors.conf'
 
-[templates.waybar]
-input_path = '/home/eleazar/.config/matugen/templates/waybar-colors.css'
-output_path = '/home/eleazar/.config/waybar/colors.css'
-post_hook = 'pkill -x -USR2 waybar || true'
-
 [templates.niri]
 input_path = '/home/eleazar/.config/matugen/templates/niri_template.kdl'
 output_path = '/home/eleazar/.config/niri/colors.kdl'

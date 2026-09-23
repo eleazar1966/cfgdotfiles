@@ -91,8 +91,8 @@ spawn-at-startup "mako"
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
 spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-portal &"
 spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
-spawn-at-startup "/home/eleazar/.local/bin/wallpapers.sh"
-spawn-at-startup "/home/eleazar/.local/bin/launch-waybar.sh"
+// Wallpaper gestionado por DankMaterialShell (dms ipc call wallpaper * / dankdash)
+spawn-at-startup "dms" "run"
 spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "env" "QT_QPA_PLATFORMTHEME=gtk3" "GTK_THEME=Vivid-Dark-Icons" "Telegram" "-startintray"
@@ -125,8 +125,8 @@ binds {
     /// Lanzar terminal flotante yt-x
     Mod+Y            { spawn "kitty" "--class" "floating_terminal" "-e" "yt-x"; }
     /// Redes WiFi: abrir nmtui (lista completa con scroll, sin el corte del
-    /// menu del tray de waybar). Click izquierdo en el modulo "network" de la
-    /// barra hace lo mismo.
+    /// menú del tray de la barra DMS). Click izquierdo en el modulo "network"
+    /// de la barra hace lo mismo.
     Mod+Shift+N      { spawn "kitty" "--class" "nm-popup" "-e" "nmtui"; }
 
     /// Cambiar distribucion de teclado (Idioma)
@@ -340,8 +340,10 @@ binds {
     XF86WebCam           { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
     /// Respaldo por si algún otro dispositivo envía AudioRecord
     XF86AudioRecord      { spawn "/home/eleazar/.local/bin/graba_video.sh"; }
-    /// Script: Cambiar al siguiente fondo de pantalla
-    Mod+Shift+W          { spawn "/home/eleazar/.local/bin/wallpapers.sh" "next"; }
+    /// Cambiar al siguiente wallpaper (gestionado por DankMaterialShell)
+    Mod+Shift+W          { spawn "dms" "ipc" "call" "wallpaper" "next"; }
+    /// Abrir navegador de wallpapers de DMS (DankDash)
+    Mod+Shift+D          { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
 
     /// Alternar bloqueo de atajos de teclado
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
@@ -389,7 +391,7 @@ window-rule {
     default-window-height { proportion 0.4; }
 }
 
-// Ventana flotante para nmtui (redes WiFi), abierta desde waybar o Mod+Shift+N
+// Ventana flotante para nmtui (redes WiFi), abierta desde DMS o Mod+Shift+N
 window-rule {
     match app-id="nm-popup"
     open-floating true
@@ -402,3 +404,27 @@ window-rule {
     open-on-workspace "background-apps"
 }
 
+// =============================================================================
+// 7. INTEGRACIÓN DANKMATERIALSHELL (reemplaza waybar)
+// =============================================================================
+// Colocar la interfaz de quickshell (barra/overlay) sobre el wallpaper
+// IMPORTANTE: este layer-rule queda COMENTADO a propósito (2026-09-23).
+// place-within-backdrop en un surface quickshell deja el wallpaper CONGELADO
+// en gris con niri 26.04 (bug niri #4038 + DMS #2299 "Gray wallpapers").
+// Verificado: la superficie se crea dentro del backdrop y nunca se actualiza.
+// Sin el rule, DMS pinta el wallpaper en la capa Background normal y next/prev
+// funcionan. Trade-off: el wallpaper ya no aparece en el backdrop del Overview.
+// layer-rule {
+//     match namespace="^quickshell$"
+//     place-within-backdrop true
+// }
+
+// Fragmentos gestionados por DMS (NO editar a mano; DMS los regenera)
+include optional=true "dms/alttab.kdl"
+include optional=true "dms/binds.kdl"
+include optional=true "dms/windowrules.kdl"
+include optional=true "dms/wpblur.kdl"
+// NOTA: dms/colors.kdl y dms/layout.kdl NO se incluyen a propósito: pisan el
+// gradiente del borde y los gaps/radius propios definidos arriba.
+
+include "dms/layout.kdl"

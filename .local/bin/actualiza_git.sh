@@ -18,6 +18,7 @@ TARGETS=(
   "$HOME/.config/matugen" "$HOME/.config/niri" "$HOME/.config/kitty"
   "$HOME/.config/pipewire" "$HOME/.config/cava" "$HOME/.local/bin"
   "$HOME/.config/mako" "$HOME/.config/ranger" "$HOME/.moc" "$HOME/.config/yt-dlp"
+  "$HOME/.config/DankMaterialShell"
   "$HOME/.config/yt-x"
   "$HOME/.config/opencode"
   "$HOME/.local/share/applications/" "$HOME/Documentos/Linux/Gentoo/etc/fstab"
