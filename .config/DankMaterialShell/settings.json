@@ -2,10 +2,12 @@
   "currentThemeName": "dynamic",
   "currentThemeCategory": "dynamic",
   "cornerRadius": 12,
+  "clockFormat": "12h",
   "padHours12Hour": true,
   "blurWallpaperOnOverview": true,
   "controlCenterShowMicPercent": true,
   "appIdSubstitutions": [],
+  "useAutoLocation": true,
   "networkPreference": "wifi",
   "cursorSettings": {
     "theme": "System Default",

@@ -18,7 +18,7 @@ for ((i = 1; i <= MAX_RETRIES; i++)); do
   sleep "$RETRY_DELAY"
 done
 
-# Último intento aunque falle — waybar muestra estado de desconexión
+# Último intento aunque falle — el widget de clima muestra estado de desconexión
 result=$(curl -sk --max-time "$CURL_TIMEOUT" "https://wttr.in/${COORDS}?format=3" 2>/dev/null)
 if [[ -n "$result" ]]; then
   echo "$result" | sed "s/^${COORDS}/$DISPLAY_NAME/" | jq -R --unbuffered -c '{text: .}'
