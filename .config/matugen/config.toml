@@ -10,19 +10,10 @@ output_path = '/home/eleazar/.config/kitty/colors.conf'
 input_path = '/home/eleazar/.config/matugen/templates/niri_template.kdl'
 output_path = '/home/eleazar/.config/niri/colors.kdl'
 
-[templates.fuzzel]
-input_path = '/home/eleazar/.config/matugen/templates/fuzzel.ini'
-output_path = '/home/eleazar/.config/fuzzel/fuzzel.ini'
-
 [templates.cava]
 input_path = '/home/eleazar/.config/matugen/templates/cava-colors.ini'
 output_path = '/home/eleazar/.config/cava/themes/matugen-colors'
 post_hook = 'pkill -x -USR2 cava || true'
-
-[templates.mako]
-input_path = '/home/eleazar/.config/matugen/templates/mako.conf'
-output_path = '/home/eleazar/.config/mako/colors.conf'
-post_hook = 'makoctl reload || true'
 
 [templates.moc]
 input_path = '/home/eleazar/.config/matugen/templates/moc-theme.tpl'

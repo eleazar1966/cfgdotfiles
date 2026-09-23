@@ -44,7 +44,7 @@ environment {
     XCURSOR_SIZE "5" 
     XCURSOR_THEME "Nordzy-cursors" 
     // NOTA: NO setear PATH aquí. niri SOBRESCRIBE el PATH completo con el valor dado,
-    // así que `PATH "~/.local/bin"` eliminaba /usr/bin y rompía kitty/fuzzel por atajo.
+    // así que `PATH "~/.local/bin"` eliminaba /usr/bin y rompía kitty/dms por atajo.
     // Los binarios de ~/.local/bin se resuelven con rutas absolutas en keybindings y .desktop.
 }
 // =============================================================================
@@ -87,7 +87,7 @@ screenshot-path "~/Imágenes/Screenshot/Screenshot desde %Y-%m-%d %H-%M-%S.png"
 // =============================================================================
 // 4. SERVICIOS Y APLICACIONES AL ARRANQUE
 // =============================================================================
-spawn-at-startup "mako"
+// Notificaciones y barra gestionados por DankMaterialShell (dms)
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
 spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-portal &"
 spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
@@ -108,8 +108,8 @@ spawn-at-startup "wl-paste" "--watch" "wl-copy" "--primary"
 binds {
     /// Lanzar terminal Kitty
     Mod+Return       { spawn "kitty"; }
-    /// Lanzar menu Fuzzel
-    Mod+D            { spawn "fuzzel"; }
+    /// Lanzar launcher de DankMaterialShell
+    Mod+D            { spawn "dms" "ipc" "call" "launcher" "toggle"; }
     /// Lanzar gestor de archivos Thunar
     Mod+E            { spawn "thunar"; }
     /// Lanzar Telegram Desktop

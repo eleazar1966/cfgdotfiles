@@ -13,11 +13,11 @@ echo "Iniciando sincronización de dotfiles..."
 
 # 1. Definición de rutas (Targets)
 TARGETS=(
-  "$HOME/.nanorc" "$HOME/.bashrc" "$HOME/.config/waybar" "$HOME/.config/wallpaper"
-  "$HOME/.config/fuzzel" "$HOME/.config/nwg-look" "$HOME/.config/nvim"
+  "$HOME/.nanorc" "$HOME/.bashrc" "$HOME/.config/wallpaper"
+  "$HOME/.config/nwg-look" "$HOME/.config/nvim"
   "$HOME/.config/matugen" "$HOME/.config/niri" "$HOME/.config/kitty"
   "$HOME/.config/pipewire" "$HOME/.config/cava" "$HOME/.local/bin"
-  "$HOME/.config/mako" "$HOME/.config/ranger" "$HOME/.moc" "$HOME/.config/yt-dlp"
+  "$HOME/.config/ranger" "$HOME/.moc" "$HOME/.config/yt-dlp"
   "$HOME/.config/DankMaterialShell"
   "$HOME/.config/yt-x"
   "$HOME/.config/opencode"
