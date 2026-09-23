@@ -1,16 +1,22 @@
 {
   "currentThemeName": "dynamic",
   "currentThemeCategory": "dynamic",
+  "dockTransparency": 0.5,
   "cornerRadius": 12,
   "clockFormat": "12h",
+  "showSeconds": true,
   "padHours12Hour": true,
   "blurWallpaperOnOverview": true,
   "controlCenterShowMicPercent": true,
+  "mediaUseAlbumArtAccent": true,
+  "appleMusicAnimatedArtEnabled": true,
+  "appsDockEnlargeOnHover": true,
+  "appsDockEnlargePercentage": 200,
   "appIdSubstitutions": [],
   "useAutoLocation": true,
   "networkPreference": "wifi",
   "cursorSettings": {
-    "theme": "System Default",
+    "theme": "Nordzy-cursors",
     "size": 24,
     "niri": {
       "hideWhenTyping": false,
@@ -31,9 +37,31 @@
   "textRenderQuality": 3,
   "showDock": true,
   "dockSmartAutoHide": true,
+  "dockUseOverlayLayer": true,
+  "dockShowOnFullscreen": true,
+  "dockGroupByApp": true,
+  "dockSeparatePinnedAndRunningApps": true,
   "dockOpenOnOverview": true,
-  "dockIconSize": 35,
-  "dockShowTrash": true,
+  "dockSpacing": 8,
+  "dockIconSize": 30,
+  "dockIndicatorStyle": "line",
+  "dockBorderEnabled": true,
+  "dockBorderOpacity": 0.1,
+  "dockIsolateDisplays": true,
+  "notificationCompactMode": true,
+  "notificationShowTimeoutBar": true,
+  "notificationAnimationSpeed": 2,
+  "notificationRules": [
+    {
+      "enabled": true,
+      "field": "appName",
+      "pattern": "",
+      "matchType": "contains",
+      "action": "default",
+      "urgency": "default",
+      "bypassDnd": false
+    }
+  ],
   "osdPowerProfileEnabled": true,
   "screenPreferences": {
     "wallpaper": [
@@ -63,11 +91,23 @@
       "rightWidgets": [
         "systemTray",
         "clipboard",
+        "controlCenterButton",
+        {
+          "id": "capsLockIndicator",
+          "enabled": true
+        },
+        {
+          "id": "cpuTemp",
+          "enabled": true,
+          "minimumWidth": true
+        },
         "cpuUsage",
         "memUsage",
         "notificationButton",
-        "battery",
-        "controlCenterButton"
+        {
+          "id": "powerMenuButton",
+          "enabled": true
+        }
       ],
       "spacing": 1,
       "innerPadding": -4,
@@ -160,6 +200,7 @@
       "trigger": "qrg"
     }
   },
+  "barInsetPaddingShared": 12,
   "barInsetPaddingSyncAll": true,
   "configVersion": 18
 }
