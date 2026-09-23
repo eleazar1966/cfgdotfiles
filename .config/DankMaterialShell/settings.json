@@ -12,6 +12,7 @@
   "appleMusicAnimatedArtEnabled": true,
   "appsDockEnlargeOnHover": true,
   "appsDockEnlargePercentage": 200,
+  "runningAppsGroupByApp": true,
   "appIdSubstitutions": [],
   "useAutoLocation": true,
   "networkPreference": "wifi",
@@ -81,7 +82,7 @@
       "leftWidgets": [
         "launcherButton",
         "workspaceSwitcher",
-        "focusedWindow"
+        "runningApps"
       ],
       "centerWidgets": [
         "music",
