@@ -8,6 +8,28 @@ set_title() {
 ORIGINAL_TITLE="Terminal"
 BOOT_WAS_MOUNTED=0
 
+# Marcador de estado de la corrida.
+# `set -e` (abajo) corta el script en silencio si `emerge` devuelve un exit distinto
+# de cero, y en ese caso los pasos 5-9 (limpieza/optimización) nunca corren. El exit code
+# del script NO distingue "actualización completa" de "a medias": ambos son un fallo.
+# Este archivo es la única señal en disco que sí lo distingue:
+#   running <ts>  = la corrida empezó y no terminó bien (quedó un "running" viejo)
+#   ok <ts>       = la corrida llegó al final
+STATUS_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/gentoo-updates"
+STATUS_FILE="$STATUS_DIR/last-run.status"
+
+mark_running() {
+  mkdir -p "$STATUS_DIR"
+  printf 'running %s\n' "$(date -Is)" >"$STATUS_FILE"
+}
+
+mark_ok() {
+  mkdir -p "$STATUS_DIR"
+  printf 'ok %s\n' "$(date -Is)" >"$STATUS_FILE"
+}
+
+mark_running
+
 # Configuración balanceada para Zen 3 con 32GB RAM + tmpfs
 LOAD=8.0
 
@@ -38,7 +60,10 @@ set_title "emaint"
 # que requieren PKGDIR — los excluimos explícitamente.
 sudo emaint --check all || true
 # logs usa --clean (no --fix), y ya tienes clean-logs en FEATURES — lo omitimos.
-SAFE_FIX_CMDS=("cleanconfmem" "cleanresume" "merges" "moveinst" "world")
+# vdb (agregado 2026-10-03) repuebla la metadata consolidada de /var/db/pkg para los
+# paquetes que emaint reporta como "missing, stale, or use an older format". Solo escribe
+# metadata en el VDB: no toca archivos del sistema ni paquetes instalados.
+SAFE_FIX_CMDS=("cleanconfmem" "cleanresume" "merges" "moveinst" "vdb" "world")
 for cmd in "${SAFE_FIX_CMDS[@]}"; do
   sudo emaint --fix "$cmd" || true
 done
@@ -212,4 +237,5 @@ else
 fi
 
 set_title "$ORIGINAL_TITLE"
+mark_ok
 echo "🎉 ¡Sistema completamente actualizado y optimizado!"

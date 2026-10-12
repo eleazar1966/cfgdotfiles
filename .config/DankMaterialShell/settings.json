@@ -14,6 +14,11 @@
   "appsDockEnlargePercentage": 200,
   "runningAppsGroupByApp": true,
   "appIdSubstitutions": [],
+  "clockDateFormat": "ddd d MMM yyyy",
+  "lockDateFormat": "ddd d MMM yyyy",
+  "appDrawerSectionViewModes": {
+    "apps": "grid"
+  },
   "useAutoLocation": true,
   "networkPreference": "wifi",
   "cursorSettings": {
@@ -43,10 +48,10 @@
   "dockGroupByApp": true,
   "dockSeparatePinnedAndRunningApps": true,
   "dockOpenOnOverview": true,
-  "dockSpacing": 8,
-  "dockIconSize": 30,
+  "dockBottomGap": 100,
+  "dockMargin": 7,
+  "dockIconSize": 26,
   "dockIndicatorStyle": "line",
-  "dockBorderEnabled": true,
   "dockBorderOpacity": 0.1,
   "dockIsolateDisplays": true,
   "notificationCompactMode": true,

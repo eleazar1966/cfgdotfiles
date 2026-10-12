@@ -57,6 +57,10 @@ environment {
     // Forzar el tamaño y tema del cursor para aplicaciones GTK, Qt y XWayland
     XCURSOR_SIZE "5" 
     XCURSOR_THEME "Nordzy-cursors" 
+    // Terminal por defecto que DMS usa para las entradas .desktop con Terminal=true
+    // (nvim, btop, ranger, yt-x). Sin esto resolveTerminal() devuelve "" y DMS cae
+    // al fallback "xterm" (no instalado): el click en el menu muere en silencio.
+    TERMINAL "kitty"
     // NOTA: NO setear PATH aquí. niri SOBRESCRIBE el PATH completo con el valor dado,
     // así que `PATH "~/.local/bin"` eliminaba /usr/bin y rompía kitty/dms por atajo.
     // Los binarios de ~/.local/bin se resuelven con rutas absolutas en keybindings y .desktop.
@@ -96,7 +100,7 @@ hotkey-overlay {
 // =============================================================================
 // 3. CAPTURAS DE PANTALLA NATIVAS
 // =============================================================================
-screenshot-path "~/Imágenes/Screenshot/Screenshot desde %Y-%m-%d %H-%M-%S.png"
+screenshot-path "~/Imágenes/Screenshots/Screenshot desde %Y-%m-%d %H-%M-%S.png"
 
 // =============================================================================
 // 4. SERVICIOS Y APLICACIONES AL ARRANQUE
@@ -107,6 +111,10 @@ spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-p
 spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
 // Wallpaper gestionado por DankMaterialShell (dms ipc call wallpaper * / dankdash)
 spawn-at-startup "dms" "run"
+// Rotador externo cada 5 min: el auto-ciclo interno de DMS pierde su config al
+// reiniciar (el daemon borra las claves wallpaperCycling* de session.json).
+// flock evita duplicados; pausa si hay fullscreen activo.
+spawn-at-startup "/home/eleazar/.local/bin/wallpaper-rotate.sh"
 spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "env" "QT_QPA_PLATFORMTHEME=gtk3" "GTK_THEME=Vivid-Dark-Icons" "Telegram" "-startintray"
