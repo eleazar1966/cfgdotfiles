@@ -1,4 +1,6 @@
 [MIME Cache]
+application/x-bittorrent=org.qbittorrent.qBittorrent.desktop;qbittorrent-stack.desktop;
 text/plain=opencode.desktop;
 x-scheme-handler/discord-424004941485572097=discord-424004941485572097.desktop;
+x-scheme-handler/magnet=org.qbittorrent.qBittorrent.desktop;qbittorrent-stack.desktop;
 x-scheme-handler/ut2004=OldUnreal-UT2004.desktop;

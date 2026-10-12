@@ -1,6 +1,5 @@
 [config]
-wallpaper_common = true
-mode = "dark"
+prefer = "darkness"
 
 [templates.kitty]
 input_path = '/home/eleazar/.config/matugen/templates/kitty-colors.conf'

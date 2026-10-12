@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Zenmap (as root)
+Comment=Masked: package entry references su-to-zenmap.sh, which this Gentoo nmap does not install.
+Hidden=true
