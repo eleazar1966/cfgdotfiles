@@ -111,10 +111,9 @@ spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-p
 spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
 // Wallpaper gestionado por DankMaterialShell (dms ipc call wallpaper * / dankdash)
 spawn-at-startup "dms" "run"
-// Rotador externo cada 5 min: el auto-ciclo interno de DMS pierde su config al
-// reiniciar (el daemon borra las claves wallpaperCycling* de session.json).
-// flock evita duplicados; pausa si hay fullscreen activo.
-spawn-at-startup "/home/eleazar/.local/bin/wallpaper-rotate.sh"
+// Rotación de wallpaper: SOLO el scheduler interno de DUX (wallpaperCyclingEnabled
+// en ~/.local/state/DankMaterialShell/session.json). NO lanzar wallpaper-rotate.sh:
+// duplicaba el ciclo interno y producía dos cambios por tick (~0.4 s de desfase).
 spawn-at-startup "openrgb" "--startminimized"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "env" "QT_QPA_PLATFORMTHEME=gtk3" "GTK_THEME=Vivid-Dark-Icons" "Telegram" "-startintray"

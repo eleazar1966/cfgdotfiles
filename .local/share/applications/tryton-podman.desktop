@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Tryton 8.2 (Podman)
+GenericName=Tryton ERP - contenedores
+Comment=Inicia los contenedores Tryton (PostgreSQL 18 + trytond 8.2) y abre el cliente GTK
+Exec=/home/eleazar/.local/bin/tryton-podman.sh
+Icon=/home/eleazar/.local/share/icons/tryton-podman.png
+Terminal=false
+StartupNotify=true
+Categories=Office;Finance;
+Keywords=tryton;erp;facturacion;contabilidad;podman;contenedor;docker;

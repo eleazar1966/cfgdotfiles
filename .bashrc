@@ -202,9 +202,10 @@ export OPENROUTER_API_KEY="REDACTED_API_KEY"
 
 export TOGETHER_API_KEY="tgp_..."  # https://api.together.xyz/settings/api-keys
 
-# MikroTik (conectar.sh)
-export MIKROTIK_USER='eleazar'
-export MIKROTIK_PASS='Eleazar-1966'
+# MikroTik (conectar.sh) — credenciales en archivo 0600, fuera del .bashrc
+if [ -r "$HOME/.config/mikrotik/credenciales" ]; then
+    . "$HOME/.config/mikrotik/credenciales"
+fi
 
 # Podman rootless: socket Docker-compatible (compose/tools)
 export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock

@@ -6,7 +6,6 @@
 
 BLUE='\e[34m'
 RED='\e[31m'
-GREEN='\e[32m'
 BOLD='\e[1m'
 NC='\e[0m'
 
@@ -18,9 +17,9 @@ for dep in qemu-system-x86_64 qemu-img; do
   }
 done
 
-# Detección de Firmware
-OVMF_CODE_PATHS=("/usr/share/OVMF/OVMF_CODE.fd" "/usr/share/OVMF/OVMF_CODE_4M.fd" "/usr/share/edk2/x64/OVMF_CODE.fd" "/usr/share/edk2-ovmf/OVMF_CODE.fd")
-OVMF_VARS_PATHS=("/usr/share/OVMF/OVMF_VARS.fd" "/usr/share/OVMF/OVMF_VARS_4M.fd" "/usr/share/edk2/x64/OVMF_VARS.fd" "/usr/share/edk2-ovmf/OVMF_VARS.fd")
+# Detección de Firmware (Gentoo instala edk2-bin en /usr/share/edk2/OvmfX64)
+OVMF_CODE_PATHS=("/usr/share/edk2/OvmfX64/OVMF_CODE.fd" "/usr/share/OVMF/OVMF_CODE.fd" "/usr/share/OVMF/OVMF_CODE_4M.fd" "/usr/share/edk2/x64/OVMF_CODE.fd" "/usr/share/edk2-ovmf/OVMF_CODE.fd")
+OVMF_VARS_PATHS=("/usr/share/edk2/OvmfX64/OVMF_VARS.fd" "/usr/share/OVMF/OVMF_VARS.fd" "/usr/share/OVMF/OVMF_VARS_4M.fd" "/usr/share/edk2/x64/OVMF_VARS.fd" "/usr/share/edk2-ovmf/OVMF_VARS.fd")
 for p in "${OVMF_CODE_PATHS[@]}"; do [[ -f "$p" ]] && UEFI_CODE="$p" && break; done
 for p in "${OVMF_VARS_PATHS[@]}"; do [[ -f "$p" ]] && UEFI_VARS="$p" && break; done
 
@@ -92,7 +91,7 @@ if [ "$GUEST_OS" = "2" ]; then
   CD_BOOTDEV="ide-cd,drive=cd0,bus=sata.1"
   TPM_ARGS=()
   if [ -e /dev/tpm0 ] && [ -r /dev/tpm0 ]; then
-    TPM_ARGS=(-tpmdev passthrough,id=tpm0,path=/dev/tpm0 -device tpm-tis,tpmdev=tpm0)
+    TPM_ARGS=(-tpmdev "passthrough,id=tpm0,path=/dev/tpm0" -device "tpm-tis,tpmdev=tpm0")
   fi
 else
   VGA_BOOT="virtio"

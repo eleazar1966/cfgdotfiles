@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Tryton 8.2 (Local)
+GenericName=Tryton ERP - servidor local
+Comment=Inicia el servidor Tryton local (servicio OpenRC) y abre el cliente GTK
+Exec=/home/eleazar/.local/bin/tryton-local.sh
+Icon=/home/eleazar/.local/share/icons/tryton-local.png
+Terminal=false
+StartupNotify=true
+Categories=Office;Finance;
+Keywords=tryton;erp;facturacion;contabilidad;local;openrc;

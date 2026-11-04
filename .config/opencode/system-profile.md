@@ -68,9 +68,13 @@ and is updated **from this host** to take advantage of its CPU/RAM.
 - Verified 2026-10-12: 0 corruption/read/write/flush IO errors on `/` (nvme0n1p2) and `/mnt/ssd` (sda); scrub reports no errors.
 
 ### Networking
-- `enp9s0` (Realtek RTL8111/8168/8211/8411): UP, **192.168.200.22/24** (DHCP, dynamic — was .20 previously) + IPv6, qdisc fq_codel — managed by NetworkManager ("Conexión cableada 1")
+- `enp9s0` (Realtek RTL8111/8168/8211/8411): UP, **192.168.1.42/24** (DHCP del ONT VSOL, dynamic) + IPv6 link-local only (no global IPv6), qdisc fq_codel — managed by NetworkManager ("Conexión cableada 1"). **Re-verified 2026-10-27**: the LAN moved from `192.168.200.0/24` to `192.168.1.0/24` after an ONT reprovision.
 - `wlp8s0` (Intel Wi-Fi 6 AX200): present, currently DOWN/disconnected
-- **Firewall**: nftables, service `nftables` active. Rules live in **`/var/lib/nftables/rules-save`** (there is NO `/etc/nftables.conf`); `NFTABLES_SAVE` in `/etc/conf.d/nftables`, loaded by the init script's `start_pre`. Input policy `drop`; established/related accepted; **SSH (22) rate-limited 5/min**; LocalSend (53317 tcp/udp, 40000), mDNS (5353). Added 2026-10-12: **qBittorrent 28263 tcp/udp** inbound. Edit via `nft -c -f` (check) then `nft -f` (apply). Saved `ct state` values are numeric (0x2 established, 0x4 related, 0x8 new).
+- **LAN topology (2026-10-27)**: gateway/DHCP = **192.168.1.1** (ONT VSOL HGU, MAC b4:64:15:fc:61:f8; its admin account is ISP-rotated via TR-069 and NOT recoverable locally). Linksys/OpenWrt at **192.168.1.34** (d8:ec:5e:34:c1:20, no SSH). MikroTik RB951Ui at **192.168.1.37** (d4:ca:6d:af:a6:f2, ports 8291 + 2223 dst-nat to Virginia; its internal LAN is still `192.168.250.0/24` with bridge `192.168.250.1`). Route to the MikroTik LAN is restored at boot by `/etc/local.d/route-mikrotik.start` (`ip route replace 192.168.250.0/24 via 192.168.1.37`).
+- **DNS**: `net-dns/unbound` on `127.0.0.1:53` (local cache + DNSSEC) forwarding over **DNS-over-TLS** to Cloudflare (1.1.1.1/1.0.0.1 @853). All NM profiles point to `127.0.0.1`/`::1`, so the ISP never sees query names. Also exposed to the LAN `192.168.1.0/24` (nftables allows udp/tcp 53 from that subnet), but the ONT DHCP still hands out the ISP resolvers (`200.75.130.131/.132`), so no other device uses it yet. Config: `/etc/unbound/unbound.conf`.
+- **Router discovery (IPs are DHCP, never assume them)**: every address in the provider LAN is assigned by the ONT VSOL and can change without notice (it already moved `192.168.200.0/24` → `192.168.1.0/24`). Shared library **`/usr/local/lib/router-discovery.sh`** sweeps the active /24, classifies by MAC OUI (MikroTik / Linksys) and confirms MikroTik via port 8291; `rd_buscar <tipo> [intentos] [espera]` prints the current IP. Consumers: `~/.local/bin/conectar.sh` (loop, prefers MikroTik then Linksys), `/usr/local/sbin/ruta-mikrotik` (recomputes the `192.168.250.0/24` route, run at boot from `/etc/local.d/route-mikrotik.start`; re-run manually with `sudo ruta-mikrotik`). Only *subnets* are constants — `192.168.250.0/24` (MikroTik LAN, under our control) and the provider subnet, which is derived from the host's own IP at runtime. Credentials live in `~/.config/mikrotik/credenciales` (0600, sourced from `.bashrc`), never in scripts. The MikroTik rule `SSH WAN->LAN (conectar.sh)` self-heals if it points at an old subnet. `ssh virginia` goes **direct** to `192.168.250.193` (MikroTik LAN side), not through the dst-nat on 2223.
+- **`/tmp` is mounted `noexec`** (`rw,nosuid,nodev,noexec,noatime,size=4G`). Never put executables there — the shell silently falls back to the real binary in PATH. Use `mktemp` under `$TMPDIR` (`/var/tmp/tmpfs`) instead.
+- **Firewall**: nftables, service `nftables` active. Rules live in **`/var/lib/nftables/rules-save`** (there is NO `/etc/nftables.conf`); `NFTABLES_SAVE` in `/etc/conf.d/nftables`, loaded by the init script's `start_pre`. Input policy `drop`; established/related accepted; **SSH (22) rate-limited 5/min**; LocalSend (53317 tcp/udp, 40000), mDNS (5353); **DNS 53 udp/tcp from 192.168.1.0/24** (added 2026-10-27). Added 2026-10-12: **qBittorrent 28263 tcp/udp** inbound. Edit via `nft -c -f` (check) then `nft -f` (apply). Saved `ct state` values are numeric (0x2 established, 0x4 related, 0x8 new).
 - **Do not confuse the TP-Link XX530v2 with this host's network**: the user stated it is a *test router*, NOT part of their network, and is not needed for anything. Ignore it in any networking reasoning.
 - **Sysctl hardening** (`/etc/sysctl.d/99-hardening.conf`): kptr_restrict=1, dmesg_restrict=1, unprivileged_bpf_disabled=2, ptrace_scope=1, syncookies=1, rp_filter=1 (v4 redirects=0, send_redirects=0, log_martians=1), and — added 2026-10-12 — **IPv6 `accept_redirects=0` (all + default)**.
 
@@ -107,7 +111,7 @@ and is updated **from this host** to take advantage of its CPU/RAM.
 - ACCEPT_LICENSE `*`; PORTAGE_COMPRESS zstd -19; BINPKG_FORMAT gpkg; PORTAGE_NICENESS 19
 - **ccache**: enabled (FEATURES), `cache_dir = /var/tmp/ccache` (on the btrfs disk, not tmpfs), **`max_size = 25.0G`** (raised from 10G on 2026-10-12 — at 10G it sat at 99.9% with 5000+ cleanups). Config: `/etc/ccache.conf`.
 - Key USE flags: `X wayland niri vulkan pipewire pulseaudio jack vaapi vdpau hwaccel screencast btrfs grub dracut cet elogind pam seccomp qt6 java python rust npm llvm lm-sensors amf bluetooth wifi nftables webdav nfs`
-- Update helper: `actualizar.sh`, `gentoo.sh`, `ordena_uses.sh` in `~/.local/bin`
+- Update helper: `actualizar.sh`, `gentoo.sh` in `~/.local/bin`
 - **`/etc/portage/package.mask` is a DIRECTORY** holding **four** active masks (do not `cat` it as a file):
   - `tree-sitter-0.27` → `=dev-libs/tree-sitter-0.27.0` (neovim 0.12.5-r2 needs `=0.26*`)
   - `libdisplay-info-0.4` → `=media-libs/libdisplay-info-0.4.0` (niri-9999 + mesa need subslot 0/3)
@@ -129,8 +133,21 @@ and is updated **from this host** to take advantage of its CPU/RAM.
 - `jackett` (manual runlevel)
 - System basics also present: devfs, udev, dmesg, cgroups, hwclock, modules, fsck, swap, localmount, sysctl, bootmisc, dbus, hostname, loopback, procfs, binfmt, termencoding, keymaps, seedrng
 
-### Tryton stack (verified 2026-10-12)
-- `app-office/trytond-8.0.11` + `app-office/tryton-8.0.9` (client) + `app-tryton/*` modules (account, sale, purchase, stock, party, …), overlay `tryton` (mercurial).
+### Tryton stack (verified 2026-10-27)
+- Installed **8.2.0** (not 8.0): `app-office/trytond-8.2.0` + `app-office/tryton-8.2.0` + `app-office/sao-8.2.1` + `app-tryton/*` 8.2.0 (23 modules), `dev-python/hatch-tryton-0.1.1`, overlay `tryton` (mercurial).
+- **The overlay upstream is unreachable (2026-10-27)**: `foss.heptapod.net` sits behind
+  Anubis (proof-of-work) and its Mercurial sidecar answers 503 ("Heptapod is not
+  responding"); `hg` gets HTTP 500. Portage deleted the local copy, so
+  `/var/db/repos/tryton` was **rebuilt from `/var/db/pkg`** (portage keeps a verbatim
+  copy of every installed ebuild) — **49 ebuilds**, frozen at the installed versions.
+  The authoritative selector is `/var/db/pkg/<cat>/<pf>/repository` (== `tryton`);
+  filtering by package name recovered only the 29 in `@world` and silently lost 20
+  dependencies (`dev-python/{proteus,relatorio,python-sql,psycopg-pool,schwifty,rstr,
+  num2words,playsound3,pwdlib}`, 12 × `dev-javascript/*`). **Never** whitelist by name.
+  `[tryton]` in `/etc/portage/repos.conf/eselect-repo.conf` now has `auto-sync = no` so
+  a dead upstream cannot blank it again. Recovery command:
+  `sudo ~/.local/bin/recuperar-overlay-tryton.sh --force`. **Do not run
+  `emaint sync -r tryton`** while the repo has no `.hg` — portage may wipe it again.
 - **PostgreSQL 18.6** (`dev-db/postgresql`), service name is **`postgresql-18`** (NOT `postgresql`), running, listening on 127.0.0.1:5432. `pg_hba.conf` = `trust` for local/127.0.0.1/::1.
 - `trytond` runs: `trytond --config /etc/trytond/trytond.conf --logconf /etc/trytond/log.conf --database miventas`. Web client (Sao) on **http://localhost:8000**.
 - Database **`miventas`** is fully initialized (**254 tables**). Postgres roles `tryton` and `trytond` both exist (login + createdb). `/etc/conf.d/trytond` sets `DATABASES="miventas"`.
@@ -152,11 +169,11 @@ and is updated **from this host** to take advantage of its CPU/RAM.
 - API verified: JSON-RPC at `POST /<db>/rpc/` (`common.db.list` → `["tryton"]`, `common.server.version` → `"8.2"`) and login at `POST /<db>/session/login` with body `{"params":["admin",{"password":"admin"}]}` (→ 200 + `tryton_session` cookie; wrong password → 401).
 - Restart after reboot (no OpenRC unit; containers do not auto-start): `podman start tryton-pg tryton82`. Teardown: `podman rm -f tryton82 tryton-pg && podman volume rm tryton82-pgdata`.
 - **Module activation must be done via CLI, not the UI wizard**: `podman run --rm --network=host -e DB_USER=tryton -e DB_PASSWORD=tryton -e DB_HOSTNAME=127.0.0.1 -e DB_PORT=5433 docker.io/tryton/tryton:8.2 trytond-admin -d tryton -u <mods> --activate-dependencies`. The CLI has no gunicorn timeout. Base init `--all` = `-u ir res` leaves only `ir`+`res` (80 tables); activating the accounting core (`account`, `account_invoice`, `account_statement`, `account_payment` + deps) gives **13 modules / ~198 tables** on a clean base. (An earlier 282-table state came from a non-clean initial DB that also had `sale`/`purchase`/`stock` marked.) Tryton 8.2 ships the chart-of-accounts templates **inside the core `account` module** (`account_chart_es.xml` = 135 accounts), so no `account_es` package is needed.
-- The **Gentoo `tryton` overlay still lacks 8.2** (mercurial tip 2026-10-04, max trytond 8.0.11 — which predates the 2026-10-05 security fixes 15032/15035). The Docker Hub image is the way to test 8.2 here.
+- Superseded 2026-10-27: the overlay **does** carry 8.2 — the host runs trytond 8.2.0 from it. What changed is upstream availability: the heptapod sync is dead and the overlay now lives frozen in `/var/db/repos/tryton` (see "Tryton stack" above). The Docker image remains the isolated playground for a clean 8.2 instance.
 
 ## User environment
 
-- `~/.local/bin` (~30 scripts): `actualizar.sh`, `actualiza_gcc.sh`, `actualiza_git.sh`, `btrfs-salud.sh`, `conectar.sh`, `gentoo.sh`, `kernel-do.sh`, `respaldo.sh`, `ordena_uses.sh`, `limpiar_musica_unificado.sh`, `moc-theme-apply.sh`, `niri-hide-scratch`, `opencode-wrapper.sh`, `setup-tryton.sh`, `qemu-creator.sh`, `graba_video.sh`, and more
+- `~/.local/bin` (~25 scripts): `actualizar.sh`, `actualiza_gcc.sh`, `actualiza_git.sh`, `btrfs-salud.sh`, `conectar.sh`, `gentoo.sh`, `kernel-do.sh`, `respaldo.sh`, `moc-theme-apply.sh`, `niri-hide-scratch`, `opencode-wrapper.sh`, `setup-tryton.sh`, `tryton-local.sh`, `tryton-podman.sh`, `qemu-creator.sh`, `graba_video.sh`, `volume-notify`, and more
 - `~/tryton82/` — files for the containerized **Tryton 8.2 test env** (see above), incl. `admin.pass`
 - `~/.config`: DankMaterialShell, GIMP, Jackett, MusicBrainz, OpenRGB, Thunar, Vencord, beets, btop, cava, gtk-2/3/4, quickshell (via DMS)
 - Games/emulators in `~/Documentos/Juegos`: RPCS3, SHADPS4 (AppImage), HollowKnight — emulator `.desktop` files live in `~/.local/share/applications`
@@ -176,13 +193,27 @@ change detection (runs `kernel-do.sh` / `actualiza_gcc.sh` if needed) → `emerg
 `--depclean` + `@preserved-rebuild` → `eclean-dist --deep` + `eclean-kernel -n 2` →
 `updatedb` → unmount `/boot`.
 
-**Known fragility**: the script uses `set -e` (line 2). If `emerge` returns a non-zero
-status for any reason, the script dies silently at step 4 and steps 5-9 — the entire
-optimization/cleanup half — never run, leaving `/boot` mounted. The only symptom is the
-absence of the final "Sistema completamente actualizado y optimizado" line, so a
-half-finished run is indistinguishable from a failed one at the exit-code level. The
-script writes a status file to `~/.local/state/gentoo-updates/last-run.status`
-(`running <ts>` / `ok <ts>`) as the on-disk signal that distinguishes the two.
+**Known fragility (partly fixed 2026-10-27)**: the script uses `set -e` (line 2). If
+`emerge` returns a non-zero status, the script dies silently and steps 5-9 — the entire
+optimization/cleanup half — never run. The only symptom is the absence of the final
+"Sistema completamente actualizado y optimizado" line, so a half-finished run is
+indistinguishable from a failed one at the exit-code level. The script writes a status
+file to `~/.local/state/gentoo-updates/last-run.status` (`running <ts>` / `ok <ts>`) as
+the on-disk signal that distinguishes the two.
+
+Two guards were added on 2026-10-27 after a dead overlay killed a run at step 2:
+- **`emerge --sync` is no longer fatal.** A repo that fails to sync is reported by name
+  (parsed from `!!! ... error in ...` / `Action: sync for repo: X, returned code = N`)
+  and the run continues to `@world`. Suggested remedy in the message: `auto-sync = no`
+  for that repo.
+- **`/boot` is unmounted by an `EXIT` trap**, so it no longer stays mounted when the
+  script dies or is interrupted. A pre-existing mount (`BOOT_WAS_MOUNTED=1`) is left
+  alone.
+- **Step 2b warns about installed packages with no available ebuild**, the exact symptom
+  of a deleted/empty overlay — `@world` keeps saying `Total: 0 packages` while installed
+  packages are unbuildable. It checks **every** installed package against the tree
+  (`portage.portdb.cpv_exists`), not just `@world`: `emaint --check world` misses
+  dependencies, which is most of an app overlay (that gap hid the 20 tryton deps).
 
 Verification recipe after any update:
 - `sudo emerge -p -uDvN @world` → must report **`Total: 0 packages`** (this is the correct

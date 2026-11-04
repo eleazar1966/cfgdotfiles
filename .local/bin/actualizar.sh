@@ -15,6 +15,8 @@ BOOT_WAS_MOUNTED=0
 # Este archivo es la única señal en disco que sí lo distingue:
 #   running <ts>  = la corrida empezó y no terminó bien (quedó un "running" viejo)
 #   ok <ts>       = la corrida llegó al final
+# Ojo: el sync (paso 2) ya NO es fatal — un repo caído se reporta y se sigue. El
+# trap de /boot de más abajo garantiza el desmontaje en cualquier salida.
 STATUS_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/gentoo-updates"
 STATUS_FILE="$STATUS_DIR/last-run.status"
 
@@ -29,6 +31,21 @@ mark_ok() {
 }
 
 mark_running
+
+# Red de seguridad para /boot.
+# El script monta /boot en el paso 1 y lo desmontaba recién en el paso 9, así que
+# cualquier muerte intermedia (set -e, Ctrl-C, repos caídos) lo dejaba montado
+# para siempre. Con este trap el desmontaje ocurre en TODA salida.
+al_salir() {
+  local rc=$?
+  trap - EXIT
+  if [ "$BOOT_WAS_MOUNTED" -eq 0 ] && mountpoint -q /boot; then
+    echo "🧹 Desmontando /boot antes de salir (rc=$rc)..."
+    sudo umount /boot || echo "⚠️  No se pudo desmontar /boot."
+  fi
+  exit "$rc"
+}
+trap al_salir EXIT
 
 # Configuración balanceada para Zen 3 con 32GB RAM + tmpfs
 LOAD=8.0
@@ -49,8 +66,66 @@ fi
 # 2. Sincronización
 echo "[2/9] Sincronizando repositorios..."
 set_title "sync"
-# Usamos -v para detectar errores de configuración como el de ionice
-sudo emerge --sync
+# Un repo inalcanzable hace que `emerge --sync` devuelva error aunque el resto haya
+# sincronizado bien. Antes eso mataba el script acá mismo por `set -e`: pasó el
+# 2026-10-27 con el overlay tryton, y la corrida quedó a medias sin tocar @world.
+# Ahora se reporta qué repo falló y se sigue.
+SYNC_LOG=$(mktemp "${TMPDIR:-/tmp}/actualizar-sync.XXXXXX")
+set +e
+sudo emerge --sync 2>&1 | tee "$SYNC_LOG"
+SYNC_RC=${PIPESTATUS[0]}
+set -e
+if [ "$SYNC_RC" -eq 0 ]; then
+  echo "✅ Sync completo."
+else
+  echo
+  echo "⚠️  El sync devolvió error (rc=$SYNC_RC). Repos afectados:"
+  {
+    grep -oP 'error in /var/db/repos/\K\S+' "$SYNC_LOG" || true
+    sed -n 's/^Action: sync for repo: \([^,]*\), returned code = [1-9].*/\1/p' "$SYNC_LOG" || true
+  } | sort -u | sed 's/^/     - /'
+  echo "   La actualización continúa: un repo caído no debe frenar @world."
+  echo "   Si ese repo no se va a recuperar pronto, agregale 'auto-sync = no'"
+  echo "   en su sección de /etc/portage/repos.conf/ para que deje de intentarlo."
+fi
+rm -f "$SYNC_LOG"
+
+# 2b. Integridad: paquetes instalados que se quedaron sin ebuild disponible.
+# Es el síntoma exacto de un overlay vacío o borrado por un sync fallido (así se
+# descubrió el tryton roto: 23 paquetes sin ebuild y @world seguía diciendo "0").
+#
+# OJO: 'emaint --check world' solo mira los paquetes de @world. Las DEPENDENCIAS
+# quedan invisibles, y son la mayoría de un overlay de apps (dev-python/proteus,
+# dev-javascript/*, ...). Aquí se consultan TODOS los instalados contra el árbol.
+HUERFANOS_HALLAZGO=$(sudo python3 - <<'PY' 2>/dev/null || true
+import os
+import portage
+
+pdb = portage.portdb
+vdb = "/var/db/pkg"
+missing = []
+for cat in sorted(os.listdir(vdb)):
+    if not os.path.isdir(os.path.join(vdb, cat)):
+        continue
+    for pf in sorted(os.listdir(os.path.join(vdb, cat))):
+        if not os.path.exists(os.path.join(vdb, cat, pf, pf + ".ebuild")):
+            continue
+        if not pdb.cpv_exists(f"{cat}/{pf}"):
+            missing.append(f"{cat}/{pf}")
+print(len(missing))
+for m in missing[:10]:
+    print(m)
+PY
+)
+HUERFANOS=$(printf '%s\n' "$HUERFANOS_HALLAZGO" | head -1)
+if [ "${HUERFANOS:-0}" -gt 0 ]; then
+  echo
+  echo "⚠️  $HUERFANOS paquete(s) instalados sin ebuild disponible en ningún repo:"
+  printf '%s\n' "$HUERFANOS_HALLAZGO" | tail -n +2 | sed 's/^/     /'
+  echo "   No se pueden reconstruir hasta recuperar el repo de origen (si es Tryton:"
+  echo "   sudo ~/.local/bin/recuperar-overlay-tryton.sh --force)."
+fi
+
 eselect news list | grep -q "read" && echo "(!) Hay noticias de Gentoo sin leer."
 
 # 3. Integridad de Portage
@@ -230,8 +305,7 @@ sudo updatedb
 # 9. Desmontaje
 echo "[9/9] Finalizando..."
 if [ "$BOOT_WAS_MOUNTED" -eq 0 ]; then
-  echo "Desmontando /boot de manera segura..."
-  sudo umount /boot || echo "⚠️ No se pudo desmontar /boot automáticamente."
+  echo "El trap de salida desmonta /boot."
 else
   echo "/boot se mantendrá montado tal como estaba al inicio."
 fi
