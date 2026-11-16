@@ -1,0 +1,134 @@
+#!/bin/bash
+# ocm — rota el modelo free de OpenCode sin abrir /models
+#
+# Los cuatro modelos free verificados (disponibles en Venezuela, sin cupo diario
+# publicado). LongCat queda fuera: su doc declara 100 requests/día.
+#
+# Uso:
+#   ocm              lista los modelos y marca el actual
+#   ocm next         rota al siguiente y abre opencode en la MISMA sesión
+#   ocm 3            abre opencode con el modelo 3
+#   ocm set 3        solo cambia el puntero, sin abrir nada
+#   ocm --current    imprime el selector actual (para scripts)
+#
+# Opciones extra se pasan tal cual a opencode:
+#   ocm next --new              sesión nueva en vez de continuar la última
+#   ocm 2 --auto "arreglá X"    sin pasar por el TUI
+#
+# Por qué relanza en vez de cambiar en caliente: el SDK sólo permite
+# session.update({title}) — no hay API para fijar el modelo de una sesión viva,
+# y el comando nativo `model_cycle` gira sobre los 401 modelos del catálogo.
+# `-c -m <otro>` conserva el contexto completo de la conversación (verificado).
+set -uo pipefail
+
+MODELS=(
+  "opencode/minimax-m3.1-flash-free"    # 1M ctx, 512k salida
+  "opencode/deepseek-v4.1-flash-free"   # el más sólido en código puro
+  "opencode/glm-5.3-flash-free"         # long-horizon agent tasks
+  "opencode/nemotron-3.5-super-vl-free" # visión, 1M ctx
+)
+NOTES=(
+  "1M contexto · el más rápido con tools (9s)"
+  "mejor en código puro · 200k contexto"
+  "agente de largo alcance · 200k contexto"
+  "visión + 1M contexto"
+)
+
+BIN="${HOME}/.opencode/bin/opencode"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/opencode-rotation"
+STATE="${STATE_DIR}/current"
+export TMPDIR="/var/tmp/tmpfs/opencode"
+
+mkdir -p "$TMPDIR" "$STATE_DIR" 2>/dev/null
+
+if [ ! -x "$BIN" ]; then
+  echo "ocm: no encuentro el binario en $BIN" >&2
+  exit 1
+fi
+
+idx=0
+if [ -r "$STATE" ]; then
+  read -r raw < "$STATE" || true
+  case "${raw:-}" in
+    ''|*[!0-9]*) idx=0 ;;
+    *) idx="$raw" ;;
+  esac
+fi
+[ "$idx" -ge "${#MODELS[@]}" ] && idx=0
+
+save() { printf '%s\n' "$1" > "$STATE"; }
+
+list() {
+  echo "Modelos free en rotación — actual: $((idx + 1))/${#MODELS[@]}"
+  echo
+  for i in "${!MODELS[@]}"; do
+    mark=" "
+    [ "$i" -eq "$idx" ] && mark="*"
+    printf '  %s %d) %-36s %s\n' "$mark" "$((i + 1))" "${MODELS[$i]}" "${NOTES[$i]}"
+  done
+  echo
+  echo "  ocm next   rota y abre · ocm N   elige uno · ocm set N   solo el puntero"
+}
+
+launch() {
+  local sel="${MODELS[$idx]}" cont=(-c) args=()
+  for a in "$@"; do
+    if [ "$a" = "--new" ]; then
+      cont=()
+    else
+      args+=("$a")
+    fi
+  done
+  echo "→ $sel"
+  if [ "${OCM_DRY:-0}" = "1" ]; then
+    printf 'OCM_DRY: %s' "$BIN"
+    printf ' %q' "${cont[@]}" -m "$sel" "${args[@]}"
+    printf '\n'
+    return 0
+  fi
+  exec "$BIN" "${cont[@]}" -m "$sel" "${args[@]}"
+}
+
+case "${1:-}" in
+  ""|list|-l|--list)
+    list
+    ;;
+  --current|-c)
+    echo "${MODELS[$idx]}"
+    ;;
+  next|-n)
+    shift
+    idx=$(((idx + 1) % ${#MODELS[@]}))
+    save "$idx"
+    launch "$@"
+    ;;
+  now|open)
+    shift
+    launch "$@"
+    ;;
+  set)
+    shift
+    n="${1:-}"
+    case "$n" in
+      1|2|3|4) ;;
+      *) echo "ocm set: usá 1, 2, 3 o 4" >&2; exit 1 ;;
+    esac
+    save "$((n - 1))"
+    echo "puntero → $n) ${MODELS[$((n - 1))]}"
+    ;;
+  [1-9])
+    n="$1"
+    shift
+    if [ "$n" -gt "${#MODELS[@]}" ]; then
+      echo "ocm: solo hay ${#MODELS[@]} modelos" >&2
+      exit 1
+    fi
+    idx=$((n - 1))
+    save "$idx"
+    launch "$@"
+    ;;
+  *)
+    echo "ocm: opción desconocida '${1}' (probá: ocm list)" >&2
+    exit 1
+    ;;
+esac

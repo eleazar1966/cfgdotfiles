@@ -16,7 +16,8 @@ export OSH='/home/eleazar/.oh-my-bash'
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
 #OSH_THEME="font"
-OSH_THEME="powerline-multiline"
+#OSH_THEME="powerline-multiline"
+OSH_THEME="zork"
 
 # If you set OSH_THEME to "random", you can ignore themes you don't like.
 # OMB_THEME_RANDOM_IGNORED=("powerbash10k" "wanelo")
@@ -195,12 +196,15 @@ export PATH=/home/eleazar/.opencode/bin:$PATH
 export PATH="${HOME}/.npm-global/bin:${PATH}"
 export TMPDIR=/var/tmp/tmpfs
 
-# OpenCode Free Models - API Keys (set these with your keys)
-export OPENROUTER_API_KEY="REDACTED_API_KEY"
-# export GEMINI_API_KEY="AIza..."
-# # export GROQ_API_KEY="gsk_..." (blocked in your region)
+# ocm — rotación de modelos free de OpenCode (script en ~/.local/bin/ocm)
+alias ocn='ocm next'
 
-export TOGETHER_API_KEY="tgp_..."  # https://api.together.xyz/settings/api-keys
+# OpenCode Free Models - API Keys
+# Las claves viven en ~/.config/opencode/credenciales (0600). NO van acá:
+# .bashrc está versionado en cfgdotfiles, que es un repo público.
+if [ -r "$HOME/.config/opencode/credenciales" ]; then
+    . "$HOME/.config/opencode/credenciales"
+fi
 
 # MikroTik (conectar.sh) — credenciales en archivo 0600, fuera del .bashrc
 if [ -r "$HOME/.config/mikrotik/credenciales" ]; then

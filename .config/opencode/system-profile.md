@@ -9,6 +9,9 @@
 > "Container runtime (Podman, rootless)" and "Tryton 8.2 test environment" sections.
 > The user speaks Spanish (Rioplatense); reply in Spanish in conversation, but keep
 > generated artifacts in English unless the user explicitly asks otherwise.
+> Re-verified 2026-11-15 (kernel 7.3.4, kernel modules, firewall): the
+> `fuse`/`tun`/`nf_tables` preload and its consequences — see the
+> "Kernel modules at boot" section.
 
 ## At a glance
 
@@ -74,7 +77,7 @@ and is updated **from this host** to take advantage of its CPU/RAM.
 - **DNS**: `net-dns/unbound` on `127.0.0.1:53` (local cache + DNSSEC) forwarding over **DNS-over-TLS** to Cloudflare (1.1.1.1/1.0.0.1 @853). All NM profiles point to `127.0.0.1`/`::1`, so the ISP never sees query names. Also exposed to the LAN `192.168.1.0/24` (nftables allows udp/tcp 53 from that subnet), but the ONT DHCP still hands out the ISP resolvers (`200.75.130.131/.132`), so no other device uses it yet. Config: `/etc/unbound/unbound.conf`.
 - **Router discovery (IPs are DHCP, never assume them)**: every address in the provider LAN is assigned by the ONT VSOL and can change without notice (it already moved `192.168.200.0/24` → `192.168.1.0/24`). Shared library **`/usr/local/lib/router-discovery.sh`** sweeps the active /24, classifies by MAC OUI (MikroTik / Linksys) and confirms MikroTik via port 8291; `rd_buscar <tipo> [intentos] [espera]` prints the current IP. Consumers: `~/.local/bin/conectar.sh` (loop, prefers MikroTik then Linksys), `/usr/local/sbin/ruta-mikrotik` (recomputes the `192.168.250.0/24` route, run at boot from `/etc/local.d/route-mikrotik.start`; re-run manually with `sudo ruta-mikrotik`). Only *subnets* are constants — `192.168.250.0/24` (MikroTik LAN, under our control) and the provider subnet, which is derived from the host's own IP at runtime. Credentials live in `~/.config/mikrotik/credenciales` (0600, sourced from `.bashrc`), never in scripts. The MikroTik rule `SSH WAN->LAN (conectar.sh)` self-heals if it points at an old subnet. `ssh virginia` goes **direct** to `192.168.250.193` (MikroTik LAN side), not through the dst-nat on 2223.
 - **`/tmp` is mounted `noexec`** (`rw,nosuid,nodev,noexec,noatime,size=4G`). Never put executables there — the shell silently falls back to the real binary in PATH. Use `mktemp` under `$TMPDIR` (`/var/tmp/tmpfs`) instead.
-- **Firewall**: nftables, service `nftables` active. Rules live in **`/var/lib/nftables/rules-save`** (there is NO `/etc/nftables.conf`); `NFTABLES_SAVE` in `/etc/conf.d/nftables`, loaded by the init script's `start_pre`. Input policy `drop`; established/related accepted; **SSH (22) rate-limited 5/min**; LocalSend (53317 tcp/udp, 40000), mDNS (5353); **DNS 53 udp/tcp from 192.168.1.0/24** (added 2026-10-27). Added 2026-10-12: **qBittorrent 28263 tcp/udp** inbound. Edit via `nft -c -f` (check) then `nft -f` (apply). Saved `ct state` values are numeric (0x2 established, 0x4 related, 0x8 new).
+- **Firewall**: nftables, service `nftables` active. Rules live in **`/var/lib/nftables/rules-save`** (there is NO `/etc/nftables.conf`); `NFTABLES_SAVE` in `/etc/conf.d/nftables`, loaded by the init script's `start_pre`. Input policy `drop`; established/related accepted; **SSH (22) rate-limited 5/min**; LocalSend (53317 tcp/udp, 40000), mDNS (5353); **DNS 53 udp/tcp from 192.168.1.0/24** (added 2026-10-27). Added 2026-10-12: **qBittorrent 28263 tcp/udp** inbound. Edit via `nft -c -f` (check) then `nft -f` (apply). Saved `ct state` values are numeric (0x2 established, 0x4 related, 0x8 new). **Dependency (2026-11-15):** the init script's `checkkernel` needs `nf_tables` already in memory (`nft list ruleset`); if it is not preloaded, `nftables` stays `stopped` and the ruleset is **EMPTY** (no `policy drop`, no rules) while the host still looks like it has a firewall. Verify with `rc-service nftables status` + `sudo nft list ruleset` after any kernel/module change.
 - **Do not confuse the TP-Link XX530v2 with this host's network**: the user stated it is a *test router*, NOT part of their network, and is not needed for anything. Ignore it in any networking reasoning.
 - **Sysctl hardening** (`/etc/sysctl.d/99-hardening.conf`): kptr_restrict=1, dmesg_restrict=1, unprivileged_bpf_disabled=2, ptrace_scope=1, syncookies=1, rp_filter=1 (v4 redirects=0, send_redirects=0, log_martians=1), and — added 2026-10-12 — **IPv6 `accept_redirects=0` (all + default)**.
 
@@ -94,10 +97,18 @@ and is updated **from this host** to take advantage of its CPU/RAM.
 ## Software stack
 
 ### Kernel
-- `7.2.10-gentoo-Ryzen7-5700G` #1 SMP PREEMPT_DYNAMIC, custom build (2026-10-11) (verified 2026-10-12)
-- `/usr/src/linux` → `linux-7.2.10-gentoo`; only source tree installed
-- `/boot` holds **two** kernels: 7.2.9 and 7.2.10 (`vmlinuz-*`, `initramfs-*.img`, `System.map-*`, `config-*`); `eclean-kernel -n 2` keeps both, so the older artifacts are retained though not tracked by portage
+- `7.3.4-gentoo-Ryzen7-5700G` — running kernel (verified 2026-11-15), custom build via `kernel-do.sh`. `/lib/modules` holds `7.3.3-gentoo-Ryzen7-5700G` and `7.3.4-gentoo-Ryzen7-5700G`
+- `/usr/src/linux` → `linux-7.3.4-gentoo`; only source tree installed
+- `/boot` is **not auto-mounted** (vfat ESP; `actualizar.sh` mounts it on demand). Kernel artifacts (`vmlinuz-*`, `initramfs-*.img`, `System.map-*`, `config-*`) live there — mount it to inspect them
 - Kernel build workflow script: `kernel-do.sh` in `~/.local/bin` (invoked automatically by `actualizar.sh` when it detects newer sources)
+
+### Kernel modules at boot (OpenRC `modules` service)
+- **`/etc/conf.d/modules` belongs to `sys-apps/openrc`** and sits inside `CONFIG_PROTECT=/etc`: portage does NOT overwrite it, but **`etc-update`** (run by `actualizar.sh` after every `emerge`) offers a merge against the factory file, and a careless accept silently wipes the `modules=` list. This already happened (2026-11-15): the file was back to all-commented, so **nothing** was preloaded.
+- Current list: `modules="fuse tun nf_tables nft_ct nft_limit nft_log nft_nat nf_nat nft_reject nft_reject_inet nft_fib nft_fib_ipv4 nft_fib_ipv6"` — verified against 7.3.4: all of them are real `.ko` files (none built-in), so `modprobe` never fails with "unknown parameter ... ignored".
+- **`/etc/local.d/fuse.start` is the durable guarantee**: `modprobe fuse` + `modprobe tun` at boot. `/etc/local.d/` is administered by no package (openrc only ships the README there), so no upgrade can revert it. The `local` service is enabled in the `default` runlevel.
+- `fuse` → every **AppImage type 2** (shadPS4 Qt Launcher, `Shadps4-sdl.AppImage`): without the module, `/dev/fuse` exists but `open()` returns `ENODEV` and the AppImage dies with `fuse: device not found, try 'modprobe fuse' first`.
+- `nf_tables` + `nft_*` → **the firewall dies silently without them**: `nftables`' `checkkernel` runs `nft list ruleset` and refuses to start if `nf_tables` is not in memory, leaving an EMPTY ruleset (no `policy drop`).
+- **Trap:** `modprobe`/`modinfo` **as a user** report `Module fuse not found in directory /lib/modules/...` even when the `.ko` exists — `/lib/modules/<kernel>` is `drwxr-x--- root`. Always `sudo modprobe`.
 
 ### Toolchain (verified 2026-10-12)
 - gcc 16.2.1_p20260926 (slot `x86_64-pc-linux-gnu-16`, active) · clang 23.1.3 · python 3.14.8 · node v26.11.1 · go 1.27.2 · rustc 1.99.0 · glibc 2.44-r3
@@ -156,7 +167,7 @@ and is updated **from this host** to take advantage of its CPU/RAM.
 ### Container runtime (Podman, rootless — installed 2026-10-12)
 - `app-containers/podman` **6.1.2** in `@world` (with crun, conmon, netavark, aardvark-dns, pasta/passt, fuse-overlayfs, catatonit). **Rootless only** — no rootful daemon.
 - subuid/subgid for `eleazar` = `100000:65536` in `/etc/subuid` + `/etc/subgid`.
-- **`tun` module is mandatory for pasta** (rootless default network): `CONFIG_TUN=m`, NOT auto-loaded → added `tun` to `modules=` in **`/etc/conf.d/modules`** (OpenRC `modules` service; backup `modules.bak.20261012`). Without it, `podman run` fails with `pasta failed ... Failed to open() /dev/net/tun: No such device`.
+- **`tun` module is mandatory for pasta** (rootless default network): `CONFIG_TUN=m`, NOT auto-loaded → `tun` is in `modules=` in **`/etc/conf.d/modules`** and additionally forced by **`/etc/local.d/fuse.start`**. It had been lost from the conf.d in the same clobber that killed `fuse` (2026-11-15) and is now restored in both places. Without it, `podman run` fails with `pasta failed ... Failed to open() /dev/net/tun: No such device`.
 - **No bridge networks and no pods on this box**: `podman network create` (bridge) fails with `Netlink error: Operation not supported`, and pod infra containers fail by rootless overlayfs-on-btrfs (`userxattr: no such device`). Use **`--network=host`** per container instead. Storage driver is `overlay` (native); only a benign warning about `/` not being a shared mount.
 - Image-user gotcha: rootless containers run under the userns; a host file mounted `600` shows as `root:root 600` inside, so a container running as a **non-root uid cannot read it** (e.g. the Tryton image runs as uid 999). Use `644` for plain read-only secret mounts.
 
@@ -176,7 +187,7 @@ and is updated **from this host** to take advantage of its CPU/RAM.
 - `~/.local/bin` (~25 scripts): `actualizar.sh`, `actualiza_gcc.sh`, `actualiza_git.sh`, `btrfs-salud.sh`, `conectar.sh`, `gentoo.sh`, `kernel-do.sh`, `respaldo.sh`, `moc-theme-apply.sh`, `niri-hide-scratch`, `opencode-wrapper.sh`, `setup-tryton.sh`, `tryton-local.sh`, `tryton-podman.sh`, `qemu-creator.sh`, `graba_video.sh`, `volume-notify`, and more
 - `~/tryton82/` — files for the containerized **Tryton 8.2 test env** (see above), incl. `admin.pass`
 - `~/.config`: DankMaterialShell, GIMP, Jackett, MusicBrainz, OpenRGB, Thunar, Vencord, beets, btop, cava, gtk-2/3/4, quickshell (via DMS)
-- Games/emulators in `~/Documentos/Juegos`: RPCS3, SHADPS4 (AppImage), HollowKnight — emulator `.desktop` files live in `~/.local/share/applications`
+- Games/emulators in `~/Documentos/Juegos`: RPCS3, SHADPS4 (AppImage), HollowKnight — emulator `.desktop` files live in `~/.local/share/applications`. The shadPS4 launcher is `~/Documentos/Juegos/SHADPS4/EMULADOR/shadPS4QtLauncher-qt.AppImage` (type 2 → needs the `fuse` module; it mounts under `/var/tmp/tmpfs/.mount_shadPS4*`) and manages its builds in `EMULADOR/VERSIONES/` (`Pre-release/Shadps4-sdl.AppImage` is the SDL build it auto-updates). It writes its settings to `~/.config/shadPS4/` — no sudo needed.
 - `~/Documentos`: personal documents (ISLR, familia Anzola, APN Digitel)
 - `/mnt/ssd` holds a disk-recovery project (`carve/`, `recup/`, `ausentes-real.txt`, `rec_hashes.tsv`, …) managed by the `carver-recuperacion` service
 - Backups: `~/backups-config-*` snapshots; `respaldo.sh` for user data
@@ -277,4 +288,5 @@ Verification recipe after any update:
 8. **Building the host while the `/mnt/gentoo` chroot also builds** saturates all 16 threads and pushes RAM to ~350 MiB free. It survives, but heavy parallel builds are risky. Prefer one build at a time.
 9. **Engram session ambiguity**: multiple `opencode` processes running against `/home/eleazar` make the Engram MCP write tools fail with "multiple active runtime sessions match". Workaround that works: the CLI, `engram save <title> <msg> --type <t> --project eleazar`, which writes to the project's manual-save session.
 10. **`notification-daemon` segfaults once per boot** (`x11-misc/notification-daemon-3.20.0-r1`, in `libX11`). It is benign: the daemon is D-Bus-activated, loses the `org.freedesktop.Notifications` name to DMS, and exits. It **cannot be cleanly uninstalled** — it is in `world` and satisfies `virtual/notification-daemon`, required by `x11-libs/libnotify` with no other provider installed. Leave it.
-11. **Rootless podman on this box cannot do bridge networks or pods** (Netlink/overlayfs-on-btrfs limitations) — use `--network=host` per container, and keep the `tun` module in `/etc/conf.d/modules` for pasta. Details in the "Container runtime (Podman, rootless)" section.
+11. **Rootless podman on this box cannot do bridge networks or pods** (Netlink/overlayfs-on-btrfs limitations) — use `--network=host` per container, and keep the `tun` module loaded for pasta (`/etc/local.d/fuse.start`). Details in the "Container runtime (Podman, rootless)" section.
+12. **AppImage type 2 needs the `fuse` module** (shadPS4 and any other type-2 AppImage). Symptom: `fuse: device not found, try 'modprobe fuse' first`. The root cause on this box is usually **NOT** a missing package: `/dev/fuse` exists as a device node but no driver is bound to it → `open()` returns `ENODEV`. Fix: `sudo modprobe fuse`, then confirm `/etc/conf.d/modules` still carries the `modules=` list **and** `/etc/local.d/fuse.start` exists. See "Kernel modules at boot".

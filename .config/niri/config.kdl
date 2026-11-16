@@ -107,7 +107,9 @@ screenshot-path "~/Imágenes/Screenshots/Screenshot desde %Y-%m-%d %H-%M-%S.png"
 // =============================================================================
 // Notificaciones y barra gestionados por DankMaterialShell (dms)
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
-spawn-at-startup "sh" "-c" "pkill xdg-desktop-portal; /usr/libexec/xdg-desktop-portal &"
+// Portal XDG: matar instancia previa por ruta completa. `pkill xdg-desktop-portal`
+// NO matchea nada: /proc/comm se trunca a 15 chars ("xdg-desktop-por").
+spawn-at-startup "sh" "-c" "pkill -f '^/usr/libexec/xdg-desktop-portal$'; sleep 0.5; /usr/libexec/xdg-desktop-portal &"
 spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
 // Wallpaper gestionado por DankMaterialShell (dms ipc call wallpaper * / dankdash)
 spawn-at-startup "dms" "run"

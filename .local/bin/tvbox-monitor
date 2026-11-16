@@ -1,0 +1,2110 @@
+#!/usr/bin/env python3
+"""tvbox-monitor - visibility and integrity monitor for TV boxes on a local LAN.
+
+What it can see (honest scope)
+------------------------------
+On a switched LAN where this host is not the gateway, only L2 broadcast and
+multicast are visible: ARP, DHCP, SSDP/UPnP, mDNS, NBNS/LLMNR and IPv6 ND/RA.
+Unicast traffic between a TV box and the router (streaming, HTTPS, QUIC, DNS)
+is NOT visible from here.
+
+What it actually detects
+------------------------
+  * inventory drift: new devices, IP/MAC changes, vendor/hostname changes
+  * exposed services: ADB (5555), telnet (23), SMB, VNC, RDP, web UIs
+  * L2 integrity attacks: gateway ARP conflict, duplicate IP claimants,
+    rogue DHCP servers, rogue IPv6 router advertisements, ARP storms
+  * device behaviour: SSDP M-SEARCH/NOTIFY bursts, DHCP fingerprints,
+    mDNS service names, UPnP device descriptors (make/model)
+  * optional: DNS query log analysis when devices use this host as resolver
+
+It never changes network state, never ARP-spoofs and never MITMs anything.
+
+Usage
+-----
+  tvbox-monitor discover            # ARP sweep + fingerprint + diff vs baseline
+  tvbox-monitor devices             # current inventory
+  tvbox-monitor report --hours 24   # findings + integrity summary
+  sudo tvbox-monitor watch          # continuous sniffer + periodic rescans
+  tvbox-monitor probe 192.168.1.43  # deep dive on one host
+  tvbox-monitor trust <mac|ip>      # mark as known/good
+
+Exit codes: 0 ok, 1 error, 3 findings at/above --fail-on severity.
+"""
+
+from __future__ import annotations
+
+import argparse
+import concurrent.futures as cf
+import ipaddress
+import json
+import os
+import pwd
+import re
+import shutil
+import signal
+import socket
+import struct
+import subprocess
+import sys
+import threading
+import time
+from collections import defaultdict, deque
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+APP = "tvbox-monitor"
+VERSION = "1.0.0"
+
+SEVERITY = {"info": 0, "low": 1, "medium": 2, "high": 3, "critical": 4}
+SEV_COLOR = {
+    "info": "\033[36m",
+    "low": "\033[32m",
+    "medium": "\033[33m",
+    "high": "\033[31m",
+    "critical": "\033[1;35m",
+}
+RESET = "\033[0m"
+
+# Ports worth checking on consumer/TV/IoT gear.
+PROBE_PORTS = [
+    21, 22, 23, 53, 80, 81, 139, 443, 445, 554, 631, 1883, 2049, 3306, 3389,
+    5000, 5357, 5432, 5555, 5900, 6467, 7000, 8000, 8008, 8009, 8060, 8080,
+    8081, 8443, 8888, 9000, 9090, 9100, 9999, 10000, 32400, 49152, 49153,
+    6379, 37777,
+]
+RISKY_PORTS = {
+    23: "high",        # telnet: cleartext remote shell
+    21: "medium",
+    139: "medium",
+    445: "medium",
+    3306: "medium",
+    3389: "high",
+    5432: "medium",
+    5555: "high",      # Android ADB: remote shell / install APKs
+    5900: "high",
+    6379: "high",
+    9999: "medium",
+    10000: "high",     # webmin
+    37777: "medium",   # Dahua/DVR
+    9100: "low",
+    22: "low",
+}
+
+TV_VENDOR_HINTS = (
+    "amazon", "roku", "google", "chromecast", "xiaomi", "hisense", "tcl",
+    "skyworth", "amlogic", "rockchip", "formuler", "mecool", "vizio", "nvidia",
+    "apple", "samsung", "lg electronics", "sony", "philips", "huawei", "zte",
+    "infomir", "zgemma", "dune", "magicsee", "ugoos", "minix", "beelink",
+)
+ROUTER_VENDOR_HINTS = (
+    "routerboard", "mikrotik", "tp-link", "tenda", "netgear", "d-link",
+    "belkin", "linksys", "ubiquiti", "asus", "zyxel", "huawei", "juniper",
+    "comtrend", "v-solution", "zhibotong", "cudy", "gl technologies", "mercury",
+)
+TV_MDNS_TYPES = (
+    "_googlecast", "_airplay", "_raop", "_amzn-wplay", "_roku-rcp",
+    "_androidtvremote2", "_adb-tls-connect", "_kodi", "_viziocast",
+    "_samsungmsf", "_lg-smart-share",
+)
+DOH_HOSTS = (
+    "dns.google", "cloudflare-dns.com", "mozilla.cloudflare-dns.com",
+    "doh.opendns.com", "dns.quad9.net", "doh.cleanbrowsing.org",
+    "nextdns.io", "doh.pub", "dns.adguard.com", "dns.nextdns.io",
+)
+SUSPICIOUS_TLDS = (
+    ".top", ".xyz", ".tk", ".ml", ".ga", ".cf", ".gq", ".work", ".click",
+    ".zip", ".mov", ".rest", ".buzz", ".cyou",
+)
+
+DEFAULT_CONFIG: dict[str, Any] = {
+    "_doc": "Run 'tvbox-monitor config --path'. Restart the daemon after edits.",
+    "interface": "auto",
+    "subnet": "auto",
+    "discover": {
+        "port_scan": True,
+        "probe_ssdp": True,
+        "probe_mdns": True,
+        "reverse_dns": True,
+        "port_timeout": 0.6,
+        "parallel": 48,
+    },
+    "watch": {
+        "scan_interval_seconds": 600,
+        "port_scan_interval_seconds": 3600,
+        "poll_seconds": 1.0,
+        "enable_sniffer": True,
+    },
+    "thresholds": {
+        "ssdp_requests_per_min": 120,
+        "arp_packets_per_min": 240,
+        "dhcp_servers_allowed": ["gateway"],
+        "event_cooldown_seconds": 3600,
+    },
+    "dns_log": {"enabled": False, "path": ""},
+    "blocklist": {"path": "", "domains": []},
+    "notify": {"enabled": False, "min_severity": "high"},
+    "trusted": [],
+    "ignored": [],
+}
+
+
+# --------------------------------------------------------------------------
+# small helpers
+# --------------------------------------------------------------------------
+
+def now() -> float:
+    return time.time()
+
+
+def fmt_ts(ts: float | None) -> str:
+    if not ts:
+        return "-"
+    return datetime.fromtimestamp(ts, timezone.utc).astimezone().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def fmt_age(ts: float | None) -> str:
+    if not ts:
+        return "-"
+    d = max(0, int(now() - ts))
+    if d < 60:
+        return f"{d}s"
+    if d < 3600:
+        return f"{d // 60}m"
+    if d < 86400:
+        return f"{d // 3600}h"
+    return f"{d // 86400}d"
+
+
+def is_root() -> bool:
+    return os.geteuid() == 0
+
+
+def owner_name() -> str:
+    return os.environ.get("SUDO_USER") or os.environ.get("TVBOX_MONITOR_OWNER") or ""
+
+
+def user_home() -> Path:
+    if is_root():
+        name = owner_name()
+        if name:
+            try:
+                return Path(pwd.getpwnam(name).pw_dir)
+            except KeyError:
+                pass
+    return Path.home()
+
+
+def chown_user(path: Path) -> None:
+    if not is_root():
+        return
+    name = owner_name()
+    if not name:
+        return
+    try:
+        pw = pwd.getpwnam(name)
+        os.chown(path, pw.pw_uid, pw.pw_gid)
+    except (KeyError, OSError):
+        pass
+
+
+def run(cmd: list[str], timeout: float = 10.0) -> subprocess.CompletedProcess | None:
+    try:
+        return subprocess.run(
+            cmd, capture_output=True, text=True, timeout=timeout, check=False
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+
+
+def have(tool: str) -> bool:
+    return shutil.which(tool) is not None
+
+
+def norm_mac(value: str | bytes) -> str:
+    if isinstance(value, bytes):
+        return ":".join(f"{b:02x}" for b in value[:6])
+    cleaned = re.sub(r"[^0-9a-fA-F]", "", value).lower()
+    if len(cleaned) < 12:
+        return ""
+    cleaned = cleaned[:12]
+    return ":".join(cleaned[i:i + 2] for i in range(0, 12, 2))
+
+
+def is_random_mac(mac: str) -> bool:
+    try:
+        first = int(mac.split(":")[0], 16)
+    except (ValueError, IndexError):
+        return False
+    return bool(first & 0x02) and not bool(first & 0x01)
+
+
+def is_multicast_mac(mac: str) -> bool:
+    try:
+        return bool(int(mac.split(":")[0], 16) & 0x01)
+    except (ValueError, IndexError):
+        return False
+
+
+def sev_rank(name: str) -> int:
+    return SEVERITY.get(name, 0)
+
+
+def color_sev(name: str, text: str) -> str:
+    if not sys.stdout.isatty():
+        return text
+    return f"{SEV_COLOR.get(name, '')}{text}{RESET}"
+
+
+# --------------------------------------------------------------------------
+# paths, configuration, state
+# --------------------------------------------------------------------------
+
+def config_path() -> Path:
+    env = os.environ.get("TVBOX_MONITOR_CONFIG")
+    if env:
+        return Path(env)
+    return user_home() / ".config" / "tvbox-monitor" / "config.json"
+
+
+def state_dir() -> Path:
+    env = os.environ.get("TVBOX_MONITOR_STATE")
+    if env:
+        return Path(env)
+    return user_home() / ".local" / "state" / "tvbox-monitor"
+
+
+def load_config() -> dict[str, Any]:
+    path = config_path()
+    cfg = json.loads(json.dumps(DEFAULT_CONFIG))
+    if path.exists():
+        try:
+            user_cfg = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"warning: cannot read {path}: {exc}", file=sys.stderr)
+            user_cfg = {}
+        merge(cfg, user_cfg)
+    else:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(cfg, indent=2) + "\n")
+        chown_user(path)
+        chown_user(path.parent)
+    return cfg
+
+
+def merge(base: dict, extra: dict) -> None:
+    for key, value in extra.items():
+        if isinstance(value, dict) and isinstance(base.get(key), dict):
+            merge(base[key], value)
+        else:
+            base[key] = value
+
+
+class Store:
+    """Thread-safe state + event journal."""
+
+    def __init__(self) -> None:
+        self.path = state_dir()
+        self.state_file = self.path / "state.json"
+        self.events_file = self.path / "events.jsonl"
+        self.lock = threading.RLock()
+        self.path.mkdir(parents=True, exist_ok=True)
+        chown_user(self.path)
+        if self.state_file.exists():
+            try:
+                self.state = json.loads(self.state_file.read_text())
+            except (OSError, json.JSONDecodeError):
+                self.state = self.fresh()
+        else:
+            self.state = self.fresh()
+        self.dirty = False
+        self.on_event = None  # optional callable(record) for live alerts
+
+    @staticmethod
+    def fresh() -> dict[str, Any]:
+        return {
+            "version": 1,
+            "created": now(),
+            "last_scan": 0.0,
+            "scan_count": 0,
+            "gateway": {"ip": "", "mac": "", "history": []},
+            "devices": {},
+            "ip_owners": {},
+            "cooldowns": {},
+            "dns": {"offset": 0, "inode": 0},
+        }
+
+    def save(self) -> None:
+        with self.lock:
+            tmp = self.state_file.with_suffix(".tmp")
+            tmp.write_text(json.dumps(self.state, indent=1, sort_keys=True))
+            chown_user(tmp)
+            os.replace(tmp, self.state_file)
+            self.dirty = False
+
+    def event(
+        self,
+        code: str,
+        severity: str,
+        message: str,
+        mac: str = "",
+        ip: str = "",
+        evidence: Any = None,
+        cooldown: int | None = None,
+    ) -> dict | None:
+        """Record an event unless it is inside its cooldown window."""
+        with self.lock:
+            key = f"{code}:{mac or ip or '*'}"
+            cd = cooldown
+            if cd is None:
+                cd = 1800 if severity == "critical" else 3600 if severity == "high" else 7200
+            last = self.state["cooldowns"].get(key, 0)
+            if now() - last < cd:
+                return None
+            self.state["cooldowns"][key] = now()
+            rec = {
+                "ts": now(),
+                "when": fmt_ts(now()),
+                "severity": severity,
+                "code": code,
+                "mac": mac,
+                "ip": ip,
+                "message": message,
+            }
+            if evidence is not None:
+                rec["evidence"] = evidence
+            line = json.dumps(rec, ensure_ascii=False)
+            try:
+                if self.events_file.exists() and self.events_file.stat().st_size > 20_000_000:
+                    os.replace(self.events_file, self.events_file.with_suffix(".jsonl.1"))
+                with self.events_file.open("a") as fh:
+                    fh.write(line + "\n")
+                chown_user(self.events_file)
+            except OSError:
+                pass
+            self.state["last_event"] = rec
+            callback = self.on_event
+        if callback:
+            try:
+                callback(rec)
+            except Exception:
+                pass
+        return rec
+
+    def device(self, mac: str) -> dict[str, Any]:
+        with self.lock:
+            devices = self.state["devices"]
+            if mac not in devices:
+                devices[mac] = {
+                    "mac": mac,
+                    "first_seen": now(),
+                    "last_seen": now(),
+                    "seen_count": 0,
+                    "ips": {},
+                    "vendor": "",
+                    "kind": "unknown",
+                    "hostname": "",
+                    "names": [],
+                    "ports": [],
+                    "services": {},
+                    "ssdp": {},
+                    "mdns": [],
+                    "dhcp": {},
+                    "random_mac": is_random_mac(mac),
+                    "trust": "unknown",
+                    "source": "",
+                }
+            return devices[mac]
+
+    def events(self, since: float = 0.0, limit: int = 500) -> list[dict]:
+        out: list[dict] = []
+        if not self.events_file.exists():
+            return out
+        try:
+            with self.events_file.open() as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        rec = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    if rec.get("ts", 0) >= since:
+                        out.append(rec)
+        except OSError:
+            return out
+        out.sort(key=lambda r: r.get("ts", 0), reverse=True)
+        return out[:limit]
+
+
+# --------------------------------------------------------------------------
+# OUI (MAC vendor) database
+# --------------------------------------------------------------------------
+
+_OUI: dict[str, str] | None = None
+_OUI_LOCK = threading.Lock()
+
+
+def oui_db() -> dict[str, str]:
+    global _OUI
+    with _OUI_LOCK:
+        if _OUI is not None:
+            return _OUI
+        db: dict[str, str] = {}
+        for path in ("/usr/share/nmap/nmap-mac-prefixes",
+                     "/usr/share/arp-scan/ieee-oui.txt",
+                     "/usr/share/ieee-data/oui.txt"):
+            file = Path(path)
+            if not file.exists():
+                continue
+            try:
+                for line in file.read_text(errors="replace").splitlines():
+                    line = line.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    parts = re.split(r"\s+|\t", line, maxsplit=1)
+                    if len(parts) != 2:
+                        continue
+                    prefix = re.sub(r"[^0-9A-Fa-f]", "", parts[0]).upper()
+                    if len(prefix) >= 6:
+                        db.setdefault(prefix[:6], parts[1].strip())
+            except OSError:
+                continue
+        _OUI = db
+        return db
+
+
+def oui_vendor(mac: str) -> str:
+    if not mac:
+        return ""
+    if is_random_mac(mac):
+        return "randomized MAC"
+    key = re.sub(r"[^0-9A-Fa-f]", "", mac).upper()[:6]
+    return oui_db().get(key, "")
+
+
+# --------------------------------------------------------------------------
+# network context
+# --------------------------------------------------------------------------
+
+def net_context(cfg: dict) -> tuple[str, str, ipaddress.IPv4Network | None, str]:
+    """Return (interface, gateway_ip, network, local_ip)."""
+    iface = cfg.get("interface") or "auto"
+    gw = ""
+    res = run(["ip", "-j", "route", "show", "default"], timeout=5)
+    if res and res.returncode == 0:
+        try:
+            routes = json.loads(res.stdout or "[]")
+            for route in routes:
+                if route.get("gateway") and route.get("dev"):
+                    if iface == "auto":
+                        iface = route["dev"]
+                    if route["dev"] == iface:
+                        gw = route["gateway"]
+                        break
+        except json.JSONDecodeError:
+            pass
+    if iface == "auto":
+        iface = "eth0"
+    local_ip = ""
+    network = None
+    res = run(["ip", "-j", "addr", "show", "dev", iface], timeout=5)
+    if res and res.returncode == 0:
+        try:
+            for link in json.loads(res.stdout or "[]"):
+                for info in link.get("addr_info", []):
+                    if info.get("family") == "inet" and info.get("local"):
+                        local_ip = info["local"]
+                        prefix = int(info.get("prefixlen", 24))
+                        network = ipaddress.ip_interface(
+                            f"{local_ip}/{prefix}"
+                        ).network
+                        break
+                if network:
+                    break
+        except (json.JSONDecodeError, ValueError):
+            pass
+    if cfg.get("subnet") and cfg["subnet"] != "auto":
+        try:
+            network = ipaddress.ip_network(cfg["subnet"], strict=False)
+        except ValueError:
+            pass
+    return iface, gw, network, local_ip
+
+
+def reverse_dns(ip: str) -> str:
+    if not have("getent"):
+        return ""
+    res = run(["getent", "hosts", ip], timeout=2.0)
+    if res and res.returncode == 0 and res.stdout.strip():
+        parts = res.stdout.split()
+        if len(parts) > 1:
+            return parts[1].rstrip(".")
+    return ""
+
+
+def arp_scan(iface: str) -> list[tuple[str, str, str]]:
+    if not have("arp-scan"):
+        return []
+    res = run(["arp-scan", f"--interface={iface}", "--localnet",
+               "--ignoredups", "--plain", "--retry=2"], timeout=90)
+    hosts: list[tuple[str, str, str]] = []
+    if res and res.stdout:
+        for line in res.stdout.splitlines():
+            parts = line.split("\t")
+            if len(parts) >= 2 and re.match(r"^\d+\.\d+\.\d+\.\d+$", parts[0]):
+                mac = norm_mac(parts[1])
+                if mac:
+                    hosts.append((parts[0], mac, parts[2].strip() if len(parts) > 2 else ""))
+    return hosts
+
+
+def ping_sweep(network: ipaddress.IPv4Network) -> list[tuple[str, str, str]]:
+    """Unprivileged fallback: ICMP sweep + neighbour table."""
+    hosts = list(network.hosts())
+    workers = min(128, max(16, len(hosts)))
+    with cf.ThreadPoolExecutor(max_workers=workers) as pool:
+        list(pool.map(lambda ip: run(["ping", "-c1", "-W1", "-n", "-q", str(ip)],
+                                     timeout=3.0), hosts))
+    return [(ip, mac, "") for ip, mac in neigh_table().items()]
+
+
+def neigh_table() -> dict[str, str]:
+    out: dict[str, str] = {}
+    res = run(["ip", "neigh", "show"], timeout=5)
+    if not res or res.returncode != 0:
+        return out
+    for line in res.stdout.splitlines():
+        parts = line.split()
+        if len(parts) >= 5 and parts[0].count(".") == 3 and parts[1] == "dev":
+            mac = norm_mac(parts[4])
+            if mac:
+                out[parts[0]] = mac
+    return out
+
+
+# --------------------------------------------------------------------------
+# active probing
+# --------------------------------------------------------------------------
+
+def tcp_scan(ip: str, ports: list[int], timeout: float, parallel: int) -> list[int]:
+    open_ports: list[int] = []
+
+    def probe(port: int) -> int | None:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        try:
+            if sock.connect_ex((ip, port)) == 0:
+                return port
+        except OSError:
+            return None
+        finally:
+            sock.close()
+        return None
+
+    with cf.ThreadPoolExecutor(max_workers=parallel) as pool:
+        for result in pool.map(probe, ports):
+            if result:
+                open_ports.append(result)
+    return sorted(open_ports)
+
+
+def http_probe(ip: str, port: int, timeout: float = 2.0) -> dict[str, str]:
+    info: dict[str, str] = {}
+    try:
+        sock = socket.create_connection((ip, port), timeout=timeout)
+        sock.settimeout(timeout)
+        host = f"{ip}:{port}"
+        sock.sendall(
+            f"GET / HTTP/1.0\r\nHost: {host}\r\nUser-Agent: tvbox-monitor/{VERSION}\r\n"
+            f"Connection: close\r\n\r\n".encode()
+        )
+        data = b""
+        while len(data) < 8192:
+            chunk = sock.recv(4096)
+            if not chunk:
+                break
+            data += chunk
+        sock.close()
+    except OSError:
+        return info
+    text = data.decode("latin-1", "replace")
+    head, _, body = text.partition("\r\n\r\n")
+    for line in head.splitlines():
+        if line.lower().startswith("server:"):
+            info["server"] = line.split(":", 1)[1].strip()
+        if line.lower().startswith("location:"):
+            info["location"] = line.split(":", 1)[1].strip()
+    title = re.search(r"<title[^>]*>(.*?)</title>", body, re.I | re.S)
+    if title:
+        info["title"] = re.sub(r"\s+", " ", title.group(1)).strip()[:120]
+    if not info:
+        first = head.splitlines()[0] if head else ""
+        if first:
+            info["banner"] = first[:120]
+    return info
+
+
+def _ssdp_msearch(st: str, dst: tuple[str, int], local_ip: str, wait: float) -> list[dict]:
+    msg = (
+        "M-SEARCH * HTTP/1.1\r\n"
+        "HOST: 239.255.255.250:1900\r\n"
+        'MAN: "ssdp:discover"\r\n'
+        "MX: 2\r\n"
+        f"ST: {st}\r\n"
+        f"USER-AGENT: tvbox-monitor/{VERSION}\r\n\r\n"
+    ).encode()
+    found: list[dict] = []
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    try:
+        sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 2)
+        if local_ip:
+            try:
+                sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF,
+                                socket.inet_aton(local_ip))
+            except OSError:
+                pass
+        sock.settimeout(0.4)
+        try:
+            sock.sendto(msg, dst)
+        except OSError:
+            return found
+        end = now() + wait
+        while now() < end:
+            try:
+                data, addr = sock.recvfrom(4096)
+            except socket.timeout:
+                continue
+            except OSError:
+                break
+            text = data.decode("latin-1", "replace")
+            headers: dict[str, str] = {}
+            for line in text.split("\r\n"):
+                if ":" in line:
+                    key, _, value = line.partition(":")
+                    headers[key.strip().upper()] = value.strip()
+            found.append({"ip": addr[0], **{k.lower(): v for k, v in headers.items()}})
+    finally:
+        sock.close()
+    return found
+
+
+def ssdp_probe(hosts: list[str], local_ip: str) -> dict[str, dict]:
+    responses: dict[str, dict] = {}
+    for st in ("ssdp:all", "upnp:rootdevice"):
+        for ip, info in [(r["ip"], r) for r in
+                         _ssdp_msearch(st, ("239.255.255.250", 1900), local_ip, 3.0)]:
+            responses.setdefault(ip, {}).update({k: v for k, v in info.items() if k != "ip"})
+    silent = [ip for ip in hosts if ip not in responses][:12]
+    if silent:
+        def unicast(ip: str) -> tuple[str, dict]:
+            hits = _ssdp_msearch("upnp:rootdevice", (ip, 1900), local_ip, 0.35)
+            return ip, hits[0] if hits else {}
+
+        with cf.ThreadPoolExecutor(max_workers=12) as pool:
+            for ip, hit in pool.map(unicast, silent):
+                if hit:
+                    responses.setdefault(ip, {}).update(
+                        {k: v for k, v in hit.items() if k != "ip"}
+                    )
+    # Resolve LOCATION descriptors (make/model/friendly name).
+    targets = [(ip, info.get("location", "")) for ip, info in responses.items()
+               if info.get("location", "").startswith(("http://", "https://"))]
+    with cf.ThreadPoolExecutor(max_workers=8) as pool:
+        for ip, xml in pool.map(lambda t: (t[0], fetch_xml(t[1])), targets[:16]):
+            if xml:
+                responses[ip]["descriptor"] = xml
+    return responses
+
+
+def fetch_xml(url: str) -> dict[str, str]:
+    try:
+        hostport = url.split("/")[2]
+        host = hostport.rsplit(":", 1)[0]
+        port = int(hostport.rsplit(":", 1)[1]) if ":" in hostport else 80
+        try:
+            addr = ipaddress.ip_address(host)
+            if not (addr.is_private or addr.is_loopback or addr.is_link_local):
+                return {}
+        except ValueError:
+            return {}
+        path = "/" + url.split("/", 3)[3] if url.count("/") >= 3 else "/"
+        sock = socket.create_connection((host, port), timeout=2.0)
+        sock.settimeout(2.0)
+        try:
+            sock.sendall(
+                f"GET {path} HTTP/1.0\r\nHost: {hostport}\r\n"
+                f"Connection: close\r\n\r\n".encode()
+            )
+            data = b""
+            while len(data) < 16384:
+                chunk = sock.recv(4096)
+                if not chunk:
+                    break
+                data += chunk
+        finally:
+            sock.close()
+    except (OSError, ValueError):
+        return {}
+    text = data.decode("latin-1", "replace")
+    out: dict[str, str] = {}
+    for tag in ("friendlyName", "manufacturer", "modelName", "modelDescription", "deviceType"):
+        match = re.search(rf"<{tag}>(.*?)</{tag}>", text, re.I | re.S)
+        if match:
+            out[tag] = re.sub(r"\s+", " ", match.group(1)).strip()[:160]
+    return out
+
+
+def _dns_name(data: bytes, off: int, depth: int = 0) -> tuple[str, int]:
+    if depth > 8 or off >= len(data):
+        raise ValueError("bad name")
+    labels: list[str] = []
+    while True:
+        if off >= len(data):
+            raise ValueError("eof")
+        length = data[off]
+        if length == 0:
+            off += 1
+            break
+        if length & 0xC0 == 0xC0:
+            if off + 1 >= len(data):
+                raise ValueError("ptr")
+            pointer = ((length & 0x3F) << 8) | data[off + 1]
+            sub, _ = _dns_name(data, pointer, depth + 1)
+            labels.append(sub)
+            off += 2
+            break
+        if length > 63 or off + 1 + length > len(data):
+            raise ValueError("label")
+        off += 1
+        labels.append(data[off:off + length].decode("latin-1"))
+        off += length
+    return ".".join(x for x in labels if x), off
+
+
+def dns_names(payload: bytes, limit: int = 40) -> list[str]:
+    """Extract DNS names from a packet payload (queries and PTR/SRV answers)."""
+    names: list[str] = []
+    try:
+        if len(payload) < 12:
+            return names
+        _, _, qd, an, _, _ = struct.unpack("!HHHHHH", payload[:12])
+        off = 12
+        for _ in range(min(qd, 8)):
+            name, off = _dns_name(payload, off)
+            off += 4
+            if name:
+                names.append(name)
+        for _ in range(min(an, 16)):
+            name, off = _dns_name(payload, off)
+            if off + 10 > len(payload):
+                break
+            rtype, _, ttl, rdlen = struct.unpack("!HHIH", payload[off:off + 10])
+            off += 10
+            if rtype in (5, 12, 33):
+                if rtype == 33:
+                    sub, _ = _dns_name(payload, off + 6)
+                else:
+                    sub, _ = _dns_name(payload, off)
+                if sub:
+                    names.append(sub)
+            off += rdlen
+    except (ValueError, struct.error):
+        pass
+    seen: set[str] = set()
+    out = []
+    for name in names:
+        name = name.strip(".")
+        if 3 < len(name) < 200 and re.match(r"^[A-Za-z0-9_.\-]+$", name) and name not in seen:
+            seen.add(name)
+            out.append(name)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def mdns_probe(local_ip: str) -> dict[str, list[str]]:
+    """Active mDNS query for service enumeration (avahi-daemon not required)."""
+    queries = [
+        "_services._dns-sd._udp.local",
+        "_googlecast._tcp.local",
+        "_airplay._tcp.local",
+        "_androidtvremote2._tcp.local",
+        "_adb-tls-connect._tcp.local",
+    ]
+    found: dict[str, list[str]] = defaultdict(list)
+
+    def build(name: str) -> bytes:
+        header = struct.pack("!HHHHHH", 0, 0, 1, 0, 0, 0)
+        qname = b"".join(bytes([len(part)]) + part.encode() for part in name.split(".")) + b"\x00"
+        return header + qname + struct.pack("!HH", 12, 1)
+
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    try:
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            sock.bind(("0.0.0.0", 5353))
+        except OSError:
+            pass
+        sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 2)
+        if local_ip:
+            try:
+                sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF,
+                                socket.inet_aton(local_ip))
+                sock.setsockopt(
+                    socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP,
+                    socket.inet_aton("224.0.0.251") + socket.inet_aton(local_ip),
+                )
+            except OSError:
+                pass
+        sock.settimeout(0.5)
+        for query in queries:
+            sock.sendto(build(query), ("224.0.0.251", 5353))
+        end = now() + 3.0
+        while now() < end:
+            try:
+                data, addr = sock.recvfrom(9000)
+            except socket.timeout:
+                continue
+            except OSError:
+                break
+            for name in dns_names(data):
+                if name not in found[addr[0]]:
+                    found[addr[0]].append(name)
+    finally:
+        sock.close()
+    return dict(found)
+
+
+# --------------------------------------------------------------------------
+# classification
+# --------------------------------------------------------------------------
+
+TV_KINDS = {"tvbox", "smart-tv", "android-device"}
+
+
+def classify(dev: dict[str, Any]) -> str:
+    vendor = (dev.get("vendor") or "").lower()
+    ports = set(dev.get("ports") or [])
+    raw = " ".join([
+        json.dumps(dev.get("ssdp") or {}).lower(),
+        " ".join(dev.get("mdns") or []).lower(),
+        dev.get("hostname", "").lower(),
+        (dev.get("dhcp") or {}).get("vendor_class", "").lower(),
+    ])
+    if 5555 in ports:
+        if (any(hint in vendor for hint in TV_VENDOR_HINTS)
+                or any(token in raw for token in
+                       ("androidtv", "android tv", "googletv", "amzn", "firetv",
+                        "googlecast", "android"))) or 8060 in ports:
+            return "tvbox"
+        return "android-device"
+    if any(tag in raw for tag in TV_MDNS_TYPES) or "googlecast" in raw:
+        return "tvbox" if 5555 in ports or "androidtv" in raw or "amzn" in raw else "smart-tv"
+    if "roku" in raw or 8060 in ports:
+        return "tvbox"
+    if "airplay" in raw or "raop" in raw or "appletv" in raw:
+        return "tvbox"
+    if any(hint in vendor for hint in TV_VENDOR_HINTS) and not any(
+        hint in vendor for hint in ("samsung", "lg electronics", "sony", "philips")
+    ):
+        return "tvbox"
+    for token in ("tv", "box", "firetv", "fire tv", "androidtv", "android tv",
+                  "magicsee", "mecool", "formuler", "zgemma"):
+        if token in raw:
+            return "tvbox"
+    if any(hint in vendor for hint in ROUTER_VENDOR_HINTS):
+        return "router-ap"
+    if any(name.startswith(("_ipp", "_printer", "_pdl-datastream"))
+           for name in (dev.get("mdns") or [])):
+        return "printer"
+    if 631 in ports or 9100 in ports:
+        return "printer"
+    if 554 in ports or 37777 in ports:
+        return "camera"
+    if {445, 2049} & ports and vendor and not any(h in vendor for h in ROUTER_VENDOR_HINTS):
+        return "nas-computer"
+    if dev.get("random_mac") and not ports:
+        return "phone"
+    if "samsung" in vendor or "xiaomi" in vendor or "huawei" in vendor:
+        return "phone-or-tablet"
+    if 22 in ports or 3389 in ports:
+        return "computer"
+    return "unknown"
+
+
+# --------------------------------------------------------------------------
+# discovery + enrichment
+# --------------------------------------------------------------------------
+
+def collect_hosts(cfg: dict, from_neigh: bool = False) -> tuple[list[tuple[str, str, str]], str, str, str]:
+    iface, gw, network, local_ip = net_context(cfg)
+    if from_neigh:
+        return [(ip, mac, "") for ip, mac in neigh_table().items()], iface, gw, local_ip
+    hosts: list[tuple[str, str, str]] = []
+    if is_root():
+        hosts = arp_scan(iface)
+    if not hosts and network is not None:
+        hosts = ping_sweep(network)
+    found = {ip: (ip, mac, vendor) for ip, mac, vendor in hosts}
+    for ip, mac in neigh_table().items():
+        found.setdefault(ip, (ip, mac, ""))
+    if network is not None:
+        found = {ip: v for ip, v in found.items() if ipaddress.ip_address(ip) in network}
+    return list(found.values()), iface, gw, local_ip
+
+
+def scan_once(cfg, store: Store, full: bool = True,
+              from_neigh: bool = False) -> dict[str, dict]:
+    hosts, iface, gw, local_ip = collect_hosts(cfg, from_neigh=from_neigh)
+    dcfg = cfg["discover"]
+    # Gateway identity first: everything integrity-related depends on it.
+    gw_mac = ""
+    for ip, mac, _ in hosts:
+        if ip == gw:
+            gw_mac = mac
+            break
+    with store.lock:
+        gwd = store.state["gateway"]
+        if gw and gwd.get("ip") != gw:
+            gwd["ip"] = gw
+        if gw_mac:
+            if not gwd.get("mac"):
+                gwd["mac"] = gw_mac
+            elif gwd["mac"] != gw_mac:
+                store.event(
+                    "gateway_mac_changed", "critical",
+                    f"gateway {gw} now answers with {gw_mac} (was {gwd['mac']})",
+                    mac=gw_mac, ip=gw,
+                    evidence={"old": gwd["mac"], "new": gw_mac},
+                )
+                gwd.setdefault("history", []).append(
+                    {"ts": now(), "mac": gwd["mac"], "replaced_by": gw_mac}
+                )
+                gwd["mac"] = gw_mac
+        store.state["gateway"] = gwd
+
+    ssdp = ssdp_probe([ip for ip, _, _ in hosts], local_ip) if dcfg.get("probe_ssdp") else {}
+    mdns = mdns_probe(local_ip) if dcfg.get("probe_mdns") else {}
+
+    def enrich(host: tuple[str, str, str]) -> dict[str, Any]:
+        ip, mac, vendor_db = host
+        dev = store.device(mac)
+        name = reverse_dns(ip) if dcfg.get("reverse_dns") else ""
+        with store.lock:
+            dev["seen_count"] += 1
+            dev["last_seen"] = now()
+            dev["source"] = "scan"
+            dev["ips"].setdefault(ip, {"first": now()})["last"] = now()
+            dev["vendor"] = dev.get("vendor") or oui_vendor(mac) or vendor_db
+            if name:
+                dev["hostname"] = name
+            if ip in ssdp:
+                dev["ssdp"] = {k: v for k, v in ssdp[ip].items() if k != "descriptor"}
+                if ssdp[ip].get("descriptor"):
+                    dev["ssdp"]["descriptor"] = ssdp[ip]["descriptor"]
+            if ip in mdns:
+                merged = list(dict.fromkeys((dev.get("mdns") or []) + mdns[ip]))
+                dev["mdns"] = merged[:40]
+        if dcfg.get("port_scan") and full:
+            ports = tcp_scan(ip, PROBE_PORTS, float(dcfg.get("port_timeout", 0.6)),
+                             int(dcfg.get("parallel", 48)))
+            services = dict(dev.get("services") or {})
+            for port in ports:
+                if port in (80, 8080, 8000, 8888, 9000, 81):
+                    info = http_probe(ip, port)
+                    if info:
+                        services[str(port)] = info
+            with store.lock:
+                dev["ports"] = ports
+                dev["services"] = services
+            if dev.get("ssdp") or dev.get("mdns") or not dev.get("hostname"):
+                dev["kind"] = classify(dev)
+        with store.lock:
+            if dev.get("kind") == "unknown":
+                dev["kind"] = classify(dev)
+            dev["random_mac"] = is_random_mac(mac)
+            if dev["trust"] == "unknown" and mac in (cfg.get("trusted") or []):
+                dev["trust"] = "trusted"
+            if mac in (cfg.get("ignored") or []):
+                dev["trust"] = "ignored"
+        return dev
+
+    with cf.ThreadPoolExecutor(max_workers=12) as pool:
+        list(pool.map(enrich, hosts))
+
+    with store.lock:
+        for ip, mac, _ in hosts:
+            store.state["ip_owners"][ip] = mac
+        store.state["last_scan"] = now()
+        store.state["scan_count"] += 1
+    reconcile(cfg, store)
+    store.save()
+    return {mac: store.state["devices"][mac] for _, mac, _ in hosts}
+
+
+def reconcile(cfg: dict, store: Store) -> None:
+    """Compare current state with previous observations and emit findings."""
+    with store.lock:
+        devices = store.state["devices"]
+        gw = store.state["gateway"].get("ip", "")
+        gw_mac = store.state["gateway"].get("mac", "")
+        seen = [d for d in devices.values() if now() - d.get("last_seen", 0) < 120]
+        by_ip = defaultdict(list)
+        for dev in seen:
+            for ip in (dev.get("ips") or {}):
+                by_ip[ip].append(dev)
+
+        for dev in seen:
+            mac = dev["mac"]
+            ips = sorted((dev.get("ips") or {}), key=lambda ip: (dev["ips"][ip].get("last", 0)))
+            ip = ips[-1] if ips else ""
+            if mac in (cfg.get("ignored") or []):
+                continue
+            if dev.get("trust") == "unknown" and dev.get("seen_count", 0) == 1 and len(ips) == 1:
+                sev = "medium" if dev.get("kind") in TV_KINDS else "info"
+                store.event(
+                    "new_device", sev,
+                    f"new device {ip} {mac} vendor={dev.get('vendor') or '?'} kind={dev.get('kind')}",
+                    mac=mac, ip=ip,
+                )
+            if len(ips) > 1:
+                store.event(
+                    "device_ip_changed", "info",
+                    f"{mac} seen on {len(ips)} addresses: {', '.join(ips[-4:])}",
+                    mac=mac, ip=ip,
+                )
+            risky = [p for p in (dev.get("ports") or []) if p in RISKY_PORTS]
+            if risky:
+                sev = max((RISKY_PORTS[p] for p in risky), key=sev_rank)
+                detail = ", ".join(map(str, risky))
+                if 5555 in risky:
+                    detail += " (ADB: remote shell/APK install from any LAN host)"
+                if 23 in risky:
+                    detail += " (telnet: cleartext remote shell)"
+                store.event(
+                    "exposed_services", sev,
+                    f"{ip} ({dev.get('kind')}) exposes {detail}",
+                    mac=mac, ip=ip, evidence={"ports": risky},
+                )
+            if mac != gw_mac and ip == gw:
+                store.event(
+                    "gateway_arp_conflict", "critical",
+                    f"{mac} claims the gateway address {gw} (expected {gw_mac})",
+                    mac=mac, ip=gw,
+                )
+            if dev.get("ssdp", {}).get("server", "").lower().find("upnp") >= 0 and ip == gw:
+                store.event(
+                    "gateway_upnp_exposed", "medium",
+                    f"gateway {gw} advertises UPnP ({dev['ssdp'].get('server')})",
+                    mac=mac, ip=ip,
+                )
+
+        for ip, claimants in by_ip.items():
+            macs = {d["mac"] for d in claimants}
+            if len(macs) > 1 and ip != gw:
+                fresh_random = any(is_random_mac(m) for m in macs)
+                if not fresh_random:
+                    store.event(
+                        "ip_claimed_by_second_mac", "high",
+                        f"{ip} is claimed by multiple MACs: {', '.join(sorted(macs))}",
+                        ip=ip, mac=sorted(macs)[0],
+                        evidence={"macs": sorted(macs)},
+                    )
+
+        for dev in devices.values():
+            age = now() - dev.get("last_seen", 0)
+            if age > 86400 and not dev.get("offline_notified"):
+                if dev.get("trust") != "ignored":
+                    store.event(
+                        "device_offline", "info",
+                        f"{dev['mac']} ({dev.get('kind')}) not seen for "
+                        f"{fmt_age(dev.get('last_seen'))}",
+                        mac=dev["mac"],
+                    )
+                dev["offline_notified"] = True
+            elif age < 300:
+                dev["offline_notified"] = False
+        store.dirty = True
+
+
+# --------------------------------------------------------------------------
+# passive sniffer
+# --------------------------------------------------------------------------
+
+class Sniffer(threading.Thread):
+    def __init__(self, store: Store, cfg: dict, iface: str, gw: str,
+                 own_mac: str = "") -> None:
+        super().__init__(daemon=True)
+        self.store = store
+        self.cfg = cfg
+        self.iface = iface
+        self.gw = gw
+        self.own_mac = own_mac
+        self.stop_event = threading.Event()
+        self.rates: dict[tuple[str, str], deque] = defaultdict(deque)
+        self.counts: dict[str, int] = defaultdict(int)
+        self.errors = 0
+        self.sock: socket.socket | None = None
+
+    def stop(self) -> None:
+        self.stop_event.set()
+
+    def close(self) -> None:
+        self.stop()
+        if self.sock:
+            try:
+                self.sock.close()
+            except OSError:
+                pass
+
+    def _rate(self, kind: str, mac: str, window: float = 60.0) -> int:
+        dq = self.rates[(kind, mac)]
+        dq.append(now())
+        while dq and now() - dq[0] > window:
+            dq.popleft()
+        return len(dq)
+
+    def run(self) -> None:
+        try:
+            self.sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW,
+                                      socket.htons(0x0003))
+            self.sock.bind((self.iface, 0))
+            self.sock.settimeout(1.0)
+        except OSError as exc:
+            self.errors += 1
+            print(f"sniffer disabled: {exc}", file=sys.stderr)
+            return
+        while not self.stop_event.is_set():
+            try:
+                frame = self.sock.recv(65535)
+            except socket.timeout:
+                continue
+            except OSError:
+                break
+            try:
+                self.handle(frame)
+            except Exception:  # never let one bad frame kill the sniffer
+                self.errors += 1
+
+    # -- frame handling ---------------------------------------------------
+    def handle(self, frame: bytes) -> None:
+        if len(frame) < 34:
+            return
+        dst = norm_mac(frame[0:6])
+        src = norm_mac(frame[6:12])
+        if is_multicast_mac(src) or src == "00:00:00:00:00:00":
+            return
+        if self.own_mac and src == self.own_mac:
+            return
+        ethertype = struct.unpack("!H", frame[12:14])[0]
+        offset = 14
+        if ethertype == 0x8100 and len(frame) > 18:
+            ethertype = struct.unpack("!H", frame[16:18])[0]
+            offset = 18
+        if ethertype == 0x0806:
+            self.on_arp(frame[offset:], src, dst)
+        elif ethertype == 0x0800:
+            self.on_ipv4(frame[offset:], src, dst)
+        elif ethertype == 0x86DD:
+            self.on_ipv6(frame[offset:], src, dst)
+
+    def on_arp(self, packet: bytes, src_mac: str, dst_mac: str) -> None:
+        if len(packet) < 28:
+            return
+        if packet[4] != 6 or packet[5] != 4:
+            return
+        op = struct.unpack("!H", packet[6:8])[0]
+        try:
+            sha = norm_mac(packet[8:14])
+            spa = socket.inet_ntoa(packet[14:18])
+            tpa = socket.inet_ntoa(packet[24:28])
+        except OSError:
+            return
+        if not sha:
+            return
+        count = self._rate("arp", sha)
+        threshold = int(self.cfg["thresholds"].get("arp_packets_per_min", 240))
+        if count == threshold + 1:
+            self.store.event(
+                "arp_storm", "medium",
+                f"{sha} sent {count}+ ARP packets in 60s (threshold {threshold})",
+                mac=sha,
+            )
+        gw_mac = self.store.state["gateway"].get("mac", "")
+        if self.gw and gw_mac:
+            if spa == self.gw and sha != gw_mac:
+                self.store.event(
+                    "gateway_arp_conflict", "critical",
+                    f"{sha} claims gateway IP {self.gw} via ARP (expected {gw_mac})",
+                    mac=sha, ip=self.gw,
+                )
+            if tpa == self.gw and op == 2 and sha != gw_mac and spa != "0.0.0.0":
+                self.store.event(
+                    "gateway_arp_conflict", "critical",
+                    f"{sha} answers ARP for gateway {self.gw} (expected {gw_mac})",
+                    mac=sha, ip=self.gw,
+                )
+        if op == 2 and spa == tpa and sha:
+            day_key = f"grat:{sha}"
+            self.counts[day_key] += 1
+            if self.counts[day_key] == 20:
+                self.store.event(
+                    "gratuitous_arp_burst", "low",
+                    f"{sha} keeps sending gratuitous ARP ({self.counts[day_key]}+)",
+                    mac=sha, ip=spa,
+                )
+        if sha == gw_mac and op == 2 and spa and spa != self.gw:
+            # Router answering for another address may be proxy ARP; only note it.
+            pass
+
+    def on_ipv4(self, packet: bytes, src_mac: str, dst_mac: str) -> None:
+        if len(packet) < 20:
+            return
+        ihl = (packet[0] & 0x0F) * 4
+        proto = packet[9]
+        total = struct.unpack("!H", packet[2:4])[0]
+        try:
+            src_ip = socket.inet_ntoa(packet[12:16])
+        except OSError:
+            return
+        if proto != 17 or len(packet) < ihl + 8:
+            return
+        sport, dport, ulen, _ = struct.unpack("!HHHH", packet[ihl:ihl + 8])
+        payload = packet[ihl + 8:min(total, len(packet))]
+        if 67 in (sport, dport) or 68 in (sport, dport):
+            self.on_dhcp(payload, src_mac, sport, dport)
+        elif dport == 1900 or sport == 1900:
+            self.on_ssdp(payload, src_mac, src_ip)
+        elif dport == 5353 or sport == 5353:
+            for name in dns_names(payload, limit=6):
+                if name.endswith(".local") or name.startswith("_"):
+                    dev = self.store.device(src_mac)
+                    with self.store.lock:
+                        if name not in (dev.get("mdns") or []):
+                            dev.setdefault("mdns", []).append(name)
+                            dev["mdns"] = dev["mdns"][-40:]
+                            if dev.get("kind") == "unknown":
+                                dev["kind"] = classify(dev)
+                            dev["last_seen"] = now()
+                            dev.setdefault("ips", {}).setdefault(src_ip, {"first": now()})["last"] = now()
+                    break
+        elif dport == 137 or dport == 5355:
+            self._rate("nbns", src_mac)
+
+    def on_dhcp(self, payload: bytes, src_mac: str, sport: int, dport: int) -> None:
+        if len(payload) < 240:
+            return
+        try:
+            chaddr = norm_mac(payload[28:34])
+            cookie = payload[236:240]
+        except (IndexError, ValueError):
+            return
+        if cookie != b"\x63\x82\x53\x63":
+            return
+        options: dict[int, bytes] = {}
+        idx = 240
+        while idx < len(payload):
+            code = payload[idx]
+            if code == 0:
+                idx += 1
+                continue
+            if code == 255 or idx + 1 >= len(payload):
+                break
+            length = payload[idx + 1]
+            options[code] = payload[idx + 2:idx + 2 + length]
+            idx += 2 + length
+        msg_type = options.get(53, b"\x00")[0]
+        mac = chaddr or src_mac
+        dev = self.store.device(mac)
+        hostname = options.get(12, b"").decode("latin-1", "replace").strip("\x00")
+        vendor_class = options.get(60, b"").decode("latin-1", "replace").strip("\x00")
+        param_req = ",".join(map(str, options.get(55, b"")))
+        with self.store.lock:
+            dhcp = dev.setdefault("dhcp", {})
+            changed = False
+            if hostname and dhcp.get("hostname") != hostname:
+                if dhcp.get("hostname"):
+                    store_evt = ("dhcp_hostname_changed", "low",
+                                 f"{mac} changed DHCP hostname '{dhcp['hostname']}' -> '{hostname}'")
+                else:
+                    store_evt = None
+                dhcp["hostname"] = hostname
+                if hostname not in (dev.get("names") or []):
+                    dev.setdefault("names", []).append(hostname)
+                changed = True
+                if store_evt:
+                    self.store.event(*store_evt, mac=mac)
+            if vendor_class:
+                dhcp["vendor_class"] = vendor_class
+            if param_req:
+                if dhcp.get("param_req") and dhcp["param_req"] != param_req:
+                    self.store.event(
+                        "dhcp_fingerprint_changed", "medium",
+                        f"{mac} DHCP option-55 fingerprint changed "
+                        f"({dhcp['param_req']} -> {param_req})",
+                        mac=mac,
+                    )
+                dhcp["param_req"] = param_req
+            dhcp["last"] = now()
+            dev["last_seen"] = now()
+            dev["source"] = dev.get("source") or "passive"
+            if dev.get("kind") == "unknown":
+                dev["kind"] = classify(dev)
+            changed = changed or True
+        if msg_type in (2, 5, 6):
+            server = ""
+            if 54 in options:
+                try:
+                    server = socket.inet_ntoa(options[54][:4])
+                except OSError:
+                    server = ""
+            if not server:
+                try:
+                    server = socket.inet_ntoa(payload[20:24])
+                except OSError:
+                    server = ""
+            allowed = {self.gw} if self.gw else set()
+            allowed.update(
+                ip for ip in self.cfg["thresholds"].get("dhcp_servers_allowed", [])
+                if re.match(r"^\d+\.\d+\.\d+\.\d+$", str(ip))
+            )
+            if server and server not in allowed:
+                self.store.event(
+                    "rogue_dhcp", "critical",
+                    f"DHCP server {server} answered (allowed: {', '.join(sorted(allowed)) or 'gateway'})",
+                    mac=mac, ip=server,
+                )
+
+    def on_ssdp(self, payload: bytes, src_mac: str, src_ip: str) -> None:
+        count = self._rate("ssdp", src_mac)
+        threshold = int(self.cfg["thresholds"].get("ssdp_requests_per_min", 120))
+        dev = self.store.device(src_mac)
+        with self.store.lock:
+            dev["last_seen"] = now()
+            dev["source"] = dev.get("source") or "passive"
+            dev.setdefault("ips", {}).setdefault(src_ip, {"first": now()})["last"] = now()
+        text = payload.decode("latin-1", "replace")
+        first = text.split("\r\n", 1)[0].upper()
+        headers = {}
+        for line in text.split("\r\n"):
+            if ":" in line:
+                key, _, value = line.partition(":")
+                headers[key.strip().upper()] = value.strip()
+        if "M-SEARCH" in first:
+            st = headers.get("ST", "")
+            ua = headers.get("USER-AGENT", "")
+            with self.store.lock:
+                ssdp = dev.setdefault("ssdp", {})
+                if st and st not in (ssdp.get("searches") or []):
+                    ssdp.setdefault("searches", []).append(st)
+                    ssdp["searches"] = ssdp["searches"][-12:]
+                if ua and ssdp.get("user_agent") != ua:
+                    ssdp["user_agent"] = ua
+                if dev.get("kind") == "unknown":
+                    dev["kind"] = classify(dev)
+        elif "NOTIFY" in first:
+            with self.store.lock:
+                ssdp = dev.setdefault("ssdp", {})
+                nt = headers.get("NT", "")
+                if nt and nt not in (ssdp.get("notifies") or []):
+                    ssdp.setdefault("notifies", []).append(nt)
+                    ssdp["notifies"] = ssdp["notifies"][-12:]
+                for key, field in (("SERVER", "server"), ("USN", "usn"),
+                                   ("LOCATION", "location")):
+                    if headers.get(key):
+                        ssdp[field] = headers[key][:200]
+                if dev.get("kind") == "unknown":
+                    dev["kind"] = classify(dev)
+        if count == threshold + 1:
+            ua = headers.get("USER-AGENT", "")
+            self.store.event(
+                "ssdp_flood", "medium",
+                f"{src_ip} sent {count}+ SSDP packets in 60s "
+                f"(threshold {threshold}){f' ua={ua[:60]}' if ua else ''}",
+                mac=src_mac, ip=src_ip,
+            )
+
+    def on_ipv6(self, packet: bytes, src_mac: str, dst_mac: str) -> None:
+        if len(packet) < 40:
+            return
+        next_header = packet[6]
+        if next_header != 58:
+            return
+        icmp = packet[40:]
+        if not icmp:
+            return
+        try:
+            src_ip = socket.inet_ntop(socket.AF_INET6, packet[8:24])
+        except OSError:
+            return
+        if icmp[0] == 134:  # router advertisement
+            gw_mac = self.store.state["gateway"].get("mac", "")
+            if gw_mac and src_mac != gw_mac:
+                self.store.event(
+                    "rogue_ra", "high",
+                    f"IPv6 router advertisement from {src_mac} ({src_ip}), "
+                    f"gateway is {gw_mac}",
+                    mac=src_mac,
+                )
+        elif icmp[0] in (135, 136):
+            self._rate("nd", src_mac)
+
+
+# --------------------------------------------------------------------------
+# optional DNS log analysis
+# --------------------------------------------------------------------------
+
+DNS_LINE = re.compile(
+    r"info:\s+(?P<client>\d+\.\d+\.\d+\.\d+)\s+(?P<qname>\S+)\s+(?P<qtype>\S+)"
+)
+_BLOCKLIST_CACHE: dict[str, tuple[float, set[str]]] = {}
+
+
+def load_blocklist(cfg: dict) -> set[str]:
+    domains = set(cfg["blocklist"].get("domains") or [])
+    path = cfg["blocklist"].get("path")
+    if not path:
+        return domains
+    file = Path(path)
+    try:
+        mtime = file.stat().st_mtime
+    except OSError:
+        return domains
+    cached = _BLOCKLIST_CACHE.get(path)
+    if cached and cached[0] == mtime:
+        return domains | cached[1]
+    try:
+        entries = {
+            line.strip().lower() for line in file.read_text(errors="replace").splitlines()
+            if line.strip() and not line.startswith("#")
+        }
+    except OSError:
+        return domains
+    _BLOCKLIST_CACHE[path] = (mtime, entries)
+    return domains | entries
+
+
+def dns_heuristics(qname: str, cfg: dict) -> tuple[str, str] | None:
+    name = qname.rstrip(".").lower()
+    blocklist = load_blocklist(cfg)
+    for entry in blocklist:
+        if name == entry or name.endswith("." + entry):
+            return ("dns_blocklisted", f"blocklisted domain queried: {name}")
+    if any(name == host or name.endswith("." + host) for host in DOH_HOSTS):
+        return ("dns_doh_bypass", f"DNS-over-HTTPS endpoint contacted: {name}")
+    longest = max((len(label) for label in name.split(".")), default=0)
+    alnum = re.sub(r"[^a-z0-9]", "", name.split(".")[0])
+    if longest >= 32 or (len(alnum) >= 20 and len(set(alnum)) >= 14 and
+                         not re.search(r"[aeiou]{2,}", alnum)):
+        return ("dns_dga_suspect", f"possible DGA-style lookup: {name}")
+    if any(name.endswith(tld) for tld in SUSPICIOUS_TLDS):
+        return ("dns_suspicious_tld", f"lookup on watchlisted TLD: {name}")
+    return None
+
+
+def tail_dns_log(store: Store, cfg: dict) -> int:
+    settings = cfg.get("dns_log") or {}
+    if not settings.get("enabled") or not settings.get("path"):
+        return 0
+    path = Path(settings["path"])
+    if not path.exists():
+        return 0
+    try:
+        stat = path.stat()
+    except OSError:
+        return 0
+    with store.lock:
+        dns = store.state.setdefault("dns", {"offset": 0, "inode": 0})
+        if dns.get("inode") != stat.st_ino or stat.st_size < dns.get("offset", 0):
+            dns["offset"] = 0
+        dns["inode"] = stat.st_ino
+        offset = dns["offset"]
+    handled = 0
+    try:
+        with path.open("rb") as fh:
+            fh.seek(offset)
+            for raw_line in fh:
+                offset += len(raw_line)
+                line = raw_line.decode("utf-8", "replace")
+                match = DNS_LINE.search(line)
+                if not match:
+                    continue
+                qname = match.group("qname")
+                client = match.group("client")
+                hit = dns_heuristics(qname, cfg)
+                if hit:
+                    code, message = hit
+                    severity = {"dns_blocklisted": "high", "dns_doh_bypass": "medium",
+                                "dns_dga_suspect": "high",
+                                "dns_suspicious_tld": "low"}[code]
+                    store.event(code, severity, f"{client}: {message}", ip=client,
+                                evidence={"qname": qname})
+                    handled += 1
+    except OSError:
+        return handled
+    with store.lock:
+        store.state["dns"]["offset"] = offset
+        store.state.setdefault("dns", {})["last_tail"] = now()
+    return handled
+
+
+# --------------------------------------------------------------------------
+# notifications
+# --------------------------------------------------------------------------
+
+def notify(title: str, body: str, severity: str) -> None:
+    if not have("notify-send"):
+        return
+    urgency = "critical" if severity in ("critical", "high") else "normal"
+    su = owner_name()
+    if is_root() and su:
+        try:
+            uid = pwd.getpwnam(su).pw_uid
+        except KeyError:
+            return
+        cmd = ["runuser", "-u", su, "--", "notify-send", "-a", APP, "-u", urgency, title, body]
+        env = {"DBUS_SESSION_BUS_ADDRESS": f"unix:path=/run/user/{uid}/bus"}
+        try:
+            subprocess.run(cmd, env={**os.environ, **env}, timeout=5,
+                           capture_output=True, check=False)
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+    elif os.environ.get("DBUS_SESSION_BUS_ADDRESS") or os.environ.get("DISPLAY"):
+        run(["notify-send", "-a", APP, "-u", urgency, title, body], timeout=5)
+
+
+# --------------------------------------------------------------------------
+# commands
+# --------------------------------------------------------------------------
+
+def print_device_table(store: Store) -> None:
+    devices = sorted(store.state["devices"].values(), key=lambda d: d.get("last_seen", 0), reverse=True)
+    if not devices:
+        print("No devices recorded yet. Run: sudo tvbox-monitor discover")
+        return
+    print(f"{'IP':<15} {'MAC':<18} {'KIND':<16} {'TRUST':<8} {'SEEN':>5} "
+          f"{'PORTS':<24} VENDOR/NAME")
+    print("-" * 120)
+    for dev in devices:
+        ips = dev.get("ips") or {}
+        ip = max(ips, key=lambda k: ips[k].get("last", 0)) if ips else "-"
+        ports = ",".join(map(str, (dev.get("ports") or [])[:8])) or "-"
+        label = dev.get("vendor") or dev.get("hostname") or ""
+        if dev.get("ssdp", {}).get("descriptor", {}).get("modelName"):
+            label = dev["ssdp"]["descriptor"]["modelName"]
+        if dev.get("random_mac"):
+            label = (label + " [random mac]").strip()
+        print(f"{ip:<15} {dev['mac']:<18} {dev.get('kind','unknown'):<16} "
+              f"{dev.get('trust','unknown'):<8} {dev.get('seen_count',0):>5} "
+              f"{ports:<24} {label[:36]}")
+
+
+def active_findings(store: Store, since: float) -> list[dict]:
+    events = store.events(since=since, limit=1000)
+    events.sort(key=lambda r: (sev_rank(r.get("severity", "")), r.get("ts", 0)),
+                reverse=True)
+    return events
+
+
+def cmd_discover(cfg: dict, args: argparse.Namespace) -> int:
+    store = Store()
+    found = scan_once(cfg, store, full=not args.no_ports,
+                      from_neigh=args.from_neigh)
+    if args.json:
+        print(json.dumps({"scanned": len(found), "devices": found}, indent=2, default=str))
+    else:
+        print_device_table(store)
+        print()
+        print(f"Scanned {len(found)} host(s) on {cfg.get('interface', 'auto')}. "
+              f"State: {state_dir()}")
+        if not is_root():
+            print("note: run with sudo for a complete ARP sweep (unprivileged mode "
+                  "misses hosts that ignore IMCP).")
+    if args.fail_on:
+        since = now() - 3600
+        worst = max((sev_rank(e["severity"]) for e in active_findings(store, since)), default=0)
+        if worst >= sev_rank(args.fail_on):
+            return 3
+    return 0
+
+
+def cmd_watch(cfg: dict, args: argparse.Namespace) -> int:
+    store = Store()
+    iface, gw, network, _ = net_context(cfg)
+    wcfg = cfg["watch"]
+
+    def live(record: dict) -> None:
+        print_event(record)
+        notify_severity(cfg, record)
+
+    store.on_event = live
+    own_mac = ""
+    try:
+        own_mac = norm_mac(Path(f"/sys/class/net/{iface}/address").read_text().strip())
+    except OSError:
+        pass
+    sniffer = None
+    if wcfg.get("enable_sniffer") and not args.no_sniff:
+        if is_root():
+            sniffer = Sniffer(store, cfg, iface, gw, own_mac=own_mac)
+            sniffer.start()
+            print(f"sniffer active on {iface}")
+        else:
+            print("warning: not root, passive sniffer disabled (run with sudo for L2 "
+                  "integrity checks)", file=sys.stderr)
+    last_full = 0.0
+    last_scan = 0.0
+    last_save = 0.0
+    stop = threading.Event()
+
+    def on_signal(signum, _frame):
+        stop.set()
+
+    signal.signal(signal.SIGTERM, on_signal)
+    signal.signal(signal.SIGINT, on_signal)
+    deadline = now() + args.duration if args.duration else None
+    print(f"watching (scan every {wcfg.get('scan_interval_seconds')}s); Ctrl-C to stop")
+    try:
+        while not stop.is_set():
+            if deadline and now() >= deadline:
+                break
+            if not args.no_scan and now() - last_scan >= wcfg.get("scan_interval_seconds", 600):
+                full = now() - last_full >= wcfg.get("port_scan_interval_seconds", 3600)
+                before = store.state["scan_count"]
+                scan_once(cfg, store, full=full)
+                last_scan = now()
+                if full:
+                    last_full = now()
+                if store.state["scan_count"] != before:
+                    print(f"[{fmt_ts(now())}] scan #{store.state['scan_count']} "
+                          f"({len(store.state['devices'])} devices)")
+            tail_dns_log(store, cfg)
+            if now() - last_save >= 30:
+                store.save()
+                last_save = now()
+            stop.wait(float(wcfg.get("poll_seconds", 1.0)))
+    finally:
+        if sniffer:
+            sniffer.close()
+        store.save()
+        print("stopped; state saved")
+    return 0
+
+
+def print_event(event: dict) -> None:
+    sev = event.get("severity", "info")
+    print(f"[{event.get('when','')}] {color_sev(sev, sev.upper()):<10} "
+          f"{event.get('code',''):<24} {event.get('message','')}")
+
+
+def notify_severity(cfg: dict, event: dict) -> None:
+    settings = cfg.get("notify") or {}
+    if not settings.get("enabled"):
+        return
+    if sev_rank(event.get("severity", "info")) >= sev_rank(settings.get("min_severity", "high")):
+        notify(f"{APP}: {event.get('severity')}", event.get("message", ""),
+               event.get("severity", "info"))
+
+
+def cmd_report(cfg: dict, args: argparse.Namespace) -> int:
+    store = Store()
+    hours = args.hours
+    since = 0 if args.all else now() - hours * 3600
+    events = active_findings(store, since)
+    devices = store.state["devices"]
+    if args.json:
+        print(json.dumps({"gateway": store.state["gateway"],
+                          "devices": devices,
+                          "events": events}, indent=2, default=str))
+        return 0
+    gwd = store.state["gateway"]
+    print(f"== {APP} report ==")
+    print(f"gateway   : {gwd.get('ip','?')} {gwd.get('mac','?')}")
+    print(f"last scan : {fmt_ts(store.state.get('last_scan'))} "
+          f"(#{store.state.get('scan_count',0)}, {len(devices)} devices)")
+    tv_like = [d for d in devices.values() if d.get("kind") in TV_KINDS]
+    print(f"tv devices: {len(tv_like)}")
+    print()
+    print("-- devices --")
+    print_device_table(store)
+    print()
+    print(f"-- findings ({'all time' if args.all else f'last {hours}h'}) --")
+    if not events:
+        print("none")
+    else:
+        counts: dict[str, int] = defaultdict(int)
+        for event in events:
+            counts[event["severity"]] += 1
+        print("counts: " + ", ".join(f"{k}={counts[k]}" for k in
+                                    ("critical", "high", "medium", "low", "info")
+                                    if counts.get(k)))
+        for event in events[: args.limit]:
+            print_event(event)
+        if len(events) > args.limit:
+            print(f"... {len(events) - args.limit} more (use --limit)")
+    print()
+    print("-- integrity --")
+    integrity_summary(store, events)
+    print()
+    print("-- visibility limits --")
+    print("Broadcast/multicast only (ARP, DHCP, SSDP, mDNS, NBNS, IPv6 RA).")
+    print("Unicast traffic to the internet is invisible from this host; enable")
+    print("dns_log or mirror a port to go deeper (see 'tvbox-monitor limits').")
+    if args.fail_on:
+        worst = max((sev_rank(e["severity"]) for e in events), default=0)
+        if worst >= sev_rank(args.fail_on):
+            return 3
+    return 0
+
+
+def integrity_summary(store: Store, events: list[dict]) -> None:
+    codes = {e.get("code") for e in events}
+    checks = [
+        ("gateway identity stable", "gateway_mac_changed" not in codes
+         and "gateway_arp_conflict" not in codes),
+        ("no rogue DHCP server", "rogue_dhcp" not in codes),
+        ("no rogue IPv6 router advertisement", "rogue_ra" not in codes),
+        ("no duplicated IP claims", "ip_claimed_by_second_mac" not in codes),
+        ("no exposed ADB/telnet/VNC/RDP", "exposed_services" not in codes),
+        ("no SSDP/ARP floods", not (codes & {"ssdp_flood", "arp_storm"})),
+    ]
+    for label, ok in checks:
+        print(f"  [{'ok' if ok else 'FAIL'}] {label}")
+    tv = [d for d in store.state["devices"].values()
+          if d.get("kind") in TV_KINDS]
+    risky = [(d, [p for p in d.get("ports", []) if p in RISKY_PORTS]) for d in tv]
+    for dev, ports in risky:
+        if ports:
+            ips = dev.get("ips") or {}
+            ip = max(ips, key=lambda k: ips[k].get("last", 0)) if ips else "?"
+            print(f"  [exposed] {ip} {dev['mac']} {dev.get('kind')}: "
+                  f"{', '.join(map(str, ports))}")
+
+
+def cmd_status(cfg: dict, args: argparse.Namespace) -> int:
+    store = Store()
+    gwd = store.state["gateway"]
+    devices = store.state["devices"]
+    recent = store.events(since=now() - 86400, limit=1000)
+    counts: dict[str, int] = defaultdict(int)
+    for event in recent:
+        counts[event["severity"]] += 1
+    tv = [d for d in devices.values() if d.get("kind") in TV_KINDS]
+    print(f"{APP} {VERSION}")
+    print(f"gateway    : {gwd.get('ip','?')} {gwd.get('mac','?')}")
+    print(f"devices    : {len(devices)} ({len(tv)} tv-like)")
+    print(f"last scan  : {fmt_age(store.state.get('last_scan'))} ago")
+    summary = ", ".join(f"{k}={counts[k]}" for k in
+                        ("critical", "high", "medium", "low", "info") if counts.get(k))
+    print(f"last 24h   : {summary or 'no events'}")
+    print(f"state dir  : {state_dir()}")
+    if store.state.get("last_event"):
+        print("last event :")
+        print_event(store.state["last_event"])
+    return 0
+
+
+def cmd_probe(cfg: dict, args: argparse.Namespace) -> int:
+    ip = args.ip
+    iface, gw, network, local_ip = net_context(cfg)
+    mac = neigh_table().get(ip, "")
+    dev: dict[str, Any] = {"ip": ip, "mac": mac, "vendor": oui_vendor(mac),
+                           "random_mac": is_random_mac(mac) if mac else False}
+    dev["hostname"] = reverse_dns(ip)
+    dev["ports"] = tcp_scan(ip, PROBE_PORTS, float(cfg["discover"].get("port_timeout", 0.6)),
+                            int(cfg["discover"].get("parallel", 48))) if not args.no_ports else []
+    dev["services"] = {}
+    for port in dev["ports"]:
+        if port in (80, 8080, 8000, 8888, 9000, 81):
+            info = http_probe(ip, port)
+            if info:
+                dev["services"][str(port)] = info
+    if cfg["discover"].get("probe_ssdp"):
+        dev["ssdp"] = ssdp_probe([ip], local_ip).get(ip, {})
+    if cfg["discover"].get("probe_mdns"):
+        dev["mdns"] = mdns_probe(local_ip).get(ip, [])
+    dev["kind"] = classify(dev)
+    if args.json:
+        print(json.dumps(dev, indent=2, default=str))
+        return 0
+    print(f"ip        : {dev['ip']}")
+    print(f"mac       : {dev['mac'] or '?'} ({dev['vendor'] or 'unknown vendor'})")
+    print(f"kind      : {dev['kind']}")
+    print(f"hostname  : {dev['hostname'] or '-'}")
+    print(f"ports     : {', '.join(map(str, dev['ports'])) or 'none open'}")
+    for port, info in dev["services"].items():
+        print(f"  {port}: {info}")
+    if dev.get("ssdp"):
+        print(f"ssdp      : {json.dumps(dev['ssdp'], ensure_ascii=False)[:600]}")
+    if dev.get("mdns"):
+        print(f"mdns      : {', '.join(dev['mdns'][:12])}")
+    risky = [p for p in dev["ports"] if p in RISKY_PORTS]
+    if risky:
+        print(f"risk      : exposed {', '.join(map(str, risky))}")
+    return 0
+
+
+def cmd_devices(cfg: dict, args: argparse.Namespace) -> int:
+    store = Store()
+    devices = store.state["devices"]
+    if args.json:
+        print(json.dumps(devices, indent=2, default=str))
+    else:
+        print_device_table(store)
+    return 0
+
+
+def resolve_target(store: Store, target: str) -> list[str]:
+    target = target.strip()
+    if re.match(r"^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$", target):
+        return [norm_mac(target)]
+    macs = [mac for mac, dev in store.state["devices"].items() if target in (dev.get("ips") or {})]
+    return macs
+
+
+def cmd_trust(cfg: dict, args: argparse.Namespace) -> int:
+    store = Store()
+    targets = args.targets or ["all"]
+    macs: list[str] = []
+    if targets == ["all"] or "all" in targets:
+        macs = list(store.state["devices"])
+    else:
+        for target in targets:
+            macs.extend(resolve_target(store, target))
+    if not macs:
+        print("no matching device")
+        return 1
+    with store.lock:
+        for mac in macs:
+            dev = store.device(mac)
+            dev["trust"] = "ignored" if args.ignore else "trusted"
+        if args.ignore:
+            cfg.setdefault("ignored", [])
+            cfg["ignored"] = sorted(set(cfg["ignored"]) | set(macs))
+        else:
+            cfg.setdefault("trusted", [])
+            cfg["trusted"] = sorted(set(cfg["trusted"]) | set(macs))
+    store.save()
+    write_config(cfg)
+    print(f"marked {len(macs)} device(s) as {'ignored' if args.ignore else 'trusted'}")
+    return 0
+
+
+def cmd_untrust(cfg: dict, args: argparse.Namespace) -> int:
+    store = Store()
+    macs: list[str] = []
+    for target in args.targets:
+        macs.extend(resolve_target(store, target))
+    with store.lock:
+        for mac in macs:
+            if mac in store.state["devices"]:
+                store.state["devices"][mac]["trust"] = "unknown"
+    cfg["trusted"] = [m for m in cfg.get("trusted", []) if m not in macs]
+    cfg["ignored"] = [m for m in cfg.get("ignored", []) if m not in macs]
+    store.save()
+    write_config(cfg)
+    print(f"reset {len(macs)} device(s)")
+    return 0
+
+
+def write_config(cfg: dict) -> None:
+    path = config_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(cfg, indent=2) + "\n")
+    chown_user(path)
+
+
+def cmd_config(cfg: dict, args: argparse.Namespace) -> int:
+    if args.init:
+        write_config(cfg)
+    print(config_path())
+    if args.show:
+        print(json.dumps(cfg, indent=2))
+    return 0
+
+
+SERVICE_TEMPLATE = """#!/sbin/openrc-run
+# TV box / LAN integrity monitor (installed by {app} install-service)
+name="{app}"
+description="LAN integrity and TV box behaviour monitor"
+
+: ${{TVBOX_MONITOR_ARGS:="watch"}}
+: ${{TVBOX_MONITOR_OWNER:="{owner}"}}
+export TVBOX_MONITOR_OWNER
+
+command="{script}"
+command_args="${{TVBOX_MONITOR_ARGS}}"
+pidfile="/run/{app}.pid"
+command_background="yes"
+command_user="root"
+
+output_log="/var/log/{app}.log"
+error_log="/var/log/{app}.err"
+
+depend() {{
+    need net
+    after firewall nftables
+}}
+"""
+
+
+def cmd_install_service(cfg: dict, args: argparse.Namespace) -> int:
+    if not is_root():
+        print("error: install-service must run as root", file=sys.stderr)
+        return 1
+    target = Path("/etc/init.d/tvbox-monitor")
+    if args.uninstall:
+        run(["rc-service", "tvbox-monitor", "stop"], timeout=30)
+        run(["rc-update", "del", "tvbox-monitor", "default"], timeout=30)
+        if target.exists():
+            target.unlink()
+        print("service removed")
+        return 0
+    script = Path(__file__).resolve()
+    owner = owner_name() or pwd.getpwuid(os.getuid()).pw_name
+    target.write_text(SERVICE_TEMPLATE.format(app=APP, script=script, owner=owner))
+    target.chmod(0o755)
+    print(f"installed {target}")
+    Path("/var/log").mkdir(exist_ok=True)
+    if args.enable:
+        run(["rc-update", "add", "tvbox-monitor", "default"], timeout=30)
+        res = run(["rc-service", "tvbox-monitor", "start"], timeout=60)
+        if res:
+            print(res.stdout.strip() or res.stderr.strip())
+    else:
+        print("enable with: rc-update add tvbox-monitor default && rc-service tvbox-monitor start")
+    return 0
+
+
+def cmd_limits(cfg: dict, args: argparse.Namespace) -> int:
+    print("""What this tool can and cannot see
+=================================
+Visible (L2 broadcast/multicast):
+  ARP, DHCP, SSDP/UPnP, mDNS, NBNS, LLMNR, IPv6 neighbour discovery / RA.
+  Enough to inventory devices, fingerprint TV boxes, detect gateway ARP
+  conflicts, rogue DHCP servers, rogue IPv6 routers and protocol floods.
+
+NOT visible:
+  Unicast traffic between a TV box and the router: streaming, HTTPS, QUIC,
+  DNS queries sent to the ISP resolver. A switched LAN does not deliver those
+  frames to this host.
+
+Ways to go deeper (each has a cost):
+  1. DNS visibility (recommended, low risk)
+     Point the TV boxes at this host's Unbound resolver (192.168.1.42) and add
+     to /etc/unbound/unbound.conf:
+         server:
+             log-queries: yes
+             logfile: "/var/log/unbound/queries.log"
+     then set in the config:
+         "dns_log": {"enabled": true, "path": "/var/log/unbound/queries.log"}
+     The ONT's DHCP hands out the ISP resolvers, so either set static DNS on
+     each TV box or move DHCP to a resolver you control.
+
+  2. Port mirror / SPAN on a managed switch (no side effects on traffic).
+
+  3. ARP spoofing / MITM (sees everything, but it is an active attack: it
+     disrupts the network, may break devices and requires explicit
+     authorization). This tool does NOT implement it.
+
+  4. Run a gateway/firewall you control (MikroTik) and log conntrack + DNS.
+     Full visibility, but re-cabling/DHCP redesign is required.
+""")
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog=APP,
+        description="Track TV boxes and network integrity on the local LAN "
+                    "(passive L2 monitoring + active fingerprinting).",
+        epilog="Run 'tvbox-monitor limits' to read what is and is not visible.",
+    )
+    parser.add_argument("--config", help="config file path")
+    parser.add_argument("--state-dir", help="state directory path")
+    parser.add_argument("--json", action="store_true", help="machine-readable output")
+    parser.add_argument("-v", "--verbose", action="store_true")
+    parser.add_argument("--version", action="version", version=f"{APP} {VERSION}")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    p = sub.add_parser("discover", aliases=["scan"],
+                       help="ARP sweep, fingerprint devices and diff against baseline")
+    p.add_argument("--json", action="store_true")
+    p.add_argument("--no-ports", action="store_true", help="skip TCP port scan")
+    p.add_argument("--from-neigh", action="store_true",
+                   help="use the current neighbour table only (no sweep)")
+    p.add_argument("--fail-on", choices=list(SEVERITY), help="exit 3 on this severity")
+    p.set_defaults(func=cmd_discover)
+
+    p = sub.add_parser("watch", help="continuous sniffer + periodic rescans")
+    p.add_argument("--duration", type=int, default=0, help="stop after N seconds")
+    p.add_argument("--no-scan", action="store_true", help="sniff only")
+    p.add_argument("--no-sniff", action="store_true", help="scan only (no root needed)")
+    p.set_defaults(func=cmd_watch)
+
+    p = sub.add_parser("report", help="devices, findings and integrity summary")
+    p.add_argument("--json", action="store_true")
+    p.add_argument("--hours", type=float, default=24)
+    p.add_argument("--all", action="store_true")
+    p.add_argument("--limit", type=int, default=60)
+    p.add_argument("--fail-on", choices=list(SEVERITY))
+    p.set_defaults(func=cmd_report)
+
+    p = sub.add_parser("status", help="one-line summary")
+    p.set_defaults(func=cmd_status)
+
+    p = sub.add_parser("devices", help="print the inventory")
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(func=cmd_devices)
+
+    p = sub.add_parser("probe", help="deep dive on one host")
+    p.add_argument("--json", action="store_true")
+    p.add_argument("ip")
+    p.add_argument("--no-ports", action="store_true")
+    p.set_defaults(func=cmd_probe)
+
+    p = sub.add_parser("trust", help="mark devices as known/good")
+    p.add_argument("targets", nargs="*", help="IP, MAC or 'all'")
+    p.add_argument("--ignore", action="store_true", help="silence instead of trust")
+    p.set_defaults(func=cmd_trust)
+
+    p = sub.add_parser("untrust", help="forget trust/ignore marks")
+    p.add_argument("targets", nargs="+")
+    p.set_defaults(func=cmd_untrust)
+
+    p = sub.add_parser("config", help="show config path/contents")
+    p.add_argument("--show", action="store_true")
+    p.add_argument("--init", action="store_true")
+    p.set_defaults(func=cmd_config)
+
+    p = sub.add_parser("install-service", help="install an OpenRC service (root)")
+    p.add_argument("--enable", action="store_true")
+    p.add_argument("--uninstall", action="store_true")
+    p.set_defaults(func=cmd_install_service)
+
+    p = sub.add_parser("limits", help="explain visibility limits and deeper options")
+    p.set_defaults(func=cmd_limits)
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if args.config:
+        os.environ["TVBOX_MONITOR_CONFIG"] = args.config
+    if args.state_dir:
+        os.environ["TVBOX_MONITOR_STATE"] = args.state_dir
+    cfg = load_config()
+    try:
+        return args.func(cfg, args)
+    except KeyboardInterrupt:
+        return 130
+    except BrokenPipeError:
+        return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

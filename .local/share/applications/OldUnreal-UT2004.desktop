@@ -1,9 +1,11 @@
 [Desktop Entry]
 Name=Unreal Tournament 2004
+GenericName=Juego de disparos en primera persona
+Comment=Unreal Tournament 2004 en español
 Keywords=UT2004;UT2K4;
-Exec="/home/eleazar/.local/share/OldUnreal/UT2004/System/UT2004" "%u"
+Exec="/opt/UT2004/System/UT2004" %u
 MimeType=x-scheme-handler/ut2004;
-Icon=/home/eleazar/.local/share/OldUnreal/UT2004/Help/ut2004.png
+Icon=OldUnreal_UT2004
 Terminal=false
 Type=Application
 Categories=Game;

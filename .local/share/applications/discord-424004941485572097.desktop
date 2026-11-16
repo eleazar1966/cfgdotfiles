@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Game 424004941485572097
-Exec=/home/eleazar/Documentos/Juegos/RPCS3/AppDir/usr/bin/rpcs3 %u
+Exec=/tmp/.mount_EZSGv27L/usr/bin/rpcs3 %u
 Type=Application
 NoDisplay=true
 Categories=Discord;Games;
