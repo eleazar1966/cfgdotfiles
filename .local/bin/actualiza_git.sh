@@ -100,6 +100,30 @@ fi
 # Elimina del índice cualquier archivo que ya no esté en el árbol de trabajo
 config add -u
 
+# 3b. oh-my-bash, completo menos su .git. ~/.oh-my-bash es a su vez un clon de
+#     git, y git se niega a bajar a los subdirectorios de un "repositorio
+#     embebido" (devuelve 0 y no agrega nada); encima su propio .gitignore
+#     excluye /custom/. Por eso se indexa archivo por archivo con hash-object +
+#     update-index, que no recorren el árbol de trabajo. El .git del clon queda
+#     afuera: versionarlo no tiene sentido y rompería el índice.
+OMB_DIR="$HOME/.oh-my-bash"
+if [ -d "$OMB_DIR" ]; then
+  echo "Indexando oh-my-bash (sin .git)..."
+  while IFS= read -r -d '' archivo; do
+    ruta="${archivo#"$HOME"/}"
+    modo=100644
+    [ -x "$archivo" ] && modo=100755
+    oid=$(config hash-object -w -- "$archivo") || continue
+    config update-index --add --cacheinfo "$modo,$oid,$ruta"
+  done < <(find "$OMB_DIR" -path "$OMB_DIR/.git" -prune -o -type f -print0)
+
+  # Poda del índice: entradas de archivos que ya no existen en disco.
+  config ls-files -z -- .oh-my-bash |
+    while IFS= read -r -d '' ruta; do
+      [ -e "$HOME/$ruta" ] || config rm --cached -f --quiet -- "$ruta"
+    done
+fi
+
 # 4. Verificación, Registro y Commit
 if ! config diff-index --quiet HEAD; then
   echo -e "\n--- Archivos modificados detectados ---"
@@ -109,7 +133,9 @@ if ! config diff-index --quiet HEAD; then
 
   # Guardia de secretos: aborta el commit si se están agregando claves.
   # El repo se publica en GitHub, así que una API key commiteada queda expuesta.
-  PATRON_SECRETO='(API_KEY|APIKEY|SECRET|TOKEN|PASSWORD|PASSWD)[A-Za-z0-9_]*[[:space:]]*=[[:space:]]*[[:punct:]]?[A-Za-z0-9_.+/=-]{16,}'
+  # [^$] en vez de [[:punct:]]?: un valor que empieza con $ es una referencia a
+  # otra variable (ej. API_KEY=$PUSHOVER_API_KEY en oh-my-bash), no una clave.
+  PATRON_SECRETO='(API_KEY|APIKEY|SECRET|TOKEN|PASSWORD|PASSWD)[A-Za-z0-9_]*[[:space:]]*=[[:space:]]*[^$][A-Za-z0-9_.+/=-]{15,}'
   SECRETOS=$(config diff --cached -U0 | grep -E '^\+[^+]' | grep -E "$PATRON_SECRETO" || true)
   if [ -n "$SECRETOS" ]; then
     echo "Error: se detectaron claves/secretos en los cambios a commitear:"
